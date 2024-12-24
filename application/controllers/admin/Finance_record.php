@@ -18,13 +18,8 @@ class Finance_record extends MY_Controller{
         $data['view_name'] = 'admin/finance_record';
         $data['breadcrumb'] = 'Finance Record';
 
-
-        // $data['view_name'] = 'admin/backup/finance_record_backup';
-        // $data['finance_records'] = $this->m_Finance_records->get_all_join();
-
         $data['categories'] = $this->m_Categories->get_all();
         
-        //$data['finance_records'] = $this->m_Finance_records->get_all_join();
         $data['products'] = $this->m_Products->get_all();
         $data['account_code'] = $this->m_Account_code->get_all();
 
@@ -166,8 +161,6 @@ class Finance_record extends MY_Controller{
             return;
         }
 
-      
-
         $data = [
             'id_record' => $this->input->post('id_record', true),
             'product_id' => $this->input->post('product_id', true),
@@ -191,8 +184,6 @@ class Finance_record extends MY_Controller{
         }
 
         echo json_encode($response);
-
-
         
     }
 
@@ -220,13 +211,17 @@ class Finance_record extends MY_Controller{
 
     public function dtSideserver()
     {
-        $list = $this->m_Finance_records->get_datatables(); 
+        $option = $this->input->post('option'); 
+        $startDate = $this->input->post('startDate');
+        $endDate = $this->input->post('endDate');
+
+        $list = $this->m_Finance_records->get_datatables($option, $startDate, $endDate); 
         $data = array();
         $no = @$_POST['start']; 
     
         foreach ($list as $item) {
             $action = '
-                             <button class="btn btn-warning btn-sm btn-edit-finrec btn-sm mb-2 rounded-pill" 
+                            <button class="btn btn-warning btn-sm btn-edit-finrec btn-sm mb-2 rounded-pill" 
                                 data-id="' . htmlspecialchars($item->id_record) . '"
                                 data-id_code="' . htmlspecialchars($item->id_code) . '"
                                 data-product="' . htmlspecialchars($item->product_id) . '"
@@ -258,7 +253,7 @@ class Finance_record extends MY_Controller{
         $output = array(
             "draw" => @$_POST['draw'], 
             "recordsTotal" => $this->m_Finance_records->count_all(), 
-            "recordsFiltered" => $this->m_Finance_records->count_filtered(), 
+            "recordsFiltered" => $this->m_Finance_records->count_filtered($option, $startDate, $endDate), 
             "data" => $data, 
         );
     

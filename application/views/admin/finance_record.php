@@ -5,10 +5,26 @@
     Add Finance Record
     </button>
 
+    <div class="row mb-1 mt-4">
+        <div class="col-md-4">
+            <span>Filter :</span>
+        </div>
+    </div>
+   <div class="row mb-1">
+        <div class="col-md-4">
+            <select id="filterSelect" class="form-select form-select-sm">
+                <option value="">All data</option>
+                <option value="this_month">This Month</option>
+                <option value="last_month">Last Month</option>
+                <option value="custom">Custom Range</option>
+            </select>
+        </div>
+    </div>
+  
+
     <div class="mt-6">
         <table id="finances_table" class="table table-bordered table-striped" style="width:100%">
             <thead>
-                <?php $no = 1 ?>
                 <tr>
                     <th>Created At</th>
                     <th>Record Date</th>
@@ -25,6 +41,35 @@
             </tbody>
         </table>
     </div>
+
+      <!-- Modal untuk Custom Date -->
+        <div id="customDateModal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select Date Range</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="customDateForm">
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" id="startDate" name="start_date" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" id="endDate" name="end_date" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="applyCustomDate">Apply</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     <!-- Modal Add Product -->
     <div class="modal fade" tabindex="-1" id="addProduct">
@@ -108,13 +153,13 @@
     </div>
 
     <!-- Modal Edit -->
-    <div class="modal fade" id="editfinanceModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="editfinanceModal" tabindex="-1">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Edit finance</h3>
 
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close" tabindex="-1" aria-labelledby="editFinanceModalLabel" aria-hidden="true">
                         <span class="path1"></span><span class="path2">X</span>
                     </div>
 
@@ -185,13 +230,13 @@
     <script>
         let base = '<?= base_url()?>';
 
-		// Datatable
+		// DATATABLE
         let table;
-        let option = 'this_month';
+        let option = '';
         let startDate = '';
         let endDate = '';
         function callDT(){
-             $('#finances_table').DataTable({
+            table = $('#finances_table').DataTable({
                 responsive: false,
                 autoWidth: false,
                 "processing": true,
@@ -200,10 +245,12 @@
                 "ajax": {
                     "url": base + 'admin/finance_record/dtSideServer',
                     "type": "POST",
-                    data:{
-                        option: option,
-                        startDate: startDate,
-                        endDate: endDate,
+                    data: function(d) {
+                        d.option = option;
+                        d.startDate = startDate;
+                        d.endDate = endDate;
+
+                        console.log('Filter Data:', { option, startDate, endDate }); 
                     }
                 },
                 columnDefs: [{
@@ -219,38 +266,31 @@
 
         callDT();
 
-        // $(document).ready(function() {
-        //     callDT();
+        //FILTER DATE
+        $('#filterSelect').on('change', function () {
+            option = $(this).val(); 
+            if (option === 'custom') {
+                $('#customDateModal').modal('show');
+            } else {
+                table.ajax.reload(); 
+            }
+        });
 
-        //     //untuk filter, sesuaikan kondisinya
-        //     $('#filterSelect').on('change', function () {
-        //         let selectedValue = $(this).val();
+       
+        $('#applyCustomDate').on('click', function () {
+            startDate = $('#startDate').val();
+            endDate = $('#endDate').val();
 
-        //         option = selectedValue;
-        //         if (selectedValue === 'custom') {
-        //             $('#customDateModal').modal('show');
-        //         }else{
-        //             table.destroy();
-        //             callDT();
-        //         }
-        //     })
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates.');
+                return;
+            }
 
-
-        //     //sesuaikan kondisinya
-        //     $('#applyCustomDate').on('click', function () {
-        //         startDate = $('#startDate').val();
-        //         endDate = $('#endDate').val();
-
-        //         if (!startDate || !endDate) {
-        //             showSwalMessage('error', 'harap isi tanggal', 'error');
-        //             return;
-        //         }
-        //         $('#customDateModal').modal('hide');
-        //         table.destroy();
-        //         callDT();
-        //     });
-        // });
-        // End Datatabel
+            $('#customDateModal').modal('hide');
+            option = 'custom'; 
+            table.ajax.reload(); 
+        });
+        // END DATATABLE
 
 
         let accVAL = ''; 
@@ -301,6 +341,9 @@
         }
 
 
+
+
+       // EDIT FINANCE
         $(document).ready(function () {
             const base_url = $('meta[name="base_url"]').attr('content');
 
@@ -335,7 +378,6 @@
                     getAccount(categoryId);
                 }
             });
-
 
 
             $("#editfinanceForm").on("submit", function (e) {
@@ -374,9 +416,7 @@
         });
 
 
-
-
-
+        //DELETE FINANCE
         function handleDeleteButton(id) {
             console.log(id)
             Swal.fire({

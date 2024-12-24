@@ -55,13 +55,26 @@ class m_Finance_records extends CI_Model {
        }
 
 
-    private function _get_datatables_query()
+    private function _get_datatables_query($option = null, $startDate = null, $endDate = null)
     {
             $this->db->select('F.*, A.name_code, A.code, P.name_product, C.id_kategori, C.name_kategori');
             $this->db->from($this->table);
             $this->db->join('products P', 'P.id_product = F.product_id');
             $this->db->join('account_code A', 'A.id_code = F.id_code');
             $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
+
+            if ($option === 'this_month') {
+                $this->db->where('MONTH(F.record_date)', date('m'));
+                $this->db->where('YEAR(F.record_date)', date('Y'));
+            } elseif ($option === 'last_month') {
+                $this->db->where('MONTH(F.record_date)', date('m', strtotime('-1 month')));
+                $this->db->where('YEAR(F.record_date)', date('Y', strtotime('-1 month')));
+            } elseif ($option === 'custom') {
+                if ($startDate && $endDate) {
+                    $this->db->where('F.record_date >=', $startDate);
+                    $this->db->where('F.record_date <=', $endDate);
+                }
+            }
    
            $i = 0;
            foreach ($this->column_search as $item) {
@@ -86,9 +99,9 @@ class m_Finance_records extends CI_Model {
            }
        }
    
-    public function get_datatables()
+    public function get_datatables($option = null, $startDate = null, $endDate = null)
     {
-           $this->_get_datatables_query();
+           $this->_get_datatables_query($option, $startDate, $endDate);
            if (@$_POST['length'] != -1) {
                $this->db->limit(@$_POST['length'], @$_POST['start']);
            }
@@ -96,9 +109,9 @@ class m_Finance_records extends CI_Model {
            return $query->result();
        }
    
-       public function count_filtered()
+       public function count_filtered($option = null, $startDate = null, $endDate = null)
        {
-           $this->_get_datatables_query();
+           $this->_get_datatables_query($option, $startDate, $endDate);
            $query = $this->db->get();
            return $query->num_rows();
        }
@@ -108,4 +121,5 @@ class m_Finance_records extends CI_Model {
            $this->db->from($this->table);
            return $this->db->count_all_results();
        }
+
 }
