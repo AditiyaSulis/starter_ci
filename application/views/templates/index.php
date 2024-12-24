@@ -23,17 +23,9 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	
-	<!-- <link href="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.css" rel="stylesheet">
- 
-	<script src="https://cdn.datatables.net/v/dt/dt-2.1.8/datatables.min.js"></script> -->
-	
 	<script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
 	<script src=" https://cdn.datatables.net/2.1.6/js/dataTables.bootstrap4.js"></script>
-	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 
-	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script> -->
 
 
 </head>

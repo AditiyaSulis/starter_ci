@@ -19,9 +19,12 @@ class Finance_record extends MY_Controller{
         $data['breadcrumb'] = 'Finance Record';
 
 
+        // $data['view_name'] = 'admin/backup/finance_record_backup';
+        // $data['finance_records'] = $this->m_Finance_records->get_all_join();
+
         $data['categories'] = $this->m_Categories->get_all();
         
-        $data['finance_records'] = $this->m_Finance_records->get_all_join();
+        //$data['finance_records'] = $this->m_Finance_records->get_all_join();
         $data['products'] = $this->m_Products->get_all();
         $data['account_code'] = $this->m_Account_code->get_all();
 
@@ -135,7 +138,6 @@ class Finance_record extends MY_Controller{
 
         $this->_ONLY_SU();
 
-
         $this->form_validation->set_rules('product_id', 'Product_id', 'required', [
             'required' => 'Product harus diisi',
         ]);
@@ -197,7 +199,7 @@ class Finance_record extends MY_Controller{
     public function delete(){
         $this->_ONLY_SU();
 
-        $id = $this->input->post('id_record');
+        $id = $this->input->post('id');
 
 
         if($this->m_Finance_records->delete($id)){
@@ -215,6 +217,80 @@ class Finance_record extends MY_Controller{
         echo json_encode($response);
 
     }
+
+    public function dtSideserver()
+    {
+        $list = $this->m_Finance_records->get_datatables(); 
+        $data = array();
+        $no = @$_POST['start']; 
+    
+        foreach ($list as $item) {
+            $action = '
+                             <button class="btn btn-warning btn-sm btn-edit-finrec btn-sm mb-2 rounded-pill" 
+                                data-id="' . htmlspecialchars($item->id_record) . '"
+                                data-id_code="' . htmlspecialchars($item->id_code) . '"
+                                data-product="' . htmlspecialchars($item->product_id) . '"
+                                data-kategori="' . htmlspecialchars($item->id_kategori) . '"
+                                data-amount="' . htmlspecialchars($item->amount) . '"
+                                data-description="' . htmlspecialchars($item->description) . '">
+                                Edit
+                            </button>
+
+                            <button 
+                                class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-finrec" 
+                                onClick="handleDeleteButton(' . htmlspecialchars($item->id_record) . ')">
+                                Delete
+                            </button>
+                    ';
+            $row = array();
+            $row[] = date('Y-m-d H:i:s', strtotime($item->created_at)); 
+            $row[] = date('Y-m-d', strtotime($item->record_date)); 
+            $row[] = $item->name_kategori;
+            $row[] = $item->name_product; 
+            $row[] = number_format($item->amount, 2, ',', '.'); 
+            $row[] = $item->name_code; 
+            $row[] = $item->description;
+            $row[] = $action;
+         
+            $data[] = $row;
+        }
+    
+        $output = array(
+            "draw" => @$_POST['draw'], 
+            "recordsTotal" => $this->m_Finance_records->count_all(), 
+            "recordsFiltered" => $this->m_Finance_records->count_filtered(), 
+            "data" => $data, 
+        );
+    
+        echo json_encode($output); 
+    }
+
+    public function get_record() {
+        $id = $this->input->post('id');
+    
+        if (!$id) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'ID tidak valid.',
+            ]);
+            return;
+        }
+    
+        $record = $this->m_Finance_records->findById($id);
+    
+        if ($record) {
+            echo json_encode([
+                'status' => true,
+                'record' => $record,
+            ]);
+        } else {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan.',
+            ]);
+        }
+    }
+    
 
 
 }

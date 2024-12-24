@@ -10,6 +10,7 @@
             <thead>
                 <?php $no = 1 ?>
                 <tr>
+                    <th>No</th>
                     <th>Created At</th>
                     <th>Record Date</th>
                     <th>Type</th>
@@ -21,7 +22,35 @@
                 </tr>
             </thead>
             <tbody>
-                
+                <?php foreach ($finance_records as $finance): ?>
+                <tr>
+                    <td><?= $no; ?></td>
+                    <td><?= $finance['created_at']; ?></td>
+                    <td><?= $finance['record_date']; ?></td>
+                    <td><?= $finance['name_kategori']; ?></td>
+                    <td><?= $finance['name_product']; ?></td>
+                    <td>Rp.<?=number_format($finance['amount']); ?></td>
+                    <td><?= $finance['name_code']; ?></td>
+                    <td><?= $finance['description']; ?></td>
+                    <td>
+                        <button class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-finrec" 
+                                data-id="<?= $finance['id_record']; ?>"
+                                data-id_code="<?= $finance['id_code']; ?>"
+                                data-product="<?= $finance['product_id']; ?>"
+                                data-kategori="<?= $finance['id_kategori']; ?>"
+                                data-amount="<?= $finance['amount']; ?>"
+                                data-code="<?= $finance['id_code']; ?>"
+                                data-description="<?= $finance['description']; ?>">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-finrec" data-id="<?= $finance['id_record']; ?>">
+                            DELETE
+                        </button>
+                    </td>
+                </tr>
+                <?php $no++?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
@@ -33,6 +62,7 @@
                 <div class="modal-header">
                     <h3 class="modal-title">Add finance</h3>
 
+                    <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                         <span class="menu-icon">
 							<span class="svg-icon svg-icon-2">
@@ -40,6 +70,7 @@
 							</span>
                         </span>
                     </div>
+                    <!--end::Close-->
                 </div>
 
                 <div class="modal-body">
@@ -183,76 +214,9 @@
     </div>
 
     <script>
+		$('#finances_table').DataTable();
+
         let base = '<?= base_url()?>';
-
-		// Datatable
-        let table;
-        let option = 'this_month';
-        let startDate = '';
-        let endDate = '';
-        function callDT(){
-             $('#finances_table').DataTable({
-                responsive: false,
-                autoWidth: false,
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    "url": base + 'admin/finance_record/dtSideServer',
-                    "type": "POST",
-                    data:{
-                        option: option,
-                        startDate: startDate,
-                        endDate: endDate,
-                    }
-                },
-                columnDefs: [{
-                    "targets": "_all",
-                    orderable: false
-                },
-                    {
-                        "targets": 0,
-                        "className": "text-start"
-                    }]
-            })
-        }
-
-        callDT();
-
-        // $(document).ready(function() {
-        //     callDT();
-
-        //     //untuk filter, sesuaikan kondisinya
-        //     $('#filterSelect').on('change', function () {
-        //         let selectedValue = $(this).val();
-
-        //         option = selectedValue;
-        //         if (selectedValue === 'custom') {
-        //             $('#customDateModal').modal('show');
-        //         }else{
-        //             table.destroy();
-        //             callDT();
-        //         }
-        //     })
-
-
-        //     //sesuaikan kondisinya
-        //     $('#applyCustomDate').on('click', function () {
-        //         startDate = $('#startDate').val();
-        //         endDate = $('#endDate').val();
-
-        //         if (!startDate || !endDate) {
-        //             showSwalMessage('error', 'harap isi tanggal', 'error');
-        //             return;
-        //         }
-        //         $('#customDateModal').modal('hide');
-        //         table.destroy();
-        //         callDT();
-        //     });
-        // });
-        // End Datatabel
-
-
         let accVAL = ''; 
         let accID  = '';
 
@@ -273,7 +237,6 @@
                 }
             });
         });
-
 
         function getAccount(categoryId){
             $.ajax({
@@ -304,12 +267,11 @@
         $(document).ready(function () {
             const base_url = $('meta[name="base_url"]').attr('content');
 
-          
 
             $(".btn-edit-finrec").on("click", function () {
                 const data = $(this).data();
                 console.log("Kategori:", data.kategori); 
-                console.log('test')
+                
                 
                 $("#id_record").val(data.id);
                 $("#kategori").val(data.kategori).trigger("change");
@@ -327,7 +289,7 @@
                 $("#editfinanceModal").modal("show");
             });
 
-            
+            // Ketika kategori berubah
             $("#kategori").on("change", function () {
                 const categoryId = $(this).val();
                 $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
@@ -372,54 +334,6 @@
                 });
             });
         });
-
-
-
-
-
-        function handleDeleteButton(id) {
-            console.log(id)
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Data yang dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus',
-                cancelButtonText: 'Batal',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const base_url = $('meta[name="base_url"]').attr('content');
-                    $.ajax({
-                        url: base_url + 'admin/finance_record/delete', 
-                        type: 'POST',
-                        data: { id: id }, 
-                        success: function (response) {
-                            var res = JSON.parse(response);
-                            if (res.status) {
-                                swallMssg_s(res.message, false, 1500)
-                                .then(() =>  {
-                                    location.reload();
-                                 });
-                             } else {
-                                swallMssg_e(res.message, true, 0);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            Swal.fire(
-                                'Kesalahan!',
-                                'Terjadi kesalahan: Silakan coba lagi.',
-                                'error'
-                            );
-                        },
-                    });
-                }
-            });
-        }
-
-
-
 
 	</script>
 </main>

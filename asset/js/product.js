@@ -74,7 +74,7 @@ $(document).ready(function () {
 });
 
 
-// Delete Product
+// // Delete Product
 $(document).ready(function () {
     var base_url = $('meta[name="base_url"]').attr('content');
 
@@ -272,6 +272,7 @@ $(document).ready(function () {
 // EDIT FINANCE RECORD
 // $(document).ready(function () {
 //     const base_url = $('meta[name="base_url"]').attr('content');
+    
 
 
 //     $(".btn-edit-finrec").on("click", function () {
@@ -305,6 +306,7 @@ $(document).ready(function () {
 
 //     $("#editfinanceForm").on("submit", function (e) {
 //         e.preventDefault();
+//         console.log('test')
 //         $.ajax({
 //             url: base_url + "admin/finance_record/update",
 //             type: "POST",
@@ -340,47 +342,47 @@ $(document).ready(function () {
 
 
 // DELETE FINANCE RECORDS
-$(document).ready(function () {
-    var base_url = $('meta[name="base_url"]').attr('content');
+// $(document).ready(function () {
+//     var base_url = $('meta[name="base_url"]').attr('content');
 
-    $(".btn-delete-finrec").on("click", function () {
-        var id = $(this).data("id");
+//     $(".btn-delete-finrec").on("click", function () {
+//         var id = $(this).data("id");
 
-        Swal.fire({
-            title: "Apakah Anda yakin?",
-            text: "Record ini akan dihapus secara permanen!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: base_url + "admin/finance_record/delete", 
-                    type: "POST",
-                    data: { id_record: id },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.status) {
-                            swallMssg_s(response.message, false, 1500)
-                            .then(() =>  {
-                                location.reload();
-                            });
-                        } else {
-                            swallMssg_e(response.message, true, 0);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product' , true, 0).
-                        then(() =>  {
-                            location.reload();
-                        });
-                    }
-                });
-            }
-        });
-    });
-});
+//         Swal.fire({
+//             title: "Apakah Anda yakin?",
+//             text: "Record ini akan dihapus secara permanen!",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonColor: "#d33",
+//             cancelButtonColor: "#3085d6",
+//             confirmButtonText: "Ya, hapus!",
+//             cancelButtonText: "Batal"
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 $.ajax({
+//                     url: base_url + "admin/finance_record/delete", 
+//                     type: "POST",
+//                     data: { id_record: id },
+//                     dataType: "json",
+//                     success: function (response) {
+//                         if (response.status) {
+//                             swallMssg_s(response.message, false, 1500)
+//                             .then(() =>  {
+//                                 location.reload();
+//                             });
+//                         } else {
+//                             swallMssg_e(response.message, true, 0);
+//                         }
+//                     },
+//                     error: function (xhr, status, error) {
+//                         swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product' , true, 0).
+//                         then(() =>  {
+//                             location.reload();
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     });
+// });
 

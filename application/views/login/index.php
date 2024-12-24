@@ -126,7 +126,7 @@
                         <a href="/metronic8/demo1/index.html" class="mb-0 mb-lg-12">
                             <img alt="Logo" src="<?= base_url('asset/media/logos/lorem-ipsum.png')?>"  width="150" height="150"/>
                         </a>     
-                        <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="<?= base_url('asset/media/misc/auth-screens.png')?>" alt=""/>                 
+                        <!-- <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="<?= base_url('asset/media/misc/auth-screens.png')?>" alt=""/>                  -->
                         <h1 class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7"> 
                         Lorem Ipsum
                         </h1>  
