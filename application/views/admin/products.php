@@ -1,7 +1,7 @@
 <main>
     <h1>Product</h1>
 
-    <button type="button" class="btn btn-primary mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
+    <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
     Add Product
     </button>
 
@@ -97,8 +97,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -113,7 +112,9 @@
                     <h3 class="modal-title">Edit Product</h3>
 
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                            <span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
                     </div>
 
                 </div>
@@ -151,7 +152,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

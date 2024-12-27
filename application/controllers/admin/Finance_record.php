@@ -238,11 +238,11 @@ class Finance_record extends MY_Controller{
                             </button>
                     ';
             $row = array();
-            $row[] = date('Y-m-d H:i:s', strtotime($item->created_at)); 
-            $row[] = date('Y-m-d', strtotime($item->record_date)); 
+            $row[] = date('d M Y H:i:s', strtotime($item->created_at)); 
+            $row[] = date('d F Y', strtotime($item->record_date)); 
             $row[] = $item->name_kategori;
             $row[] = $item->name_product; 
-            $row[] = number_format($item->amount, 2, ',', '.'); 
+            $row[] = 'Rp '.number_format($item->amount, 0, ',', '.'); 
             $row[] = $item->name_code; 
             $row[] = $item->description;
             $row[] = $action;

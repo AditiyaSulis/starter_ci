@@ -128,9 +128,7 @@ class Employee extends MY_Controller{
             'min_length' => 'Tempat lahir minimal 4 karakter',
             'max_length' => 'Tempat lahir maksimal 50 karakter',
         ]);
-        // $this->form_validation->set_rules('date_of_birth', 'Date_of_birth', 'required', [
-        //     'required' => 'Tanggal lahir harus diisi',
-        // ]);
+        
         $this->form_validation->set_rules('position', 'Position', 'required|min_length[4]|max_length[30]', [
             'required' => 'Position harus diisi',
             'min_length' => 'Position minimal 4 karakter',

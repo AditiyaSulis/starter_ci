@@ -1,7 +1,7 @@
 <main>
     <h1>Finance Record</h1>
 
-    <button type="button" class="btn btn-primary mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
+    <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
     Add Finance Record
     </button>
 
@@ -18,8 +18,6 @@
             </select>
         </div>
     </div>
-
-
   
 
     <div class="mt-6">
@@ -146,7 +144,7 @@
                             </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -157,10 +155,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Edit finance</h3>
+                    <h3 class="modal-title">Edit Finance</h3>
 
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close" tabindex="-1" aria-labelledby="editFinanceModalLabel" aria-hidden="true">
-                        <span class="path1"></span><span class="path2">X</span>
+                            <span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
                     </div>
 
                 </div>
@@ -221,7 +221,7 @@
                             </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -367,27 +367,6 @@
        // EDIT FINANCE
         $(document).ready(function () {
             const base_url = $('meta[name="base_url"]').attr('content');
-
-            // $(".btn-edit-finrec").on("click", function () {
-            //     const data = $(this).data();
-            //     console.log("Kategori:", data.kategori); 
-            //     console.log('test')
-                
-            //     $("#id_record").val(data.id);
-            //     $("#kategori").val(data.kategori).trigger("change");
-            //     $("#product_id").val(data.product);
-            //     $("#amount").val(data.amount);
-            //     $("#description").val(data.description);
-
-            //     $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
-            //     if (data.kategori) {
-            //         accID   = 'id_code';
-            //         accVAL  = data.id_code;
-            //         getAccount(data.kategori);
-            //     }
-
-            //     $("#editfinanceModal").modal("show");
-            // });
 
             $("#kategori").on("change", function () {
                 const categoryId = $(this).val();
