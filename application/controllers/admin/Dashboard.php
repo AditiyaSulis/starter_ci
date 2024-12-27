@@ -17,12 +17,12 @@ class Dashboard extends MY_Controller{
         $data = $this->_basicData();
 
       
-        $data['allUsers'] = $this->m_Admin->total_users();
-        $data['allSuperUsers'] = $this->m_Admin->total_super_users();
-        $data['allAdmins']= $this->m_Admin->total_admins();
-        $data['allProducts']= $this->m_Products->total_products();
-        $data['allEmployees']= $this->m_Employees->total_employees();
-        $data['allRecords']= $this->m_Finance_records->total_finance_records();
+        $data['allUsers'] = $this->m_Admin->totalUsers_get();
+        $data['allSuperUsers'] = $this->m_Admin->totalSuperUsers_get();
+        $data['allAdmins']= $this->m_Admin->totalAdmins_get();
+        $data['allProducts']= $this->m_Products->totalProducts_get();
+        $data['allEmployees']= $this->m_Employees->totalEmployees_get();
+        $data['allRecords']= $this->m_Finance_records->totalFinanceRecords_get();
 
         $data['title'] = 'Admin ';
         $data['view_name'] = 'admin/index';

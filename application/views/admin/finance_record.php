@@ -6,20 +6,59 @@
     </button>
 
     <div class="row mb-1 mt-6 align-items-center">
-        <div class="col-md-auto">
+        <div class="col-md-auto mt-3">
             <span>Filter :</span>
         </div>
-        <div class="col-md-auto">
+        <div class="col-md-auto mt-3">
             <select id="filterSelect" class="form-select form-select-sm w-auto">
                 <option value="">All data</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
                 <option value="this_month">This Month</option>
                 <option value="last_month">Last Month</option>
+                <option value="this_week">This Week</option>
+                <option value="last_week">Last Week</option>
+                <option value="this_year">This Year</option>
+                <option value="last_year">Last Year</option>
                 <option value="custom">Custom Range</option>
             </select>
         </div>
+
+        <div class="col-md-auto mt-3">
+            <span>Product :</span>
+        </div>
+        <div class="col-md-auto mt-3">
+            <select id="filterProduct" class="form-select form-select-sm w-auto">
+                <option selected>-</option>
+                <?php foreach($products as $product): ?>
+                    <option value="<?= $product['id_product'] ?>"><?= $product['name_product'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="col-md-auto mt-3">
+            <span>Type :</span>
+        </div>
+        <div class="col-md-auto mt-3">
+            <select id="filterCategory" class="form-select form-select-sm w-auto">
+                <option selected>-</option>
+                <?php foreach($categories as $ct): ?>
+                    <option value="<?= $ct['id_kategori'] ?>"><?= $ct['name_kategori']?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="col-md-auto mt-3">
+            <span>Code :</span>
+        </div>
+        <div class="col-md-auto mt-3">
+            <select id="filterCode" class="form-select form-select-sm w-auto">
+
+            </select>
+        </div>
+
     </div>
   
-
     <div class="mt-6">
         <table id="finances_table" class="table table-bordered table-striped" style="width:100%">
             <thead>
@@ -87,6 +126,12 @@
 
                 <div class="modal-body">
                             <form class="form w-100" id="addproduct" data-action="<?= site_url('admin/finance_record/add_finance') ?>" enctype="multipart/form-data">
+                                <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                                    <span>Record Date</span>
+                                </div>
+                                <div class="fv-row mb-8">
+                                     <input type="datetime-local"  value="<?= date('Y-m-d H:i') ?>" name="record_date" autocomplete="off" class="form-control bg-transparent"/> 
+                                </div>
                                 <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
                                     <span>Type</span>
                                 </div>
@@ -235,6 +280,11 @@
         let option = '';
         let startDate = '';
         let endDate = '';
+
+        let product = '';
+        let code = '';
+        let type = '';
+
         function callDT(){
             table = $('#finances_table').DataTable({
                 responsive: false,
@@ -455,6 +505,25 @@
             });
         }
 
+
+        //FILTER CATEGORY 
+        $(document).ready(function() {
+            
+            $('#filterCategory').on('change', function() {
+                const categoryId = $(this).val(); 
+                const accountSelect = $('#filterCode');
+                accID   = 'filterCode';
+                accVAL  = '';
+
+
+                accountSelect.html('<option value="" selected disabled>-select account-</option>');
+
+                if (categoryId) {
+                    getAccount(categoryId)
+
+                }
+            });
+        });
 
 
 

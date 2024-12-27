@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Product extends MY_Controller{
 
-    function __construct(){
+    function __construct()
+    {
         parent::__construct();
-        $this->load->model('m_Admin');
         $this->load->model('m_Products');
         $this->load->model('m_Employees');
         $this->load->model('m_Finance_records');
@@ -13,14 +13,11 @@ class Product extends MY_Controller{
 
     }
 
-    public function product_page(){
-        // $id = $this->session->userdata('user');
-
-
-        // $data['user'] = $this->m_Admin->findById($id);
+    public function product_page()
+    {
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
-        $data['products'] = $this->m_Products->get_all();
+        $data['products'] = $this->m_Products->findAll_get();
        
         $data['title'] = 'Product ';
         $data['view_name'] = 'admin/products';
@@ -85,7 +82,7 @@ class Product extends MY_Controller{
             'logo' => $logo_name,
         ];
 
-        $product = $this->m_Products->create($data);
+        $product = $this->m_Products->create_post($data);
 
         if ($product) {
             $response = [
@@ -138,7 +135,7 @@ class Product extends MY_Controller{
                 'url' => $url,
             ];
     
-            if ($this->m_Products->update($id, $data)) {
+            if ($this->m_Products->update_post($id, $data)) {
                 $response = [
                     'status' => true,
                     'message' => 'Product berhasil diperbarui.'
@@ -153,7 +150,7 @@ class Product extends MY_Controller{
             return;
         }
     
-        $product = $this->m_Products->findById($id);
+        $product = $this->m_Products->findById_get($id);
         if ($product && !empty($product['logo'])) {
             $old_logo_path = './uploads/products/compressed/' . $product['logo'];
             if (file_exists($old_logo_path)) {
@@ -185,7 +182,7 @@ class Product extends MY_Controller{
             'logo' => $logo_name
         ];
     
-        if ($this->m_Products->update($id, $data)) {
+        if ($this->m_Products->update_post($id, $data)) {
             $response = [
                 'status' => true,
                 'message' => 'Product berhasil diperbarui.'
@@ -208,7 +205,7 @@ class Product extends MY_Controller{
 
         $id = $this->input->post('id_product');
         
-        if($this->m_Finance_records->findByProductId($id) || $this->m_Employees->findByProductId($id) ){
+        if($this->m_Finance_records->findByProductId_get($id) || $this->m_Employees->findByProductId_get($id) ){
             $response = [
                 'status' => false,
                 'message' => 'Product ini tidak bisa dihapus karena memiliki relasi dengan tabel lain ' 
@@ -217,7 +214,7 @@ class Product extends MY_Controller{
             return;
         }
 
-        $product = $this->m_Products->findById($id);
+        $product = $this->m_Products->findById_get($id);
 
         if ($product) {
 

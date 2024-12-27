@@ -2,14 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class m_Admin extends CI_Model {
-   public function getBy_email_password($email, $password) {
+   public function findByEmail_get($email, $password) {
     $lb = new Opensslencryptdecrypt();
     $encrypt =$lb->encrypt($password);
   
     return $this->db->get_where('admin', ['email' => $email, 'password' => $encrypt])->row_array();
    }
 
-   public function getAll(){
+   public function findAll_get(){
    return $this->db->get('admin')->result();
    }
 
@@ -19,16 +19,16 @@ class m_Admin extends CI_Model {
         return $this->db->affected_rows();
     }   
 
-   public function create($data){
+   public function create_post($data){
     $this->db->insert('admin', $data);
     return $this->db->insert_id(); 
    }
 
-   public function findById($id){
+   public function findById_get($id){
     return $this->db->get_where('admin', ['id' => $id])->row_array();
    }
 
-   public function update_login($email){
+   public function updateLogin_post($email){
     $Lib = new Informationclient();
     $ip  = $Lib->ipclient();
 
@@ -38,19 +38,19 @@ class m_Admin extends CI_Model {
     $this->db->update('admin');
    }
 
-   public function total_admins(){
+   public function totalAdmins_get(){
     $count = $this->db->where('role', 1)->count_all_results('admin');
 
     return $count;
    }
 
-   public function total_super_users(){
+   public function totalSuperUsers_get(){
     $count = $this->db->where('role', 2)->count_all_results('admin');
 
     return $count;
    }
 
-   public function total_users(){
+   public function totalUsers_get(){
     $count =  $this->db->get('admin')->num_rows();
 
     return $count;

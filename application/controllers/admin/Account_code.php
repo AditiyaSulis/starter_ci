@@ -18,8 +18,8 @@ class Account_code extends MY_Controller{
        $data['view_name'] = 'admin/account_code';
        $data['breadcrumb'] = 'Account Code';
 
-       $data['categories'] = $this->m_Categories->get_all();
-       $data['account_code'] = $this->m_Account_code->get_all_join();
+       $data['categories'] = $this->m_Categories->findAll_get();
+       $data['account_code'] = $this->m_Account_code->findAllWithJoin_get();
 
        if($data['user']) {
             $this->load->view('templates/index', $data);

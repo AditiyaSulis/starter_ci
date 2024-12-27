@@ -16,8 +16,8 @@ class Employee extends MY_Controller{
         $data['view_name'] = 'admin/employee';
         $data['breadcrumb'] = 'Employee';
 
-        $data['employees'] = $this->m_Employees->get_all_join();
-        $data['products'] = $this->m_Products->get_all();
+        $data['employees'] = $this->m_Employees->findAllJoin_get();
+        $data['products'] = $this->m_Products->findAll_get();
 
         if($data['user']){
             $this->load->view('templates/index',$data);
@@ -85,7 +85,7 @@ class Employee extends MY_Controller{
           
         ];
 
-        $employee = $this->m_Employees->create($data);
+        $employee = $this->m_Employees->create_post($data);
 
         if ($employee) {
             $response = [
@@ -107,7 +107,7 @@ class Employee extends MY_Controller{
         $this->_ONLY_SU();
         $id = $this->input->post('id_employee', true);
 
-        $emp = $this->m_Employees->findById($id);
+        $emp = $this->m_Employees->findById_get($id);
         $oldNip = $emp['nip'];
 
         $this->form_validation->set_rules('gender', 'Gender', 'required', [
@@ -154,7 +154,7 @@ class Employee extends MY_Controller{
         $newNip = $this->input->post('nip',true);
 
         if($oldNip != $newNip){
-            $nipExist = $this->m_Employees->findByNip($newNip);
+            $nipExist = $this->m_Employees->findByNip_get($newNip);
             if($nipExist){
                 $response = [
                     'status' => false,
@@ -178,7 +178,7 @@ class Employee extends MY_Controller{
             'position' => $this->input->post('position', true),
         ];
 
-        $employee = $this->m_Employees->update($id, $data);
+        $employee = $this->m_Employees->update_post($id, $data);
 
         if ($employee) {
             $response = [

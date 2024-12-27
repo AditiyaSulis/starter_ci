@@ -18,10 +18,10 @@ class Finance_record extends MY_Controller{
         $data['view_name'] = 'admin/finance_record';
         $data['breadcrumb'] = 'Finance Record';
 
-        $data['categories'] = $this->m_Categories->get_all();
+        $data['categories'] = $this->m_Categories->findAll_get();
         
-        $data['products'] = $this->m_Products->get_all();
-        $data['account_code'] = $this->m_Account_code->get_all();
+        $data['products'] = $this->m_Products->findAll_get();
+        $data['account_code'] = $this->m_Account_code->findAll_get();
 
         if($data['user']){
             $this->load->view('templates/index',$data);
@@ -34,7 +34,7 @@ class Finance_record extends MY_Controller{
     public function option_acc(){
         $id = $this->input->post('category_id', true);
 
-        $account = $this->m_Account_code->findByCategoryId($id);
+        $account = $this->m_Account_code->findByCategoryId_get($id);
 
         if(empty($account)){
 			echo json_encode([
@@ -55,7 +55,7 @@ class Finance_record extends MY_Controller{
     public function edit_option_acc(){
         $id = $this->input->post('category_id', true);
 
-        $account = $this->m_Account_code->findByCategoryId($id);
+        $account = $this->m_Account_code->findByCategoryId_get($id);
 
         if(empty($account)){
 			echo json_encode([
@@ -104,15 +104,18 @@ class Finance_record extends MY_Controller{
             return;
         }
 
+      
+
         $data = [
             'id_record' => $this->input->post('id_record', true),
-            'product_id' => $this->input->post('product_id', true),
-            'amount' => $this->input->post('amount', true),
-            'id_code' => $this->input->post('id_code', true),
-            'description' => $this->input->post('description', true),
+                'record_date' => $this->input->post('record_date', true),
+                'product_id' => $this->input->post('product_id', true),
+                'amount' => $this->input->post('amount', true),
+                'id_code' => $this->input->post('id_code', true),
+                'description' => $this->input->post('description', true),
         ];
 
-        $record = $this->m_Finance_records->create($data);
+        $record = $this->m_Finance_records->create_post($data);
 
         if ($record) {
             $response = [
@@ -169,7 +172,7 @@ class Finance_record extends MY_Controller{
             'description' => $this->input->post('description', true),
         ];
 
-        $record = $this->m_Finance_records->update($data['id_record'], $data);
+        $record = $this->m_Finance_records->update_post($data['id_record'], $data);
 
         if ($record) {
             $response = [
@@ -271,7 +274,7 @@ class Finance_record extends MY_Controller{
             return;
         }
     
-        $record = $this->m_Finance_records->findById($id);
+        $record = $this->m_Finance_records->findById_get($id);
     
         if ($record) {
             echo json_encode([

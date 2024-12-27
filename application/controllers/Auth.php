@@ -38,7 +38,7 @@ class Auth extends CI_Controller{
         ];
     
 
-        $infoAccount = $this->m_Admin->getBy_email_password($data['email'], $data['password']);
+        $infoAccount = $this->m_Admin->findByEmail_get($data['email'], $data['password']);
         if ($infoAccount) {
             if ($infoAccount['status'] != 1) {
                 $response = [
@@ -49,7 +49,7 @@ class Auth extends CI_Controller{
                 return;
             }
     
-            $this->m_Admin->update_login($data['email']);
+            $this->m_Admin->updateLogin_post($data['email']);
             $this->session->set_userdata('user', $infoAccount['id']);
     
             $response = [
@@ -158,7 +158,7 @@ class Auth extends CI_Controller{
             'role' => $this->input->post('role', true),
         ];
     
-        if ($this->m_Admin->create($data)) {
+        if ($this->m_Admin->create_post($data)) {
             echo json_encode([
                 'status' => true,
                 'confirmationbutton' => false,

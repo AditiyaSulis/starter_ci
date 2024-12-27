@@ -2,20 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class m_Account_code extends CI_Model {
-    
-    public function create($data){
-        if ($this->db->insert('account_code', $data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    public function get_all(){
+    public function findAll_get(){
         return $this->db->get('account_code')->result_array();
     }
 
-    public function get_all_join(){
+    public function findAllWithJoin_get(){
         $sql = "SELECT account_code.id_code,account_code.code, account_code.name_code, categories.name_kategori
         FROM account_code 
         LEFT JOIN categories ON categories.id_kategori = account_code.id_kategori";
@@ -29,7 +21,7 @@ class m_Account_code extends CI_Model {
         return $this->db->delete('account_code', ['id_code' => $id]);
     }
 
-    public function findByCategoryId($id){
+    public function findByCategoryId_get($id){
 
         return $this->db->get_where('account_code', ['id_kategori' => $id])->result_array();
     }
