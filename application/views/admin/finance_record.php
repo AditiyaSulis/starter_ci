@@ -5,14 +5,12 @@
     Add Finance Record
     </button>
 
-    <div class="row mb-1 mt-4">
-        <div class="col-md-4">
+    <div class="row mb-1 mt-6 align-items-center">
+        <div class="col-md-auto">
             <span>Filter :</span>
         </div>
-    </div>
-   <div class="row mb-1">
-        <div class="col-md-4">
-            <select id="filterSelect" class="form-select form-select-sm">
+        <div class="col-md-auto">
+            <select id="filterSelect" class="form-select form-select-sm w-auto">
                 <option value="">All data</option>
                 <option value="this_month">This Month</option>
                 <option value="last_month">Last Month</option>
@@ -20,6 +18,8 @@
             </select>
         </div>
     </div>
+
+
   
 
     <div class="mt-6">
@@ -282,7 +282,11 @@
             endDate = $('#endDate').val();
 
             if (!startDate || !endDate) {
-                alert('Please select both start and end dates.');
+                Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Masukan tanggal dengan benar"
+                });
                 return;
             }
 
@@ -339,38 +343,52 @@
                 }
             });
         }
+        
+        function editFinanceBtn(element){
+            let $element = $(element);
 
+            $("#id_record").val($element.data('id'));
+            $("#kategori").val($element.data('kategori')).trigger("change");
+            $("#product_id").val($element.data('product'));
+            $("#amount").val($element.data('amount'));
+            $("#description").val($element.data('description'));
 
+            $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
+            if ($element.data('kategori')) {
+                accID   = 'id_code';
+                accVAL  = $element.data('id_code');
+                getAccount($element.data('kategori'));
+            }
+
+            $("#editfinanceModal").modal("show");
+        }
 
 
        // EDIT FINANCE
         $(document).ready(function () {
             const base_url = $('meta[name="base_url"]').attr('content');
 
-          
-
-            $(".btn-edit-finrec").on("click", function () {
-                const data = $(this).data();
-                console.log("Kategori:", data.kategori); 
-                console.log('test')
+            // $(".btn-edit-finrec").on("click", function () {
+            //     const data = $(this).data();
+            //     console.log("Kategori:", data.kategori); 
+            //     console.log('test')
                 
-                $("#id_record").val(data.id);
-                $("#kategori").val(data.kategori).trigger("change");
-                $("#product_id").val(data.product);
-                $("#amount").val(data.amount);
-                $("#description").val(data.description);
+            //     $("#id_record").val(data.id);
+            //     $("#kategori").val(data.kategori).trigger("change");
+            //     $("#product_id").val(data.product);
+            //     $("#amount").val(data.amount);
+            //     $("#description").val(data.description);
 
-                $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
-                if (data.kategori) {
-                    accID   = 'id_code';
-                    accVAL  = data.id_code;
-                    getAccount(data.kategori);
-                }
+            //     $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
+            //     if (data.kategori) {
+            //         accID   = 'id_code';
+            //         accVAL  = data.id_code;
+            //         getAccount(data.kategori);
+            //     }
 
-                $("#editfinanceModal").modal("show");
-            });
+            //     $("#editfinanceModal").modal("show");
+            // });
 
-            
             $("#kategori").on("change", function () {
                 const categoryId = $(this).val();
                 $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');

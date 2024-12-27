@@ -221,7 +221,7 @@ class Finance_record extends MY_Controller{
     
         foreach ($list as $item) {
             $action = '
-                            <button class="btn btn-warning btn-sm btn-edit-finrec btn-sm mb-2 rounded-pill" 
+                            <a href="javascript:void(0)" onclick="editFinanceBtn(this)" class="btn btn-warning btn-sm btn-sm mb-2 rounded-pill" 
                                 data-id="' . htmlspecialchars($item->id_record) . '"
                                 data-id_code="' . htmlspecialchars($item->id_code) . '"
                                 data-product="' . htmlspecialchars($item->product_id) . '"
@@ -229,7 +229,7 @@ class Finance_record extends MY_Controller{
                                 data-amount="' . htmlspecialchars($item->amount) . '"
                                 data-description="' . htmlspecialchars($item->description) . '">
                                 Edit
-                            </button>
+                            </a>
 
                             <button 
                                 class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-finrec" 
