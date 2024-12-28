@@ -3,7 +3,7 @@
 
     <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct"> 
         <i class="ti ti-plus"></i>
-         Finance Record
+         Add Finance Record
     </button>
 
     <div class="row mb-1 mt-6 align-items-center">
@@ -524,7 +524,11 @@
                 getAccount(type)
     
                 }
-                table.ajax.reload();
+                
+            if(type == ""){
+                accountSelect.html('<option value="" selected>-</option>');
+            }
+            table.ajax.reload();
         });
 
 

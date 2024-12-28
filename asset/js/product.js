@@ -386,3 +386,89 @@ $(document).ready(function () {
 //     });
 // });
 
+//EDIT ACCOUNT CODE
+$(document).ready(function () {
+    var base_url = $('meta[name="base_url"]').attr('content');
+    $(".btn-edit-ac").on("click", function () {
+        const data = $(this).data();
+        $("#id_code").val(data.id);
+        $("#id_kategori").val(data.id_kategori);
+        $("#code").val(data.code);
+        $("#name_code").val(data.name_code);
+        $("#editAccountModal").modal("show");
+    });
+
+    $("#editAccountForm").on("submit", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: base_url + "admin/account_code/update", 
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+                if (response.status) {
+                    swallMssg_s(response.message, false, 1500)
+                    .then(() =>  {
+                        location.reload();
+                    });
+                } else {
+                        swallMssg_e(response.message, true, 0);
+                }
+            },
+            error: function (xhr, status, error) {
+                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk mengedit data'+ xhr.response + error, true, 0).
+                then(() =>  {
+                    location.reload();
+                }); 
+            }
+        });
+    });
+});
+
+
+// DELETE ACCOUNT CODE
+$(document).ready(function () {
+    var base_url = $('meta[name="base_url"]').attr('content');
+
+    $(".btn-delete-ac").on("click", function () {
+        var id = $(this).data("id");
+
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Account code ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: base_url + "admin/account_code/delete", 
+                    type: "POST",
+                    data: { id_code: id },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            swallMssg_s(response.message, false, 1500)
+                            .then(() =>  {
+                                location.reload();
+                            });
+                        } else {
+                            swallMssg_e(response.message, true, 0);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product' , true, 0).
+                        then(() =>  {
+                            location.reload();
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+

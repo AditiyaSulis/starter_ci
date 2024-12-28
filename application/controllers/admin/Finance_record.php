@@ -249,7 +249,7 @@ class Finance_record extends MY_Controller{
             $row[] = $item->name_kategori;
             $row[] = $item->name_product; 
             $row[] = 'Rp '.number_format($item->amount, 0, ',', '.'); 
-            $row[] = ''.$item->id_code.' - '.$item->name_code; 
+            $row[] = ''.$item->code.' - '.$item->name_code; 
             $row[] = $item->description;
             $row[] = $action;
          

@@ -6,7 +6,7 @@ class m_Finance_records extends CI_Model {
     private $table = 'finance_records F'; 
     private $column_order = array('F.created_at', 'F.record_date', 'C.name_kategori', 'P.name_product', 'F.amount', 'A.name_code', 'F.description'); 
     private $column_search = array('F.created_at', 'F.record_date', 'C.name_kategori', 'P.name_product', 'F.amount', 'A.name_code', 'F.description'); 
-    private $order = array('F.created_at' => 'desc'); 
+    private $order = array('F.record_date' => 'desc'); 
     
     public function findByProductId_get($id){
         return $this->db->get_where('finance_records', ['product_id' => $id])->row_array();
@@ -19,7 +19,7 @@ class m_Finance_records extends CI_Model {
         $this->db->join('products P', 'P.id_product = F.product_id');
         $this->db->join('account_code A', 'A.id_code = F.id_code');
         $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
-        $this->db->order_by('F.created_at', 'DESC');
+        $this->db->order_by('F.record_date', 'DESC');
 
         $query = $this->db->get();
 
@@ -41,6 +41,10 @@ class m_Finance_records extends CI_Model {
     public function update_post($id, $data) {
         $this->db->where('id_record', $id);
         return $this->db->update('finance_records', $data);
+    }
+
+    public function findByIdAc_get($id){
+       return $this->db->get_where('finance_records', ['id_code' => $id])->row_array();
     }
 
     public function delete($id){

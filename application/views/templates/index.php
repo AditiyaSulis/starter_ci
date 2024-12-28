@@ -174,7 +174,7 @@
 									class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
 									<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
 										<li class="breadcrumb-item text-muted">
-											<a href="dashboard.html" class="text-muted text-hover-primary">Home</a>
+											<a href="<?= base_url('admin/dashboard/dashboard_page')?>" class="text-muted text-hover-primary">Home</a>
 										</li>
 										<li class="breadcrumb-item">
 											<span class="bullet bg-gray-200 w-5px h-2px"></span>
