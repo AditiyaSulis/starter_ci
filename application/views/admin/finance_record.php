@@ -1,8 +1,9 @@
 <main>
     <h1>Finance Record</h1>
 
-    <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
-    Add Finance Record
+    <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct"> 
+        <i class="ti ti-plus"></i>
+         Finance Record
     </button>
 
     <div class="row mb-1 mt-6 align-items-center">
@@ -11,10 +12,9 @@
         </div>
         <div class="col-md-auto mt-3">
             <select id="filterSelect" class="form-select form-select-sm w-auto">
-                <option value="">All data</option>
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
-                <option value="this_month">This Month</option>
+                <option value="this_month" selected>This Month</option>
                 <option value="last_month">Last Month</option>
                 <option value="this_week">This Week</option>
                 <option value="last_week">Last Week</option>
@@ -55,6 +55,13 @@
             <select id="filterCode" class="form-select form-select-sm w-auto">
                  <option value="" selected>-</option>
             </select>
+        </div>
+
+        <div class="col-md-auto mt-3 ms-4">
+            <button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill"> 
+                <i class="ti ti-reload"></i>
+                Clear Filter
+            </button>
         </div>
 
     </div>
@@ -275,7 +282,7 @@
 
 		
         let table;
-        let option = '';
+        let option = 'this_month';
         let startDate = '';
         let endDate = '';
 
@@ -506,8 +513,6 @@
         });
 
         // --------- FILTER CATEGORY
-
-            
         $('#filterCategory').on('change', function() {
             type = $(this).val(); 
             const accountSelect = $('#filterCode');
@@ -535,5 +540,21 @@
             table.ajax.reload();
         });
 
+        //------------ CLEAR FILTER
+        $('#clearFilter').on('click', function() {
+            code = "";
+            type = "";
+            product = "";
+            option = "this_month";
+            startDate = "";
+            endDate = "";
+
+            $('#filterSelect').val('this_month');
+            $('#filterProduct').val('');
+            $('#filterCategory').val('');
+            $('#filterCode').html('<option value="" selected>-</option>');
+
+            table.ajax.reload();
+        });
 	</script>
 </main>

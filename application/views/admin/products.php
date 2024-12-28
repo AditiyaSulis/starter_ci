@@ -2,7 +2,8 @@
     <h1>Product</h1>
 
     <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
-    Add Product
+        <i class="ti ti-plus"></i>
+        Add Product
     </button>
 
     <div class="mt-6">
@@ -24,7 +25,16 @@
                     <td><?= $no; ?></td>
                     <td><?= $product['name_product']; ?></td>
                     <td><?= $product['description']; ?></td>
-                    <td><a href="<?= $product['url']; ?>"><?= $product['url']; ?></a></td>
+                    <td><?php if($product['url']):?>
+                        <a href="<?= $product['url']; ?>">
+                            <button class="btn btn-light btn-sm">
+                                <i class="ti ti-link"></i>
+                            </button>
+                        </a>
+                        <?php else:?> 
+
+                        <?php endif; ?>
+                    </td>
                     <td><img src="<?= base_url('uploads/products/compressed/' . $product['logo']); ?>" alt="Logo" width="50"></td>
                     <td>
                         <button 

@@ -2,7 +2,8 @@
     <h1>Employee</h1>
 
     <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
-    Add Employee
+        <i class="ti ti-plus"></i>
+        Add Employee
     </button>
 
     <div class="mt-6">

@@ -53,6 +53,7 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 // $route['admin/product/delete'] = 'admin/products/delete';
+ $route['panel'] = 'fetch/login';
 
 // $route['starter'] = 'starter/indexemployee';
 // $route['starter/store'] = 'starter/storeemployee';
