@@ -15,11 +15,10 @@ class m_Employees extends CI_Model {
     }
 
     public function findAllJoin_get(){
-        $sql = "SELECT employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.position, employee.status, products.id_product, products.name_product
-                FROM employee
-                LEFT JOIN products ON products.id_product = employee.id_product";
-
-        $query = $this->db->query($sql);
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.position, employee.status, products.id_product, products.name_product');
+        $this->db->from('employee');
+        $this->db->join('products', 'products.id_product = employee.id_product', 'left');
+        $query = $this->db->get();
         return $query->result_array();
     }
 

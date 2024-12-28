@@ -55,7 +55,6 @@ class m_Finance_records extends CI_Model {
        }
 
 
-
        private function _filterDATE($type){
 		switch ($type) {
 			case 'today':
@@ -94,7 +93,7 @@ class m_Finance_records extends CI_Model {
 		}
 	}
 
-    private function _get_datatables_query($option = null, $startDate = null, $endDate = null)
+    private function _get_datatables_query($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null)
     {
             $this->db->select('F.*, A.name_code, A.code, P.name_product, C.id_kategori, C.name_kategori');
             $this->db->from($this->table);
@@ -103,8 +102,19 @@ class m_Finance_records extends CI_Model {
             $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
 
             $this->_filterDATE($option);
+
+            if ($category) {
+                $this->db->where('C.id_kategori', $category);
+            }
         
-   
+            if ($product) {
+                $this->db->where('P.id_product', $product);
+            }
+        
+            if ($code) {
+                $this->db->where('A.id_code', $code);
+            }
+        
            $i = 0;
            foreach ($this->column_search as $item) {
                if (@$_POST['search']['value']) {
@@ -128,27 +138,27 @@ class m_Finance_records extends CI_Model {
            }
     }
    
-    public function get_datatables($option = null, $startDate = null, $endDate = null)
+    public function get_datatables($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null )
     {
-           $this->_get_datatables_query($option, $startDate, $endDate);
+           $this->_get_datatables_query($option, $startDate, $endDate, $product, $code, $category);
            if (@$_POST['length'] != -1) {
                $this->db->limit(@$_POST['length'], @$_POST['start']);
            }
            $query = $this->db->get();
            return $query->result();
-       }
+    }
    
-       public function count_filtered($option = null, $startDate = null, $endDate = null)
-       {
-           $this->_get_datatables_query($option, $startDate, $endDate);
-           $query = $this->db->get();
-           return $query->num_rows();
-       }
+     public function count_filtered($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null)
+    {
+        $this->_get_datatables_query($option, $startDate, $endDate, $product, $code, $category);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
    
-       public function count_all()
-       {
-           $this->db->from($this->table);
-           return $this->db->count_all_results();
-       }
+    public function count_all()
+    {
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
 
 }

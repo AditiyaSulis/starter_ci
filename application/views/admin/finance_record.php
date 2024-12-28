@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-auto mt-3">
             <select id="filterProduct" class="form-select form-select-sm w-auto">
-                <option selected>-</option>
+                <option value="" selected>-</option>
                 <?php foreach($products as $product): ?>
                     <option value="<?= $product['id_product'] ?>"><?= $product['name_product'] ?></option>
                 <?php endforeach; ?>
@@ -41,7 +41,7 @@
         </div>
         <div class="col-md-auto mt-3">
             <select id="filterCategory" class="form-select form-select-sm w-auto">
-                <option selected>-</option>
+                <option value="" selected>-</option>
                 <?php foreach($categories as $ct): ?>
                     <option value="<?= $ct['id_kategori'] ?>"><?= $ct['name_kategori']?></option>
                 <?php endforeach; ?>
@@ -53,7 +53,7 @@
         </div>
         <div class="col-md-auto mt-3">
             <select id="filterCode" class="form-select form-select-sm w-auto">
-
+                 <option value="" selected>-</option>
             </select>
         </div>
 
@@ -106,7 +106,6 @@
                 </div>
             </div>
         </div>
-
 
     <!-- Modal Add Product -->
     <div class="modal fade" tabindex="-1" id="addProduct">
@@ -207,7 +206,6 @@
 								<i class="ti ti-minus"></i>
 							</span>
                     </div>
-
                 </div>
 
                 <div class="modal-body">
@@ -275,7 +273,7 @@
     <script>
         let base = '<?= base_url()?>';
 
-		// DATATABLE
+		
         let table;
         let option = '';
         let startDate = '';
@@ -284,67 +282,6 @@
         let product = '';
         let code = '';
         let type = '';
-
-        function callDT(){
-            table = $('#finances_table').DataTable({
-                responsive: false,
-                autoWidth: false,
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    "url": base + 'admin/finance_record/dtSideServer',
-                    "type": "POST",
-                    data: function(d) {
-                        d.option = option;
-                        d.startDate = startDate;
-                        d.endDate = endDate;
-
-                        console.log('Filter Data:', { option, startDate, endDate }); 
-                    }
-                },
-                columnDefs: [{
-                    "targets": "_all",
-                    orderable: false
-                },
-                    {
-                        "targets": 0,
-                        "className": "text-start"
-                    }]
-            })
-        }
-
-        callDT();
-
-        //FILTER DATE
-        $('#filterSelect').on('change', function () {
-            option = $(this).val(); 
-            if (option === 'custom') {
-                $('#customDateModal').modal('show');
-            } else {
-                table.ajax.reload(); 
-            }
-        });
-
-       
-        $('#applyCustomDate').on('click', function () {
-            startDate = $('#startDate').val();
-            endDate = $('#endDate').val();
-
-            if (!startDate || !endDate) {
-                Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Masukan tanggal dengan benar"
-                });
-                return;
-            }
-
-            $('#customDateModal').modal('hide');
-            option = 'custom'; 
-            table.ajax.reload(); 
-        });
-        // END DATATABLE
 
 
         let accVAL = ''; 
@@ -367,7 +304,6 @@
                 }
             });
         });
-
 
         function getAccount(categoryId){
             $.ajax({
@@ -413,8 +349,7 @@
             $("#editfinanceModal").modal("show");
         }
 
-
-       // EDIT FINANCE
+       // ------------EDIT FINANCE
         $(document).ready(function () {
             const base_url = $('meta[name="base_url"]').attr('content');
 
@@ -462,8 +397,7 @@
             });
         });
 
-
-        //DELETE FINANCE
+        //------------DELETE FINANCE
         function handleDeleteButton(id) {
             console.log(id)
             Swal.fire({
@@ -506,26 +440,100 @@
         }
 
 
-        //FILTER CATEGORY 
-        $(document).ready(function() {
-            
-            $('#filterCategory').on('change', function() {
-                const categoryId = $(this).val(); 
-                const accountSelect = $('#filterCode');
-                accID   = 'filterCode';
-                accVAL  = '';
+        //-----------------------DATATABLE
+        //--------TEST FILTER
 
+        function callDT(){
+            table = $('#finances_table').DataTable({
+                responsive: false,
+                autoWidth: false,
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    "url": base + 'admin/finance_record/dtSideServer',
+                    "type": "POST",
+                    data: function(d) {
+                        d.option = option;
+                        d.startDate = startDate;
+                        d.endDate = endDate;
+                        d.product = product;
+                        d.code = code;
+                        d.type = type;
 
-                accountSelect.html('<option value="" selected disabled>-select account-</option>');
-
-                if (categoryId) {
-                    getAccount(categoryId)
-
-                }
+                        console.log('Filter Data:', { option, startDate, endDate, product, code, type }); 
+                    }
+                },
+                columnDefs: [{
+                    "targets": "_all",
+                    orderable: false
+                },
+                    {
+                        "targets": 0,
+                        "className": "text-start"
+                    }]
             });
+        }
+
+        callDT();
+
+        //---------- FILTER DATE
+        $('#filterSelect').on('change', function () {
+            option = $(this).val(); 
+            if (option === 'custom') {
+                $('#customDateModal').modal('show');
+            } else {
+                table.ajax.reload(); 
+            }
+        });
+
+        $('#applyCustomDate').on('click', function () {
+            startDate = $('#startDate').val();
+            endDate = $('#endDate').val();
+
+            if (!startDate || !endDate) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Masukan tanggal dengan benar"
+                });
+                return;
+            }
+
+            $('#customDateModal').modal('hide');
+            option = 'custom'; 
+            table.ajax.reload(); 
+        });
+
+        // --------- FILTER CATEGORY
+
+            
+        $('#filterCategory').on('change', function() {
+            type = $(this).val(); 
+            const accountSelect = $('#filterCode');
+            accID   = 'filterCode';
+            accVAL  = '';
+            
+            if (type) {
+                accountSelect.html('<option value="" selected>-</option>');
+                getAccount(type)
+    
+                }
+                table.ajax.reload();
         });
 
 
+        //------------ FILTER PRODUCT
+        $('#filterProduct').on('change', function() {
+            product = $(this).val();
+            table.ajax.reload();
+        });
+
+        //------------ FILTER CODE
+        $('#filterCode').on('change', function() {
+            code = $(this).val();
+            table.ajax.reload();
+        });
 
 	</script>
 </main>

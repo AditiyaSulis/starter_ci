@@ -217,8 +217,11 @@ class Finance_record extends MY_Controller{
         $option = $this->input->post('option'); 
         $startDate = $this->input->post('startDate');
         $endDate = $this->input->post('endDate');
+        $product = $this->input->post('product');
+        $type = $this->input->post('type');
+        $code = $this->input->post('code');
 
-        $list = $this->m_Finance_records->get_datatables($option, $startDate, $endDate); 
+        $list = $this->m_Finance_records->get_datatables($option, $startDate, $endDate, $product, $code, $type); 
         $data = array();
         $no = @$_POST['start']; 
     
@@ -246,7 +249,7 @@ class Finance_record extends MY_Controller{
             $row[] = $item->name_kategori;
             $row[] = $item->name_product; 
             $row[] = 'Rp '.number_format($item->amount, 0, ',', '.'); 
-            $row[] = $item->name_code; 
+            $row[] = ''.$item->id_code.' - '.$item->name_code; 
             $row[] = $item->description;
             $row[] = $action;
          
@@ -255,8 +258,8 @@ class Finance_record extends MY_Controller{
     
         $output = array(
             "draw" => @$_POST['draw'], 
-            "recordsTotal" => $this->m_Finance_records->count_all(), 
-            "recordsFiltered" => $this->m_Finance_records->count_filtered($option, $startDate, $endDate), 
+            "recordsTotal" => $this->m_Finance_records->count_all(),
+            "recordsFiltered" => $this->m_Finance_records->count_filtered($option, $startDate, $endDate, $product, $code, $type), 
             "data" => $data, 
         );
     
