@@ -28,14 +28,14 @@
                             <td><?= $ac['code']; ?></td>
                             <td><?= $ac['name_code']; ?></td>
                             <td> 
-                                <button class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-ac" 
-                                        data-id="<?= $ac['id_code']; ?>"
-                                        data-id_kategori="<?= $ac['id_kategori']; ?>"
+                                <a  href="javascript:void(0)" onclick="editAcButton(this)" class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-ac" 
+                                        data-id_code="<?= $ac['id_code']; ?>"
+                                        data-kategori="<?= $ac['id_kategori']; ?>"
                                         data-code="<?= $ac['code']; ?>"
                                         data-name_code="<?= $ac['name_code']; ?>">
                                     EDIT
-                                </button>
-                                <button class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-ac" data-id="<?= $ac['id_code']; ?>">
+                                </a>
+                                <button  class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-ac" data-id="<?= $ac['id_code']; ?>">
                                     DELETE
                                 </button>
                             </td>
@@ -100,7 +100,7 @@
                                     <span>Category</span>
                                 </div>
                                 <div class="fv-row mb-8">
-                                    <select id="categories" class="form-select" aria-label="Default select example" name="id_kategori">
+                                    <select id="kategori" class="form-select" aria-label="Default select example" name="id_kategori">
                                         <option selected>-Pilih Category-</option>
                                         <?php foreach ($categories as $ctg): ?>
                                             <option value="<?= $ctg['id_kategori'] ?>"><?= $ctg['name_kategori'] ?></option>
@@ -158,10 +158,10 @@
                             <form class="form w-100" id="editAccountForm" enctype="multipart/form-data">
                                     <input type="hidden" name="id_code" id="id_code">
                                     <div class="mb-3">
-                                        <label for="id_product" class="form-label">Product</label>
+                                        <label for="id_product" class="form-label">Category</label>
                                         <select name="id_kategori" id="id_kategori" class="form-select">
                                             <?php foreach ($categories as $ct): ?>
-                                                <option value="<?= $ct['id_kategori']; ?>"><?= $ct['name_kategori']; ?></option>
+                                                <option value="<?= $ct['id_kategori']; ?>"><?= $ct['name_kategori'];?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>

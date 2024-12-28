@@ -89,6 +89,14 @@ class Account_code extends MY_Controller{
 
         $this->_ONLY_SU();
         $id = $this->input->post('id_code', true);
+        if (!$id) {
+            $response = [
+                'status' => false,
+                'message' => 'ID tidak valid',
+            ];
+            echo json_encode($response);
+            return;
+        }
 
         $ac = $this->m_Account_code->findById_get($id);
         $oldCode = $ac['code'];

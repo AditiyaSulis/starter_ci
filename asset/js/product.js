@@ -387,16 +387,20 @@ $(document).ready(function () {
 // });
 
 //EDIT ACCOUNT CODE
+
+function editAcButton(element){
+    let $element = $(element);
+
+    $("#id_code").val($element.data('id_code'));
+    $("#id_kategori").val($element.data('kategori'));
+    $("#code").val($element.data('code'));
+    $("#name_code").val($element.data('name_code'));
+
+    $("#editAccountModal").modal("show");
+}
 $(document).ready(function () {
     var base_url = $('meta[name="base_url"]').attr('content');
-    $(".btn-edit-ac").on("click", function () {
-        const data = $(this).data();
-        $("#id_code").val(data.id);
-        $("#id_kategori").val(data.id_kategori);
-        $("#code").val(data.code);
-        $("#name_code").val(data.name_code);
-        $("#editAccountModal").modal("show");
-    });
+    console.log($("#id_code").val());
 
     $("#editAccountForm").on("submit", function (e) {
         e.preventDefault();
@@ -427,6 +431,8 @@ $(document).ready(function () {
 
 
 // DELETE ACCOUNT CODE
+
+
 $(document).ready(function () {
     var base_url = $('meta[name="base_url"]').attr('content');
 
