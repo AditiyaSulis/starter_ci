@@ -186,10 +186,10 @@ class m_Finance_records extends CI_Model {
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); // Relasi ke account_code
         $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  // Relasi ke categories
-        $this->db->join('products P', 'P.id_product = F.id_product', 'left'); // Relasi ke products
+        $this->db->join('products P', 'P.id_product = F.product_id', 'left'); // Relasi ke products
     
         // Filter berdasarkan tanggal
-        $this->_totalFilter()($filter);
+        $this->_totalFilter($filter);
     
         $this->db->group_by(['C.name_kategori', 'P.name_product']); // Grup berdasarkan kategori dan produk
         $this->db->order_by('C.name_kategori', 'asc');

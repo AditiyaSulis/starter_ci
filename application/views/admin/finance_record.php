@@ -104,9 +104,9 @@
             </div>
         </div>
     </div> -->
-    <!-- <div class="row" id="cardContainer">
+    <div class="row" id="cardContainer">
   
-    </div> -->
+    </div>
 
 
     <div class="d-flex justify-content-between flex-wrap">
@@ -592,7 +592,6 @@
             if (option === 'custom') {
                 $('#customDateModal').modal('show');
             } else {
-                // loadCardsByCategoryAndProduct(option);
                 table.ajax.reload(); 
             }
 
@@ -611,53 +610,58 @@
                 }
             });
 
+            categoryProduct(option);
+
             
         });
 
+        //NUMBER FORMAT TO CURRENCY RUPIAH
         function formatRupiah(number) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
         }
 
-        // function loadCardsByCategoryAndProduct(filterOption) {
-        //     const base_url = $('meta[name="base_url"]').attr('content');
-        //     $.ajax({
-        //         url: base_url + 'admin/finance_record/get_total_amount_by_category_and_product',
-        //         type: 'POST',
-        //         data: { option: filterOption },
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             if (response.status) {
-        //                 const data = response.data;
-        //                 const cardContainer = $('#cardContainer'); // Pastikan ID container card sesuai
-        //                 cardContainer.empty(); // Kosongkan card sebelumnya
+        function categoryProduct(option) {
+            const base_url = $('meta[name="base_url"]').attr('content');
+            $.ajax({
+                url: base_url + 'admin/finance_record/get_total_by_product',
+                type: 'POST',
+                data: { option: option },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status) {
+                        const data = response.data;
+                        const cardContainer = $('#cardContainer'); // Pastikan ID container card sesuai
+                        cardContainer.empty(); // Kosongkan card sebelumnya
 
-        //                 data.forEach(item => {
-        //                     const formattedAmount = formatRupiah(item.total_amount); // Format Rupiah
-        //                     cardContainer.append(`
-        //                         <div class="col-md-4 mb-3">
-        //                             <div class="card shadow-sm" style="border-radius: 10px;">
-        //                                 <div class="card-body">
-        //                                     <h5 class="card-title text-primary">${item.name_kategori} - ${item.name_product}</h5>
-        //                                     <ul class="list-unstyled mt-3">
-        //                                         <li>
-        //                                             <strong>Total:</strong>
-        //                                             <span class="text-muted">${formattedAmount}</span>
-        //                                         </li>
-        //                                     </ul>
-        //                                 </div>
-        //                             </div>
-        //                         </div>
-        //                     `);
-        //                 });
-        //             }
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error('Error: ' + error);
-        //         }
-        //     });
-        // }
+                        data.forEach(item => {
+                            const formattedAmount = formatRupiah(item.total_amount); // Format Rupiah
+                            cardContainer.append(`
+                                <div class="col-md-4 mb-3">
+                                    <div class="card shadow-sm" style="border-radius: 10px;">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary">${item.name_kategori}</h5>
+                                            <ul class="list-unstyled mt-3">
+                                                <li>
+                                                    <strong>${item.name_product}</strong>
+                                                    <span class="text-muted">${formattedAmount}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ' + error);
+                }
+            });
+        }
 
 
+
+        //CARD TOTAL AMOUNT BY CATEGORI
         function updateCards(data) {
             const cardContainer = $('#card-container');
             cardContainer.empty(); // Clear old cards

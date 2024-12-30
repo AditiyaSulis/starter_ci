@@ -49,7 +49,7 @@ class Finance_record extends MY_Controller{
         $option = $this->input->post('option') ?? 'this_month';
     
         $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option);
-        // $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByCategoryAndProduct($option);
+        $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByCategoryAndProduct($option);
     
         if (isset($data['user']) && $data['user']) {
             $this->load->view('templates/index', $data);
@@ -334,17 +334,28 @@ class Finance_record extends MY_Controller{
         ]);
     }
 
-    public function get_total_amount_by_category_and_product() {
+    public function get_total_by_product() {
         $filter = $this->input->post('option'); // Mendapatkan filter waktu dari request
     
-        $totals_amount = $this->m_Finance_records->getAmountSumByCategoryAndProduct($filter); // Panggil model
+        $total_amounts = $this->m_Finance_records->getAmountSumByCategoryAndProduct($filter); // Panggil model
     
         echo json_encode([
             'status' => true,
-            'data' => $totals_amount
+            'data' => $total_amounts
         ]);
     }
     
+
+    // public function get_total_amount_by_category_and_prduct(){
+    //     $filter = $this->input->post('option');
+
+    //     $totals_amount = $this->m_Finance_records->getAmountSumByCategoryAndProduct($filter);
+
+    //     echo json_encode([
+    //        'status' =>true,
+    //        'data' => $totals_amount
+    //     ]);
+    // }
 
 
 }
