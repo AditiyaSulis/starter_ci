@@ -1,34 +1,139 @@
 <main>
-    <h1>Finance Record</h1>
+    <h1 class="mb-4">Finance Record</h1>
 
-    <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct"> 
-        <i class="ti ti-plus"></i>
-         Add Finance Record
-    </button>
-
-    <div class="row mb-1 mt-6 align-items-center">
-        <div class="col-md-auto mt-3">
-            <span>Filter :</span>
+    <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+        <div class="row justify-content-start" id="card-container">
+        
+             <?php foreach($totals_amount as $amount) : ?>
+                <div class="col-auto">
+                    <div class="card shadow-sm" id="totalsAmountCard" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"><?= $amount['name_kategori']?></h5>
+                            <ul class="list-unstyled mt-3">
+                                <li>
+                                    <strong>Total :</strong> 
+                                    <span class="text-success">Rp.<?= number_format($amount['total_amount'], 0, ',', '.')?></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach;?>
         </div>
-        <div class="col-md-auto mt-3">
-            <select id="filterSelect" class="form-select form-select-sm w-auto">
+    </div>
+    <!-- <div class="row justify-content-start" id="card-container">
+    
+        <?php foreach ($totals_amount as $category): ?>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm" style="border-radius: 10px; width: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary"><?= $category['name_kategori']; ?></h5>
+                        <ul class="list-unstyled mt-3">
+                            <li>
+                                <strong>Total:</strong>
+                                <span class="text-muted"><?= $category['total_amount']; ?></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div> -->
+
+
+    <!-- <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+        <div class="row justify-content-start">
+           
+            <div class="col-auto">
+                <div class="card shadow-sm" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Nama Product</h5>
+                        <ul class="list-unstyled mt-3">
+                            <li>
+                                <strong>Assets:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Expenses:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Equity:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Income:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Liabilities:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="card shadow-sm" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Nama Product</h5>
+                        <ul class="list-unstyled mt-3">
+                            <li>
+                                <strong>Assets:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Expenses:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Equity:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Income:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                            <li>
+                                <strong>Liabilities:</strong> 
+                                <span class="text-muted">-</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div class="row" id="cardContainer">
+  
+    </div> -->
+
+
+    <div class="d-flex justify-content-between flex-wrap">
+        <button type="button" class="btn btn-primary rounded-pill mt-3" data-bs-toggle="modal" data-bs-target="#addProduct"> 
+            <i class="ti ti-plus"></i> Add Finance Record
+        </button>
+    </div>
+
+    <div class="row g-3 align-items-center mt-4">
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Date:</label>
+            <select id="filterSelect" class="form-select form-select-sm">
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
-                <option value="this_month" selected>This Month</option>
-                <option value="last_month">Last Month</option>
                 <option value="this_week">This Week</option>
                 <option value="last_week">Last Week</option>
+                <option value="this_month" selected>This Month</option>
+                <option value="last_month">Last Month</option>
                 <option value="this_year">This Year</option>
                 <option value="last_year">Last Year</option>
                 <option value="custom">Custom Range</option>
             </select>
         </div>
 
-        <div class="col-md-auto mt-3">
-            <span>Product :</span>
-        </div>
-        <div class="col-md-auto mt-3">
-            <select id="filterProduct" class="form-select form-select-sm w-auto">
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Product:</label>
+            <select id="filterProduct" class="form-select form-select-sm">
                 <option value="" selected>-</option>
                 <?php foreach($products as $product): ?>
                     <option value="<?= $product['id_product'] ?>"><?= $product['name_product'] ?></option>
@@ -36,11 +141,9 @@
             </select>
         </div>
 
-        <div class="col-md-auto mt-3">
-            <span>Type :</span>
-        </div>
-        <div class="col-md-auto mt-3">
-            <select id="filterCategory" class="form-select form-select-sm w-auto">
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Type:</label>
+            <select id="filterCategory" class="form-select form-select-sm">
                 <option value="" selected>-</option>
                 <?php foreach($categories as $ct): ?>
                     <option value="<?= $ct['id_kategori'] ?>"><?= $ct['name_kategori']?></option>
@@ -48,26 +151,22 @@
             </select>
         </div>
 
-        <div class="col-md-auto mt-3">
-            <span>Code :</span>
-        </div>
-        <div class="col-md-auto mt-3">
-            <select id="filterCode" class="form-select form-select-sm w-auto">
-                 <option value="" selected>-</option>
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Code:</label>
+            <select id="filterCode" class="form-select form-select-sm">
+                <option value="" selected>-</option>
             </select>
         </div>
 
-        <div class="col-md-auto mt-3 ms-4">
-            <button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill"> 
-                <i class="ti ti-reload"></i>
-                Clear Filter
+        <div class="col-12 col-md-auto mt-8">
+            <button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
+                <i class="ti ti-reload"></i> Clear Filter
             </button>
         </div>
-
     </div>
   
-    <div class="mt-6">
-        <table id="finances_table" class="table table-bordered table-striped" style="width:100%">
+    <div class="table-responsive mt-4">
+        <table id="finances_table" class="table table-bordered table-striped w-100">
             <thead>
                 <tr>
                     <th>Created At</th>
@@ -85,6 +184,7 @@
             </tbody>
         </table>
     </div>
+
 
       <!-- Modal untuk Custom Date -->
         <div id="customDateModal" class="modal" tabindex="-1">
@@ -487,12 +587,101 @@
         //---------- FILTER DATE
         $('#filterSelect').on('change', function () {
             option = $(this).val(); 
+            const base_url = $('meta[name="base_url"]').attr('content');
+
             if (option === 'custom') {
                 $('#customDateModal').modal('show');
             } else {
+                // loadCardsByCategoryAndProduct(option);
                 table.ajax.reload(); 
             }
+
+            $.ajax({
+                url: base_url + 'admin/finance_record/get_total_amount_by_category',
+                type: 'POST',
+                data: { option: option },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        updateCards(response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching totals:', error);
+                }
+            });
+
+            
         });
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
+        }
+
+        // function loadCardsByCategoryAndProduct(filterOption) {
+        //     const base_url = $('meta[name="base_url"]').attr('content');
+        //     $.ajax({
+        //         url: base_url + 'admin/finance_record/get_total_amount_by_category_and_product',
+        //         type: 'POST',
+        //         data: { option: filterOption },
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             if (response.status) {
+        //                 const data = response.data;
+        //                 const cardContainer = $('#cardContainer'); // Pastikan ID container card sesuai
+        //                 cardContainer.empty(); // Kosongkan card sebelumnya
+
+        //                 data.forEach(item => {
+        //                     const formattedAmount = formatRupiah(item.total_amount); // Format Rupiah
+        //                     cardContainer.append(`
+        //                         <div class="col-md-4 mb-3">
+        //                             <div class="card shadow-sm" style="border-radius: 10px;">
+        //                                 <div class="card-body">
+        //                                     <h5 class="card-title text-primary">${item.name_kategori} - ${item.name_product}</h5>
+        //                                     <ul class="list-unstyled mt-3">
+        //                                         <li>
+        //                                             <strong>Total:</strong>
+        //                                             <span class="text-muted">${formattedAmount}</span>
+        //                                         </li>
+        //                                     </ul>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+        //                     `);
+        //                 });
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('Error: ' + error);
+        //         }
+        //     });
+        // }
+
+
+        function updateCards(data) {
+            const cardContainer = $('#card-container');
+            cardContainer.empty(); // Clear old cards
+
+            data.forEach(category => {
+                const formattedAmount = formatRupiah(category.total_amount); // Format angka ke Rupiah
+                cardContainer.append(`
+                    <div class="col-auto">
+                            <div class="card shadow-sm" id="totalsAmountCard" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">${category.name_kategori}</h5>
+                                <ul class="list-unstyled mt-3">
+                                    <li>
+                                        <strong>Total :</strong> 
+                                        <span class="text-success">${formattedAmount}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>  
+                `);
+            });
+        }
+
 
         $('#applyCustomDate').on('click', function () {
             startDate = $('#startDate').val();
@@ -537,6 +726,8 @@
             product = $(this).val();
             table.ajax.reload();
         });
+
+        
 
         //------------ FILTER CODE
         $('#filterCode').on('change', function() {

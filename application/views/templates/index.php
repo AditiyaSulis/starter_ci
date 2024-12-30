@@ -52,6 +52,8 @@
 			document.documentElement.setAttribute("data-bs-theme", themeMode);
 		}
 	</script>
+
+	
 	<div class="d-flex flex-column flex-root">
 		<div class="page d-flex flex-row flex-column-fluid">
 			<div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true"
@@ -91,13 +93,13 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link active" href="<?=base_url('admin/product/product_page')?>">
+								<a class="menu-link active" href="<?=base_url('admin/finance_record/finance_record_page')?>">
 									<span class="menu-icon">
 										<span class="svg-icon svg-icon-2">
-											<i class="ti ti-package"></i>
+											<i class="ti ti-receipt"></i>
 										</span>
 									</span>
-									<span class="menu-title">Product</span>
+									<span class="menu-title">Finance Record</span>
 								</a>
 							</div>
 						</div>
@@ -130,13 +132,13 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link active" href="<?=base_url('admin/finance_record/finance_record_page')?>">
+								<a class="menu-link active" href="<?=base_url('admin/product/product_page')?>">
 									<span class="menu-icon">
 										<span class="svg-icon svg-icon-2">
-											<i class="ti ti-receipt"></i>
+											<i class="ti ti-package"></i>
 										</span>
 									</span>
-									<span class="menu-title">Finance Record</span>
+									<span class="menu-title">Product</span>
 								</a>
 							</div>
 						</div>
@@ -297,7 +299,7 @@
 	<script src="<?=base_url('asset/plugins/global/theme-mode.js')?>"></script>
 	<script src="<?=base_url('asset/plugins/global/plugins.bundle.js')?>"></script>
 	<script src="<?=base_url('asset/js/scripts.bundle.js')?>"></script>
-	<script src="<?=base_url('asset/js/product.js')?>"></script>
+	<script src="<?=base_url('asset/js/finance_record.js')?>"></script>
 	
 </body>
 

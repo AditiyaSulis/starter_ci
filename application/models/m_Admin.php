@@ -2,11 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class m_Admin extends CI_Model {
+
    public function findByEmail_get($email, $password) {
+    
     $lb = new Opensslencryptdecrypt();
     $encrypt =$lb->encrypt($password);
+
+    $user = $this->db->get_where('admin', ['email' => $email])->row_array();
+
+    if($user && $user['password'] === $encrypt){
+        return $user;
+    }
+
+    return null;
   
-    return $this->db->get_where('admin', ['email' => $email, 'password' => $encrypt])->row_array();
+   
    }
 
    public function findAll_get(){
@@ -36,6 +46,7 @@ class m_Admin extends CI_Model {
     $this->db->set('ip_address', $ip);
     $this->db->where('email', $email);
     $this->db->update('admin');
+
    }
 
    public function totalAdmins_get(){

@@ -165,4 +165,73 @@ class m_Finance_records extends CI_Model {
         return $this->db->count_all_results();
     }
 
+
+    public function getAmountSumByCategory($filter) {
+        $this->db->select('C.name_kategori, SUM(F.amount) as total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  
+    
+        $this->_totalFilter($filter); 
+        
+        $this->db->group_by('C.name_kategori');
+        $this->db->order_by('C.name_kategori', 'asc');
+    
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function getAmountSumByCategoryAndProduct($filter) {
+        $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); // Relasi ke account_code
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  // Relasi ke categories
+        $this->db->join('products P', 'P.id_product = F.id_product', 'left'); // Relasi ke products
+    
+        // Filter berdasarkan tanggal
+        $this->_totalFilter()($filter);
+    
+        $this->db->group_by(['C.name_kategori', 'P.name_product']); // Grup berdasarkan kategori dan produk
+        $this->db->order_by('C.name_kategori', 'asc');
+        $this->db->order_by('P.name_product', 'asc');
+    
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
+    
+    
+    private function _totalFilter($filter) {
+        switch ($filter) {
+            case 'today':
+                $this->db->where('F.record_date', date('Y-m-d'));
+                break;
+            case 'yesterday':
+                $this->db->where('F.record_date', date('Y-m-d', strtotime('-1 day')));
+                break;
+            case 'this_week':
+                $this->db->where('WEEK(F.record_date)', date('W'));
+                $this->db->where('YEAR(F.record_date)', date('Y'));
+                break;
+            case 'last_week':
+                $this->db->where('F.record_date >=', date('Y-m-d', strtotime('monday last week')));
+                $this->db->where('F.record_date <=', date('Y-m-d', strtotime('sunday last week')));
+                break;
+            case 'this_month':
+                $this->db->where('MONTH(F.record_date)', date('m'));
+                $this->db->where('YEAR(F.record_date)', date('Y'));
+                break;
+            case 'last_month':
+                $this->db->where('MONTH(F.record_date)', date('m', strtotime('-1 month')));
+                $this->db->where('YEAR(F.record_date)', date('Y', strtotime('-1 month')));
+                break;
+            case 'this_year':
+                $this->db->where('YEAR(F.record_date)', date('Y'));
+                break;
+            case 'last_year':
+                $this->db->where('YEAR(F.record_date)', date('Y', strtotime('-1 year')));
+                break;
+        }
+    }
+
 }

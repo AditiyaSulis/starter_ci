@@ -77,7 +77,6 @@
 </div>
 
 
-
  <!-- Modal Add Product -->
 <div class="modal fade" tabindex="-1" id="addProduct">
         <div class="modal-dialog">
