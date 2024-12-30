@@ -21,92 +21,19 @@
             <?php endforeach;?>
         </div>
     </div>
-    <!-- <div class="row justify-content-start" id="card-container">
-    
-        <?php foreach ($totals_amount as $category): ?>
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm" style="border-radius: 10px; width: 200px;">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary"><?= $category['name_kategori']; ?></h5>
-                        <ul class="list-unstyled mt-3">
-                            <li>
-                                <strong>Total:</strong>
-                                <span class="text-muted"><?= $category['total_amount']; ?></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div> -->
 
-
+    <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
+        <div class="row justify-content-start" id="cardContainer">
+        
+        </div>
+    </div>
     <!-- <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
-        <div class="row justify-content-start">
-           
-            <div class="col-auto">
-                <div class="card shadow-sm" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary">Nama Product</h5>
-                        <ul class="list-unstyled mt-3">
-                            <li>
-                                <strong>Assets:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Expenses:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Equity:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Income:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Liabilities:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto">
-                <div class="card shadow-sm" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary">Nama Product</h5>
-                        <ul class="list-unstyled mt-3">
-                            <li>
-                                <strong>Assets:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Expenses:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Equity:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Income:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                            <li>
-                                <strong>Liabilities:</strong> 
-                                <span class="text-muted">-</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="row justify-content-start" id="card-container">
+            <div class="col-auto" id="cardContainer">
+        
             </div>
         </div>
     </div> -->
-    <div class="row" id="cardContainer">
-  
-    </div>
 
 
     <div class="d-flex justify-content-between flex-wrap">
@@ -584,7 +511,7 @@
 
         callDT();
 
-        //---------- FILTER DATE
+       // ---------- FILTER DATE
         $('#filterSelect').on('change', function () {
             option = $(this).val(); 
             const base_url = $('meta[name="base_url"]').attr('content');
@@ -615,6 +542,65 @@
             
         });
 
+        $('#filterSelect').on('change', function () {
+            var option = $(this).val(); 
+            const base_url = $('meta[name="base_url"]').attr('content');
+
+            if (option === 'custom') {
+                $('#customDateModal').modal('show');
+            } else {
+                table.ajax.reload(); 
+                $.ajax({
+                    url: base_url + 'admin/finance_record/get_total_amount_by_category',
+                    type: 'POST',
+                    data: { option: option },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            updateCards(response.data);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching totals:', error);
+                    }
+                });
+              categoryProduct(option);
+
+            }
+
+
+           
+        });
+
+        function groupByCategory(data) {
+            return data.reduce((result, item) => {
+                if (!result[item.name_kategori]) {
+                    result[item.name_kategori] = [];
+                }
+                result[item.name_kategori].push(item);
+                return result;
+            }, {});
+        }
+
+        // Fungsi untuk format mata uang Rupiah
+        function formatRupiah(angka) {
+            var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return 'Rp. ' + rupiah;
+        }
+         //END
+
+
         //NUMBER FORMAT TO CURRENCY RUPIAH
         function formatRupiah(number) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
@@ -623,40 +609,51 @@
         function categoryProduct(option) {
             const base_url = $('meta[name="base_url"]').attr('content');
             $.ajax({
-                url: base_url + 'admin/finance_record/get_total_by_product',
-                type: 'POST',
-                data: { option: option },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status) {
-                        const data = response.data;
-                        const cardContainer = $('#cardContainer'); // Pastikan ID container card sesuai
-                        cardContainer.empty(); // Kosongkan card sebelumnya
+                    url: base_url + 'admin/finance_record/get_total_by_product',
+                    type: 'POST',
+                    data: { option: option },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status) {
+                            const data = response.data;
+                            const cardContainer = $('#cardContainer');
+                            cardContainer.empty();
 
-                        data.forEach(item => {
-                            const formattedAmount = formatRupiah(item.total_amount); // Format Rupiah
-                            cardContainer.append(`
-                                <div class="col-md-4 mb-3">
-                                    <div class="card shadow-sm" style="border-radius: 10px;">
-                                        <div class="card-body">
-                                            <h5 class="card-title text-primary">${item.name_kategori}</h5>
-                                            <ul class="list-unstyled mt-3">
-                                                <li>
-                                                    <strong>${item.name_product}</strong>
-                                                    <span class="text-muted">${formattedAmount}</span>
-                                                </li>
-                                            </ul>
+                            // Mengelompokkan produk berdasarkan kategori
+                            const groupedData = groupByCategory(data);
+
+                            // Loop untuk setiap kategori dan tampilkan produk dengan total amount
+                            Object.keys(groupedData).forEach(category => {
+                                const products = groupedData[category];
+                                let productDetails = '';
+
+                                products.forEach(product => {
+                                    const formattedAmount = formatRupiah(product.total_amount);
+                                    productDetails += `
+                                        <li>${product.name_product}: ${formattedAmount}</li>
+                                    `;
+                                });
+
+                                // Menambahkan kategori dan detail produk ke dalam card
+                                cardContainer.append(`
+                                <div class="col-auto">
+                                        <div class="card shadow-sm" style="width: 230px; height: 200px; margin-bottom: 20px; border-radius: 10px;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-primary">${category}</h5>
+                                                <ul class="list-unstyled mt-3">
+                                                    ${productDetails}
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            `);
-                        });
+                                </div>  
+                                `);
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching totals by product:', error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error: ' + error);
-                }
-            });
+                });
         }
 
 
@@ -670,7 +667,7 @@
                 const formattedAmount = formatRupiah(category.total_amount); // Format angka ke Rupiah
                 cardContainer.append(`
                     <div class="col-auto">
-                            <div class="card shadow-sm" id="totalsAmountCard" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
+                        <div class="card shadow-sm" id="totalsAmountCard" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
                             <div class="card-body">
                                 <h5 class="card-title text-primary">${category.name_kategori}</h5>
                                 <ul class="list-unstyled mt-3">

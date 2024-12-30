@@ -10,31 +10,36 @@ class Finance_record extends MY_Controller{
 
     }
 
-    // public function finance_record_page(){
-    //     $this->_ONLYSELECTED([1,2]);
-    //     $data = $this->_basicData();
+   
 
+    // public function finance_record_page() {
+
+    //     $this->_ONLYSELECTED([1, 2]); 
+    //     $data = $this->_basicData();
+    
     //     $data['title'] = 'Finance Record';
     //     $data['view_name'] = 'admin/finance_record';
     //     $data['breadcrumb'] = 'Finance Record';
-
+    
     //     $data['categories'] = $this->m_Categories->findAll_get();
-    //     $option = $this->input->post('option'); 
-    //     $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option); 
-        
     //     $data['products'] = $this->m_Products->findAll_get();
     //     $data['account_code'] = $this->m_Account_code->findAll_get();
-
-    //     if($data['user']){
-    //         $this->load->view('templates/index',$data);
+    
+    //     $option = $this->input->post('option') ?? 'this_month';
+    
+    //     $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option);
+    //     $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByCategoryAndProduct($option);
+    
+    //     if (isset($data['user']) && $data['user']) {
+    //         $this->load->view('templates/index', $data);
     //     } else {
+           
     //         $this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+    //         redirect('login'); 
     //     }
-
     // }
 
     public function finance_record_page() {
-
         $this->_ONLYSELECTED([1, 2]); 
         $data = $this->_basicData();
     
@@ -48,13 +53,15 @@ class Finance_record extends MY_Controller{
     
         $option = $this->input->post('option') ?? 'this_month';
     
+        // Ambil total amount per kategori
         $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option);
+    
+        // Ambil total amount per kategori dan produk
         $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByCategoryAndProduct($option);
     
         if (isset($data['user']) && $data['user']) {
             $this->load->view('templates/index', $data);
         } else {
-           
             $this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
             redirect('login'); 
         }
