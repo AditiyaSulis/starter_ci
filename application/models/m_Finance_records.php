@@ -184,19 +184,59 @@ class m_Finance_records extends CI_Model {
     public function getAmountSumByCategoryAndProduct($filter) {
         $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
         $this->db->from('finance_records F');
-        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); // Relasi ke account_code
-        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  // Relasi ke categories
-        $this->db->join('products P', 'P.id_product = F.product_id', 'left'); // Relasi ke products
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); 
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  
+        $this->db->join('products P', 'P.id_product = F.product_id', 'left'); 
     
-        // Pastikan _totalFilter dipanggil untuk filter berdasarkan tanggal
+        
         $this->_totalFilter($filter);
     
-        $this->db->group_by(['C.name_kategori', 'P.name_product']); // Grup berdasarkan kategori dan produk
+        $this->db->group_by(['C.name_kategori', 'P.name_product']); 
         $this->db->order_by('C.name_kategori', 'asc');
         $this->db->order_by('P.name_product', 'asc');
     
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+ 
+    
+
+    public function getAmountSummary($filter) {
+        $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); 
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  
+        $this->db->join('products P', 'P.id_product = F.product_id', 'left'); 
+        
+        $this->_totalFilter($filter);
+    
+        $this->db->group_by(['C.name_kategori', 'P.name_product']); 
+        $this->db->order_by('C.name_kategori', 'asc');
+        $this->db->order_by('P.name_product', 'asc');
+    
+        $query = $this->db->get();
+        $result = $query->result_array();
+        
+        $output = [];
+        foreach ($result as $row) {
+            $category = $row['name_kategori'];
+            $product = [
+                'name_product' => $row['name_product'],
+                'total_amount' => $row['total_amount']
+            ];
+    
+            if (!isset($output[$category])) {
+                $output[$category] = [
+                    'name_kategori' => $category,
+                    'products' => []
+                ];
+            }
+    
+            $output[$category]['products'][] = $product;
+        }
+    
+        return array_values($output);
     }
     
     
@@ -222,8 +262,7 @@ class m_Finance_records extends CI_Model {
                 $this->db->where('YEAR(F.record_date)', date('Y'));
                 break;
             case 'last_month':
-                $this->db->where('MONTH(F.record_date)', date('m', strtotime('-1 month')));
-                $this->db->where('YEAR(F.record_date)', date('Y', strtotime('-1 month')));
+                $this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
                 break;
             case 'this_year':
                 $this->db->where('YEAR(F.record_date)', date('Y'));

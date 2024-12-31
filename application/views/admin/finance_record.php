@@ -1,41 +1,6 @@
 <main>
     <h1 class="mb-4">Finance Record</h1>
 
-    <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
-        <div class="row justify-content-start" id="card-container">
-        
-             <?php foreach($totals_amount as $amount) : ?>
-                <div class="col-auto">
-                    <div class="card shadow-sm" id="totalsAmountCard" style="width: 200px; margin-bottom: 20px; border-radius: 10px;">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary"><?= $amount['name_kategori']?></h5>
-                            <ul class="list-unstyled mt-3">
-                                <li>
-                                    <strong>Total :</strong> 
-                                    <span class="text-success">Rp.<?= number_format($amount['total_amount'], 0, ',', '.')?></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach;?>
-        </div>
-    </div>
-
-    <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
-        <div class="row justify-content-start" id="cardContainer">
-        
-        </div>
-    </div>
-    <!-- <div class="container mt-4 p-4" style="border-radius: 10px; background-color: #f8f9fa;">
-        <div class="row justify-content-start" id="card-container">
-            <div class="col-auto" id="cardContainer">
-        
-            </div>
-        </div>
-    </div> -->
-
-
     <div class="d-flex justify-content-between flex-wrap">
         <button type="button" class="btn btn-primary rounded-pill mt-3" data-bs-toggle="modal" data-bs-target="#addProduct"> 
             <i class="ti ti-plus"></i> Add Finance Record
@@ -112,6 +77,38 @@
         </table>
     </div>
 
+    <div class="mt-6 p-7 mb-6" style="border-radius: 10px; background-color:rgb(223, 229, 235);">
+        <div class="mt-6 mb-6">
+            <h3>Summary Total Amount By Category</h3>
+        </div>
+
+    
+        <div class="row justify-content-start" id="card-container">
+        
+             <?php foreach($totals_amount as $amount) : ?>
+                <div class="col-auto">
+                    <div class="card shadow-sm" id="totalsAmountCard" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"><?= $amount['name_kategori']?></h5>
+                            <ul class="list-unstyled mt-3">
+                                <li>
+                                    <strong>Total :</strong> 
+                                    <span class="text-success">Rp.<?= number_format($amount['total_amount'], 0, ',', '.')?></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach;?>
+        </div>
+             
+
+  
+        <div class="row justify-content-start" id="cardContainer">
+        
+        </div>
+    </div> 
+    
 
       <!-- Modal untuk Custom Date -->
         <div id="customDateModal" class="modal" tabindex="-1">
@@ -512,6 +509,7 @@
         callDT();
 
        // ---------- FILTER DATE
+       //-----CARD START
         $('#filterSelect').on('change', function () {
             option = $(this).val(); 
             const base_url = $('meta[name="base_url"]').attr('content');
@@ -565,6 +563,7 @@
                     }
                 });
               categoryProduct(option);
+             // fetchAmountSummary(option);
 
             }
 
@@ -580,6 +579,58 @@
                 result[item.name_kategori].push(item);
                 return result;
             }, {});
+        }
+
+        // Fetch data awal saat halaman dimuat
+        $(document).ready(() => {
+            fetchAmountSummary('this_month');
+        });
+
+        // Fetch data dari server
+        function fetchAmountSummary(option) {
+            $.ajax({
+                url: `${base_url}admin/finance_record/get_amount_summary`,
+                type: 'POST',
+                data: { option },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        renderCards(response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        const base_url = $('meta[name="base_url"]').attr('content');
+
+        // Fungsi untuk render kartu
+        function renderCards(data) {
+            const cardContainer = $('#cardContainer');
+            cardContainer.empty();
+
+            data.forEach(category => {
+                const productDetails = category.products.map(product => `
+                    <li>
+                        <strong>${product.name_product}:</strong> ${formatRupiah(product.total_amount)}
+                    </li>
+                `).join('');
+
+                cardContainer.append(`
+                    <div class="col-auto">
+                        <div class="card shadow-sm" style="width: 230px; height: 200px; margin-bottom: 20px; border-radius: 10px;">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">${category.name_kategori}</h5>
+                                    <ul class="list-unstyled mt-3">
+                                        ${productDetails}
+                                    </ul>
+                            </div>
+                        </div>
+                    </div> 
+                `);
+            });
         }
 
         // Fungsi untuk format mata uang Rupiah
@@ -598,7 +649,7 @@
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return 'Rp. ' + rupiah;
         }
-         //END
+         //END CARD
 
 
         //NUMBER FORMAT TO CURRENCY RUPIAH
@@ -619,10 +670,8 @@
                             const cardContainer = $('#cardContainer');
                             cardContainer.empty();
 
-                            // Mengelompokkan produk berdasarkan kategori
                             const groupedData = groupByCategory(data);
 
-                            // Loop untuk setiap kategori dan tampilkan produk dengan total amount
                             Object.keys(groupedData).forEach(category => {
                                 const products = groupedData[category];
                                 let productDetails = '';
@@ -634,7 +683,6 @@
                                     `;
                                 });
 
-                                // Menambahkan kategori dan detail produk ke dalam card
                                 cardContainer.append(`
                                 <div class="col-auto">
                                         <div class="card shadow-sm" style="width: 230px; height: 200px; margin-bottom: 20px; border-radius: 10px;">
