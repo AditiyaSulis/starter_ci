@@ -345,10 +345,9 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.status) {
-                        // Reset kategori ke Rp.0
+
                         $('#card-container1 span').text('Rp.0');
 
-                        // Perbarui kategori
                         response.categories.forEach(category => {
                             const span = $(`[data-category-id="${category.id_kategori}"]`);
                             if (span.length) {
@@ -356,7 +355,6 @@
                             }
                         });
 
-                        // Reset produk ke Rp.0
                         $('#cardContainer1 span').text('Rp.0');
 
                         // Perbarui produk untuk setiap kategori
@@ -710,7 +708,7 @@
             $('#filterProduct').val('');
             $('#filterCategory').val('');
             $('#filterCode').html('<option value="" selected>-</option>');
-
+            updateCards(option)
             table.ajax.reload();
         });
 	</script>

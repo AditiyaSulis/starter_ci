@@ -336,7 +336,7 @@ class m_Finance_records extends CI_Model {
     {
         switch ($filter) {
             case 'today':
-                $this->db->where('F.record_date', date('Y-m-d'));
+                $this->db->where('DATE(F.record_date ) = CURDATE()');
                 break;
             case 'yesterday':
                 $this->db->where('F.record_date', date('Y-m-d', strtotime('-1 day')));
@@ -350,8 +350,7 @@ class m_Finance_records extends CI_Model {
                 $this->db->where('F.record_date <=', date('Y-m-d', strtotime('sunday last week')));
                 break;
             case 'this_month':
-                $this->db->where('MONTH(F.record_date)', date('m'));
-                $this->db->where('YEAR(F.record_date)', date('Y'));
+               $this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
                 break;
             case 'last_month':
                 $this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
