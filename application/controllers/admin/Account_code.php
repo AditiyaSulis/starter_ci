@@ -11,7 +11,8 @@ class Account_code extends MY_Controller{
         $this->load->model('m_Categories');
     }
 
-    public function ac_page(){
+    public function ac_page()
+    {
         $this->_ONLYSELECTED([1,2]);
        $data = $this->_basicData();
 
@@ -85,7 +86,8 @@ class Account_code extends MY_Controller{
     }
 
 
-    public function update() {
+    public function update() 
+    {
 
         $this->_ONLY_SU();
         $id = $this->input->post('id_code', true);
@@ -164,7 +166,8 @@ class Account_code extends MY_Controller{
 
     }
 
-    public function delete(){
+    public function delete()
+    {
         $this->_ONLY_SU();
 
         $id = $this->input->post('id_code');

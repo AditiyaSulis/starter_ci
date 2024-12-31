@@ -11,7 +11,8 @@ class Finance_record extends MY_Controller{
     }
 
    
-    public function finance_record_page() {
+    public function finance_record_page()
+    {
         $this->_ONLYSELECTED([1, 2]); 
         $data = $this->_basicData();
     
@@ -19,18 +20,20 @@ class Finance_record extends MY_Controller{
         $data['view_name'] = 'admin/finance_record';
         $data['breadcrumb'] = 'Finance Record';
     
-        $default_option = 'this_month';
+        
         $data['categories'] = $this->m_Categories->findAll_get();
         $data['products'] = $this->m_Products->findAll_get();
         $data['account_code'] = $this->m_Account_code->findAll_get();
     
-        $option = $this->input->post('option') ?? 'this_month';
+        // $option = $this->input->post('option') ?? 'this_month';
     
-        // Ambil total amount per kategori
-        $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option);
+        // $default_filter = $this->input->post('filter') ?? 'this_month';
+        // $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($default_filter);
+        // $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByProductAndCategory($default_filter);
+
+        // $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option);
     
-        // Ambil total amount per kategori dan produk
-        $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByCategoryAndProduct($option);
+        // $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByProductAndCategory($option);
     
         if (isset($data['user']) && $data['user']) {
             $this->load->view('templates/index', $data);
@@ -40,7 +43,8 @@ class Finance_record extends MY_Controller{
         }
     }
 
-    public function option_acc(){
+    public function option_acc()
+    {
         $id = $this->input->post('category_id', true);
 
         $account = $this->m_Account_code->findByCategoryId_get($id);
@@ -61,7 +65,9 @@ class Finance_record extends MY_Controller{
         echo json_encode($response);
 
     }
-    public function edit_option_acc(){
+
+    public function edit_option_acc()
+    {
         $id = $this->input->post('category_id', true);
 
         $account = $this->m_Account_code->findByCategoryId_get($id);
@@ -141,7 +147,8 @@ class Finance_record extends MY_Controller{
         echo json_encode($response);
     }
 
-    public function update() {
+    public function update() 
+    {
 
         $this->_ONLY_SU();
 
@@ -199,7 +206,8 @@ class Finance_record extends MY_Controller{
         
     }
 
-    public function delete(){
+    public function delete()
+    {
         $this->_ONLY_SU();
 
         $id = $this->input->post('id');
@@ -302,37 +310,62 @@ class Finance_record extends MY_Controller{
     }
     
 
-    public function get_total_amount_by_category() {
- 
+    public function get_total_by_product_and_category() 
+    {
         $filter = $this->input->post('option');
 
-        $totals_amount = $this->m_Finance_records->getAmountSumByCategory($filter);
-    
-        echo json_encode([
-            'status' => true,
-            'data' => $totals_amount
-        ]);
-    }
+        $data = $this->m_Finance_records->getAmountSumByProductAndCategory($filter);
+        $categories = $this->m_Categories->findAll_get();
+        $products = $this->m_Products->findAll_get();
 
-    public function get_total_by_product() {
-        $filter = $this->input->post('option'); 
-    
-        $total_amounts = $this->m_Finance_records->getAmountSumByCategoryAndProduct($filter); 
-    
-        echo json_encode([
-            'status' => true,
-            'data' => $total_amounts
-        ]);
+        if ($data) {
+            echo json_encode([
+                'status' => true,
+                'data' => $data,
+                'products' => $products,
+                'categories' => $categories
+            ]);
+        } else {
+            echo json_encode([
+                'status' => false,
+                'message' => 'No data found.',
+                'products' => $products,
+                'categories' => $categories
+            ]);
+        }
     }
-    
-    public function get_amount_summary() {
+        
+    public function get_amount_summary() 
+    {
         $option = $this->input->post('option', true) ?? 'this_month';
         $result = $this->m_Finance_records->getAmountSummary($option);
+        $categories = $this->m_Categories->findAll_get();
+        $products = $this->m_Products->findAll_get();
     
         echo json_encode([
             'status' => true,
-            'data' => $result
+            'data' => $result,
+            'products' => $products,
+            'categories' => $categories
         ]);
     }
 
+    public function getFilteredSummary()
+    {
+        $filter = $this->input->post('option');
+        if($filter){
+            $categories = $this->m_Finance_records->getTotalAmountByCategory($filter);
+            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory($filter);
+        } else {
+            $categories = $this->m_Finance_records->getTotalAmountByCategory('this_month');
+            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory('this_month');
+        }
+        
+
+        echo json_encode([
+            'status' => true,
+            'categories' => $categories,
+            'products' => $products
+        ]);
+    }
 }

@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends MY_Controller{
 
-    function __construct(){
+    function __construct()
+    {
         parent::__construct();
         $this->load->model('m_Employees');
         $this->load->model('m_Products');
@@ -11,7 +12,8 @@ class Dashboard extends MY_Controller{
     }
 
 
-    public function dashboard_page(){
+    public function dashboard_page()
+    {
 
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();

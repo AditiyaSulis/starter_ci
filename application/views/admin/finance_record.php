@@ -7,6 +7,58 @@
         </button>
     </div>
 
+    <div class="mt-6 p-7 mb-6" style="border-radius: 10px; background-color:rgb(223, 229, 235);">
+        <div class="mt-6 mb-6">
+            <h3>Summary Total Amount By Category</h3>
+        </div>
+
+        <div class="row justify-content-start" id="card-container1">
+            <?php foreach ($categories as $category): ?>
+                <div class="col-auto">
+                    <div class="card shadow-sm" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"><?= $category['name_kategori'] ?></h5>
+                            <ul class="list-unstyled mt-3">
+                                <li>
+                                    <strong>Total:</strong> 
+                                    <span class="text-success" 
+                                        data-category-id="<?= $category['id_kategori'] ?>">
+                                        Rp.<?= isset($category['total_amount']) ? number_format($category['total_amount'], 0, ',', '.') : '0' ?>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="row justify-content-start" id="cardContainer1">
+            <?php foreach ($products as $product): ?>
+                <div class="col-auto">
+                    <div class="card shadow-sm" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"><?= $product['name_product'] ?></h5>
+                            <ul class="list-unstyled mt-3">
+                                <?php foreach ($categories as $category): ?>
+                                    <li>
+                                        <strong><?= $category['name_kategori'] ?>:</strong> 
+                                        <span class="text-success" 
+                                            data-product-id="<?= $product['id_product'] ?>" 
+                                            data-category-id="<?= $category['id_kategori'] ?>">
+                                            Rp.<?= number_format(0, 0, ',', '.') ?>
+                                        </span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+
     <div class="row g-3 align-items-center mt-4">
         <div class="col-12 col-md-auto">
             <label class="form-label">Date:</label>
@@ -76,39 +128,6 @@
             </tbody>
         </table>
     </div>
-
-    <div class="mt-6 p-7 mb-6" style="border-radius: 10px; background-color:rgb(223, 229, 235);">
-        <div class="mt-6 mb-6">
-            <h3>Summary Total Amount By Category</h3>
-        </div>
-
-    
-        <div class="row justify-content-start" id="card-container">
-        
-             <?php foreach($totals_amount as $amount) : ?>
-                <div class="col-auto">
-                    <div class="card shadow-sm" id="totalsAmountCard" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary"><?= $amount['name_kategori']?></h5>
-                            <ul class="list-unstyled mt-3">
-                                <li>
-                                    <strong>Total :</strong> 
-                                    <span class="text-success">Rp.<?= number_format($amount['total_amount'], 0, ',', '.')?></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach;?>
-        </div>
-             
-
-  
-        <div class="row justify-content-start" id="cardContainer">
-        
-        </div>
-    </div> 
-    
 
       <!-- Modal untuk Custom Date -->
         <div id="customDateModal" class="modal" tabindex="-1">
@@ -303,8 +322,8 @@
 
     <script>
         let base = '<?= base_url()?>';
+        const base_url = $('meta[name="base_url"]').attr('content');
 
-		
         let table;
         let option = 'this_month';
         let startDate = '';
@@ -314,9 +333,49 @@
         let code = '';
         let type = '';
 
-
         let accVAL = ''; 
         let accID  = '';
+
+
+        function updateCards(filter) {
+            $.ajax({
+                url: base_url + 'admin/finance_record/getFilteredSummary',
+                type: 'POST',
+                data: { option: filter },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        // Reset kategori ke Rp.0
+                        $('#card-container1 span').text('Rp.0');
+
+                        // Perbarui kategori
+                        response.categories.forEach(category => {
+                            const span = $(`[data-category-id="${category.id_kategori}"]`);
+                            if (span.length) {
+                                span.text(`Rp.${(category.total_amount || 0).toLocaleString('id-ID')}`);
+                            }
+                        });
+
+                        // Reset produk ke Rp.0
+                        $('#cardContainer1 span').text('Rp.0');
+
+                        // Perbarui produk untuk setiap kategori
+                        response.products.forEach(product => {
+                            const span = $(`[data-product-id="${product.id_product}"][data-category-id="${product.id_kategori}"]`);
+                            if (span.length) {
+                                span.text(`Rp.${(product.total_amount || 0).toLocaleString('id-ID')}`);
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error, 'XHR:', xhr);
+                }
+            });
+        }
+
+        updateCards('this_month');
+
 
         $(document).ready(function() {
             
@@ -335,6 +394,7 @@
                 }
             });
         });
+
 
         function getAccount(categoryId){
             $.ajax({
@@ -507,7 +567,7 @@
         }
 
         callDT();
-
+       
        // ---------- FILTER DATE
        //-----CARD START
         $('#filterSelect').on('change', function () {
@@ -518,120 +578,54 @@
                 $('#customDateModal').modal('show');
             } else {
                 table.ajax.reload(); 
-            }
+                    // $.ajax({
+                    //     url: base_url + 'admin/finance_record/getFilteredSummary',
+                    //     type: 'POST',
+                    //     data: { option: option },  
+                    //     dataType: 'json',
+                    //     success: function (response) {
+                    //         console.log(response);  
 
-            $.ajax({
-                url: base_url + 'admin/finance_record/get_total_amount_by_category',
-                type: 'POST',
-                data: { option: option },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status) {
-                        updateCards(response.data);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching totals:', error);
-                }
-            });
+                    //         if (response.status) {
+                              
+                    //             $('#card-container1 span').each(function () {
+                    //                 $(this).text('Rp.0');
+                    //             });
 
-            categoryProduct(option);
+                    //             response.categories.forEach(category => {
+                    //                 const span = $(`[data-category-id="${category.id_kategori}"]`);
+                    //                 if (span.length) {
+                    //                     span.text(`Rp.${category.total_amount ? category.total_amount.toLocaleString('id-ID') : '0'}`);
+                    //                 }
+                    //             }); 
+                                
+                    //             response.categories.forEach(category => {
+                    //                 const span = $(`[data-category-id="${category.id_kategori}"]`);
+                    //                 span.text(`Rp.${category.total_amount ? category.total_amount.toLocaleString('id-ID') : '0'}`);
+                    //             });
 
-            
+                    //             $('#cardContainer1 span').each(function () {
+                    //                 $(this).text('Rp.0');
+                    //             });
+
+                    //             response.products.forEach(product => {
+                    //                 const span = $(`[data-product-id="${product.id_product}"][data-category-id="${product.id_kategori}"]`);
+                    //                 if (span.length) {
+                    //                     span.text(`Rp.${(product.total_amount || 0).toLocaleString('id-ID')}`);
+                    //                 }
+                    //             });
+                    //         }
+                    //     },
+                    //     error: function (xhr, status, error) {
+                    //         console.error('AJAX Error:', error, 'XHR:', xhr);  
+                    //     }
+                    // });
+
+                    updateCards(option)
+                 }
+
+
         });
-
-        $('#filterSelect').on('change', function () {
-            var option = $(this).val(); 
-            const base_url = $('meta[name="base_url"]').attr('content');
-
-            if (option === 'custom') {
-                $('#customDateModal').modal('show');
-            } else {
-                table.ajax.reload(); 
-                $.ajax({
-                    url: base_url + 'admin/finance_record/get_total_amount_by_category',
-                    type: 'POST',
-                    data: { option: option },
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status) {
-                            updateCards(response.data);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching totals:', error);
-                    }
-                });
-              categoryProduct(option);
-             // fetchAmountSummary(option);
-
-            }
-
-
-           
-        });
-
-        function groupByCategory(data) {
-            return data.reduce((result, item) => {
-                if (!result[item.name_kategori]) {
-                    result[item.name_kategori] = [];
-                }
-                result[item.name_kategori].push(item);
-                return result;
-            }, {});
-        }
-
-        // Fetch data awal saat halaman dimuat
-        $(document).ready(() => {
-            fetchAmountSummary('this_month');
-        });
-
-        // Fetch data dari server
-        function fetchAmountSummary(option) {
-            $.ajax({
-                url: `${base_url}admin/finance_record/get_amount_summary`,
-                type: 'POST',
-                data: { option },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status) {
-                        renderCards(response.data);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching data:', error);
-                }
-            });
-        }
-
-        const base_url = $('meta[name="base_url"]').attr('content');
-
-        // Fungsi untuk render kartu
-        function renderCards(data) {
-            const cardContainer = $('#cardContainer');
-            cardContainer.empty();
-
-            data.forEach(category => {
-                const productDetails = category.products.map(product => `
-                    <li>
-                        <strong>${product.name_product}:</strong> ${formatRupiah(product.total_amount)}
-                    </li>
-                `).join('');
-
-                cardContainer.append(`
-                    <div class="col-auto">
-                        <div class="card shadow-sm" style="width: 230px; height: 200px; margin-bottom: 20px; border-radius: 10px;">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">${category.name_kategori}</h5>
-                                    <ul class="list-unstyled mt-3">
-                                        ${productDetails}
-                                    </ul>
-                            </div>
-                        </div>
-                    </div> 
-                `);
-            });
-        }
 
         // Fungsi untuk format mata uang Rupiah
         function formatRupiah(angka) {
@@ -650,87 +644,6 @@
             return 'Rp. ' + rupiah;
         }
          //END CARD
-
-
-        //NUMBER FORMAT TO CURRENCY RUPIAH
-        function formatRupiah(number) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
-        }
-
-        function categoryProduct(option) {
-            const base_url = $('meta[name="base_url"]').attr('content');
-            $.ajax({
-                    url: base_url + 'admin/finance_record/get_total_by_product',
-                    type: 'POST',
-                    data: { option: option },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status) {
-                            const data = response.data;
-                            const cardContainer = $('#cardContainer');
-                            cardContainer.empty();
-
-                            const groupedData = groupByCategory(data);
-
-                            Object.keys(groupedData).forEach(category => {
-                                const products = groupedData[category];
-                                let productDetails = '';
-
-                                products.forEach(product => {
-                                    const formattedAmount = formatRupiah(product.total_amount);
-                                    productDetails += `
-                                        <li>${product.name_product}: ${formattedAmount}</li>
-                                    `;
-                                });
-
-                                cardContainer.append(`
-                                <div class="col-auto">
-                                        <div class="card shadow-sm" style="width: 230px; height: 200px; margin-bottom: 20px; border-radius: 10px;">
-                                            <div class="card-body">
-                                                <h5 class="card-title text-primary">${category}</h5>
-                                                <ul class="list-unstyled mt-3">
-                                                    ${productDetails}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                </div>  
-                                `);
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching totals by product:', error);
-                    }
-                });
-        }
-
-
-
-        //CARD TOTAL AMOUNT BY CATEGORI
-        function updateCards(data) {
-            const cardContainer = $('#card-container');
-            cardContainer.empty(); // Clear old cards
-
-            data.forEach(category => {
-                const formattedAmount = formatRupiah(category.total_amount); // Format angka ke Rupiah
-                cardContainer.append(`
-                    <div class="col-auto">
-                        <div class="card shadow-sm" id="totalsAmountCard" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">${category.name_kategori}</h5>
-                                <ul class="list-unstyled mt-3">
-                                    <li>
-                                        <strong>Total :</strong> 
-                                        <span class="text-success">${formattedAmount}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>  
-                `);
-            });
-        }
-
 
         $('#applyCustomDate').on('click', function () {
             startDate = $('#startDate').val();

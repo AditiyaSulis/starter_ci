@@ -8,11 +8,14 @@ class m_Finance_records extends CI_Model {
     private $column_search = array('F.created_at', 'F.record_date', 'C.name_kategori', 'P.name_product', 'F.amount', 'A.name_code', 'F.description'); 
     private $order = array('F.record_date' => 'desc'); 
     
-    public function findByProductId_get($id){
+    public function findByProductId_get($id)
+    {
         return $this->db->get_where('finance_records', ['product_id' => $id])->row_array();
     }
 
-    public function get_all_join(){
+
+    public function get_all_join()
+    {
 
         $this->db->select('F.*, A.name_code, A.code, P.name_product, C.id_kategori, C.name_kategori');
         $this->db->from('finance_records F');
@@ -26,11 +29,15 @@ class m_Finance_records extends CI_Model {
         return $query->result_array();
     }
 
-    public function findById_get($id){
+
+    public function findById_get($id)
+    {
         return $this->db->get_where('finance_records', ['id_record' => $id])->row_array();
     }
 
-    public function create_post($data){
+
+    public function create_post($data)
+    {
         if ($this->db->insert('finance_records', $data)) {
             return true;
         } else {
@@ -38,21 +45,29 @@ class m_Finance_records extends CI_Model {
         }
     }
 
-    public function update_post($id, $data) {
+
+    public function update_post($id, $data)
+    {
         $this->db->where('id_record', $id);
         return $this->db->update('finance_records', $data);
     }
 
-    public function findByIdAc_get($id){
+
+    public function findByIdAc_get($id)
+    {
        return $this->db->get_where('finance_records', ['id_code' => $id])->row_array();
     }
 
-    public function delete($id){
+
+    public function delete($id)
+    {
 
         return $this->db->delete('finance_records', ['id_record' => $id]);
     }
 
-    public function totalFinanceRecords_get(){
+
+    public function totalFinanceRecords_get()
+    {
         $count =  $this->db->get('finance_records')->num_rows();
     
         return $count;
@@ -96,6 +111,7 @@ class m_Finance_records extends CI_Model {
 				break;
 		}
 	}
+
 
     private function _get_datatables_query($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null)
     {
@@ -142,6 +158,7 @@ class m_Finance_records extends CI_Model {
            }
     }
    
+
     public function get_datatables($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null )
     {
            $this->_get_datatables_query($option, $startDate, $endDate, $product, $code, $category);
@@ -152,13 +169,15 @@ class m_Finance_records extends CI_Model {
            return $query->result();
     }
    
+
      public function count_filtered($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null)
     {
         $this->_get_datatables_query($option, $startDate, $endDate, $product, $code, $category);
         $query = $this->db->get();
         return $query->num_rows();
     }
-   
+
+
     public function count_all()
     {
         $this->db->from($this->table);
@@ -166,7 +185,8 @@ class m_Finance_records extends CI_Model {
     }
 
 
-    public function getAmountSumByCategory($filter) {
+    public function getAmountSumByCategory($filter)
+    {
         $this->db->select('C.name_kategori, SUM(F.amount) as total_amount');
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
@@ -181,28 +201,101 @@ class m_Finance_records extends CI_Model {
         return $query->result_array();
     }
 
-    public function getAmountSumByCategoryAndProduct($filter) {
-        $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
+
+    public function getAmountSumByProductAndCategory($filter)
+    {
+        $this->db->select('P.name_product, C.name_kategori, SUM(F.amount) as total_amount');
         $this->db->from('finance_records F');
-        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); 
-        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');  
-        $this->db->join('products P', 'P.id_product = F.product_id', 'left'); 
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');
+        $this->db->join('products P', 'P.id_product = F.product_id', 'left');
     
-        
         $this->_totalFilter($filter);
     
-        $this->db->group_by(['C.name_kategori', 'P.name_product']); 
-        $this->db->order_by('C.name_kategori', 'asc');
+        $this->db->group_by(['P.name_product', 'C.name_kategori']);
         $this->db->order_by('P.name_product', 'asc');
+        $this->db->order_by('C.name_kategori', 'asc');
     
         $query = $this->db->get();
         return $query->result_array();
     }
 
+   
+    public function getTotalAmountByCategory($filter) {
+        $this->_totalFilter($filter);  
+
+        $this->db->select('C.id_kategori, C.name_kategori, SUM(F.amount) AS total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
+        $this->db->group_by('C.id_kategori');
+
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+        foreach ($result as &$category) {
+            $category['total_amount'] = (float) $category['total_amount'];
+        }
+
+        return $result;
+    }
+
+    public function getTotalAmountByProductAndCategory($filter) {
+
+        $this->_totalFilter($filter);  
+
+        $this->db->select('P.id_product, P.name_product, C.id_kategori, SUM(F.amount) AS total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code');
+        $this->db->join('products P', 'P.id_product = F.product_id');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
+        $this->db->group_by(['P.id_product', 'C.id_kategori']);
+    
+        $query = $this->db->get();
+        $result = $query->result_array();
  
+        foreach ($result as &$product) {
+            $product['total_amount'] = (float) $product['total_amount'];
+        }
+    
+        return $result;
+    }
+
+
+    public function getAmountSummaryByFilter($filter)
+    {
+        // Terapkan filter waktu
+        $this->_totalFilter($filter);
+
+        // Query total amount per kategori
+        $this->db->select('C.name_kategori, SUM(F.amount) as total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');
+        $this->db->group_by('C.name_kategori');
+        $categories = $this->db->get()->result_array();
+
+        // Terapkan filter ulang untuk query produk
+        $this->_totalFilter($filter);
+
+        // Query total amount per kategori per produk
+        $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
+        $this->db->from('finance_records F');
+        $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori', 'left');
+        $this->db->join('products P', 'P.id_product = F.product_id', 'left');
+        $this->db->group_by(['C.name_kategori', 'P.name_product']);
+        $products = $this->db->get()->result_array();
+
+        return [
+            'categories' => $categories,
+            'products' => $products,
+        ];
+    }
     
 
-    public function getAmountSummary($filter) {
+    public function getAmountSummary($filter)
+    {
         $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code', 'left'); 
@@ -239,9 +332,9 @@ class m_Finance_records extends CI_Model {
         return array_values($output);
     }
     
-    
-    
-    private function _totalFilter($filter) {
+
+    private function _totalFilter($filter)
+    {
         switch ($filter) {
             case 'today':
                 $this->db->where('F.record_date', date('Y-m-d'));

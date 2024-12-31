@@ -1,14 +1,16 @@
 <?php
 class Employee extends MY_Controller{
 
-    function __construct(){
+    function __construct()
+    {
         parent::__construct();
         $this->load->model('m_Employees');
         $this->load->model('m_Products');
 
     }
 
-    public function employee_page(){
+    public function employee_page()
+    {
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
 
@@ -198,7 +200,8 @@ class Employee extends MY_Controller{
         
     }
 
-    public function delete(){
+    public function delete()
+    {
         $this->_ONLY_SU();
 
         $id = $this->input->post('id_employee');

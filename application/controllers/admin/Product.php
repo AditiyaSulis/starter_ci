@@ -101,7 +101,8 @@ class Product extends MY_Controller{
 
 
 
-    public function update() {
+    public function update() 
+    {
         $this->_ONLY_SU();
 
         $id = $this->input->post('id_product', true);
@@ -200,7 +201,8 @@ class Product extends MY_Controller{
         }
     }
 
-    public function delete(){
+    public function delete()
+    {
         $this->_ONLY_SU();
 
         $id = $this->input->post('id_product');
