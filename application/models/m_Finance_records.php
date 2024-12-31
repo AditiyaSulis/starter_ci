@@ -264,10 +264,9 @@ class m_Finance_records extends CI_Model {
 
     public function getAmountSummaryByFilter($filter)
     {
-        // Terapkan filter waktu
+
         $this->_totalFilter($filter);
 
-        // Query total amount per kategori
         $this->db->select('C.name_kategori, SUM(F.amount) as total_amount');
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
@@ -275,10 +274,10 @@ class m_Finance_records extends CI_Model {
         $this->db->group_by('C.name_kategori');
         $categories = $this->db->get()->result_array();
 
-        // Terapkan filter ulang untuk query produk
+
         $this->_totalFilter($filter);
 
-        // Query total amount per kategori per produk
+
         $this->db->select('C.name_kategori, P.name_product, SUM(F.amount) as total_amount');
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code', 'left');
