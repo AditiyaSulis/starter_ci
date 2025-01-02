@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="edit_url">URL</label>
-                                    <input type="text" class="form-control" id="edit_url" name="url" required>
+                                    <input type="text" class="form-control" id="edit_url" name="url">
                                 </div>
                                     <div class="d-grid mb-10 mt-10">
                                         <button type="submit" class="btn btn-primary"><span class="indicator-label">

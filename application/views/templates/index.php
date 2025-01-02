@@ -33,6 +33,20 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
+    <style>
+        #exportPDF {
+            background-color: #17a2b8; /* Warna biru info */
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        #exportPDF:hover {
+            background-color: #138496; /* Warna biru lebih gelap saat hover */
+            color: white;
+        }
+    </style>
+
 
 </head>
 

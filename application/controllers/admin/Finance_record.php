@@ -312,55 +312,17 @@ class Finance_record extends MY_Controller{
     }
     
 
-    public function get_total_by_product_and_category() 
-    {
-        $filter = $this->input->post('option');
-
-        $data = $this->m_Finance_records->getAmountSumByProductAndCategory($filter);
-        $categories = $this->m_Categories->findAll_get();
-        $products = $this->m_Products->findAll_get();
-
-        if ($data) {
-            echo json_encode([
-                'status' => true,
-                'data' => $data,
-                'products' => $products,
-                'categories' => $categories
-            ]);
-        } else {
-            echo json_encode([
-                'status' => false,
-                'message' => 'No data found.',
-                'products' => $products,
-                'categories' => $categories
-            ]);
-        }
-    }
-        
-    public function get_amount_summary() 
-    {
-        $option = $this->input->post('option', true) ?? 'this_month';
-        $result = $this->m_Finance_records->getAmountSummary($option);
-        $categories = $this->m_Categories->findAll_get();
-        $products = $this->m_Products->findAll_get();
-    
-        echo json_encode([
-            'status' => true,
-            'data' => $result,
-            'products' => $products,
-            'categories' => $categories
-        ]);
-    }
-
     public function getFilteredSummary()
     {
         $filter = $this->input->post('option');
+        $startDate = $this->input->post('startDate');
+        $endDate = $this->input->post('endDate');
         if($filter){
-            $categories = $this->m_Finance_records->getTotalAmountByCategory($filter);
-            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory($filter);
+            $categories = $this->m_Finance_records->getTotalAmountByCategory($filter, $startDate, $endDate);
+            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory($filter, $startDate, $endDate);
         } else {
-            $categories = $this->m_Finance_records->getTotalAmountByCategory('this_month');
-            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory('this_month');
+            $categories = $this->m_Finance_records->getTotalAmountByCategory('this_month', $startDate, $endDate);
+            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory('this_month', $startDate, $endDate);
         }
         
 

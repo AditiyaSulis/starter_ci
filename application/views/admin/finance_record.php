@@ -1,8 +1,6 @@
 <main>
     <h1 class="mb-4">Finance Record</h1>
 
-
-
     <div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 mt-3" id="card-container1">
         <?php foreach ($categories as $category): ?>
         <div class="col">
@@ -65,55 +63,6 @@
         </div>
     </div>
 
-    <!-- <div class="mt-6 p-7 mb-6" style="border-radius: 10px; background-color:rgb(223, 229, 235);">
-        <div class="mt-6 mb-6">
-            <h3>Summary Total Amount By Category</h3>
-        </div>
-
-        <div class="row justify-content-start" id="card-container1">
-            <?php foreach ($categories as $category): ?>
-            <div class="col-auto">
-                <div class="card shadow-sm" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary"><?= $category['name_kategori'] ?></h5>
-                        <ul class="list-unstyled mt-3">
-                            <li>
-                                <strong>Total:</strong>
-                                <span class="text-success" data-category-id="<?= $category['id_kategori'] ?>">
-                                    Rp.<?= isset($category['total_amount']) ? number_format($category['total_amount'], 0, ',', '.') : '0' ?>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-
-        <div class="row justify-content-start" id="cardContainer1">
-            <?php foreach ($products as $product): ?>
-            <div class="col-auto">
-                <div class="card shadow-sm" style="width: 230px; margin-bottom: 20px; border-radius: 10px;">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary"><?= $product['name_product'] ?></h5>
-                        <ul class="list-unstyled mt-3">
-                            <?php foreach ($categories as $category): ?>
-                            <li>
-                                <strong><?= $category['name_kategori'] ?>:</strong>
-                                <span class="text-success" data-product-id="<?= $product['id_product'] ?>"
-                                    data-category-id="<?= $category['id_kategori'] ?>">
-                                    Rp.<?= number_format(0, 0, ',', '.') ?>
-                                </span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div> -->
-
     <div class="d-flex justify-content-between flex-wrap mt-5">
         <button type="button" class="btn btn-primary rounded-pill btn-flex  mt-3" data-bs-toggle="modal"
             data-bs-target="#addProduct">
@@ -169,6 +118,12 @@
                 <i class="ti ti-reload"></i> Clear Filter
             </button>
         </div>
+        <div id="custom-button-container" class="col-12 col-md-auto mt-8">
+            <button id="exportPDF" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
+                <i class="ti ti-download"></i> Export to PDF
+            </button>
+        </div>
+       
     </div>
 
     <div class="table-responsive mt-4">
@@ -410,12 +365,15 @@
     let accID = '';
 
 
-    function updateCards(filter) {
+    //MENAMPILKAN DATA KE CARD
+    function updateCards(filter, startdate, enddate) {
         $.ajax({
             url: base_url + 'admin/finance_record/getFilteredSummary',
             type: 'POST',
             data: {
-                option: filter
+                option: filter,
+                startDate: startdate,
+                endDate: enddate
             },
             dataType: 'json',
             success: function(response) {
@@ -449,6 +407,7 @@
         });
     }
 
+    //INISIALISASI NILAI AWAL CARD
     updateCards('this_month');
 
 
@@ -471,6 +430,7 @@
     });
 
 
+    //KATEGORY TO ACCOUNT
     function getAccount(categoryId) {
         $.ajax({
             url: base + 'admin/finance_record/option_acc',
@@ -500,6 +460,7 @@
         });
     }
 
+    // ------------EDIT FINANCE
     function editFinanceBtn(element) {
         let $element = $(element);
 
@@ -518,8 +479,7 @@
 
         $("#editfinanceModal").modal("show");
     }
-
-    // ------------EDIT FINANCE
+    
     $(document).ready(function() {
         const base_url = $('meta[name="base_url"]').attr('content');
 
@@ -611,7 +571,6 @@
         });
     }
 
-
     //-----------------------DATATABLE
     //--------TEST FILTER
 
@@ -619,55 +578,87 @@
         table = $('#finances_table').DataTable({
             responsive: false,
             autoWidth: false,
-            "processing": true,
-            "serverSide": true,
-            "order": [],
-            "ajax": {
-                "url": base + 'admin/finance_record/dtSideServer',
-                "type": "POST",
-                data: function(d) {
+            processing: true,
+            serverSide: true,
+            order: [],
+            ajax: {
+                url: base + 'admin/finance_record/dtSideServer',
+                type: "POST",
+                data: function (d) {
                     d.option = option;
                     d.startDate = startDate;
                     d.endDate = endDate;
                     d.product = product;
                     d.code = code;
                     d.type = type;
-
-                    console.log('Filter Data:', {
-                        option,
-                        startDate,
-                        endDate,
-                        product,
-                        code,
-                        type
-                    });
-                }
+                },
             },
-            dom: 'Bfrtip', 
+            dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
             buttons: [
                 {
                     extend: 'pdfHtml5',
-                    text: 'Export to PDF',
+                    text: 'Export',
                     title: 'Finance Report',
+                    className: 'd-none',
                     exportOptions: {
                         columns: ':not(.no-print)', 
                     },
-                    customize: function(doc) {
+                    customize: function (doc) {
                         doc.styles.tableHeader.alignment = 'left';
-                    }
-                }
-            ],
-            columnDefs: [{
-                    "targets": "_all",
-                    orderable: false
+                        doc.content[1].margin = [10, 15, 10, 10];
+                        doc.styles.tableHeader.fontSize = 10;
+                        doc.styles.tableBodyOdd.fontSize = 8;
+                        doc.styles.tableBodyEven.fontSize = 8;
+
+                        var totalsByProduct = {};
+
+                        table.rows({ page: 'current' }).data().each(function (row) {
+                            var product = row[3];
+                            var amount = row[4].replace(/[^0-9,-]+/g, ''); 
+
+                            amount = parseFloat(amount.replace(',', ''));
+                            if (totalsByProduct[product]) {
+                                totalsByProduct[product] += amount;
+                            } else {
+                                totalsByProduct[product] = amount;
+                            }
+                        });
+
+                        var productTotals = Object.keys(totalsByProduct);
+                        productTotals.forEach(function (product) {
+                            doc.content.push({
+                                text: product + ': Rp. ' + totalsByProduct[product].toLocaleString('id-ID')+'\n -----------------------------------------',
+                                fontSize: 8,
+                                alignment: 'left',
+                                margin: [10, 10, 0, 0],
+                            });
+                        });
+
+                        var totalAmount = 0;
+                        table.rows({ page: 'current' }).data().each(function (row) {
+                            var amount = row[4].replace(/[^0-9,-]+/g, ''); 
+                            totalAmount += parseFloat(amount.replace(',', ''));
+                        });
+
+                        doc.content.push({
+                            text: 'Total Amount (Overall): Rp. ' + totalAmount.toLocaleString('id-ID')+'\n _________________________________________________',
+                            fontSize: 8,
+                            alignment: 'left',
+                            margin: [10, 15, 0, 0],
+                        });
+                    },
                 },
-                {
-                    "targets": 0,
-                    "className": "text-start"
-                }
-            ]
+            ],
+            initComplete: function () {
+                table.buttons().container().appendTo('#custom-button-container');
+            },
+            columnDefs: [
+                { targets: "_all", orderable: false },
+                { targets: 0, className: "text-start" },
+            ],
         });
     }
+
 
     callDT();
 
@@ -722,6 +713,7 @@
         $('#customDateModal').modal('hide');
         option = 'custom';
         table.ajax.reload();
+        updateCards(option, startDate, endDate);
     });
 
     // --------- FILTER CATEGORY
@@ -774,5 +766,12 @@
         updateCards(option)
         table.ajax.reload();
     });
+
+    //EVENT LISTENER tombol export PDF DataTables
+    $('#exportPDF').on('click', function () {
+        table.button('.buttons-pdf').trigger(); 
+    });
+
+
     </script>
 </main>
