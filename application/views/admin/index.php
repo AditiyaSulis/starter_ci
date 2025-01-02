@@ -1,16 +1,16 @@
-<main> 
+<main>
     <?php if ($this->session->flashdata('authorize')): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= $this->session->flashdata('authorize'); ?>
-                </div>
+    <div class="alert alert-danger" role="alert">
+        <?= $this->session->flashdata('authorize'); ?>
+    </div>
     <?php endif; ?>
     <h1>Halaman Admin</h1>
 
-    <div class="container mt-12" style="border: 2px dashe #000; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
-        <div class="row"  style="display: flex;">
+    <div class=" mt-12" style="border: 2px dashe #000; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
+        <div class="row" style="display: flex;">
             <!-- Card 1 -->
             <div class="col-md-4">
-                <div class="card"  style="width:220px;  margin-right: 10px;">
+                <div class="card" style="width:220px;  margin-right: 10px;">
                     <div class="card-body">
                         <h5 class="card-title"> <?= $allSuperUsers?></h5>
                         <p class="card-text">Total Super Users</p>
@@ -65,5 +65,5 @@
             </div>
         </div>
     </div>
-    
+
 </main>
