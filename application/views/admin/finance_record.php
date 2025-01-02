@@ -408,7 +408,7 @@
     }
 
     //INISIALISASI NILAI AWAL CARD
-    updateCards('this_month');
+    updateCards('this_month', null, null);
 
 
     $(document).ready(function() {
