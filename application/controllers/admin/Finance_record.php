@@ -244,6 +244,7 @@ class Finance_record extends MY_Controller{
     
         foreach ($list as $item) {
             $action = '
+                        <div class="no-print">
                             <a href="javascript:void(0)" onclick="editFinanceBtn(this)" class="btn btn-warning btn-sm btn-sm mb-2 rounded-pill" 
                                 data-id="' . htmlspecialchars($item->id_record) . '"
                                 data-id_code="' . htmlspecialchars($item->id_code) . '"
@@ -259,6 +260,7 @@ class Finance_record extends MY_Controller{
                                 onClick="handleDeleteButton(' . htmlspecialchars($item->id_record) . ')">
                                 Delete
                             </button>
+                        </div>
                     ';
             $row = array();
             $row[] = date('d M Y H:i:s', strtotime($item->created_at)); 

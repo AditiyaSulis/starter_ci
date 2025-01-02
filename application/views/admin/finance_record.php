@@ -182,7 +182,7 @@
                     <th>Amount</th>
                     <th>Code</th>
                     <th>Description</th>
-                    <th>Action</th>
+                    <th class="no-print">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -643,6 +643,20 @@
                     });
                 }
             },
+            dom: 'Bfrtip', 
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Export to PDF',
+                    title: 'Finance Report',
+                    exportOptions: {
+                        columns: ':not(.no-print)', 
+                    },
+                    customize: function(doc) {
+                        doc.styles.tableHeader.alignment = 'left';
+                    }
+                }
+            ],
             columnDefs: [{
                     "targets": "_all",
                     orderable: false
@@ -667,48 +681,6 @@
             $('#customDateModal').modal('show');
         } else {
             table.ajax.reload();
-            // $.ajax({
-            //     url: base_url + 'admin/finance_record/getFilteredSummary',
-            //     type: 'POST',
-            //     data: { option: option },  
-            //     dataType: 'json',
-            //     success: function (response) {
-            //         console.log(response);  
-
-            //         if (response.status) {
-
-            //             $('#card-container1 span').each(function () {
-            //                 $(this).text('Rp.0');
-            //             });
-
-            //             response.categories.forEach(category => {
-            //                 const span = $(`[data-category-id="${category.id_kategori}"]`);
-            //                 if (span.length) {
-            //                     span.text(`Rp.${category.total_amount ? category.total_amount.toLocaleString('id-ID') : '0'}`);
-            //                 }
-            //             }); 
-
-            //             response.categories.forEach(category => {
-            //                 const span = $(`[data-category-id="${category.id_kategori}"]`);
-            //                 span.text(`Rp.${category.total_amount ? category.total_amount.toLocaleString('id-ID') : '0'}`);
-            //             });
-
-            //             $('#cardContainer1 span').each(function () {
-            //                 $(this).text('Rp.0');
-            //             });
-
-            //             response.products.forEach(product => {
-            //                 const span = $(`[data-product-id="${product.id_product}"][data-category-id="${product.id_kategori}"]`);
-            //                 if (span.length) {
-            //                     span.text(`Rp.${(product.total_amount || 0).toLocaleString('id-ID')}`);
-            //                 }
-            //             });
-            //         }
-            //     },
-            //     error: function (xhr, status, error) {
-            //         console.error('AJAX Error:', error, 'XHR:', xhr);  
-            //     }
-            // });
 
             updateCards(option)
         }
