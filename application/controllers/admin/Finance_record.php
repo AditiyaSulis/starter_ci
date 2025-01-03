@@ -263,7 +263,7 @@ class Finance_record extends MY_Controller{
                         </div>
                     ';
             $row = array();
-            $row[] = date('d M Y H:i:s', strtotime($item->created_at)); 
+            $row[] = '<div class="no-print">'.date('d M Y H:i:s', strtotime($item->created_at)).'</div>'; 
             $row[] = date('d F Y', strtotime($item->record_date)); 
             $row[] = $item->name_kategori;
             $row[] = $item->name_product; 

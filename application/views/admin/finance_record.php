@@ -130,7 +130,7 @@
         <table id="finances_table" class="table table-bordered table-striped w-100">
             <thead>
                 <tr>
-                    <th>Created At</th>
+                    <th class="no-print">Created At</th>
                     <th>Record Date</th>
                     <th>Type</th>
                     <th>Product</th>
@@ -574,6 +574,136 @@
     //-----------------------DATATABLE
     //--------TEST FILTER
 
+    // function callDT() {
+    //     table = $('#finances_table').DataTable({
+    //         responsive: false,
+    //         autoWidth: false,
+    //         processing: true,
+    //         serverSide: true,
+    //         order: [],
+    //         ajax: {
+    //             url: base + 'admin/finance_record/dtSideServer',
+    //             type: "POST",
+    //             data: function (d) {
+    //                 d.option = option;
+    //                 d.startDate = startDate;
+    //                 d.endDate = endDate;
+    //                 d.product = product;
+    //                 d.code = code;
+    //                 d.type = type;
+    //             },
+    //         },
+    //         dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
+    //         buttons: [
+    //             {
+    //                 extend: 'pdfHtml5',
+    //                 text: 'Export',
+    //                 title: 'Finance Report',
+    //                 className: 'd-none',
+    //                 exportOptions: {
+    //                     columns: ':not(.no-print)', 
+    //                 },
+    //                 customize: function (doc) {
+    //                     doc.styles.tableHeader.alignment = 'left';
+    //                     doc.content[1].margin = [10, 15, 10, 10];
+    //                     doc.styles.tableHeader.fontSize = 10;
+    //                     doc.styles.tableBodyOdd.fontSize = 8;
+    //                     doc.styles.tableBodyEven.fontSize = 8;
+
+    //                     var totalsByProduct = {};
+
+    //                     table.rows({ page: 'current' }).data().each(function (row) {
+    //                         var product = row[3];
+    //                         var amount = row[4].replace(/[^0-9,-]+/g, ''); 
+
+    //                         amount = parseFloat(amount.replace(',', ''));
+    //                         if (totalsByProduct[product]) {
+    //                             totalsByProduct[product] += amount;
+    //                         } else {
+    //                             totalsByProduct[product] = amount;
+    //                         }
+    //                     });
+
+    //                     var productTotals = Object.keys(totalsByProduct);
+    //                     productTotals.forEach(function (product) {
+    //                         doc.content.push({
+    //                             text: product + ': Rp. ' + totalsByProduct[product].toLocaleString('id-ID')+'\n -----------------------------------------',
+    //                             fontSize: 8,
+    //                             alignment: 'left',
+    //                             margin: [10, 10, 0, 0],
+    //                         });
+    //                     });
+
+    //                     var totalAmount = 0;
+    //                     table.rows({ page: 'current' }).data().each(function (row) {
+    //                         var amount = row[4].replace(/[^0-9,-]+/g, ''); 
+    //                         totalAmount += parseFloat(amount.replace(',', ''));
+    //                     });
+
+    //                     doc.content.push({
+    //                         text: 'Total Amount (Overall): Rp. ' + totalAmount.toLocaleString('id-ID')+'\n _________________________________________________',
+    //                         fontSize: 8,
+    //                         alignment: 'left',
+    //                         margin: [10, 15, 0, 0],
+    //                     });
+    //                 },
+    //             },
+    //         ],
+    //         initComplete: function () {
+    //             table.buttons().container().appendTo('#custom-button-container');
+    //         },
+    //         columnDefs: [
+    //             { targets: "_all", orderable: false },
+    //             { targets: 0, className: "text-start" },
+    //         ],
+    //     });
+    // }
+
+    // function callDT(){
+    //     table =$('#finances_table').DataTable({
+    //         responsive: false,
+    //         autoWidth: false,
+    //         processing: true,
+    //         serverSide: true,
+    //         order: [],
+    //         ajax:{
+    //             url: base + 'admin/finance_record/dtSideServer',
+    //             type: "POST",
+    //             data: function(d){
+    //                 d.option = option;
+    //                 d.startDate = startDate;
+    //                 d.endDate = endDate;
+    //                 d.product = product;
+    //                 d.code = code;
+    //                 d.type = type;
+    //             },
+    //         },
+
+    //         dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
+    //         buttons: [
+    //             extend: 'pdfHtml5',
+    //             text: 'Export',
+    //             title: 'Finance Report',
+    //             className:'d-none',
+    //             exportOptions: {
+    //                 columns: ':not(.no-print',
+    //             },
+    //             customize: function (doc) {
+    //                 doc.styles.tableHeader.fontSize= 10;
+    //                 doc.styles.tabkeBodyOdd.fontSize= 8;
+    //                 doc.styles.tableBodyEven.fontSize= 10;
+
+    //                 doc.content[1].margin = [10,15,10,10];
+
+    //                 var totalByProduct = [];
+    //                 var totalAmount = 0 ;
+
+    //                 table.rows({page: 'current'}.data())
+    //             }
+    //         ]
+    //     })
+    // }
+
     function callDT() {
         table = $('#finances_table').DataTable({
             responsive: false,
@@ -601,19 +731,21 @@
                     title: 'Finance Report',
                     className: 'd-none',
                     exportOptions: {
-                        columns: ':not(.no-print)', 
+                        columns: ':not(.no-print)',
                     },
                     customize: function (doc) {
-                        doc.styles.tableHeader.alignment = 'left';
-                        doc.content[1].margin = [10, 15, 10, 10];
+
                         doc.styles.tableHeader.fontSize = 10;
                         doc.styles.tableBodyOdd.fontSize = 8;
                         doc.styles.tableBodyEven.fontSize = 8;
 
+                        doc.content[1].margin = [10, 15, 10, 10];
+
                         var totalsByProduct = {};
+                        var totalAmount = 0;
 
                         table.rows({ page: 'current' }).data().each(function (row) {
-                            var product = row[3];
+                            var product = row[3]; 
                             var amount = row[4].replace(/[^0-9,-]+/g, ''); 
 
                             amount = parseFloat(amount.replace(',', ''));
@@ -624,29 +756,43 @@
                             }
                         });
 
-                        var productTotals = Object.keys(totalsByProduct);
-                        productTotals.forEach(function (product) {
-                            doc.content.push({
-                                text: product + ': Rp. ' + totalsByProduct[product].toLocaleString('id-ID')+'\n -----------------------------------------',
-                                fontSize: 8,
-                                alignment: 'left',
-                                margin: [10, 10, 0, 0],
-                            });
+                        var totalAmountTable = [
+                            [
+                                { text: 'Product', style: 'tableHeader', alignment: 'left', fontSize: '10' },
+                                { text: 'Total Amount', style: 'tableHeader', alignment: 'left', fontSize: '10'},
+                            ]
+                        ];
+
+                        Object.keys(totalsByProduct).forEach(function (product) {
+                            totalAmountTable.push([
+                                { text: product, style: 'tableBody', alignment: 'left', fontSize: '8' },
+                                { text: 'Rp. ' + totalsByProduct[product].toLocaleString('id-ID'), style: 'tableBody', alignment: 'left', fontSize: '8' },
+                            ]);
+                            totalAmount += totalsByProduct[product];
                         });
 
-                        var totalAmount = 0;
-                        table.rows({ page: 'current' }).data().each(function (row) {
-                            var amount = row[4].replace(/[^0-9,-]+/g, ''); 
-                            totalAmount += parseFloat(amount.replace(',', ''));
+                        totalAmountTable.push([
+                            { text: 'Overall Total', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                            { text: 'Rp. ' + totalAmount.toLocaleString('id-ID'), style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        ]);
+
+                        doc.content.push({
+                            text: 'Summary of Total Amount',
+                            style: 'header',
+                            margin: [10, 20, 0, 10], 
                         });
 
                         doc.content.push({
-                            text: 'Total Amount (Overall): Rp. ' + totalAmount.toLocaleString('id-ID')+'\n _________________________________________________',
-                            fontSize: 8,
-                            alignment: 'left',
-                            margin: [10, 15, 0, 0],
+                            table: {
+                                widths: ['30%', 'auto'],
+                                body: totalAmountTable,
+                            },
+                            layout: 'lightHorizontalLines',
+                                margin: [10, 5, 0, 10], 
+
                         });
                     },
+
                 },
             ],
             initComplete: function () {
@@ -658,7 +804,6 @@
             ],
         });
     }
-
 
     callDT();
 
