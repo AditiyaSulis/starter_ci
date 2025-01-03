@@ -19,7 +19,8 @@ class Account_code extends MY_Controller{
        $data['title'] = 'Account Code & Category';
        $data['view_name'] = 'admin/account_code';
        $data['breadcrumb'] = 'Account Code';
-
+       
+       $data['categories'] = $this->m_Categories->findAll_get();
        $data['account_code'] = $this->m_Account_code->findAllWithJoin_get();
 
        if($data['user']) {
@@ -34,6 +35,7 @@ class Account_code extends MY_Controller{
 
     public function add_account_code()
     {
+        $this->_isAjax();
         $this->_ONLY_SU();
 
         $this->form_validation->set_rules('id_kategori', 'Id_kategori', 'required', [
@@ -88,6 +90,7 @@ class Account_code extends MY_Controller{
     public function update() 
     {
 
+        $this->_isAjax();
         $this->_ONLY_SU();
         $id = $this->input->post('id_code', true);
         if (!$id) {
@@ -167,6 +170,7 @@ class Account_code extends MY_Controller{
 
     public function delete()
     {
+        $this->_isAjax();
         $this->_ONLY_SU();
 
         $id = $this->input->post('id_code');

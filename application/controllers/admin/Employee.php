@@ -32,6 +32,7 @@ class Employee extends MY_Controller{
     public function add_employees()
     {
         $this->_ONLY_SU();
+        $this->_isAjax();
 
         $this->form_validation->set_rules('gender', 'Gender', 'required', [
             'required' => 'Gender harus diisi',
@@ -107,6 +108,7 @@ class Employee extends MY_Controller{
     public function update() {
 
         $this->_ONLY_SU();
+        $this->_isAjax();
         $id = $this->input->post('id_employee', true);
 
         $emp = $this->m_Employees->findById_get($id);
@@ -203,6 +205,7 @@ class Employee extends MY_Controller{
     public function delete()
     {
         $this->_ONLY_SU();
+        $this->_isAjax();
 
         $id = $this->input->post('id');
 
