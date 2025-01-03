@@ -2,7 +2,7 @@
     <h1>Account Code & Category</h1>
 
 <div class="row mt-12">
-    <div class="col-md-8 mb-4">
+    <div class="col-md-12 mb-4">
         <h4>Account Code</h4>
         <button type="button" class="btn btn-primary rounded-pill mt-3 mb-6 btn-sm" data-bs-toggle="modal" data-bs-target="#addProduct"> 
             <i class="ti ti-plus"></i>
@@ -28,7 +28,7 @@
                             <td><?= $ac['code']; ?></td>
                             <td><?= $ac['name_code']; ?></td>
                             <td> 
-                                <a  href="javascript:void(0)" onclick="editAcButton(this)" class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-ac" 
+                                <a href="javascript:void(0)" onclick="editAcButton(this)" class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-ac" 
                                         data-id_code="<?= $ac['id_code']; ?>"
                                         data-kategori="<?= $ac['id_kategori']; ?>"
                                         data-code="<?= $ac['code']; ?>"
@@ -47,33 +47,6 @@
         </div>
     </div>
     
-    <div class="col-md-4 mb-4 mt-15">
-        <div class="mt-5">
-            <h4>Category</h4>
-            <div class="table-responsive" style="overflow-x:auto;">
-                <table id="category_table" class="table table-bordered table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no2 = 1; ?>
-                        <?php foreach ($categories as $category): ?>
-                            <tr>
-                                <td><?=$no2 ?></td>
-                                <td><?= $category['name_kategori']?></td>
-                                <td><?= $category['type_kategori']?></td>
-                            </tr>
-                        <?php $no2++ ?>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 
 
@@ -194,7 +167,6 @@
 
 <script>
     $('#account_code_table').DataTable();
-    $('#category_table').DataTable();
 </script>
 
 </main>

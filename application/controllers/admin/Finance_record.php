@@ -24,16 +24,7 @@ class Finance_record extends MY_Controller{
         $data['categories'] = $this->m_Categories->findAll_get();
         $data['products'] = $this->m_Products->findAll_get();
         $data['account_code'] = $this->m_Account_code->findAll_get();
-    
-        // $option = $this->input->post('option') ?? 'this_month';
-    
-        // $default_filter = $this->input->post('filter') ?? 'this_month';
-        // $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($default_filter);
-        // $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByProductAndCategory($default_filter);
 
-        // $data['totals_amount'] = $this->m_Finance_records->getAmountSumByCategory($option);
-    
-        // $data['amount_by_products'] = $this->m_Finance_records->getAmountSumByProductAndCategory($option);
     
         if (isset($data['user']) && $data['user']) {
             $this->load->view('templates/index', $data);

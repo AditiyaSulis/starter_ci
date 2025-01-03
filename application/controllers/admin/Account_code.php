@@ -13,14 +13,13 @@ class Account_code extends MY_Controller{
 
     public function ac_page()
     {
-        $this->_ONLYSELECTED([1,2]);
+       $this->_ONLYSELECTED([1,2]);
        $data = $this->_basicData();
 
        $data['title'] = 'Account Code & Category';
        $data['view_name'] = 'admin/account_code';
        $data['breadcrumb'] = 'Account Code';
 
-       $data['categories'] = $this->m_Categories->findAll_get();
        $data['account_code'] = $this->m_Account_code->findAllWithJoin_get();
 
        if($data['user']) {

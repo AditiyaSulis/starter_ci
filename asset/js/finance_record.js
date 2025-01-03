@@ -176,23 +176,9 @@ $(document).ready(function () {
 });
 
 // EDIT EMPLOYEE
-
-
 $(document).ready(function () {
     var base_url = $('meta[name="base_url"]').attr('content');
-    $(".btn-edit-emp").on("click", function () {
-        const data = $(this).data();
-        $("#id_employee").val(data.id);
-        $("#name_product").val(data.product);
-        $("#date_in").val(data.dateIn);
-        $("#nip").val(data.nip);
-        $("#name").val(data.name);
-        $("#gender").val(data.gender);
-        $("#place_of_birth").val(data.placeOfBirth);
-        $("#date_of_birth").val(data.dateOfBirth);
-        $("#position").val(data.position);
-        $("#editEmployeeModal").modal("show");
-    });
+   
 
     $("#editEmployeeForm").on("submit", function (e) {
         e.preventDefault();
@@ -223,49 +209,49 @@ $(document).ready(function () {
 
 
 // DELETE EMPLOYEE
-$(document).ready(function () {
-    var base_url = $('meta[name="base_url"]').attr('content');
+// $(document).ready(function () {
+//     var base_url = $('meta[name="base_url"]').attr('content');
 
-    $(".btn-delete-emp").on("click", function () {
-        var id = $(this).data("id");
+//     $(".btn-delete-emp").on("click", function () {
+//         var id = $(this).data("id");
 
-        Swal.fire({
-            title: "Apakah Anda yakin?",
-            text: "Data karyawan ini akan dihapus secara permanen!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: base_url + "admin/employee/delete", 
-                    type: "POST",
-                    data: { id_employee: id },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.status) {
-                            swallMssg_s(response.message, false, 1500)
-                            .then(() =>  {
-                                location.reload();
-                            });
-                        } else {
-                            swallMssg_e(response.message, true, 0);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product' , true, 0).
-                        then(() =>  {
-                            location.reload();
-                        });
-                    }
-                });
-            }
-        });
-    });
-});
+//         Swal.fire({
+//             title: "Apakah Anda yakin?",
+//             text: "Data karyawan ini akan dihapus secara permanen!",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonColor: "#d33",
+//             cancelButtonColor: "#3085d6",
+//             confirmButtonText: "Ya, hapus!",
+//             cancelButtonText: "Batal"
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 $.ajax({
+//                     url: base_url + "admin/employee/delete", 
+//                     type: "POST",
+//                     data: { id_employee: id },
+//                     dataType: "json",
+//                     success: function (response) {
+//                         if (response.status) {
+//                             swallMssg_s(response.message, false, 1500)
+//                             .then(() =>  {
+//                                 location.reload();
+//                             });
+//                         } else {
+//                             swallMssg_e(response.message, true, 0);
+//                         }
+//                     },
+//                     error: function (xhr, status, error) {
+//                         swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product' , true, 0).
+//                         then(() =>  {
+//                             location.reload();
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     });
+// });
 
 
 

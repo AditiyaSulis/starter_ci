@@ -1,7 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
+
 class m_Employees extends CI_Model {
+    private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' ,'employee.position'); 
     
     public function findById_get($id)
     {
@@ -57,6 +60,36 @@ class m_Employees extends CI_Model {
         $count =  $this->db->get('employee')->num_rows();
     
         return $count;
+    }
+
+    public function getEmployeesData($product = null) 
+    {
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.position, employee.status, products.id_product, products.name_product');
+        $this->db->from('employee');
+        $this->db->join('products', 'products.id_product = employee.id_product', 'left');
+    
+        if ($product && $product !== 'All') {  
+            $this->db->where('employee.id_product', $product);
+        }
+
+        $i = 0;
+        foreach ($this->column_search as $item) {
+            if (@$_POST['search']['value']) {
+                if ($i === 0) { 
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if (count($this->column_search) - 1 === $i) {
+                    $this->db->group_end();
+                }
+            }
+            $i++;
+        }
+    
+        $query = $this->db->get();
+        return $query->result_array();  
     }
 
 

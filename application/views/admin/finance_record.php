@@ -460,6 +460,7 @@
         });
     }
 
+
     // ------------EDIT FINANCE
     function editFinanceBtn(element) {
         let $element = $(element);
@@ -479,6 +480,7 @@
 
         $("#editfinanceModal").modal("show");
     }
+
     
     $(document).ready(function() {
         const base_url = $('meta[name="base_url"]').attr('content');
@@ -526,6 +528,7 @@
             });
         });
     });
+    
 
     //------------DELETE FINANCE
     function handleDeleteButton(id) {
@@ -571,138 +574,26 @@
         });
     }
 
+
+     // Fungsi untuk format mata uang Rupiah
+     function formatRupiah(angka) {
+        var number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return 'Rp. ' + rupiah;
+    }
+
     //-----------------------DATATABLE
     //--------TEST FILTER
-
-    // function callDT() {
-    //     table = $('#finances_table').DataTable({
-    //         responsive: false,
-    //         autoWidth: false,
-    //         processing: true,
-    //         serverSide: true,
-    //         order: [],
-    //         ajax: {
-    //             url: base + 'admin/finance_record/dtSideServer',
-    //             type: "POST",
-    //             data: function (d) {
-    //                 d.option = option;
-    //                 d.startDate = startDate;
-    //                 d.endDate = endDate;
-    //                 d.product = product;
-    //                 d.code = code;
-    //                 d.type = type;
-    //             },
-    //         },
-    //         dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
-    //         buttons: [
-    //             {
-    //                 extend: 'pdfHtml5',
-    //                 text: 'Export',
-    //                 title: 'Finance Report',
-    //                 className: 'd-none',
-    //                 exportOptions: {
-    //                     columns: ':not(.no-print)', 
-    //                 },
-    //                 customize: function (doc) {
-    //                     doc.styles.tableHeader.alignment = 'left';
-    //                     doc.content[1].margin = [10, 15, 10, 10];
-    //                     doc.styles.tableHeader.fontSize = 10;
-    //                     doc.styles.tableBodyOdd.fontSize = 8;
-    //                     doc.styles.tableBodyEven.fontSize = 8;
-
-    //                     var totalsByProduct = {};
-
-    //                     table.rows({ page: 'current' }).data().each(function (row) {
-    //                         var product = row[3];
-    //                         var amount = row[4].replace(/[^0-9,-]+/g, ''); 
-
-    //                         amount = parseFloat(amount.replace(',', ''));
-    //                         if (totalsByProduct[product]) {
-    //                             totalsByProduct[product] += amount;
-    //                         } else {
-    //                             totalsByProduct[product] = amount;
-    //                         }
-    //                     });
-
-    //                     var productTotals = Object.keys(totalsByProduct);
-    //                     productTotals.forEach(function (product) {
-    //                         doc.content.push({
-    //                             text: product + ': Rp. ' + totalsByProduct[product].toLocaleString('id-ID')+'\n -----------------------------------------',
-    //                             fontSize: 8,
-    //                             alignment: 'left',
-    //                             margin: [10, 10, 0, 0],
-    //                         });
-    //                     });
-
-    //                     var totalAmount = 0;
-    //                     table.rows({ page: 'current' }).data().each(function (row) {
-    //                         var amount = row[4].replace(/[^0-9,-]+/g, ''); 
-    //                         totalAmount += parseFloat(amount.replace(',', ''));
-    //                     });
-
-    //                     doc.content.push({
-    //                         text: 'Total Amount (Overall): Rp. ' + totalAmount.toLocaleString('id-ID')+'\n _________________________________________________',
-    //                         fontSize: 8,
-    //                         alignment: 'left',
-    //                         margin: [10, 15, 0, 0],
-    //                     });
-    //                 },
-    //             },
-    //         ],
-    //         initComplete: function () {
-    //             table.buttons().container().appendTo('#custom-button-container');
-    //         },
-    //         columnDefs: [
-    //             { targets: "_all", orderable: false },
-    //             { targets: 0, className: "text-start" },
-    //         ],
-    //     });
-    // }
-
-    // function callDT(){
-    //     table =$('#finances_table').DataTable({
-    //         responsive: false,
-    //         autoWidth: false,
-    //         processing: true,
-    //         serverSide: true,
-    //         order: [],
-    //         ajax:{
-    //             url: base + 'admin/finance_record/dtSideServer',
-    //             type: "POST",
-    //             data: function(d){
-    //                 d.option = option;
-    //                 d.startDate = startDate;
-    //                 d.endDate = endDate;
-    //                 d.product = product;
-    //                 d.code = code;
-    //                 d.type = type;
-    //             },
-    //         },
-
-    //         dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
-    //         buttons: [
-    //             extend: 'pdfHtml5',
-    //             text: 'Export',
-    //             title: 'Finance Report',
-    //             className:'d-none',
-    //             exportOptions: {
-    //                 columns: ':not(.no-print',
-    //             },
-    //             customize: function (doc) {
-    //                 doc.styles.tableHeader.fontSize= 10;
-    //                 doc.styles.tabkeBodyOdd.fontSize= 8;
-    //                 doc.styles.tableBodyEven.fontSize= 10;
-
-    //                 doc.content[1].margin = [10,15,10,10];
-
-    //                 var totalByProduct = [];
-    //                 var totalAmount = 0 ;
-
-    //                 table.rows({page: 'current'}.data())
-    //             }
-    //         ]
-    //     })
-    // }
 
     function callDT() {
         table = $('#finances_table').DataTable({
@@ -738,8 +629,10 @@
                         doc.styles.tableHeader.fontSize = 10;
                         doc.styles.tableBodyOdd.fontSize = 8;
                         doc.styles.tableBodyEven.fontSize = 8;
+                 
 
                         doc.content[1].margin = [10, 15, 10, 10];
+
 
                         var totalsByProduct = {};
                         var totalAmount = 0;
@@ -779,7 +672,7 @@
                         doc.content.push({
                             text: 'Summary of Total Amount',
                             style: 'header',
-                            margin: [10, 20, 0, 10], 
+                            margin: [10, 20, 0, 0], 
                         });
 
                         doc.content.push({
@@ -808,10 +701,8 @@
     callDT();
 
     // ---------- FILTER DATE
-    //-----CARD START
     $('#filterSelect').on('change', function() {
         option = $(this).val();
-        const base_url = $('meta[name="base_url"]').attr('content');
 
         if (option === 'custom') {
             $('#customDateModal').modal('show');
@@ -824,24 +715,7 @@
 
     });
 
-    // Fungsi untuk format mata uang Rupiah
-    function formatRupiah(angka) {
-        var number_string = angka.toString().replace(/[^,\d]/g, ''),
-            split = number_string.split(','),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-        if (ribuan) {
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return 'Rp. ' + rupiah;
-    }
-    //END CARD
-
+   
     $('#applyCustomDate').on('click', function() {
         startDate = $('#startDate').val();
         endDate = $('#endDate').val();
@@ -860,6 +734,7 @@
         table.ajax.reload();
         updateCards(option, startDate, endDate);
     });
+
 
     // --------- FILTER CATEGORY
     $('#filterCategory').on('change', function() {
@@ -888,12 +763,12 @@
     });
 
 
-
     //------------ FILTER CODE
     $('#filterCode').on('change', function() {
         code = $(this).val();
         table.ajax.reload();
     });
+
 
     //------------ CLEAR FILTER
     $('#clearFilter').on('click', function() {
@@ -912,11 +787,11 @@
         table.ajax.reload();
     });
 
+
     //EVENT LISTENER tombol export PDF DataTables
     $('#exportPDF').on('click', function () {
         table.button('.buttons-pdf').trigger(); 
     });
-
 
     </script>
 </main>

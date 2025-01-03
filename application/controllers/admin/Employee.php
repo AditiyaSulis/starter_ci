@@ -204,13 +204,14 @@ class Employee extends MY_Controller{
     {
         $this->_ONLY_SU();
 
-        $id = $this->input->post('id_employee');
+        $id = $this->input->post('id');
 
 
         if($this->m_Employees->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data karyawan berhasil dihapus',
+                'id' => $id
             ];
         } else {
             $response = [
@@ -221,6 +222,57 @@ class Employee extends MY_Controller{
         
         echo json_encode($response);
 
+    }
+
+    public function dtSideServer() {
+        $product = $this->input->post('product'); 
+    
+        $list = $this->m_Employees->getEmployeesData($product);
+        
+        $data = [];
+        $no = $this->input->post('start');  
+    
+        foreach($list as $item) {
+            $action = ' <a href="javascript:void(0)" onclick="editEmployeeBtn(this)" class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-emp" 
+                                data-id="'.htmlspecialchars($item['id_employee']).'"
+                                data-product="'.htmlspecialchars($item['id_product']).'"
+                                data-date_in="'.htmlspecialchars($item['date_in']).'"
+                                data-nip="'.htmlspecialchars($item['nip']).'"
+                                data-name="'.htmlspecialchars($item['name']).'"
+                                data-gender="'.htmlspecialchars($item['gender']).'"
+                                data-place_of_birth="'.htmlspecialchars($item['place_of_birth']).'"
+                                data-date_of_birth="'.htmlspecialchars($item['date_of_birth']).'"
+                                data-position="'.htmlspecialchars($item['position']).'">
+                            Edit
+                        </a>
+                        <button class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_employee']).')">
+                            DELETE
+                        </button>
+                     ';  
+            
+            $row = [];
+            $row[] = ++$no;  
+            $row[] = $item['name_product']; 
+            $row[] = $item['date_in'];  
+            $row[] = $item['nip'];  
+            $row[] = $item['name'];  
+            $row[] = $item['gender'] == 'L' ? 'Laki-laki' : 'Perempuan';  
+            $row[] = $item['place_of_birth'];  
+            $row[] = date('d F Y', strtotime($item['date_of_birth']));  
+            $row[] = $item['position'];  
+            $row[] = $action;  
+    
+            $data[] = $row;
+        }
+    
+        $output = [
+            "draw" =>@$_POST['draw'],
+            "recordsTotal" => count($list),  
+            "recordsFiltered" => count($list),  
+            "data" => $data,
+        ];
+    
+        echo json_encode($output);
     }
 
 

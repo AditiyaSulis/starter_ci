@@ -6,6 +6,18 @@
         Add Employee
     </button>
 
+    <div class="row g-3 align-items-center mt-4">
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Product:</label>
+            <select id="filter-product" class="form-select form-select-sm">
+                <option value="All" selected>All</option>
+                <?php foreach($products as $product):?>
+                    <option value="<?= $product['id_product']?>"><?= $product['name_product']?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+
     <div class="mt-6">
         <table id="employees_table" class="table table-bordered table-striped" style="width:100%">
             <thead>
@@ -24,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($employees as $employee): ?>
+                <!-- <?php foreach ($employees as $employee): ?>
                 <tr>
                     <td><?= $no; ?></td>
                     <td><?= $employee['name_product']; ?></td>
@@ -54,7 +66,7 @@
                     </td>
                 </tr>
                 <?php $no++?>
-                <?php endforeach; ?>
+                <?php endforeach; ?> -->
             </tbody>
         </table>
     </div>
@@ -178,7 +190,7 @@
                                     <input type="hidden" name="id_employee" id="id_employee">
                                     <div class="mb-3">
                                         <label for="id_product" class="form-label">Product</label>
-                                        <select name="id_product" id="name_product" class="form-select">
+                                        <select name="id_product" id="product" class="form-select">
                                             <?php foreach ($products as $product): ?>
                                                 <option value="<?= $product['id_product']; ?>"><?= $product['name_product']; ?></option>
                                             <?php endforeach; ?>
@@ -236,6 +248,98 @@
     </div>
 
     <script>
-		$('#employees_table').DataTable();
+        
+        const base_url = $('meta[name="base_url"]').attr('content');  
+
+        let product = 'All'; 
+
+        function callDT() {
+            var table = $('#employees_table').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: base_url + 'admin/employee/dtSideServer',  
+                    type: 'POST',
+                    data: function(d) {
+                        product = $('#filter-product').val();  
+                        d.product = product; 
+                    }
+                },
+                columnDefs: [
+                    { targets: "_all", orderable: false },  
+                    { targets: 0, className: "text-center" }, 
+                ],
+            });
+
+            $('#filter-product').change(function() {
+                table.ajax.reload();  
+            });
+        }
+        
+        callDT();
+
+        //------------DELETE EMPLOYEE
+        function handleDeleteButton(id) {
+            console.log(id)
+            Swal.fire({
+                title: 'Apakah Anda sure?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   
+                    $.ajax({
+                        url: base_url + 'admin/employee/delete',
+                        type: 'POST',
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            var res = JSON.parse(response);
+                            if (res.status) {
+                                swallMssg_s(res.message, false, 1500)
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            } else {
+                                swallMssg_e(res.message, true, 0);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire(
+                                'Kesalahan!',
+                                'Terjadi kesalahan: Silakan coba lagi.',
+                                'error'
+                            );
+                        },
+                    });
+                }
+            });
+        }
+
+        // ------------EDIT FINANCE
+        function editEmployeeBtn(element) {
+            let $element = $(element);
+
+            $("#id_employee").val($element.data('id'));
+            $("#product").val($element.data('product')).trigger("change");
+            $("#date_in").val($element.data('date_in'));
+            $("#nip").val($element.data('nip'));
+            $("#name").val($element.data('name'));
+            $("#gender").val($element.data('gender'));
+            $("#place_of_birth").val($element.data('place_of_birth'));
+            $("#date_of_birth").val($element.data('date_of_birth'));
+            $("#position").val($element.data('position'));
+
+          
+
+            $("#editEmployeeModal").modal("show");
+        }
 	</script>
 </main>
