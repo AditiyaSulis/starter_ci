@@ -83,6 +83,8 @@
                                     <div class="text-gray-500 fw-semibold fs-6">
                                         Your Social Campaigns
                                     </div>
+                                </div>
+                                <div class="text-center mb-3">
                                     <?php if ($this->session->flashdata('error')): ?>
                                         <div class="alert alert-danger" role="alert">
                                             <?= $this->session->flashdata('error'); ?>

@@ -22,7 +22,7 @@ class Finance_record extends MY_Controller{
     
         
         $data['categories'] = $this->m_Categories->findAll_get();
-        $data['products'] = $this->m_Products->findAll_get();
+        $data['products'] = $this->m_Products->findAllShow_get();
         $data['account_code'] = $this->m_Account_code->findAll_get();
 
     
@@ -33,6 +33,7 @@ class Finance_record extends MY_Controller{
             redirect('login'); 
         }
     }
+
 
     public function option_acc()
     {
@@ -57,6 +58,7 @@ class Finance_record extends MY_Controller{
 
     }
 
+
     public function edit_option_acc()
     {
         $id = $this->input->post('category_id', true);
@@ -79,11 +81,13 @@ class Finance_record extends MY_Controller{
         echo json_encode($response);
 
     }
+
     
     public function add_finance()
     {
         $this->_ONLY_SU();
 
+        $this->_isAjax();
         $this->form_validation->set_rules('product_id', 'Product_id', 'required', [
             'required' => 'Product harus diisi',
         ]);
@@ -138,10 +142,12 @@ class Finance_record extends MY_Controller{
         echo json_encode($response);
     }
 
+
     public function update() 
     {
 
         $this->_ONLY_SU();
+        $this->_isAjax();
 
         $this->form_validation->set_rules('product_id', 'Product_id', 'required', [
             'required' => 'Product harus diisi',
@@ -197,9 +203,11 @@ class Finance_record extends MY_Controller{
         
     }
 
+
     public function delete()
     {
         $this->_ONLY_SU();
+        $this->_isAjax();
 
         $id = $this->input->post('id');
 
@@ -220,6 +228,7 @@ class Finance_record extends MY_Controller{
 
     }
 
+
     public function dtSideserver()
     {
         $option = $this->input->post('option'); 
@@ -236,7 +245,7 @@ class Finance_record extends MY_Controller{
         foreach ($list as $item) {
             $action = '
                         <div class="no-print">
-                            <a href="javascript:void(0)" onclick="editFinanceBtn(this)" class="btn btn-warning btn-sm btn-sm mb-2 rounded-pill" 
+                            <a href="javascript:void(0)" onclick="editFinanceBtn(this)" class="btn gradient-btn-edit btn-sm btn-sm mb-2 rounded-pill" style="width : 70px" 
                                 data-id="' . htmlspecialchars($item->id_record) . '"
                                 data-id_code="' . htmlspecialchars($item->id_code) . '"
                                 data-product="' . htmlspecialchars($item->product_id) . '"
@@ -247,7 +256,7 @@ class Finance_record extends MY_Controller{
                             </a>
 
                             <button 
-                                class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-finrec" 
+                                class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-finrec" style="width : 70px"
                                 onClick="handleDeleteButton(' . htmlspecialchars($item->id_record) . ')">
                                 Delete
                             </button>
@@ -276,7 +285,9 @@ class Finance_record extends MY_Controller{
         echo json_encode($output); 
     }
 
-    public function get_record() {
+
+    public function get_record()
+    {
         $id = $this->input->post('id');
     
         if (!$id) {

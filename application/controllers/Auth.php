@@ -3,14 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller{
 
-    function __construct(){
+    function __construct()
+    {
         parent::__construct();
         $this->load->model('m_Admin');
         $this->load->library('upload');
 
     }
 
-    public function login() {
+
+    public function login() 
+    {
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email', [
             'valid_email' => 'Email salah',
             'required' => 'Email harus diisi'
@@ -68,15 +71,16 @@ class Auth extends CI_Controller{
     }
     
 
-
-    public function logout(){
+    public function logout()
+    {
         $this->session->unset_userdata('user');
 
         redirect('fetch/login');
     }
 
 
-    public function signup(){
+    public function signup()
+    {
         $id = $this->session->userdata('user');
         if(!$id) {
             $this->load->view('login/signup');
@@ -86,7 +90,9 @@ class Auth extends CI_Controller{
         }
     }
 
-    public function regist() {
+
+    public function regist() 
+    {
         $this->form_validation->set_rules('name', 'Name', 'required|min_length[4]|max_length[50]', [
             'required' => 'Nama harus diisi',
             'min_length' => 'Nama minimal memiliki 4 karakter huruf',
@@ -177,6 +183,171 @@ class Auth extends CI_Controller{
             ]);
         }
     }
+
+
+    public function edit_get()
+    {
+        $id = $this->input->post('id');
+
+        if(!$id){
+            echo json_encode([
+                'status' => true,
+                'message' => 'ID User tidak valid',
+            ]);
+            return;
+        }
+
+        $account = $this->m_Admin->findById_get($id);
+        $accountDto = [
+            'id' => $account['id'],
+            'name' => $account['name'],
+            'email' => $account['email'],
+           
+
+        ];
+
+        if($accountDto) {
+            echo json_encode([
+                'status' => true,
+                'account' => $accountDto,
+            ]);
+        } else {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+
+    }
+
+
+    public function update_post()
+    {
+        //$this->_ONLYSELECTED([1,2]);
+
+        $id = $this->input->post('id', true);
+        if(!$id){
+            $response = [
+                'status' => false,
+                'message' => 'ID tidak valid'
+            ];
+            return;
+        }
+
+        $account = $this->m_Admin->findById_get($id);
+
+        $old_email = $account['email'];
+
+
+        $this->form_validation->set_rules('name', 'name', 'required|max_length[60]|min_length[3]',[
+            'required' => 'Nama harus diisi',
+            'max_length' => 'Nama tidak boleh melebihi 60 karakter',
+            'min_length' => 'Nama minimal memiliki 3 karakter',
+        ]);
+
+        if($this->form_validation->run()==false) {
+            $response = [
+                'status' => false,
+                'message' => validation_errors('<p>', '</p>'),
+                'confirmationbutton' => true,
+                'timer' => 0,
+                'icon' => 'error'
+            ];
+            echo json_encode($response);
+
+            return;
+        }
+
+        $new_email = $this->input->post('email', true);
+
+        if($old_email != $new_email) {
+            $emailExist = $this->m_Admin->findByEmailForEdit_get($new_email);
+            if($emailExist){
+                $response = [
+                    'status' => false,
+                    'message' => 'Email sudah digunakan'
+                ];
+
+                echo json_encode($response);
+
+                return;
+            }
+        }
+
+        if (empty($_FILES['avatar']['name'])) {
+            $data = [
+                'name' => $this->input->post('name'),
+                'email' => $this->input->post('email'),
+            ];
     
-}
+            if ($this->m_Admin->update_post($id, $data)) {
+                $response = [
+                    'status' => true,
+                    'message' => 'Account berhasil diperbarui.'
+                ];
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => 'Gagal memperbarui account.'
+                ];
+            }
+            echo json_encode($response);
+            return;
+        }
+
+        $data_account = $this->m_Admin->findById_get($id);
+        if ($data_account && !empty($data_account['avatar'])) {
+            $old_logo_path = './uploads/avatar/' . $data_account['avatar'];
+            if (file_exists($old_logo_path)) {
+                unlink($old_logo_path); 
+            }
+         }
+    
+    
+        $this->load->helper('image_helper');
+        $upload_path = 'avatar/';
+        $resize_width = 500;
+        $resize_height = 500;
+        $resize_quality = 60;
+    
+        $upload_result = upload_and_resize('avatar', $upload_path, $resize_width, $resize_height, $resize_quality);
+    
+        if (!$upload_result['status']) {
+            $response = [
+                'status' => false,
+                'message' => $upload_result['message'],
+            ];
+            echo json_encode($response);
+            return;
+        }
+
+        $logo_name = $upload_result['message'];
+
+        $data = [
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'avatar' => $logo_name,
+            
+        ];
+
+        $account_updated = $this->m_Admin->update_post($id, $data);
+
+        if($account_updated) {
+            $response = [
+                'status' => true,
+                'message' => 'Data Account berhasil diupdate',
+            ];
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'Data account gagal diupdate'
+            ];
+        }
+
+        echo json_encode($response);
+    }
+    
+    
+} 
+
  

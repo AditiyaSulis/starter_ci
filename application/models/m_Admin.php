@@ -20,17 +20,28 @@ class m_Admin extends CI_Model {
    
    }
 
+
+   public function findByEmailForEdit_get($email)
+   {
+
+    return $this->db->get_where('admin', ['email' => $email])->row_array();
+
+   }
+
+
    public function findAll_get()
    {
-   return $this->db->get('admin')->result();
+    return $this->db->get('admin')->result_array();
    }
+
 
     public function update($data, $id)
     {
         $this->db->where('id', $id);
         $this->db->update('admin', $data);
         return $this->db->affected_rows();
-    }   
+    } 
+
 
    public function create_post($data)
    {
@@ -38,10 +49,22 @@ class m_Admin extends CI_Model {
     return $this->db->insert_id(); 
    }
 
+
+   public function createuser_post($data)
+    {
+        if ($this->db->insert('admin', $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
    public function findById_get($id)
    {
     return $this->db->get_where('admin', ['id' => $id])->row_array();
    }
+
 
    public function updateLogin_post($email)
    {
@@ -55,12 +78,14 @@ class m_Admin extends CI_Model {
 
    }
 
+
    public function totalAdmins_get()
    {
     $count = $this->db->where('role', 1)->count_all_results('admin');
 
     return $count;
    }
+
 
    public function totalSuperUsers_get()
    {
@@ -69,10 +94,25 @@ class m_Admin extends CI_Model {
     return $count;
    }
 
+
    public function totalUsers_get()
    {
     $count =  $this->db->get('admin')->num_rows();
 
     return $count;
    }
+
+
+   public function update_post($id, $data)
+   {
+       $this->db->where('id', $id);
+       return $this->db->update('admin', $data);
+   }
+   
+
+   public function delete($id)
+    {
+        return $this->db->delete('admin', ['id' => $id]);
+    }
+
 }

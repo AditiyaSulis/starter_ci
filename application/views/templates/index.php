@@ -25,6 +25,7 @@
 
     <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
     <script src=" https://cdn.datatables.net/2.1.6/js/dataTables.bootstrap4.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 
 	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
@@ -35,16 +36,96 @@
 
     <style>
         #exportPDF {
-            background-color: #17a2b8; /* Warna biru info */
+            background-color: #17a2b8; 
             color: white;
             border: none;
             transition: all 0.3s ease;
         }
 
         #exportPDF:hover {
-            background-color: #138496; /* Warna biru lebih gelap saat hover */
+            background-color: #138496; 
             color: white;
         }
+
+        .gradient-btn {
+            background: linear-gradient(to right,rgb(6, 31, 100), #2575fc);
+            border: none;
+            color: white;
+        }
+
+        .gradient-btn:hover {
+            background: linear-gradient(to right,rgb(58, 117, 221),rgb(111, 158, 211));
+        }
+
+        .gradient-btn-edit {
+            background: linear-gradient(to right,rgb(117, 92, 4), rgb(212, 170, 15));
+            border: none;
+            color: white;
+        }
+
+        .gradient-btn-edit:hover {
+            background: linear-gradient(to right,rgb(205, 165, 64),rgb(193, 179, 49));
+        }
+
+        .gradient-btn-delete {
+            background: linear-gradient(to right,rgb(97, 6, 6),rgb(244, 49, 49));
+            border: none;
+            color: white;
+        }
+
+        .gradient-btn-delete:hover {
+            background: linear-gradient(to right,rgb(221, 58, 58),rgb(146, 21, 19));
+        }
+
+        .gradient-btn-active {
+            background: linear-gradient(to right,rgb(34, 132, 38), rgb(91, 191, 80));
+            border: none;
+            color: white;
+        }
+
+        .gradient-btn-active:hover {
+            background: linear-gradient(to right,rgb(106, 217, 114),rgb(39, 210, 99));
+        }
+
+        .gradient-btn-inactive {
+            background: linear-gradient(to right,rgb(123, 34, 12), rgb(226, 93, 93));
+            border: none;
+            color: white;
+        }
+
+        .gradient-btn-inactive:hover {
+            background: linear-gradient(to right,rgb(238, 67, 67),rgb(234, 94, 81));
+        }
+
+        .gradient-btn-kredit {
+            background: linear-gradient(to right,rgb(211, 171, 26), rgb(193, 184, 61));
+            border: none;
+            color: white;
+        }
+        .gradient-btn-debit {
+            background: linear-gradient(to right,rgb(21, 156, 75), rgb(60, 188, 128));
+            border: none;
+            color: white;
+        }
+        .gradient-btn-paid {
+            background: linear-gradient(to right,rgb(21, 68, 156), rgb(69, 120, 192));
+            border: none;
+            color: white;
+        }
+        .gradient-btn-unpaid {
+            background: linear-gradient(to right,rgb(137, 26, 26), rgb(119, 29, 29));
+            border: none;
+            color: white;
+        }
+
+        .scrollable-card {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+
+     
+
     </style>
 
 
@@ -100,7 +181,7 @@
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link active" href="<?=base_url('admin/dashboard/dashboard_page')?>">
+                                <a class="menu-link  <?= $title == 'Admin' ? "active": ""?>" href="<?=base_url('admin/dashboard/dashboard_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-layout-dashboard"></i>
@@ -110,10 +191,11 @@
                                 </a>
                             </div>
                         </div>
+                        
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link active"
+                                <a class="menu-link <?= $title == 'Finance Record' ? "active": ""?>" 
                                     href="<?=base_url('admin/finance_record/finance_record_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
@@ -127,20 +209,20 @@
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link active" href="<?=base_url('admin/account_code/ac_page')?>">
+                                <a class="menu-link <?= $title == 'Account Code' ? "active": ""?>" href="<?=base_url('admin/account_code/ac_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-filter"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Account Code & Category</span>
+                                    <span class="menu-title">Account Code</span>
                                 </a>
                             </div>
                         </div>
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link active" href="<?=base_url('admin/employee/employee_page')?>">
+                                <a class="menu-link <?= $title == 'Employee' ? "active": ""?>" href="<?=base_url('admin/employee/employee_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-id-badge"></i>
@@ -153,7 +235,7 @@
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link active" href="<?=base_url('admin/product/product_page')?>">
+                                <a class="menu-link <?= $title == 'Product' ? "active": ""?>" href="<?=base_url('admin/product/product_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-package"></i>
@@ -163,6 +245,125 @@
                                 </a>
                             </div>
                         </div>
+
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Supplier' ? "active": ""?>" href="<?=base_url('admin/supplier/data_supplier_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-truck"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Data</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Purchases Unpaid' ? "active": ""?>" href="<?=base_url('admin/purchases/purchases_unpaid_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-wallet"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Purchases</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Setting' ? "active": ""?>" href="<?=base_url('admin/setting/setting_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-settings"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Setting</span>
+                                </a>
+                            </div>
+                        </div>
+
+                       <div class="menu-item" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start">
+                            <!-- Menu Link -->
+                            <span class="menu-link">
+                                <span class="menu-title">Dashboards</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <!-- Dropdown Menu -->
+                            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-850px">
+                                <div class="menu-state-bg menu-extended overflow-hidden overflow-lg-visible" data-kt-menu-dismiss="true">
+                                    <div class="row">
+                                        <!-- First Column -->
+                                        <div class="col-lg-8 py-3 px-3 py-lg-6 px-lg-6">
+                                            <div class="row">
+                                                <!-- Dashboard Items -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <div class="menu-item p-0 m-0">
+                                                        <a href="/metronic8/demo1/index.html" class="menu-link">
+                                                            <span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">
+                                                                <i class="ki-duotone ki-element-11 text-primary fs-1"></i>
+                                                            </span>
+                                                            <span class="d-flex flex-column">
+                                                                <span class="fs-6 fw-bold text-gray-800">Default</span>
+                                                                <span class="fs-7 fw-semibold text-muted">Reports & statistics</span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- Repeat dashboard items for other options -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <div class="menu-item p-0 m-0">
+                                                        <a href="/metronic8/demo1/dashboards/ecommerce.html" class="menu-link">
+                                                            <span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">
+                                                                <i class="ki-duotone ki-basket text-danger fs-1"></i>
+                                                            </span>
+                                                            <span class="d-flex flex-column">
+                                                                <span class="fs-6 fw-bold text-gray-800">eCommerce</span>
+                                                                <span class="fs-7 fw-semibold text-muted">Sales reports</span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- Add more dashboard items as needed -->
+                                            </div>
+                                            <!-- Separator -->
+                                            <div class="separator separator-dashed mx-5 my-5"></div>
+                                            <!-- Landing Section -->
+                                            <div class="d-flex flex-stack flex-wrap flex-lg-nowrap gap-2 mx-5">
+                                                <div class="d-flex flex-column me-5">
+                                                    <div class="fs-6 fw-bold text-gray-800">Landing Page Template</div>
+                                                    <div class="fs-7 fw-semibold text-muted">One page landing template with pricing & others</div>
+                                                </div>
+                                                <a href="/metronic8/demo1/landing.html" class="btn btn-sm btn-primary fw-bold">Explore</a>
+                                            </div>
+                                        </div>
+                                        <!-- Second Column -->
+                                        <div class="menu-more bg-light col-lg-4 py-3 px-3 py-lg-6 px-lg-6 rounded-end">
+                                            <h4 class="fs-6 fs-lg-4 text-gray-800 fw-bold mt-3 mb-3 ms-4">More Dashboards</h4>
+                                            <!-- Additional Dashboard Links -->
+                                            <div class="menu-item p-0 m-0">
+                                                <a href="/metronic8/demo1/dashboards/logistics.html" class="menu-link py-2">
+                                                    <span class="menu-title">Logistics</span>
+                                                </a>
+                                            </div>
+                                            <div class="menu-item p-0 m-0">
+                                                <a href="/metronic8/demo1/dashboards/website-analytics.html" class="menu-link py-2">
+                                                    <span class="menu-title">Website Analytics</span>
+                                                </a>
+                                            </div>
+                                            <!-- Add more links as needed -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -252,7 +453,7 @@
                                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
                                         data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                                         data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
-                                        <img src="<?= base_url('asset/media/avatars/150-2.jpg')?>" />
+                                        <img src="<?= ($user['avatar']) ? base_url('uploads/avatar/'.$user['avatar']) : base_url('asset/media/avatars/150-2.jpg') ?>" />
                                     </div>
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold py-4 fs-6 w-275px"
                                         data-kt-menu="true">
@@ -260,7 +461,7 @@
                                             <div class="menu-content d-flex align-items-center px-3">
                                                 <div class="symbol symbol-50px me-5">
                                                     <img alt="Logo"
-                                                        src="<?= base_url('asset/media/avatars/150-2.jpg')?>" />
+                                                        src="<?= ($user['avatar']) ? base_url('uploads/avatar/'.$user['avatar']) : base_url('asset/media/avatars/150-2.jpg') ?>" />
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <div class="fw-bolder d-flex align-items-center fs-5 text-muted">
@@ -273,15 +474,16 @@
                                         </div>
                                         <div class="separator my-2"></div>
                                         <div class="menu-item px-5">
-                                            <a href="#" class="menu-link d-flex align-items-center  px-2">
+                                            <a href="#" class="menu-link d-flex align-items-center  px-2" id="user"
+                                            data-id="<?= $user['id']; ?>">
                                                 <span class="menu-icon">
                                                     <i class="ti ti-user-circle"></i>
                                                 </span>
                                                 Profil</a>
                                         </div>
                                         <div class="menu-item  px-5">
-                                            <a href="<?= base_url('auth/logout') ?>"
-                                                class="menu-link d-flex align-items-center  px-2">
+                                            <a href="<?= base_url('auth/logout') ?>" 
+                                                class="menu-link d-flex align-items-center px-2">
                                                 <span class="menu-icon">
                                                     <i class="ti ti-outbound"></i>
                                                 </span>
@@ -314,17 +516,73 @@
             </div>
 
         </div>
+        <!-- Modal Edit -->
+        <div class="modal fade" id="editUser" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Edit Account</h3>
+
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                            aria-label="Close" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
+                            <span class="svg-icon svg-icon-2">
+                                <i class="ti ti-minus"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="form w-100" id="editUserForm" enctype="multipart/form-data">
+                            <input type="hidden" name="id" id="id">
+                            <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                                <span>Avatar</span>
+                            </div>
+                            <div class="fv-row mb-8">
+                                <input type="file" placeholder="avatar" id="avatar" name="avatar" autocomplete="off"
+                                    class="form-control bg-transparent" />
+                            </div>
+                            <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                                <span>Name</span>
+                            </div>
+                            <div class="fv-row mb-8">
+                                <input type="text" placeholder="Name" id="name" name="name" autocomplete="off"
+                                    class="form-control bg-transparent" />
+                            </div>
+                            <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                                <span>Email</span>
+                            </div>
+                            <div class="fv-row mb-8">
+                                <input type="email" placeholder="Email" id="email" name="email"
+                                    autocomplete="off" class="form-control bg-transparent" />
+                            </div>
+                            <div class="d-grid mb-10 mt-10">
+                                <button type="submit" class="btn btn-primary"><span class="indicator-label">
+                                        Save Changes
+                                    </span>
+                                    <span class="indicator-progress">
+                                        Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <script src="<?=base_url('asset/plugins/global/theme-mode.js')?>"></script>
     <script src="<?=base_url('asset/plugins/global/plugins.bundle.js')?>"></script>
+    <!-- <script src="<?=base_url('asset/plugins/global/pluginnew.bundle.js')?>"></script> -->
     <script src="<?=base_url('asset/js/scripts.bundle.js')?>"></script>
     <script src="<?=base_url('asset/js/finance_record.js')?>"></script>
+   
 
 </body>
 

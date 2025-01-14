@@ -1,10 +1,9 @@
 <main>
-    <h1>Account Code & Category</h1>
+    <h1>Account Code</h1>
 
 <div class="row mt-12">
     <div class="col-md-12 mb-4">
-        <h4>Account Code</h4>
-        <button type="button" class="btn btn-primary rounded-pill mt-3 mb-6 btn-sm" data-bs-toggle="modal" data-bs-target="#addProduct"> 
+        <button type="button" class="btn gradient-btn rounded-pill mt-3 mb-6" data-bs-toggle="modal" data-bs-target="#addProduct"> 
             <i class="ti ti-plus"></i>
             Add Account Code
         </button>
@@ -28,14 +27,14 @@
                             <td><?= $ac['code']; ?></td>
                             <td><?= $ac['name_code']; ?></td>
                             <td> 
-                                <a href="javascript:void(0)" onclick="editAcButton(this)" class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-ac" 
+                                <a href="javascript:void(0)" onclick="editAcButton(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-ac" style="width : 70px"
                                         data-id_code="<?= $ac['id_code']; ?>"
                                         data-kategori="<?= $ac['id_kategori']; ?>"
                                         data-code="<?= $ac['code']; ?>"
                                         data-name_code="<?= $ac['name_code']; ?>">
                                     EDIT
                                 </a>
-                                <button  class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-ac" data-id="<?= $ac['id_code']; ?>">
+                                <button  class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-ac" data-id="<?= $ac['id_code']; ?>" style="width : 70px">
                                     DELETE
                                 </button>
                             </td>

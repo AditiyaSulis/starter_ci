@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-
 class m_Employees extends CI_Model {
     private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' ,'employee.position'); 
     
@@ -11,24 +10,29 @@ class m_Employees extends CI_Model {
         return $this->db->get_where('employee', ['id_employee' => $id])->row_array();
     }
 
+
     public function findByProductId_get($id)
     {
         return $this->db->get_where('employee', ['id_product' => $id])->row_array();
     }
+
     
     public function findAll_get()
     {
         return $this->db->get('employee')->result_array();
     }
 
+
     public function findAllJoin_get()
     {
-        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.position, employee.status, products.id_product, products.name_product');
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.position, employee.status, products.id_product, products.name_product, products.visibility');
+        $this->db->where('products.visibility', '1');
         $this->db->from('employee');
         $this->db->join('products', 'products.id_product = employee.id_product', 'left');
         $query = $this->db->get();
         return $query->result_array();
     }
+
 
     public function create_post($data)
     {
@@ -39,15 +43,18 @@ class m_Employees extends CI_Model {
         }
     }
 
+
     public function delete($id)
     {
         return $this->db->delete('employee', ['id_employee' => $id]);
     }
 
+
     public function findByNip_get($nip) 
     {
        return $this->db->get_where('employee', ['nip' => $nip])->row_array();
     }
+
 
     public function update_post($id, $data) 
     {
@@ -55,16 +62,19 @@ class m_Employees extends CI_Model {
         return $this->db->update('employee', $data);
     }
 
+
     public function totalEmployees_get()
     {
         $count =  $this->db->get('employee')->num_rows();
     
         return $count;
     }
+    
 
     public function getEmployeesData($product = null) 
     {
         $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.position, employee.status, products.id_product, products.name_product');
+        $this->db->where('products.visibility', '1');
         $this->db->from('employee');
         $this->db->join('products', 'products.id_product = employee.id_product', 'left');
     

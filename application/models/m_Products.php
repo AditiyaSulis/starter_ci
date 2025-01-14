@@ -27,16 +27,29 @@ class m_Products extends CI_Model {
         
         return null;
     }
+    
+
+    public function findAllShow_get() 
+    {
+
+        $this->db->where('visibility', 1);
+        $query = $this->db->get('products')->result_array(); 
+
+        return $query;
+    }
+
 
     public function findAll_get()
     {
         return $this->db->get('products')->result_array();
     }
 
+
     public function delete($id)
     {
         return $this->db->delete('products', ['id_product' => $id]);
     }
+
 
     public function update_post($id, $data) 
     {
@@ -44,10 +57,23 @@ class m_Products extends CI_Model {
         return $this->db->update('products', $data);
     }
 
+
     public function totalProducts_get()
     {
         $count =  $this->db->get('products')->num_rows();
 
         return $count;
-       }
+    }
+
+
+    public function setVisibility_post($id, $status)
+    {
+
+      $this->db->set('visibility', $status);
+      $this->db->where('id_product', $id);
+      $this->db->update('products');
+
+      return true;
+
+    }
 }

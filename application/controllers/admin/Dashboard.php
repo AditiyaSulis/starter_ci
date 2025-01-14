@@ -26,7 +26,7 @@ class Dashboard extends MY_Controller{
         $data['allEmployees']= $this->m_Employees->totalEmployees_get();
         $data['allRecords']= $this->m_Finance_records->totalFinanceRecords_get();
 
-        $data['title'] = 'Admin ';
+        $data['title'] = 'Admin';
         $data['view_name'] = 'admin/index';
         $data['breadcrumb'] = 'Dashboard';
         if($data['user']) { 

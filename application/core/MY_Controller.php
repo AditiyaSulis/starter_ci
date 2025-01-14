@@ -16,7 +16,7 @@ class MY_Controller extends CI_Controller
 		$id  = $this->session->userdata('user') ;//ambil dari session
 		$current = $this->m_Admin->findById_get($id) ;// query ke table admin mencari berdasarkan id
 		if (!$current) {
-			$this->session->set_flashdata('forbidden', 'Silahkan login menggunakan akun Super User');
+			$this->session->set_flashdata('forbidden', 'Silahkan login');
             $this->session->unset_userdata('user');
 			redirect('fetch/login'); // lempar ke login dan destroy session
 		}
@@ -32,7 +32,7 @@ class MY_Controller extends CI_Controller
 			return true;
 		} else {
 			$this->session->unset_userdata('user');
-			$this->session->set_flashdata('forbidden', 'Silahkan login menggunakan akun Super User');
+			$this->session->set_flashdata('forbidden', 'Silahkan login');
 			redirect('fetch/login'); // lempar ke login dan destroy session
 		}
 	}
@@ -42,6 +42,7 @@ class MY_Controller extends CI_Controller
 		if (in_array($this->roleUSER, $arr)) {
 			return true;
 		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login');
 			$this->session->unset_userdata('user');
 			redirect('fetch/login'); // lempar ke login dan destroy session
 		}

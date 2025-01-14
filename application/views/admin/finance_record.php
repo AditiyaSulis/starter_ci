@@ -64,7 +64,7 @@
     </div>
 
     <div class="d-flex justify-content-between flex-wrap mt-5">
-        <button type="button" class="btn btn-primary rounded-pill btn-flex  mt-3" data-bs-toggle="modal"
+        <button type="button" class="btn  rounded-pill btn-flex gradient-btn mt-3" data-bs-toggle="modal"
             data-bs-target="#addProduct">
             <i class="ti ti-plus"></i> Add Finance Record
         </button>
@@ -125,7 +125,7 @@
         </div>
        
     </div>
-
+    
     <div class="table-responsive mt-4">
         <table id="finances_table" class="table table-bordered table-striped w-100">
             <thead>
@@ -244,8 +244,8 @@
                             <span>Description</span>
                         </div>
                         <div class="fv-row mb-8">
-                            <input type="text" placeholder="Description" name="description" autocomplete="off"
-                                class="form-control bg-transparent" />
+                            <textarea type="text" placeholder="Description" name="description" autocomplete="off"
+                                class="form-control bg-transparent"></textarea>
                         </div>
                         <div class="d-grid mb-10">
                             <button type="submit" id="submit_product" class="btn btn-primary">
@@ -326,8 +326,8 @@
                             <span>Description</span>
                         </div>
                         <div class="fv-row mb-8">
-                            <input type="text" placeholder="Description" id="description" name="description"
-                                autocomplete="off" class="form-control bg-transparent" />
+                            <textarea type="text" placeholder="Description" id="description" name="description"
+                                autocomplete="off" class="form-control bg-transparent"></textarea>
                         </div>
                         <div class="d-grid mb-10 mt-10">
                             <button type="submit" class="btn btn-primary"><span class="indicator-label">
@@ -349,449 +349,450 @@
     </div>
 
     <script>
-    let base = '<?= base_url()?>';
-    const base_url = $('meta[name="base_url"]').attr('content');
-
-    let table;
-    let option = 'this_month';
-    let startDate = '';
-    let endDate = '';
-
-    let product = '';
-    let code = '';
-    let type = '';
-
-    let accVAL = '';
-    let accID = '';
-
-
-    //MENAMPILKAN DATA KE CARD
-    function updateCards(filter, startdate, enddate) {
-        $.ajax({
-            url: base_url + 'admin/finance_record/getFilteredSummary',
-            type: 'POST',
-            data: {
-                option: filter,
-                startDate: startdate,
-                endDate: enddate
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status) {
-
-                    $('#card-container1 span').text('Rp.0');
-
-                    response.categories.forEach(category => {
-                        const span = $(`[data-category-id="${category.id_kategori}"]`);
-                        if (span.length) {
-                            span.text(`Rp.${(category.total_amount || 0).toLocaleString('id-ID')}`);
-                        }
-                    });
-
-                    $('#cardContainer1 span').text('Rp.0');
-
-                    // Perbarui produk untuk setiap kategori
-                    response.products.forEach(product => {
-                        const span = $(
-                            `[data-product-id="${product.id_product}"][data-category-id="${product.id_kategori}"]`
-                        );
-                        if (span.length) {
-                            span.text(`Rp.${(product.total_amount || 0).toLocaleString('id-ID')}`);
-                        }
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', error, 'XHR:', xhr);
-            }
-        });
-    }
-
-    //INISIALISASI NILAI AWAL CARD
-    updateCards('this_month', null, null);
-
-
-    $(document).ready(function() {
-
-        $('#categories').on('change', function() {
-            const categoryId = $(this).val();
-            const accountSelect = $('#account');
-            accID = 'account';
-            accVAL = '';
-
-
-            accountSelect.html('<option value="" selected disabled>-select account-</option>');
-
-            if (categoryId) {
-                getAccount(categoryId)
-
-            }
-        });
-    });
-
-
-    //KATEGORY TO ACCOUNT
-    function getAccount(categoryId) {
-        $.ajax({
-            url: base + 'admin/finance_record/option_acc',
-            type: 'POST',
-            data: {
-                category_id: categoryId
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status) {
-                    const accountSelect = $('#' + accID);
-                    $.each(response.data, function(index, account) {
-                        const selected = accVAL == account.id_code ? 'selected' : '';
-                        accountSelect.append(
-                            `<option value="${account.id_code}" ${selected}>${account.code} - ${account.name_code}</option>`
-                        );
-
-                    });
-                } else {
-                    console.log('gagal');
-                }
-
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-
-    // ------------EDIT FINANCE
-    function editFinanceBtn(element) {
-        let $element = $(element);
-
-        $("#id_record").val($element.data('id'));
-        $("#kategori").val($element.data('kategori')).trigger("change");
-        $("#product_id").val($element.data('product'));
-        $("#amount").val($element.data('amount'));
-        $("#description").val($element.data('description'));
-
-        $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
-        if ($element.data('kategori')) {
-            accID = 'id_code';
-            accVAL = $element.data('id_code');
-            getAccount($element.data('kategori'));
-        }
-
-        $("#editfinanceModal").modal("show");
-    }
-
-    
-    $(document).ready(function() {
+        let base = '<?= base_url()?>';
         const base_url = $('meta[name="base_url"]').attr('content');
 
-        $("#kategori").on("change", function() {
-            const categoryId = $(this).val();
-            $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
-            if (categoryId) {
-                getAccount(categoryId);
-            }
-        });
+        let table;
+        let option = 'this_month';
+        let startDate = '';
+        let endDate = '';
+
+        let product = '';
+        let code = '';
+        let type = '';
+
+        let accVAL = '';
+        let accID = '';
 
 
-        $("#editfinanceForm").on("submit", function(e) {
-            e.preventDefault();
+        //MENAMPILKAN DATA KE CARD
+        function updateCards(filter, startdate, enddate) {
             $.ajax({
-                url: base_url + "admin/finance_record/update",
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "json",
+                url: base_url + 'admin/finance_record/getFilteredSummary',
+                type: 'POST',
+                data: {
+                    option: filter,
+                    startDate: startdate,
+                    endDate: enddate
+                },
+                dataType: 'json',
                 success: function(response) {
                     if (response.status) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Berhasil",
-                            text: response.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => location.reload());
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Gagal",
-                            text: response.message
+
+                        $('#card-container1 span').text('Rp.0');
+
+                        response.categories.forEach(category => {
+                            const span = $(`[data-category-id="${category.id_kategori}"]`);
+                            if (span.length) {
+                                span.text(`Rp.${(category.total_amount || 0).toLocaleString('id-ID')}`);
+                            }
+                        });
+
+                        $('#cardContainer1 span').text('Rp.0');
+
+                        // Perbarui produk untuk setiap kategori
+                        response.products.forEach(product => {
+                            const span = $(
+                                `[data-product-id="${product.id_product}"][data-category-id="${product.id_kategori}"]`
+                            );
+                            if (span.length) {
+                                span.text(`Rp.${(product.total_amount || 0).toLocaleString('id-ID')}`);
+                            }
                         });
                     }
                 },
                 error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Terjadi kesalahan, silahkan coba lagi."
-                    });
+                    console.error('AJAX Error:', error, 'XHR:', xhr);
+                }
+            });
+        }
+
+        //INISIALISASI NILAI AWAL CARD
+        updateCards('this_month', null, null);
+
+
+        $(document).ready(function() {
+
+            $('#categories').on('change', function() {
+                const categoryId = $(this).val();
+                const accountSelect = $('#account');
+                accID = 'account';
+                accVAL = '';
+
+
+                accountSelect.html('<option value="" selected disabled>-select account-</option>');
+
+                if (categoryId) {
+                    getAccount(categoryId)
+
                 }
             });
         });
-    });
-    
 
-    //------------DELETE FINANCE
-    function handleDeleteButton(id) {
-        console.log(id)
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Data yang dihapus tidak dapat dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const base_url = $('meta[name="base_url"]').attr('content');
+
+        //KATEGORY TO ACCOUNT
+        function getAccount(categoryId) {
+            $.ajax({
+                url: base + 'admin/finance_record/option_acc',
+                type: 'POST',
+                data: {
+                    category_id: categoryId
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status) {
+                        const accountSelect = $('#' + accID);
+                        $.each(response.data, function(index, account) {
+                            const selected = accVAL == account.id_code ? 'selected' : '';
+                            accountSelect.append(
+                                `<option value="${account.id_code}" ${selected}>${account.code} - ${account.name_code}</option>`
+                            );
+
+                        });
+                    } else {
+                        console.log('gagal');
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+
+        // ------------EDIT FINANCE
+        function editFinanceBtn(element) {
+            let $element = $(element);
+
+            $("#id_record").val($element.data('id'));
+            $("#kategori").val($element.data('kategori')).trigger("change");
+            $("#product_id").val($element.data('product'));
+            $("#amount").val($element.data('amount'));
+            $("#description").val($element.data('description'));
+
+            $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
+            if ($element.data('kategori')) {
+                accID = 'id_code';
+                accVAL = $element.data('id_code');
+                getAccount($element.data('kategori'));
+            }
+
+            $("#editfinanceModal").modal("show");
+        }
+
+        
+        $(document).ready(function() {
+            const base_url = $('meta[name="base_url"]').attr('content');
+
+            $("#kategori").on("change", function() {
+                const categoryId = $(this).val();
+                $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
+                if (categoryId) {
+                    getAccount(categoryId);
+                }
+            });
+
+
+            $("#editfinanceForm").on("submit", function(e) {
+                e.preventDefault();
                 $.ajax({
-                    url: base_url + 'admin/finance_record/delete',
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
+                    url: base_url + "admin/finance_record/update",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    dataType: "json",
                     success: function(response) {
-                        var res = JSON.parse(response);
-                        if (res.status) {
-                            swallMssg_s(res.message, false, 1500)
-                                .then(() => {
-                                    location.reload();
-                                });
+                        if (response.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil",
+                                text: response.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => location.reload());
                         } else {
-                            swallMssg_e(res.message, true, 0);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal",
+                                text: response.message
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
-                        Swal.fire(
-                            'Kesalahan!',
-                            'Terjadi kesalahan: Silakan coba lagi.',
-                            'error'
-                        );
-                    },
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Terjadi kesalahan, silahkan coba lagi."
+                        });
+                    }
                 });
-            }
-        });
-    }
-
-
-     // Fungsi untuk format mata uang Rupiah
-     function formatRupiah(angka) {
-        var number_string = angka.toString().replace(/[^,\d]/g, ''),
-            split = number_string.split(','),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-        if (ribuan) {
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return 'Rp. ' + rupiah;
-    }
-
-    //-----------------------DATATABLE
-    //--------TEST FILTER
-
-    function callDT() {
-        table = $('#finances_table').DataTable({
-            responsive: false,
-            autoWidth: false,
-            processing: true,
-            serverSide: true,
-            order: [],
-            ajax: {
-                url: base + 'admin/finance_record/dtSideServer',
-                type: "POST",
-                data: function (d) {
-                    d.option = option;
-                    d.startDate = startDate;
-                    d.endDate = endDate;
-                    d.product = product;
-                    d.code = code;
-                    d.type = type;
-                },
-            },
-            dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
-            buttons: [
-                {
-                    extend: 'pdfHtml5',
-                    text: 'Export',
-                    title: 'Finance Report',
-                    className: 'd-none',
-                    exportOptions: {
-                        columns: ':not(.no-print)',
-                    },
-                    customize: function (doc) {
-
-                        doc.styles.tableHeader.fontSize = 10;
-                        doc.styles.tableBodyOdd.fontSize = 8;
-                        doc.styles.tableBodyEven.fontSize = 8;
-                 
-
-                        doc.content[1].margin = [10, 15, 10, 10];
-
-
-                        var totalsByProduct = {};
-                        var totalAmount = 0;
-
-                        table.rows({ page: 'current' }).data().each(function (row) {
-                            var product = row[3]; 
-                            var amount = row[4].replace(/[^0-9,-]+/g, ''); 
-
-                            amount = parseFloat(amount.replace(',', ''));
-                            if (totalsByProduct[product]) {
-                                totalsByProduct[product] += amount;
-                            } else {
-                                totalsByProduct[product] = amount;
-                            }
-                        });
-
-                        var totalAmountTable = [
-                            [
-                                { text: 'Product', style: 'tableHeader', alignment: 'left', fontSize: '10' },
-                                { text: 'Total Amount', style: 'tableHeader', alignment: 'left', fontSize: '10'},
-                            ]
-                        ];
-
-                        Object.keys(totalsByProduct).forEach(function (product) {
-                            totalAmountTable.push([
-                                { text: product, style: 'tableBody', alignment: 'left', fontSize: '8' },
-                                { text: 'Rp. ' + totalsByProduct[product].toLocaleString('id-ID'), style: 'tableBody', alignment: 'left', fontSize: '8' },
-                            ]);
-                            totalAmount += totalsByProduct[product];
-                        });
-
-                        totalAmountTable.push([
-                            { text: 'Overall Total', style: 'tableHeader', alignment: 'left', fontSize: '8' },
-                            { text: 'Rp. ' + totalAmount.toLocaleString('id-ID'), style: 'tableHeader', alignment: 'left', fontSize: '8' },
-                        ]);
-
-                        doc.content.push({
-                            text: 'Summary of Total Amount',
-                            style: 'header',
-                            margin: [10, 20, 0, 0], 
-                        });
-
-                        doc.content.push({
-                            table: {
-                                widths: ['30%', 'auto'],
-                                body: totalAmountTable,
-                            },
-                            layout: 'lightHorizontalLines',
-                                margin: [10, 5, 0, 10], 
-
-                        });
-                    },
-
-                },
-            ],
-            initComplete: function () {
-                table.buttons().container().appendTo('#custom-button-container');
-            },
-            columnDefs: [
-                { targets: "_all", orderable: false },
-                { targets: 0, className: "text-start" },
-            ],
-        });
-    }
-
-    callDT();
-
-    // ---------- FILTER DATE
-    $('#filterSelect').on('change', function() {
-        option = $(this).val();
-
-        if (option === 'custom') {
-            $('#customDateModal').modal('show');
-        } else {
-            table.ajax.reload();
-
-            updateCards(option)
-        }
-
-
-    });
-
-   
-    $('#applyCustomDate').on('click', function() {
-        startDate = $('#startDate').val();
-        endDate = $('#endDate').val();
-
-        if (!startDate || !endDate) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Masukan tanggal dengan benar"
             });
-            return;
+        });
+        
+
+        //------------DELETE FINANCE
+        function handleDeleteButton(id) {
+            console.log(id)
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const base_url = $('meta[name="base_url"]').attr('content');
+                    $.ajax({
+                        url: base_url + 'admin/finance_record/delete',
+                        type: 'POST',
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            var res = JSON.parse(response);
+                            if (res.status) {
+                                swallMssg_s(res.message, false, 1500)
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            } else {
+                                swallMssg_e(res.message, true, 0);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire(
+                                'Kesalahan!',
+                                'Terjadi kesalahan: Silakan coba lagi.',
+                                'error'
+                            );
+                        },
+                    });
+                }
+            });
         }
 
-        $('#customDateModal').modal('hide');
-        option = 'custom';
-        table.ajax.reload();
-        updateCards(option, startDate, endDate);
-    });
+        
 
+        // Fungsi untuk format mata uang Rupiah
+        function formatRupiah(angka) {
+            var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-    // --------- FILTER CATEGORY
-    $('#filterCategory').on('change', function() {
-        type = $(this).val();
-        const accountSelect = $('#filterCode');
-        accID = 'filterCode';
-        accVAL = '';
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
 
-        if (type) {
-            accountSelect.html('<option value="" selected>-</option>');
-            getAccount(type)
-
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return 'Rp. ' + rupiah;
         }
 
-        if (type == "") {
-            accountSelect.html('<option value="" selected>-</option>');
+        //-----------------------DATATABLE
+        //--------TEST FILTER
+
+        function callDT() {
+            table = $('#finances_table').DataTable({
+                responsive: false,
+                autoWidth: false,
+                processing: true,
+                serverSide: true,
+                order: [],
+                ajax: {
+                    url: base + 'admin/finance_record/dtSideServer',
+                    type: "POST",
+                    data: function (d) {
+                        d.option = option;
+                        d.startDate = startDate;
+                        d.endDate = endDate;
+                        d.product = product;
+                        d.code = code;
+                        d.type = type;
+                    },
+                },
+                dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Export',
+                        title: 'Finance Report',
+                        className: 'd-none',
+                        exportOptions: {
+                            columns: ':not(.no-print)',
+                        },
+                        customize: function (doc) {
+
+                            doc.styles.tableHeader.fontSize = 10;
+                            doc.styles.tableBodyOdd.fontSize = 8;
+                            doc.styles.tableBodyEven.fontSize = 8;
+                    
+
+                            doc.content[1].margin = [10, 15, 10, 10];
+
+
+                            var totalsByProduct = {};
+                            var totalAmount = 0;
+
+                            table.rows({ page: 'current' }).data().each(function (row) {
+                                var product = row[3]; 
+                                var amount = row[4].replace(/[^0-9,-]+/g, ''); 
+
+                                amount = parseFloat(amount.replace(',', ''));
+                                if (totalsByProduct[product]) {
+                                    totalsByProduct[product] += amount;
+                                } else {
+                                    totalsByProduct[product] = amount;
+                                }
+                            });
+
+                            var totalAmountTable = [
+                                [
+                                    { text: 'Product', style: 'tableHeader', alignment: 'left', fontSize: '10' },
+                                    { text: 'Total Amount', style: 'tableHeader', alignment: 'left', fontSize: '10'},
+                                ]
+                            ];
+
+                            Object.keys(totalsByProduct).forEach(function (product) {
+                                totalAmountTable.push([
+                                    { text: product, style: 'tableBody', alignment: 'left', fontSize: '8' },
+                                    { text: 'Rp. ' + totalsByProduct[product].toLocaleString('id-ID'), style: 'tableBody', alignment: 'left', fontSize: '8' },
+                                ]);
+                                totalAmount += totalsByProduct[product];
+                            });
+
+                            totalAmountTable.push([
+                                { text: 'Overall Total', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                                { text: 'Rp. ' + totalAmount.toLocaleString('id-ID'), style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                            ]);
+
+                            doc.content.push({
+                                text: 'Summary of Total Amount',
+                                style: 'header',
+                                margin: [10, 20, 0, 0], 
+                            });
+
+                            doc.content.push({
+                                table: {
+                                    widths: ['30%', 'auto'],
+                                    body: totalAmountTable,
+                                },
+                                layout: 'lightHorizontalLines',
+                                    margin: [10, 5, 0, 10], 
+
+                            });
+                        },
+
+                    },
+                ],
+                initComplete: function () {
+                    table.buttons().container().appendTo('#custom-button-container');
+                },
+                columnDefs: [
+                    { targets: "_all", orderable: false },
+                    { targets: 0, className: "text-start" },
+                ],
+            });
         }
-        table.ajax.reload();
-    });
+
+        callDT();
+
+        // ---------- FILTER DATE
+        $('#filterSelect').on('change', function() {
+            option = $(this).val();
+
+            if (option === 'custom') {
+                $('#customDateModal').modal('show');
+            } else {
+                table.ajax.reload();
+
+                updateCards(option)
+            }
 
 
-    //------------ FILTER PRODUCT
-    $('#filterProduct').on('change', function() {
-        product = $(this).val();
-        table.ajax.reload();
-    });
+        });
+
+    
+        $('#applyCustomDate').on('click', function() {
+            startDate = $('#startDate').val();
+            endDate = $('#endDate').val();
+
+            if (!startDate || !endDate) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Masukan tanggal dengan benar"
+                });
+                return;
+            }
+
+            $('#customDateModal').modal('hide');
+            option = 'custom';
+            table.ajax.reload();
+            updateCards(option, startDate, endDate);
+        });
 
 
-    //------------ FILTER CODE
-    $('#filterCode').on('change', function() {
-        code = $(this).val();
-        table.ajax.reload();
-    });
+        // --------- FILTER CATEGORY
+        $('#filterCategory').on('change', function() {
+            type = $(this).val();
+            const accountSelect = $('#filterCode');
+            accID = 'filterCode';
+            accVAL = '';
+
+            if (type) {
+                accountSelect.html('<option value="" selected>-</option>');
+                getAccount(type)
+
+            }
+
+            if (type == "") {
+                accountSelect.html('<option value="" selected>-</option>');
+            }
+            table.ajax.reload();
+        });
 
 
-    //------------ CLEAR FILTER
-    $('#clearFilter').on('click', function() {
-        code = "";
-        type = "";
-        product = "";
-        option = "this_month";
-        startDate = "";
-        endDate = "";
-
-        $('#filterSelect').val('this_month');
-        $('#filterProduct').val('');
-        $('#filterCategory').val('');
-        $('#filterCode').html('<option value="" selected>-</option>');
-        updateCards(option)
-        table.ajax.reload();
-    });
+        //------------ FILTER PRODUCT
+        $('#filterProduct').on('change', function() {
+            product = $(this).val();
+            table.ajax.reload();
+        });
 
 
-    //EVENT LISTENER tombol export PDF DataTables
-    $('#exportPDF').on('click', function () {
-        table.button('.buttons-pdf').trigger(); 
-    });
+        //------------ FILTER CODE
+        $('#filterCode').on('change', function() {
+            code = $(this).val();
+            table.ajax.reload();
+        });
+
+
+        //------------ CLEAR FILTER
+        $('#clearFilter').on('click', function() {
+            code = "";
+            type = "";
+            product = "";
+            option = "this_month";
+            startDate = "";
+            endDate = "";
+
+            $('#filterSelect').val('this_month');
+            $('#filterProduct').val('');
+            $('#filterCategory').val('');
+            $('#filterCode').html('<option value="" selected>-</option>');
+            updateCards(option)
+            table.ajax.reload();
+        });
+
+
+        //EVENT LISTENER tombol export PDF DataTables
+        $('#exportPDF').on('click', function () {
+            table.button('.buttons-pdf').trigger(); 
+        });
 
     </script>
 </main>

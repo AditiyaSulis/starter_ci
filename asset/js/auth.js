@@ -37,7 +37,7 @@ $(document).ready(function () {
         e.preventDefault();  
         $("#kt_sign_in_submit").prop("disabled", true); 
         $.ajax({
-            url: $("#loginForm").data("action"),  // Action URL dinamis
+            url: $("#loginForm").data("action"),  
             type: "POST",  
             data: $(this).serialize(),  
             dataType: "json",  

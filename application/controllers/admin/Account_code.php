@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Account_code extends MY_Controller{
 
-    function __construct(){
+    function __construct()
+    {
         parent::__construct();
 
         $this->load->model('m_Account_code');
@@ -11,12 +12,13 @@ class Account_code extends MY_Controller{
         $this->load->model('m_Categories');
     }
 
+
     public function ac_page()
     {
        $this->_ONLYSELECTED([1,2]);
        $data = $this->_basicData();
 
-       $data['title'] = 'Account Code & Category';
+       $data['title'] = 'Account Code';
        $data['view_name'] = 'admin/account_code';
        $data['breadcrumb'] = 'Account Code';
        
@@ -32,6 +34,7 @@ class Account_code extends MY_Controller{
         
        
     }
+
 
     public function add_account_code()
     {
@@ -167,6 +170,7 @@ class Account_code extends MY_Controller{
         echo json_encode($response);
 
     }
+    
 
     public function delete()
     {

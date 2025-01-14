@@ -9,6 +9,7 @@ class Employee extends MY_Controller{
 
     }
 
+
     public function employee_page()
     {
         $this->_ONLYSELECTED([1,2]);
@@ -19,7 +20,7 @@ class Employee extends MY_Controller{
         $data['breadcrumb'] = 'Employee';
 
         $data['employees'] = $this->m_Employees->findAllJoin_get();
-        $data['products'] = $this->m_Products->findAll_get();
+        $data['products'] = $this->m_Products->findAllShow_get();
 
         if($data['user']){
             $this->load->view('templates/index',$data);
@@ -28,6 +29,7 @@ class Employee extends MY_Controller{
         }
 
     }
+
 
     public function add_employees()
     {
@@ -105,7 +107,9 @@ class Employee extends MY_Controller{
         echo json_encode($response);
     }
 
-    public function update() {
+
+    public function update() 
+    {
 
         $this->_ONLY_SU();
         $this->_isAjax();
@@ -201,6 +205,7 @@ class Employee extends MY_Controller{
 
         
     }
+    
 
     public function delete()
     {
@@ -227,7 +232,9 @@ class Employee extends MY_Controller{
 
     }
 
-    public function dtSideServer() {
+
+    public function dtSideServer() 
+    {
         $product = $this->input->post('product'); 
     
         $list = $this->m_Employees->getEmployeesData($product);
@@ -236,7 +243,7 @@ class Employee extends MY_Controller{
         $no = $this->input->post('start');  
     
         foreach($list as $item) {
-            $action = ' <a href="javascript:void(0)" onclick="editEmployeeBtn(this)" class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-emp" 
+            $action = ' <a href="javascript:void(0)" onclick="editEmployeeBtn(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-emp" style="width : 70px" 
                                 data-id="'.htmlspecialchars($item['id_employee']).'"
                                 data-product="'.htmlspecialchars($item['id_product']).'"
                                 data-date_in="'.htmlspecialchars($item['date_in']).'"
@@ -248,7 +255,7 @@ class Employee extends MY_Controller{
                                 data-position="'.htmlspecialchars($item['position']).'">
                             Edit
                         </a>
-                        <button class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_employee']).')">
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_employee']).')" style="width : 70px">
                             DELETE
                         </button>
                      ';  

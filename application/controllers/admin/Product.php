@@ -13,13 +13,14 @@ class Product extends MY_Controller{
 
     }
 
+
     public function product_page()
     {
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
         $data['products'] = $this->m_Products->findAll_get();
        
-        $data['title'] = 'Product ';
+        $data['title'] = 'Product';
         $data['view_name'] = 'admin/products';
         $data['breadcrumb'] = 'Product';
         if($data['user']){
@@ -30,14 +31,17 @@ class Product extends MY_Controller{
         }
     }
 
+
     public function add_products()
     {
         $this->_ONLY_SU();
+        $this->_isAjax();
         $this->form_validation->set_rules('name_product', 'Name_product', 'trim|required|min_length[3]|max_length[40]', [
             'required' => 'Nama harus diisi',
             'min_length' => 'Nama minimal harus mempunyai 3 huruf',
             'max_length' => 'Nama tidak boleh melebihi 40 karakter',
         ]);
+        
         $this->form_validation->set_rules('description', 'Description', 'trim|required|min_length[4]', [
             'required' => 'Deskripsi harus diisi',
             'min_length' => 'Deskripsi minimal 4 huruf',
@@ -100,11 +104,11 @@ class Product extends MY_Controller{
     }
 
 
-
     public function update() 
     {
         $this->_ONLY_SU();
-
+        $this->_isAjax();
+        
         $id = $this->input->post('id_product', true);
         $name = $this->input->post('name_product', true);
         $description = $this->input->post('description', true);
@@ -201,10 +205,12 @@ class Product extends MY_Controller{
         }
     }
 
+
     public function delete()
     {
         $this->_ONLY_SU();
-
+        $this->_isAjax();
+        
         $id = $this->input->post('id_product');
         
         if($this->m_Finance_records->findByProductId_get($id) || $this->m_Employees->findByProductId_get($id) ){
@@ -244,5 +250,56 @@ class Product extends MY_Controller{
         
         echo json_encode($response);
 
+    }
+    
+
+    public function set_visibility()
+    {
+  
+        $this->_ONLY_SU();
+        $this->_isAjax();
+  
+        $id = $this->input->post('id_product', true);
+  
+        
+        $this->form_validation->set_rules('visibility', 'visibility', 'required', [
+          'required' => 'Visibility harus diisi',
+        ]);
+  
+  
+        if($this->form_validation->run() == false) {
+          $response = [
+            'status' => false,
+            'message' => validation_errors('<p>' , '</p>'),
+            'confirmationbutton' => true,
+            'timer' => 0,
+            'icon' => 'error'
+          ];
+  
+          echo json_encode($response);
+  
+          return;
+        }
+  
+  
+      
+         $setstatus = $this->input->post('visibility', true);
+  
+  
+        if ($this->m_Products->setVisibility_post($id, $setstatus)) {
+          $response = [
+              'status' => true,
+              'message' => 'Visibility berhasil diperbarui.'
+          ];
+      } else {
+          $response = [
+              'status' => false,
+              'message' => 'Gagal memperbarui Visibility.'
+          ];
+      }
+  
+      echo json_encode($response);
+      return;
+  
     }
 }

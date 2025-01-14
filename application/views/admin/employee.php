@@ -1,7 +1,7 @@
 <main>
     <h1>Employee</h1>
 
-    <button type="button" class="btn btn-primary rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
+    <button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
         <i class="ti ti-plus"></i>
         Add Employee
     </button>
@@ -36,37 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <?php foreach ($employees as $employee): ?>
-                <tr>
-                    <td><?= $no; ?></td>
-                    <td><?= $employee['name_product']; ?></td>
-                    <td><?= date("d F Y", strtotime($employee['date_in'])); ?></td>
-                    <td><?= $employee['nip']; ?></td>
-                    <td><?= $employee['name']; ?></td>
-                    <td><?= ($employee['gender']=='L') ? "Laki-laki" : "Perempuan" ?></td>
-                    <td><?= $employee['place_of_birth']; ?></td>
-                    <td><?= date("d F Y" , strtotime($employee['date_of_birth'])); ?></td>
-                    <td><?= $employee['position']; ?></td>
-                    <td>
-                        <button class="btn btn-warning mb-2 btn-sm rounded-pill btn-edit-emp" 
-                                data-id="<?= $employee['id_employee']; ?>"
-                                data-product="<?= $employee['id_product']; ?>"
-                                data-date-in="<?= date($employee['date_in']); ?>"
-                                data-nip="<?= $employee['nip']; ?>"
-                                data-name="<?= $employee['name']; ?>"
-                                data-gender="<?= $employee['gender']; ?>"
-                                data-place-of-birth="<?= $employee['place_of_birth']; ?>"
-                                data-date-of-birth="<?= $employee['date_of_birth']; ?>"
-                                data-position="<?= $employee['position']; ?>">
-                            Edit
-                        </button>
-                         <button class="btn btn-danger btn-sm mb-2 rounded-pill btn-delete-emp" data-id="<?= $employee['id_employee']; ?>">
-                            DELETE
-                        </button>
-                    </td>
-                </tr>
-                <?php $no++?>
-                <?php endforeach; ?> -->
+                
             </tbody>
         </table>
     </div>
