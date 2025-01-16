@@ -33,6 +33,7 @@ class m_Products extends CI_Model {
     {
 
         $this->db->where('visibility', 1);
+        $this->db->order_by('name_product', 'ASC');
         $query = $this->db->get('products')->result_array(); 
 
         return $query;
@@ -41,6 +42,7 @@ class m_Products extends CI_Model {
 
     public function findAll_get()
     {
+        $this->db->order_by('name_product', 'ASC');
         return $this->db->get('products')->result_array();
     }
 

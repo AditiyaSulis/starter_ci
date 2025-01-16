@@ -47,6 +47,14 @@
             color: white;
         }
 
+        .smaller-input {
+            font-size: 14px; 
+            color: #000; 
+            height: 30px; 
+            padding: 5px; 
+        }
+
+
         .gradient-btn {
             background: linear-gradient(to right,rgb(6, 31, 100), #2575fc);
             border: none;
@@ -124,7 +132,47 @@
         }
 
 
-     
+        .menu-accordion {
+            position: relative;
+        }
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        /* .menu-link:hover {
+            background-color: #f1f5f9;
+        } */
+        .menu-sub {
+            display: none;
+            padding-left: 20px;
+        }
+        .menu-sub .menu-item {
+            margin-top: 5px;
+        }
+        .menu-sub .menu-link {
+            padding: 8px;
+            border-radius: 4px;
+        }
+        /* .menu-sub .menu-link:hover {
+            background-color: #e2e8f0;
+        } */
+        .menu-accordion.active .menu-sub {
+            display: block;
+        }
+        .menu-arrow {
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+        .menu-accordion.active .menu-arrow {
+            transform: rotate(90deg);
+        }
+
 
     </style>
 
@@ -248,32 +296,41 @@
 
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Supplier' ? "active": ""?>" href="<?=base_url('admin/supplier/data_supplier_page')?>">
+                            <div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+                                <!-- Menu Link -->
+                                <span class="menu-link <?= $menu == 'Supplier' ? "active": ""?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-truck"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Data</span>
-                                </a>
+                                    
+                                    <span class="menu-title">Supplier</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+
+                                <!-- Dropdown Submenu -->
+                                <div class="menu-sub menu-sub-accordion">
+                                    <div class="menu-item">
+                                        <a href="<?=base_url('admin/supplier/data_supplier_page')?>" class="menu-link <?= $title == 'Supplier' ? "active": ""?>">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Data</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="<?=base_url('admin/purchases/purchases_unpaid_page')?>" class="menu-link <?= $title == 'Purchases Unpaid' ? "active": ""?>">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Purchases</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Purchases Unpaid' ? "active": ""?>" href="<?=base_url('admin/purchases/purchases_unpaid_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-wallet"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Purchases</span>
-                                </a>
-                            </div>
-                        </div>
-
+                        
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
@@ -287,82 +344,6 @@
                                 </a>
                             </div>
                         </div>
-
-                       <div class="menu-item" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start">
-                            <!-- Menu Link -->
-                            <span class="menu-link">
-                                <span class="menu-title">Dashboards</span>
-                                <span class="menu-arrow"></span>
-                            </span>
-                            <!-- Dropdown Menu -->
-                            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-850px">
-                                <div class="menu-state-bg menu-extended overflow-hidden overflow-lg-visible" data-kt-menu-dismiss="true">
-                                    <div class="row">
-                                        <!-- First Column -->
-                                        <div class="col-lg-8 py-3 px-3 py-lg-6 px-lg-6">
-                                            <div class="row">
-                                                <!-- Dashboard Items -->
-                                                <div class="col-lg-6 mb-3">
-                                                    <div class="menu-item p-0 m-0">
-                                                        <a href="/metronic8/demo1/index.html" class="menu-link">
-                                                            <span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">
-                                                                <i class="ki-duotone ki-element-11 text-primary fs-1"></i>
-                                                            </span>
-                                                            <span class="d-flex flex-column">
-                                                                <span class="fs-6 fw-bold text-gray-800">Default</span>
-                                                                <span class="fs-7 fw-semibold text-muted">Reports & statistics</span>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <!-- Repeat dashboard items for other options -->
-                                                <div class="col-lg-6 mb-3">
-                                                    <div class="menu-item p-0 m-0">
-                                                        <a href="/metronic8/demo1/dashboards/ecommerce.html" class="menu-link">
-                                                            <span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">
-                                                                <i class="ki-duotone ki-basket text-danger fs-1"></i>
-                                                            </span>
-                                                            <span class="d-flex flex-column">
-                                                                <span class="fs-6 fw-bold text-gray-800">eCommerce</span>
-                                                                <span class="fs-7 fw-semibold text-muted">Sales reports</span>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <!-- Add more dashboard items as needed -->
-                                            </div>
-                                            <!-- Separator -->
-                                            <div class="separator separator-dashed mx-5 my-5"></div>
-                                            <!-- Landing Section -->
-                                            <div class="d-flex flex-stack flex-wrap flex-lg-nowrap gap-2 mx-5">
-                                                <div class="d-flex flex-column me-5">
-                                                    <div class="fs-6 fw-bold text-gray-800">Landing Page Template</div>
-                                                    <div class="fs-7 fw-semibold text-muted">One page landing template with pricing & others</div>
-                                                </div>
-                                                <a href="/metronic8/demo1/landing.html" class="btn btn-sm btn-primary fw-bold">Explore</a>
-                                            </div>
-                                        </div>
-                                        <!-- Second Column -->
-                                        <div class="menu-more bg-light col-lg-4 py-3 px-3 py-lg-6 px-lg-6 rounded-end">
-                                            <h4 class="fs-6 fs-lg-4 text-gray-800 fw-bold mt-3 mb-3 ms-4">More Dashboards</h4>
-                                            <!-- Additional Dashboard Links -->
-                                            <div class="menu-item p-0 m-0">
-                                                <a href="/metronic8/demo1/dashboards/logistics.html" class="menu-link py-2">
-                                                    <span class="menu-title">Logistics</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item p-0 m-0">
-                                                <a href="/metronic8/demo1/dashboards/website-analytics.html" class="menu-link py-2">
-                                                    <span class="menu-title">Website Analytics</span>
-                                                </a>
-                                            </div>
-                                            <!-- Add more links as needed -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
 
                     </div>
                 </div>
@@ -575,6 +556,26 @@
         </div>
     </div>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdowns = document.querySelectorAll('[data-kt-menu-trigger="click"]');
+
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', function () {
+                    // Toggle Active Class
+                    this.classList.toggle('active');
+
+                    // Close other dropdowns
+                    dropdowns.forEach(item => {
+                        if (item !== this) {
+                            item.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <script src="<?=base_url('asset/plugins/global/theme-mode.js')?>"></script>

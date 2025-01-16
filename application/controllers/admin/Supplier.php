@@ -21,8 +21,10 @@ class Supplier extends MY_Controller
     $data['supplier'] = $this->m_Supplier->findAll_get();
 
     $data['title'] = 'Supplier';
+    $data['Supplier'] = 'Supplier';
     $data['view_name'] = 'admin/supplier';
     $data['breadcrumb'] = 'Supplier - Data';
+    $data['menu'] = 'Supplier';
 
       if($data['user']) {
         $this->load->view('templates/index', $data);

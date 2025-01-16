@@ -22,6 +22,7 @@ class Purchases extends MY_Controller{
        $data['view_name'] = 'admin/purchases_unpaid';
        $data['breadcrumb'] = 'Supplier - Purchases Unpaid';
        $data['tab'] = 'Unpaid';
+       $data['menu'] = 'Supplier';
        
        $data['purchases'] = $this->m_Purchases->findAllWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
@@ -39,6 +40,7 @@ class Purchases extends MY_Controller{
 
     public function purchases_paid_page()
     {
+        
        $this->_ONLYSELECTED([1,2]);
        $data = $this->_basicData();
 
@@ -46,6 +48,7 @@ class Purchases extends MY_Controller{
        $data['view_name'] = 'admin/purchases_paid';
        $data['breadcrumb'] = 'Supplier - Purchases Paid';
        $data['tab'] = 'Unpaid';
+       $data['menu'] = 'Supplier';
        
        $data['purchases'] = $this->m_Purchases->findAllByPaidWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();

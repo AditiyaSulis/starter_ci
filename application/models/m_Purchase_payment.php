@@ -5,7 +5,7 @@ class m_Purchase_payment extends CI_Model {
 
     public function findAll_get()
     {
-        return $this->db->get('purchase_payment')->result_array();
+        return $this->db->get('purchase_payments')->result_array();
     }
 
 

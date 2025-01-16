@@ -21,15 +21,15 @@
                 <?php $no = 1 ?>
                 <tr>
                     <th>No</th>
-                    <th>Input At</th>
+                    <th>Tanggal Input</th>
                     <th>Supplier</th>
                     <th>Total</th>
                     <th>Potongan</th>
                     <th>Final</th>
-                    <th>Remaining</th>
+                    <th>Sisa</th>
                     <th>Status</th>
                     <th>Type</th>
-                    <th>Descripion</th>
+                    <th>Deskripsi</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -109,7 +109,7 @@
                                     </select>
                                 </div>
                                 <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Input At</span>
+                                    <span>Tanggal Input</span>
                                 </div>
                                 <div class="fv-row mb-8">
                                     <input type="date" value="<?= date('Y-m-d') ?>" name="input_at"
@@ -134,7 +134,7 @@
                                     <input type="number" class="form-control" id="final_amount" name="final_amount" disabled>
                                 </div>
                                  <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Remaining</span>
+                                    <span>Sisa</span>
                                 </div>
                                 <div class="fv-row mb-8">
                                     <input type="number" class="form-control" id="remaining_amount" name="remaining_amount" disabled>
@@ -150,7 +150,7 @@
                                     </select>
                                 </div>
                                 <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Description</span>
+                                    <span>Deskripsi</span>
                                 </div>
                                 <div class="fv-row mb-8">
                                     <textarea type="text" class="form-control" id="description" name="description"></textarea>
@@ -194,7 +194,7 @@
                             <form id="payForm">
                                 <input type="hidden" id="edit_id" name="id_purchases">
                                 <div class="mb-3">
-                                    <label for="form_date" class="form-label">Date</label>
+                                    <label for="form_date" class="form-label">Tanggal</label>
                                     <input type="datetime-local" value="<?= date('Y-m-d\TH:i') ?>" name="payment_date" class="form-control" id="pay_date" required>
                                 </div>
                                 <div class="mb-3">
@@ -202,7 +202,7 @@
                                     <input type="number" class="form-control" id="pay_amount" placeholder="Rp.1xxxx" name="payment_amount" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="form_text2" class="form-label">Description</label>
+                                    <label for="form_text2" class="form-label">Deskripsi</label>
                                     <textarea type="text" class="form-control" id="pay_description" placeholder="Enter text" name="description" required> </textarea>
                                 </div>
                                 <div class="d-grid mb-10 mt-10">
@@ -237,9 +237,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <script>
 		$('#purchases_unpaid_table').DataTable();

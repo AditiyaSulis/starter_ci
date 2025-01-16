@@ -29,6 +29,7 @@ class Dashboard extends MY_Controller{
         $data['title'] = 'Admin';
         $data['view_name'] = 'admin/index';
         $data['breadcrumb'] = 'Dashboard';
+        $data['menu'] = '';
         if($data['user']) { 
             $this->load->view('templates/index' ,$data);
         } else {
@@ -36,5 +37,5 @@ class Dashboard extends MY_Controller{
             redirect('fetch/login');
         }
     }
-   
+
 }

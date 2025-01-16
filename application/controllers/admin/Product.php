@@ -23,6 +23,7 @@ class Product extends MY_Controller{
         $data['title'] = 'Product';
         $data['view_name'] = 'admin/products';
         $data['breadcrumb'] = 'Product';
+        $data['menu'] = '';
         if($data['user']){
                 $this->load->view('templates/index', $data);
             } else {

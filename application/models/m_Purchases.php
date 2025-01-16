@@ -35,7 +35,6 @@ class m_Purchases extends CI_Model {
     {
         $this->db->select('P.*, S.id_supplier, S.name_supplier');
         $this->db->where('status_purchases', '0');
-        $this->db->where('S.status_supplier', '1');
         $this->db->from('purchases P');
         $this->db->join('supplier S', 'S.id_supplier = P.id_supplier');
         $this->db->order_by('P.input_at', 'DESC');
@@ -50,7 +49,6 @@ class m_Purchases extends CI_Model {
     {
         $this->db->select('P.*, S.id_supplier, S.name_supplier');
         $this->db->where('status_purchases', '1');
-        $this->db->where('S.status_supplier', '1');
         $this->db->from('purchases P');
         $this->db->join('supplier S', 'S.id_supplier = P.id_supplier');
         $this->db->order_by('P.input_at', 'DESC');

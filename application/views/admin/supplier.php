@@ -25,13 +25,13 @@
                     <td><?= $sup['name_supplier']; ?></td>
                     <td><?= $sup['contact_info']; ?></td>
                     <td><?php if($sup['status_supplier'] == 1):?>
-                            <button class="btn gradient-btn-active btn-sm rounded-pill btn-set"
+                            <button class="btn gradient-btn-active btn-sm rounded-pill btn-set" style="width : 120px"
                             data-id_supplier="<?= $sup['id_supplier']; ?>" 
                             data-status_supplier="<?= $sup['status_supplier']; ?>">
                                 <i class="ti ti-check"></i> Active
                             </button>
                         <?php else:?> 
-                            <button class="btn gradient-btn-inactive btn-sm rounded-pill btn-set" 
+                            <button class="btn gradient-btn-inactive btn-sm rounded-pill btn-set" style="width : 120px"
                             data-id_supplier="<?= $sup['id_supplier']; ?>" 
                             data-status_supplier="<?= $sup['status_supplier']; ?>">
                                 <i class="bi bi-slash-circle"></i> In-Active

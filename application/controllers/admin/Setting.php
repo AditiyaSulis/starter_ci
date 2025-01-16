@@ -9,6 +9,7 @@ class Setting extends MY_Controller{
 
         $this->load->model('m_Setting');
         $this->load->library('upload');
+        $this->load->model('m_Setting');
     }
 
 
@@ -20,6 +21,8 @@ class Setting extends MY_Controller{
        $data['title'] = 'Setting';
        $data['view_name'] = 'admin/setting';
        $data['breadcrumb'] = 'Setting - Company Profile';
+       $data['menu'] = '';
+       
       
        $data['cp'] = $this->m_Setting->findAll_get();
        

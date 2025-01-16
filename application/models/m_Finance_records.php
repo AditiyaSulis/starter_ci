@@ -18,7 +18,6 @@ class m_Finance_records extends CI_Model {
     {
 
         $this->db->select('F.*, A.name_code, A.code, P.name_product, C.id_kategori, C.name_kategori');
-        $this->db->where('P.visibility', '1'); // show
         $this->db->from('finance_records F');
         $this->db->join('products P', 'P.id_product = F.product_id');
         $this->db->join('account_code A', 'A.id_code = F.id_code');
@@ -118,7 +117,6 @@ class m_Finance_records extends CI_Model {
     private function _get_datatables_query($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null)
     {
             $this->db->select('F.*, A.name_code, A.code, P.name_product, C.id_kategori, C.name_kategori');
-            $this->db->where('P.visibility', '1');// show
             $this->db->from($this->table);
             $this->db->join('products P', 'P.id_product = F.product_id');
             $this->db->join('account_code A', 'A.id_code = F.id_code');
@@ -195,8 +193,6 @@ class m_Finance_records extends CI_Model {
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code');
         $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
-        $this->db->join('products P', 'P.id_product = F.product_id'); // show
-        $this->db->where('P.visibility', '1'); // show
         $this->db->group_by('C.id_kategori');
 
         $query = $this->db->get();
@@ -215,7 +211,6 @@ class m_Finance_records extends CI_Model {
         $this->_filterDATE($filter);  
 
         $this->db->select('P.id_product, P.name_product, C.id_kategori, SUM(F.amount) AS total_amount');
-        $this->db->where('P.visibility', '1'); // show
         $this->db->from('finance_records F');
         $this->db->join('account_code A', 'F.id_code = A.id_code');
         $this->db->join('products P', 'P.id_product = F.product_id');

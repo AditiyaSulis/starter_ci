@@ -19,10 +19,12 @@ class Finance_record extends MY_Controller{
         $data['title'] = 'Finance Record';
         $data['view_name'] = 'admin/finance_record';
         $data['breadcrumb'] = 'Finance Record';
+        $data['menu'] = '';
     
         
         $data['categories'] = $this->m_Categories->findAll_get();
-        $data['products'] = $this->m_Products->findAllShow_get();
+        $data['products'] = $this->m_Products->findAll_get();
+        $data['products_show'] = $this->m_Products->findAllShow_get();
         $data['account_code'] = $this->m_Account_code->findAll_get();
 
     
@@ -165,6 +167,7 @@ class Finance_record extends MY_Controller{
             'max_length' => 'Description lahir maksimal 300 karakter',
         ]);
 
+
         if ($this->form_validation->run() == FALSE) {
             $response = [
                 'status' => false,
@@ -183,6 +186,7 @@ class Finance_record extends MY_Controller{
             'amount' => $this->input->post('amount', true),
             'id_code' => $this->input->post('id_code', true),
             'description' => $this->input->post('description', true),
+            'record_date' => $this->input->post('record_date', true)
         ];
 
         $record = $this->m_Finance_records->update_post($data['id_record'], $data);
@@ -251,14 +255,15 @@ class Finance_record extends MY_Controller{
                                 data-product="' . htmlspecialchars($item->product_id) . '"
                                 data-kategori="' . htmlspecialchars($item->id_kategori) . '"
                                 data-amount="' . htmlspecialchars($item->amount) . '"
+                                data-record_date="' . htmlspecialchars($item->record_date) . '"
                                 data-description="' . htmlspecialchars($item->description) . '">
-                                Edit
+                                EDIT
                             </a>
 
                             <button 
                                 class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-finrec" style="width : 70px"
                                 onClick="handleDeleteButton(' . htmlspecialchars($item->id_record) . ')">
-                                Delete
+                                DELETE
                             </button>
                         </div>
                     ';

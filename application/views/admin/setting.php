@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-lg-8">
                         <input type="hidden" class="form-control form-control-solid" id="id" name="id" value="<?= $cp[0]['id']?>"/>
-                        <div class="image-input image-input-outline" data-kt-image-input="true">
+                        <div class="image-input image-input-outline shadow" data-kt-image-input="true">
                             <div class="image-input-wrapper w-125px h-125px bgi-position-center" style="background-size: 75%; background-image: url('<?=base_url('uploads/logos/'.$cp[0]['logo'])?>')"></div>
                             <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                                 <i class="bi bi-pencil-square fs-4"></i>

@@ -125,7 +125,7 @@
         </div>
        
     </div>
-    
+
     <div class="table-responsive mt-4">
         <table id="finances_table" class="table table-bordered table-striped w-100">
             <thead>
@@ -219,7 +219,7 @@
                         <div class="fv-row mb-8">
                             <select class="form-select" aria-label="Default select example" name="product_id">
                                 <option selected>Pilih Product</option>
-                                <?php foreach($products as $product): ?>
+                                <?php foreach($products_show as $product): ?>
                                 <option value="<?= $product['id_product'] ?>"><?= $product['name_product'] ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -285,6 +285,13 @@
                 <div class="modal-body">
                     <form class="form w-100" id="editfinanceForm" enctype="multipart/form-data">
                         <input type="hidden" name="id_record" id="id_record">
+                        <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                            <span>Record Date</span>
+                        </div>
+                        <div class="fv-row mb-8">
+                            <input type="datetime-local" id ="record_date" name="record_date"
+                                autocomplete="off" class="form-control bg-transparent" />
+                        </div>
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
                             <span>Type</span>
                         </div>
@@ -470,6 +477,7 @@
             $("#product_id").val($element.data('product'));
             $("#amount").val($element.data('amount'));
             $("#description").val($element.data('description'));
+            $("#record_date").val($element.data('record_date'));
 
             $("#id_code").html('<option value="" selected disabled>- Pilih ID Code -</option>');
             if ($element.data('kategori')) {
@@ -795,4 +803,5 @@
         });
 
     </script>
+
 </main>

@@ -21,15 +21,15 @@
                 <?php $no = 1 ?>
                 <tr>
                     <th>No</th>
-                    <th>Input At</th>
+                    <th>Tanggal Input</th>
                     <th>Supplier</th>
                     <th>Total</th>
                     <th>Potongan</th>
                     <th>Final</th>
-                    <th>Remaining</th>
+                    <th>Sisa</th>
                     <th>Status</th>
                     <th>Type</th>
-                    <th>Descripion</th>
+                    <th>Deskripsi</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -109,7 +109,7 @@
                                     </select>
                                 </div>
                                 <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Input At</span>
+                                    <span>Tanggal Input</span>
                                 </div>
                                 <div class="fv-row mb-8">
                                     <input type="date" value="<?= date('Y-m-d') ?>" name="input_at"
@@ -134,7 +134,7 @@
                                     <input type="number" class="form-control" id="final_amount" name="final_amount" disabled>
                                 </div>
                                  <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Remaining</span>
+                                    <span>Sisa</span>
                                 </div>
                                 <div class="fv-row mb-8">
                                     <input type="number" class="form-control" id="remaining_amount" name="remaining_amount" disabled>
@@ -191,9 +191,9 @@
                     </div>
                     <div class="card p-5 shadow mb-5" style="width: auto; max-height: 200px; overflow-y: auto;">
                         <div class="mb-3">
-                            <h6>Log:</h6>
+                            <h6>Log :</h6>
                             <ul id="log_list" class="list-group">
-                                <!-- Log items will appear here -->
+
                             </ul>
                         </div>
                     </div>

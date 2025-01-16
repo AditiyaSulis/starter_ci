@@ -129,7 +129,6 @@
 
 
     <!-- Modal Edit -->
-    <!-- Modal Edit -->
     <div class="modal fade" id="editUser" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
