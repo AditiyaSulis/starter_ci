@@ -6,6 +6,8 @@ class Employee extends MY_Controller{
         parent::__construct();
         $this->load->model('m_Employees');
         $this->load->model('m_Products');
+        $this->load->model('m_Position');
+        $this->load->model('m_Division');
         $this->load->model('m_Bank_account');
         $this->load->model('m_Emergency_contact');
 
@@ -23,6 +25,8 @@ class Employee extends MY_Controller{
         $data['menu'] = '';
 
         $data['employees'] = $this->m_Employees->findAllJoin_get();
+        $data['division'] = $this->m_Division->findAll_get();
+        $data['position'] = $this->m_Position->findAll_get();
         $data['products'] = $this->m_Products->findAll_get();
         $data['products_show'] = $this->m_Products->findAllShow_get();
 
@@ -66,15 +70,11 @@ class Employee extends MY_Controller{
             'max_length' => 'Tempat lahir maksimal 50 karakter',
         ]);
 
-        $this->form_validation->set_rules('position', 'Position', 'required|min_length[4]|max_length[30]', [
-            'required' => 'Position harus diisi',
-            'min_length' => 'Position minimal 4 karakter',
-            'max_length' => 'Position maksimal 30 karakter',
+        $this->form_validation->set_rules('id_position', 'id_position', 'required', [
+            'required' => 'Posisi harus diisi',
         ]);
-        $this->form_validation->set_rules('divisi', 'divisi', 'required|min_length[2]|max_length[30]', [
+        $this->form_validation->set_rules('id_division', 'id_division', 'required', [
             'required' => 'Divisi harus diisi',
-            'min_length' => 'Divisi minimal 2 karakter',
-            'max_length' => 'Divisi maksimal 30 karakter',
         ]);
 
 
@@ -98,8 +98,8 @@ class Employee extends MY_Controller{
             'gender' => $this->input->post('gender', true),
             'place_of_birth' => $this->input->post('place_of_birth', true),
             'date_of_birth' => $this->input->post('date_of_birth', true),
-            'position' => $this->input->post('position', true),
-            'divisi' => $this->input->post('divisi', true),
+            'id_position' => $this->input->post('id_position', true),
+            'id_division' => $this->input->post('id_division', true),
             'uang_makan' => $this->input->post('uang_makan', true),
             'basic_salary' => $this->input->post('basic_salary', true),
             'bonus' => $this->input->post('bonus', true),
@@ -159,15 +159,11 @@ class Employee extends MY_Controller{
             'max_length' => 'Tempat lahir maksimal 50 karakter',
         ]);
         
-        $this->form_validation->set_rules('position', 'Position', 'required|min_length[4]|max_length[30]', [
+        $this->form_validation->set_rules('id_position', 'Position', 'required', [
             'required' => 'Position harus diisi',
-            'min_length' => 'Position minimal 4 karakter',
-            'max_length' => 'Position maksimal 30 karakter',
         ]);
-        $this->form_validation->set_rules('divisi', 'divisi', 'required|min_length[2]|max_length[30]', [
+        $this->form_validation->set_rules('id_division', 'division', 'required', [
             'required' => 'Divisi harus diisi',
-            'min_length' => 'Divisi minimal 2 karakter',
-            'max_length' => 'Divisi maksimal 30 karakter',
         ]);
 
         $this->form_validation->set_rules('gender', 'Gender', 'required', [
@@ -210,8 +206,8 @@ class Employee extends MY_Controller{
             'gender' => $this->input->post('gender', true),
             'place_of_birth' => $this->input->post('place_of_birth', true),
             'date_of_birth' => $this->input->post('date_of_birth', true),
-            'position' => $this->input->post('position', true),
-            'divisi' => $this->input->post('divisi', true),
+            'id_position' => $this->input->post('id_position', true),
+            'id_division' => $this->input->post('id_division', true),
             'basic_salary' => $this->input->post('basic_salary', true),
             'uang_makan' => $this->input->post('uang_makan', true),
             'bonus' => $this->input->post('bonus', true),
@@ -246,7 +242,7 @@ class Employee extends MY_Controller{
         $id = $this->input->post('id');
 
 
-        if($this->m_Employees->delete($id)){
+        if($this->m_Employees->delete($id) && $this->m_Bank_account->deleteByEmployeeId_get($id) && $this->m_Emergency_contact->deleteByEmployeeId_get($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data karyawan berhasil dihapus',
@@ -274,27 +270,29 @@ class Employee extends MY_Controller{
         $no = $this->input->post('start');  
     
         foreach($list as $item) {
-            $action = ' <a href="javascript:void(0)" onclick="editEmployeeBtn(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-emp" style="width : 70px" 
-                                data-id="'.htmlspecialchars($item['id_employee']).'"
-                                data-product="'.htmlspecialchars($item['id_product']).'"
-                                data-date_in="'.htmlspecialchars($item['date_in']).'"
-                                data-nip="'.htmlspecialchars($item['nip']).'"
-                                data-name="'.htmlspecialchars($item['name']).'"
-                                data-gender="'.htmlspecialchars($item['gender']).'"
-                                data-place_of_birth="'.htmlspecialchars($item['place_of_birth']).'"
-                                data-date_of_birth="'.htmlspecialchars($item['date_of_birth']).'"
-                                data-divisi="'.htmlspecialchars($item['divisi']).'"
-                                data-basic_salary="'.htmlspecialchars($item['basic_salary']).'"
-                                data-uang_makan="'.htmlspecialchars($item['uang_makan']).'"
-                                data-bonus="'.htmlspecialchars($item['bonus']).'"
-                                data-divisi="'.htmlspecialchars($item['divisi']).'"
-                                data-position="'.htmlspecialchars($item['position']).'">
-                            EDIT
+            $action = ' <a href="javascript:void(0)" onclick="editEmployeeBtn(this)" 
+                            class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-emp"  
+                            style="width: 70px"
+                            data-edit_id="'. htmlspecialchars($item['id_employee']) .'"
+                            data-edit_product="'. htmlspecialchars($item['id_product']) .'"
+                            data-edit_date_in="'. htmlspecialchars($item['date_in']) .'"
+                            data-edit_nip="'. htmlspecialchars($item['nip']) .'"
+                            data-edit_name="'. htmlspecialchars($item['name']) .'"
+                            data-edit_gender="'. htmlspecialchars($item['gender']) .'"
+                            data-edit_pob="'. htmlspecialchars($item['place_of_birth']) .'"
+                            data-edit_dob="'. htmlspecialchars($item['date_of_birth']) .'"
+                            data-edit_division="'. htmlspecialchars($item['id_division']) .'"
+                            data-edit_basic_salary="'. htmlspecialchars($item['basic_salary']) .'"
+                            data-edit_uang_makan="'. htmlspecialchars($item['uang_makan']) .'"
+                            data-edit_bonus="'. htmlspecialchars($item['bonus']) .'"
+                            data-edit_position="'. htmlspecialchars($item['id_position']) .'">
+                                EDIT
                         </a>
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_employee']).')" style="width : 70px">
                             DELETE
                         </button>
-                     ';  
+                     ';   
+
             $bank_info = '<button 
                             class="btn btn-info btn-sm rounded-pill btn-bank" 
                             data-bs-toggle="modal" 
@@ -319,8 +317,8 @@ class Employee extends MY_Controller{
             $row[] = $item['gender'] == 'L' ? 'Pria' : 'Wanita';  
             $row[] = $item['place_of_birth'];  
             $row[] = date('d M Y', strtotime($item['date_of_birth']));  
-            $row[] = $item['divisi'];  
-            $row[] = $item['position'];  
+            $row[] = $item['name_division'];  
+            $row[] = $item['name_position'];  
             $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['bonus'], 0 , ',', '.');  
@@ -408,12 +406,12 @@ class Employee extends MY_Controller{
         if ($add_bank) {
             $response = [
                 'status' => true,
-                'message' => 'Pembayaran berhasil ditambahkan',
+                'message' => 'Bank berhasil ditambahkan',
             ];
         } else {
             $response = [
                 'status' => false,
-                'message' => 'Pembayaran gagal ditambahkan',
+                'message' => 'Bank gagal ditambahkan',
             ];
         }
 
@@ -443,6 +441,18 @@ class Employee extends MY_Controller{
         
         echo json_encode($response);
 
+    }
+
+    public function get_employee()
+    {
+        $id_employee = $this->input->post('id_employee');
+        if (!$id_employee) {
+            echo json_encode(['status' => false, 'message' => 'Invalid Employee ID']);
+            return;
+        }
+
+        $data = $this->m_Employees->findById_get($id_employee); // Replace with your model logic
+        echo json_encode(['status' => true, 'data' => $data]);
     }
 
 

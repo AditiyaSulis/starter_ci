@@ -634,5 +634,238 @@ $(document).ready(function () {
 });
 
 
+//EDIT DIVISION
+function editDvButton(element)
+{
+    let $element = $(element);
+
+    $("#id_division").val($element.data('id_division'));
+    $("#code_division").val($element.data('code_division'));
+    $("#name_division").val($element.data('name_division'));
+
+    $("#editDivisionModal").modal("show");
+}
+
+
+$(document).ready(function () 
+{
+    var base_url = $('meta[name="base_url"]').attr('content');
+    console.log($("#id_division").val());
+
+    $("#editDivisionForm").on("submit", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: base_url + "admin/division/update", 
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+                if (response.status) {
+                    swallMssg_s(response.message, false, 1500)
+                    .then(() =>  {
+                        location.reload();
+                    });
+                } else {
+                        swallMssg_e(response.message, true, 0);
+                }
+            },
+            error: function (xhr, status, error) {
+                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk mengedit data ' + error, true, 0).
+                then(() =>  {
+                    location.reload();
+                }); 
+            }
+        });
+    });
+});
+
+
+// DELETE DIVISI
+$(document).ready(function () {
+    var base_url = $('meta[name="base_url"]').attr('content');
+
+    $(".btn-delete-dv").on("click", function () {
+        var id_division = $(this).data("id_division");
+
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Divisi ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: base_url + "admin/division/delete",
+                    type: "POST",
+                    data: { id_division: id_division },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            Swal.fire({
+                                title: 'Success',
+                                text: response.message,
+                                icon: 'success',
+                                timer: 1500
+                            }).then(() => location.reload());
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan: ' + error,
+                            icon: 'error'
+                        }).then(() => location.reload());
+                    }
+                });
+            }
+        });
+    });
+});
+
+
+
+//ADD POSITION
+
+$(document).ready(function () {
+    $("#addPositionForm").on("submit", function (e) {
+        e.preventDefault(); 
+
+        var formElement = this; 
+        var formData = new FormData(formElement); 
+
+        $("#submit_position").prop("disabled", true); 
+
+        $.ajax({
+            url: $(formElement).data("action"), 
+            type: "POST", 
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            dataType: "json", 
+            success: function (response) {
+                $("#submit_position").prop("disabled", false); 
+                if (response.status) {
+                    swallMssg_s(response.message, false, 1500)
+                    .then(() =>  {
+                        location.reload();
+                    });
+                } else {
+                    swallMssg_e(response.message, true, 0); 
+                }
+            },
+            error: function (xhr, status, error) {
+                $("#submit_product").prop("disabled", false); 
+                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0).
+                then(() =>  {
+                    location.reload();
+                });
+            },
+        });
+    });
+
+});
+
+//EDIT POSITION
+function editPstButton(element)
+{
+    let $element = $(element);
+
+    $("#id_position").val($element.data('id_position'));
+    $("#code_position").val($element.data('code_position'));
+    $("#name_position").val($element.data('name_position'));
+
+    $("#editPositionModal").modal("show");
+}
+
+
+$(document).ready(function () 
+{
+    var base_url = $('meta[name="base_url"]').attr('content');
+    console.log($("#id_position").val());
+
+    $("#editPositionForm").on("submit", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: base_url + "admin/division/update_position", 
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+                if (response.status) {
+                    swallMssg_s(response.message, false, 1500)
+                    .then(() =>  {
+                        location.reload();
+                    });
+                } else {
+                        swallMssg_e(response.message, true, 0);
+                }
+            },
+            error: function (xhr, status, error) {
+                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk mengedit data ' + error, true, 0).
+                then(() =>  {
+                    location.reload();
+                }); 
+            }
+        });
+    });
+});
+
+
+// DELETE POSITION
+$(document).ready(function () 
+{
+    var base_url = $('meta[name="base_url"]').attr('content');
+
+    $(".btn-delete-pst").on("click", function () {
+        var id_position = $(this).data("id_position");
+
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Posisi ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: base_url + "admin/division/delete_position", 
+                    type: "POST",
+                    data: { id: id_position },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            swallMssg_s(response.message, false, 1500)
+                            .then(() =>  {
+                                location.reload();
+                            });
+                        } else {
+                            swallMssg_e(response.message, true, 0);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product ' + error , true, 0).
+                        then(() =>  {
+                            location.reload();
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
 
 

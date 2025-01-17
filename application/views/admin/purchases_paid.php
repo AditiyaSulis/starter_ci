@@ -1,6 +1,124 @@
 <main>
     <h1>Purchases</h1>
 
+    <h4 class="mt-10">Status Summary</h4>
+    <div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5" id="card-container1">
+        <div class="col">
+            <div class="card bg-body ">
+                <div class="card-body py-4 ">
+                    <div class="text-gray-900 fw-bolder fs-2">
+                        <span class="text-success">
+                            Total : <?=$total_paid?>
+                        </span>
+                    </div>
+                    <div class="fw-bold text-gray-800">
+                        Paid Purchases </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-body ">
+                <div class="card-body py-4 ">
+                    <div class="text-gray-900 fw-bolder fs-2">
+                        <span class="text-success">
+                        Total : <?=$total_unpaid?>
+                        </span>
+                    </div>
+                    <div class="fw-bold text-gray-800">
+                        Unpaid Purchases </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <div class="accordion" id="kt_accordion_1">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="kt_accordion_1_header_1">
+                <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#kt_accordion_1_body_1" aria-expanded="false" aria-controls="kt_accordion_1_body_1">
+                    <span class="fw-bolder">Cash Flow</span>
+                </button>
+            </h2>
+            <div id="kt_accordion_1_body_1" class="accordion-collapse collapse"
+                aria-labelledby="kt_accordion_1_header_1" data-bs-parent="#kt_accordion_1">
+                <div class="accordion-body">
+                    <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5" id="cardContainer1">
+                        
+                        <div class="col">
+                            <div class="card card-flush h-lg-100 ">
+                                <div class="card-header px-5 mb-0" style="min-height:55px !important">
+                                    <h3 class="card-title align-items-start flex-column mb-0">
+                                        <p class="fw-bold mb-0 text-primary">Final Amount</sp>
+                                    </h3>
+                                </div>
+                                <div class="card-body px-5 pb-4 pt-0">
+                                    <div class="d-flex flex-stack">
+                                        <div class="text-gray-700 fw-semibold fs-6 me-2">
+                                           Total:</div>
+                                        <div class="d-flex align-items-senter">
+                                            <span class=" fw-bold fs-6 text-success">
+                                               Rp.<?=number_format($totalFinalAmount)?>
+                                               
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col">
+                            <div class="card card-flush h-lg-100 ">
+                                <div class="card-header px-5 mb-0" style="min-height:55px !important">
+                                    <h3 class="card-title align-items-start flex-column mb-0">
+                                        <p class="fw-bold mb-0 text-primary">Payment Amount</sp>
+                                    </h3>
+                                </div>
+                                <div class="card-body px-5 pb-4 pt-0">
+                                    <div class="d-flex flex-stack">
+                                        <div class="text-gray-700 fw-semibold fs-6 me-2">
+                                           Total:</div>
+                                        <div class="d-flex align-items-senter">
+                                            <span class=" fw-bold fs-6 text-success">
+                                               Rp.<?=number_format($totalPaymentAmount, 0, ',', '.')?>
+                                               
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="card card-flush h-lg-100 ">
+                                <div class="card-header px-5 mb-0" style="min-height:55px !important">
+                                    <h3 class="card-title align-items-start flex-column mb-0">
+                                        <p class="fw-bold mb-0 text-primary">Remaining Amount</sp>
+                                    </h3>
+                                </div>
+                                <div class="card-body px-5 pb-4 pt-0">
+                                    <div class="d-flex flex-stack">
+                                        <div class="text-gray-700 fw-semibold fs-6 me-2">
+                                           Total:</div>
+                                        <div class="d-flex align-items-senter">
+                                            <span class=" fw-bold fs-6 text-success">
+                                               Rp.<?=number_format($totalRemainingAmount , 0, ',', '.')?>
+                                               
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
         <i class="ti ti-plus"></i>
         Add Purchases

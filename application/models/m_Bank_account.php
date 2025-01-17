@@ -28,4 +28,9 @@ class m_Bank_account extends CI_Model {
         return $this->db->delete('bank_account', ['id_bank' => $id]);
     }
 
+    public function deleteByEmployeeId_get($id)
+    {
+        return $this->db->delete('bank_account', ['id_employee' => $id]);
+    }
+
 }

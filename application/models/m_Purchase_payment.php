@@ -28,4 +28,17 @@ class m_Purchase_payment extends CI_Model {
         return $this->db->delete('purchase_payments', ['id_purchases' => $id]);
     }
 
+    public function getTotalPaymentAmount_get()
+    {
+        $this->db->select_sum('payment_amount'); 
+
+        $query = $this->db->get('purchase_payments'); 
+        return $query->row()->payment_amount; 
+    }
+
+    public function deleteByPurchaseId_get($id)
+    {
+        return $this->db->delete('purchase_payments', ['id_purchases' => $id]);
+    }
+
 }

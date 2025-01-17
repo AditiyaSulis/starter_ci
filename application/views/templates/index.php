@@ -239,32 +239,10 @@
                                 </a>
                             </div>
                         </div>
-                        
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Finance Record' ? "active": ""?>" 
-                                    href="<?=base_url('admin/finance_record/finance_record_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-receipt"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Finance Record</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Account Code' ? "active": ""?>" href="<?=base_url('admin/account_code/ac_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-filter"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Account Code</span>
-                                </a>
+
+                        <div  class="menu-item pt-5" >
+                            <div  class="menu-content" >
+                                <span class="menu-heading fw-bold text-uppercase text-secondary fs-7 ">EMPLOYMENT</span>
                             </div>
                         </div>
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
@@ -290,6 +268,53 @@
                                         </span>
                                     </span>
                                     <span class="menu-title">Product</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Division' ? "active": ""?>" href="<?=base_url('admin/division/division_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-package"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Division</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div  class="menu-item pt-5" >
+                            <div  class="menu-content" >
+                                <span class="menu-heading fw-bold text-uppercase text-secondary fs-7 ">TRANSACTION</span>
+                            </div>
+                        </div>
+                        
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Finance Record' ? "active": ""?>" 
+                                    href="<?=base_url('admin/finance_record/finance_record_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-receipt"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Finance Record</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Account Code' ? "active": ""?>" href="<?=base_url('admin/account_code/ac_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-filter"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Account Code</span>
                                 </a>
                             </div>
                         </div>
@@ -328,6 +353,12 @@
                                         </a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div  class="menu-item pt-5" >
+                            <div  class="menu-content" >
+                                <span class="menu-heading fw-bold text-uppercase text-secondary fs-7 ">SETTING</span>
                             </div>
                         </div>
                         

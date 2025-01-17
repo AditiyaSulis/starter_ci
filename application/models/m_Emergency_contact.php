@@ -36,4 +36,9 @@ class m_Emergency_contact extends CI_Model {
         return $this->db->delete('emergency_contact', ['id_contact' => $id]);
     }
 
+    public function deleteByEmployeeId_get($id)
+    {
+        return $this->db->delete('emergency_contact', ['id_employee' => $id]);
+    }
+
 }

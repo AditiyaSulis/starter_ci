@@ -23,9 +23,14 @@ class Purchases extends MY_Controller{
        $data['breadcrumb'] = 'Supplier - Purchases Unpaid';
        $data['tab'] = 'Unpaid';
        $data['menu'] = 'Supplier';
+       $data['total_paid'] = $this->m_Purchases->totalPaid_get();
+       $data['total_unpaid'] = $this->m_Purchases->totalUnpaid_get();
        
        $data['purchases'] = $this->m_Purchases->findAllWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
+       $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
+       $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
+       $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
    
 
        if($data['user']) {
@@ -49,6 +54,11 @@ class Purchases extends MY_Controller{
        $data['breadcrumb'] = 'Supplier - Purchases Paid';
        $data['tab'] = 'Unpaid';
        $data['menu'] = 'Supplier';
+       $data['total_paid'] = $this->m_Purchases->totalPaid_get();
+       $data['total_unpaid'] = $this->m_Purchases->totalUnpaid_get();
+       $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
+       $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
+       $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
        
        $data['purchases'] = $this->m_Purchases->findAllByPaidWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
@@ -137,7 +147,7 @@ class Purchases extends MY_Controller{
         } else {
             $response = [
                 'status' => false,
-                'message' => 'Purchases gagal ditambahkan',
+                'message' => 'Purchase gagal ditambahkan',
             ];
         }
 
@@ -154,7 +164,7 @@ class Purchases extends MY_Controller{
         
 
 
-        if($this->m_Purchases->delete($id) || $this->m_Purchase_payment->deleteByPurchaseId($id) ){
+        if($this->m_Purchases->delete($id) && $this->m_Purchase_payment->deleteByPurchaseId_get($id) ){
             $response = [
                 'status' => true,
                 'message' => 'Transaksi berhasil dihapus',
