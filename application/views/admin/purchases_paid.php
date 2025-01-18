@@ -295,7 +295,7 @@
     </div>
 
     
-    <!-- Modal Pay -->
+    <!-- Modal LOG -->
     <div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -71,18 +71,22 @@ class m_Purchases extends CI_Model {
         return $this->db->update('purchases', $data);
     }
 
+
     public function totalUnpaid_get()
     {
         $this->db->where('status_purchases', 0); 
         $query = $this->db->get('purchases'); 
         return $query->num_rows(); 
     }
+
+
     public function totalPaid_get()
     {
         $this->db->where('status_purchases', 1); 
         $query = $this->db->get('purchases'); 
         return $query->num_rows(); 
     }
+    
 
     public function getTotalFinalAmount_get()
     {

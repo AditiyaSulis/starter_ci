@@ -98,11 +98,14 @@
                             <label for="dob" class="form-label">Tanggal Lahir</label>
                             <input type="date" class="form-control" name="date_of_birth" required />
                         </div>
-                    </form>
-                </div>
+                    </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="nextToAddSalary">Next</button>
+                        <button type="reset"  class="btn btn-warning">Clear</button>
+                    </form>
+                
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    
+                    <button type="button" class="btn btn-primary" id="nextToAddSalary">Next</button>
                 </div>
             </div>
         </div>
@@ -149,7 +152,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="bonus" class="form-label">Bonus</label>
-                            <input type="number" class="form-control" name="bonus" required />
+                            <input type="number" value="0" class="form-control" name="bonus" required />
                         </div>
                     </form>
                 </div>
@@ -839,7 +842,8 @@
         }); 
         
         //ADD EMPLOYEE 
-        $(document).ready(function () {
+        $(document).ready(function () 
+        {
  
             $('#nextToAddSalary').on('click', function () {
                 if ($('#addEmployeeForm')[0].checkValidity()) {
@@ -919,7 +923,8 @@
 
 
          // ------------EDIT FINANCE
-         function editEmployeeBtn(element) {
+         function editEmployeeBtn(element) 
+        {
             const id = $(element).data('edit_id');
             const product = $(element).data('edit_product');
             const dateIn = $(element).data('edit_date_in');
@@ -952,7 +957,8 @@
         }
 
         
-        $(document).ready(function () {
+        $(document).ready(function () 
+        {
 
             $('#nextToEditSalary').on('click', function () {
                 if ($('#formEditProduct')[0].checkValidity()) {
@@ -986,7 +992,7 @@
                         text: "Pastikan data yang dimasukan sudah benar",
                         icon: 'question',
                         showCancelButton: true,
-                        confirmButtonText: 'Yes, save it!',
+                        confirmButtonText: 'Simpan',
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({

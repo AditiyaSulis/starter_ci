@@ -196,7 +196,8 @@ class Division extends MY_Controller{
         echo json_encode($response);
     }
 
-    //--------POSITION
+
+    //--------------------POSITION
 
     public function add_position()
     {

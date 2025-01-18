@@ -45,4 +45,6 @@ class m_Position extends CI_Model {
     public function findByCodePosition_get($code){
         return $this->db->get_where('position', ['code_position' => $code])->row_array();
     }
+
+    
 }

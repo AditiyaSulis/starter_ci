@@ -174,6 +174,15 @@
         }
 
 
+        /* TEST
+        .menu-link {
+            display: flex;
+            alignt-items: center;
+            justify-content: space-between;
+            padding: 500px
+                } */
+
+
     </style>
 
 
@@ -242,7 +251,7 @@
 
                         <div  class="menu-item pt-5" >
                             <div  class="menu-content" >
-                                <span class="menu-heading fw-bold text-uppercase text-secondary fs-7 ">EMPLOYMENT</span>
+                                <span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">EMPLOYMENT</span>
                             </div>
                         </div>
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
@@ -277,17 +286,17 @@
                                 <a class="menu-link <?= $title == 'Division' ? "active": ""?>" href="<?=base_url('admin/division/division_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-package"></i>
+                                            <i class="bi bi-buildings"></i>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Division</span>
+                                    <span class="menu-title">Division & Position</span>
                                 </a>
                             </div>
                         </div>
 
                         <div  class="menu-item pt-5" >
                             <div  class="menu-content" >
-                                <span class="menu-heading fw-bold text-uppercase text-secondary fs-7 ">TRANSACTION</span>
+                                <span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
                             </div>
                         </div>
                         
@@ -318,6 +327,8 @@
                                 </a>
                             </div>
                         </div>
+
+
 
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
@@ -358,7 +369,7 @@
 
                         <div  class="menu-item pt-5" >
                             <div  class="menu-content" >
-                                <span class="menu-heading fw-bold text-uppercase text-secondary fs-7 ">SETTING</span>
+                                <span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">SETTING</span>
                             </div>
                         </div>
                         
@@ -617,6 +628,7 @@
    
 
 </body>
+
 
 
 </html>
