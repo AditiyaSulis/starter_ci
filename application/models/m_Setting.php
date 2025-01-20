@@ -32,4 +32,9 @@ class m_Setting extends CI_Model {
         return null;
     }
 
+    public function getCp_get()
+    {
+        return $this->db->get('company_profile')->row_array();
+    }
+
 }

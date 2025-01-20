@@ -6,7 +6,7 @@ class m_Finance_records extends CI_Model {
     private $table = 'finance_records F'; 
     private $column_order = array('F.created_at', 'F.record_date', 'C.name_kategori', 'P.name_product', 'F.amount', 'A.name_code', 'F.description'); 
     private $column_search = array('F.created_at', 'F.record_date', 'C.name_kategori', 'P.name_product', 'F.amount', 'A.name_code', 'F.description'); 
-    private $order = array('F.record_date' => 'desc'); 
+    private $order = array('F.record_date' => 'asc'); 
     
     public function findByProductId_get($id)
     {

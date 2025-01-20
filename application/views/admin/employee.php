@@ -441,7 +441,7 @@
                     { targets: [1, 2, 3, 4], responsivePriority: 1 }, 
                     { targets: -1, responsivePriority: 2 }, 
                 ],
-                scrollX: true, 
+                
             });
 
             $('#filter-product').change(function() {

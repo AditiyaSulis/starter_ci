@@ -201,7 +201,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Product</h3>
+                    <h3 class="modal-title">Add Purchase</h3>
 
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                         <span class="menu-icon">
@@ -275,7 +275,7 @@
                                 <div class="d-grid mb-10">
                                     <button type="submit" id="submit_product" class="btn btn-primary">
                                             <span class="indicator-label">
-                                                    Add Supplier
+                                                    Add Purchase
                                             </span>
                                             <span class="indicator-progress">
                                                      Please wait...    
