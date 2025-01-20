@@ -4,27 +4,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Company_profile_api extends RestController{
+class Employee_api extends RestController{
 
 
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Setting');
+        $this->load->model('m_Employees');
         validate_header();
 
     }
 
-    /* Mengambil 1 Data Company Profile */
-    public function getOne_get()
+    
+    public function getAll_get()
     {
 
-        $company_profile = $this->m_Setting->getCp_get();
+        $employees = $this->m_Employees->findAllJoin_get();
 
-        if($company_profile){
+        if($employees){
             $this->response([
                 'status' => true, 
-                'data' => $company_profile
+                'data' => $employees
             ], 200);
         } else {
             $this->response([

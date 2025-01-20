@@ -4,27 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Product_api extends RestController{
+class Product_api extends RestController {
 
-    function __construct(){
+    function __construct() 
+    {
         parent::__construct();
         $this->load->model('m_Products');
-
-
+        validate_header();
     }
 
-    /* Mengambil semua data product 
-       dengan kondisi visibility = true
-    */
-    public function getAllVisibility_get()
+    public function getAllVisibility_get() 
     {
-
         $products = $this->m_Products->findAllShow_get();
 
-        if($products){
+        if ($products) {
             $this->response([
                 'status' => true, 
-                'products' => $products
+                'data' => $products
             ], 200);
         } else {
             $this->response([
@@ -34,18 +30,14 @@ class Product_api extends RestController{
         }
     }
 
-
-    /* Mengambil semua data product 
-    */
-    public function getAll_get()
+    public function getAll_get() 
     {
-
         $products = $this->m_Products->findAll_get();
 
-        if($products){
+        if ($products) {
             $this->response([
                 'status' => true, 
-                'products' => $products
+                'data' => $products
             ], 200);
         } else {
             $this->response([
@@ -55,5 +47,20 @@ class Product_api extends RestController{
         }
     }
 
+    public function getById_get($id) 
+    {
+        $product = $this->m_Products->findById_get($id);
 
+        if ($product) {
+            $this->response([
+                'status' => true,
+                'data' => $product
+            ], 200);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Product not found'
+            ], 404);
+        }
+    }
 }
