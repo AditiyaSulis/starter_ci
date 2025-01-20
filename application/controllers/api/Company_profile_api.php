@@ -13,6 +13,8 @@ class Company_profile_api extends RestController{
 
     }
 
+    /* Mengambil 1 Data Company Profile */
+
     public function getOne_get(){
 
         $company_profile = $this->m_Setting->getCp_get();
