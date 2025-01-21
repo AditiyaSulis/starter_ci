@@ -4,6 +4,8 @@ function api_key(): string
 {
 	return 'mgr-api-10519190';
 }
+
+
 function validate_key()
 {
 	$CI =& get_instance();
@@ -12,12 +14,16 @@ function validate_key()
 		responseApi(401, 'Unauthorized');
 	}
 }
+
+
 function validate_https()
 {
 	if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
 		responseApi(301, 'a page has been permanently moved to a new location');
 	}
 }
+
+
 function validate_origin()
 {
 	$allowed_origins = [
@@ -34,12 +40,14 @@ function validate_origin()
 		responseApi(403, 'Access forbidden: Origin not allowed');
 	}
 }
-function validate_header(){
+
+
+function validate_header()
+{
 	validate_https();
 	validate_origin();
 	validate_key();
 }
-
 
 
 function responseApi($http_code, $message, $data = null)

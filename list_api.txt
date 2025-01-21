@@ -1,0 +1,55 @@
+Default :
+HEADER : 
+X-API-KEY : mgr-api-10519190
+Origin : https://mgr.com, https://gadgetshop.com
+------------------------------------
+
+Endpoint : 
+
+-PRODUCT 
+Get All With Visibility Is Show : 
+*https://localhost/starter_ci/api/Product_api/getAllVisibility
+Get All Data  :
+*https://localhost/starter_ci/api/Product_api/getAll
+Get By Id : 
+*https://localhost/starter_ci/api/Product_api/getById/{id}
+
+------------------------------------------------------------------
+
+-COMPANY PROFIL 
+Get One Row :
+*https://localhost/starter_ci/api/Company_profile_api/getOne
+
+------------------------------------------------------------------
+
+-SUPPLIER 
+Get All With Status is Active : 
+*https://localhost/starter_ci/api/Supplier_api/getAllActive
+Get All Data : 
+*https://localhost/starter_ci/api/Supplier_api/getAll
+
+------------------------------------------------------------------
+
+-EMPLOYEE
+Get All :
+*https://localhost/starter_ci/api/Employee_api/getAll
+
+------------------------------------------------------------------
+
+-DIVISION 
+Get All 
+*https://localhost/starter_ci/api/Division_api/getAll
+
+------------------------------------------------------------------
+
+-ACCOUNT CODE 
+Get All :
+*https://localhost/starter_ci/api/Account_code_api/getAll
+
+------------------------------------------------------------------
+
+-POSITION
+Get All 
+*https://localhost/starter_ci/api/Position_api/getAll
+
+------------------------------------------------------------------
