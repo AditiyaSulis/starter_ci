@@ -134,7 +134,9 @@
 
         .menu-accordion {
             position: relative;
+            overflow: hidden; 
         }
+
         .menu-link {
             display: flex;
             align-items: center;
@@ -145,34 +147,35 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
-        /* .menu-link:hover {
-            background-color: #f1f5f9;
-        } */
+
         .menu-sub {
-            display: none;
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease-in-out; 
             padding-left: 20px;
         }
+
         .menu-sub .menu-item {
             margin-top: 5px;
         }
+
         .menu-sub .menu-link {
             padding: 8px;
             border-radius: 4px;
         }
-        /* .menu-sub .menu-link:hover {
-            background-color: #e2e8f0;
-        } */
+
         .menu-accordion.active .menu-sub {
-            display: block;
+            max-height: 500px; 
         }
+
         .menu-arrow {
             transform: rotate(0deg);
             transition: transform 0.3s ease;
         }
-        .menu-accordion.active .menu-arrow {
-            transform: rotate(90deg);
-        }
 
+        .menu-accordion.active .menu-arrow {
+            transform: rotate(5deg);
+        }
 
         /* TEST
         .menu-link {
@@ -357,19 +360,41 @@
                                 <span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
                             </div>
                         </div>
-                        
+
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Finance Record' ? "active": ""?>" 
-                                    href="<?=base_url('admin/finance_record/finance_record_page')?>">
+                            <div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+                                <!-- Menu Link -->
+                                <span class="menu-link <?= $menu == 'FR' ? "active": ""?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-receipt"></i>
                                         </span>
                                     </span>
+                                    
                                     <span class="menu-title">Finance Record</span>
-                                </a>
+                                    <span class="menu-arrow"></span>
+                                </span>
+
+                                <!-- Dropdown Submenu -->
+                                <div class="menu-sub menu-sub-accordion">
+                                    <div class="menu-item">
+                                        <a href="<?=base_url('admin/finance_record/finance_record_page')?>" class="menu-link <?= $title == 'Finance Record' ? "active": ""?>">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Transaction</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="<?=base_url('admin/account_code/ac_page')?>" class="menu-link <?= $title == 'Account Code' ? "active": ""?>">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Account Code</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -424,19 +449,6 @@
                             </div>
                         </div>     
 
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Account Code' ? "active": ""?>" href="<?=base_url('admin/account_code/ac_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-filter"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Account Code</span>
-                                </a>
-                            </div>
-                        </div>     
 
                         <div  class="menu-item pt-5" >
                             <div  class="menu-content" >
@@ -671,24 +683,28 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdowns = document.querySelectorAll('[data-kt-menu-trigger="click"]');
 
-            dropdowns.forEach(dropdown => {
-                dropdown.addEventListener('click', function () {
-                    // Toggle Active Class
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuAccordions = document.querySelectorAll('.menu-accordion');
+
+            menuAccordions.forEach(accordion => {
+                accordion.addEventListener('click', function () {
+                    // Toggle kelas aktif
                     this.classList.toggle('active');
 
-                    // Close other dropdowns
-                    dropdowns.forEach(item => {
-                        if (item !== this) {
-                            item.classList.remove('active');
-                        }
-                    });
+                    // Kontrol max-height secara dinamis untuk menu-sub
+                    const menuSub = this.querySelector('.menu-sub');
+                    if (this.classList.contains('active')) {
+                        menuSub.style.maxHeight = menuSub.scrollHeight + 'px';
+                    } else {
+                        menuSub.style.maxHeight = '0';
+                    }
                 });
             });
         });
     </script>
+
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <script src="<?=base_url('asset/plugins/global/theme-mode.js')?>"></script>

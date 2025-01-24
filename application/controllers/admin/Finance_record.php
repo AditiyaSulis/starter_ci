@@ -18,8 +18,8 @@ class Finance_record extends MY_Controller{
     
         $data['title'] = 'Finance Record';
         $data['view_name'] = 'admin/finance_record';
-        $data['breadcrumb'] = 'Finance Record';
-        $data['menu'] = '';
+        $data['breadcrumb'] = 'Finance Record - Transaction';
+        $data['menu'] = 'FR';
     
         
         $data['categories'] = $this->m_Categories->findAll_get();

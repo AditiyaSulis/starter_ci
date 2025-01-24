@@ -20,8 +20,8 @@ class Account_code extends MY_Controller{
 
        $data['title'] = 'Account Code';
        $data['view_name'] = 'admin/account_code';
-       $data['breadcrumb'] = 'Account Code';
-       $data['menu'] = '';
+       $data['breadcrumb'] = 'Finance Record - Account Code';
+       $data['menu'] = 'FR';
        
        $data['categories'] = $this->m_Categories->findAll_get();
        $data['account_code'] = $this->m_Account_code->findAllWithJoin_get();

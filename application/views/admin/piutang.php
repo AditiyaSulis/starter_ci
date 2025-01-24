@@ -44,7 +44,6 @@
                     <th>Karyawan</th>
                     <th>Type</th>
                     <th>Tenor</th>
-                    <th>Angsuran 1</th>
                     <th>Pelunasan</th>
                     <th>Amount</th>
                     <th>Remaining</th>
@@ -66,71 +65,89 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Add Piutang</h3>
-
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                         <span class="menu-icon">
-							<span class="svg-icon svg-icon-2">
-								<i class="ti ti-minus"></i>
-							</span>
+                            <span class="svg-icon svg-icon-2">
+                                <i class="ti ti-minus"></i>
+                            </span>
                         </span>
                     </div>
                 </div>
 
                 <div class="modal-body">
-                            <form class="form w-100" id="addproduct" data-action="<?= site_url('admin/piutang/add_piutang') ?>" enctype="multipart/form-data">
-                                <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Karyawan</span>
-                                </div>
-                                <div class="fv-row mb-8">
-                                    <select class="form-select" aria-label="Default select example" name="id_employee">
-                                        <option selected>-Karyawan-</option>
-                                        <?php foreach($employee as $emp):?>
-                                            <option value="<?=$emp['id_employee']?>"><?=$emp['name']?></option>
-                                        <?php endforeach;?>
-                                    </select>
-                                </div>
-                                <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Tanggal Input</span>
-                                </div>
-                                <div class="fv-row mb-8">
-                                    <input type="date" value="<?= date('Y-m-d') ?>" name="piutang_date"
-                                        autocomplete="off" class="form-control bg-transparent" />
-                                </div>
-                                <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Type Piutang</span>
-                                </div>
-                                <div class="fv-row mb-8">
-                                    <select class="form-select" aria-label="Default select example" name="type_piutang" id="type_piutang">
-                                        <option selected>-Type-</option>
-                                        <option value="2">Kasbon</option>
-                                        <option value="1">Pinjaman</option>
-                                    </select>
-                                </div>
-                                <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Amount</span>
-                                </div>
-                                <div class="fv-row mb-8">
-                                    <input type="number" value="<?= date('Y-m-d', strtotime('+2 months')) ?>" name="amount_piutang"
-                                        autocomplete="off" class="form-control bg-transparent" />
-                                </div>
-                                <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                    <span>Deskripsi</span>
-                                </div>
-                                <div class="fv-row mb-8">
-                                    <textarea type="text" class="form-control" id="description" name="description_piutang"></textarea>
-                                </div>
-                                <div class="d-grid mb-10">
-                                    <button type="submit" id="submit_product" class="btn btn-primary">
-                                            <span class="indicator-label">
-                                                    Add Piutang
-                                            </span>
-                                            <span class="indicator-progress">
-                                                     Please wait...    
-                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                            </span>
-                                    </button>
-                                </div>
-                            </form>
+                    <form class="form w-100" id="addproduct" data-action="<?= site_url('admin/piutang/add_piutang') ?>" enctype="multipart/form-data">
+                        <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                            <span>Karyawan</span>
+                        </div>
+                        <div class="fv-row mb-8">
+                            <select class="form-select" aria-label="Default select example" name="id_employee">
+                                <option selected>-Karyawan-</option>
+                                <?php foreach($employee as $emp):?>
+                                    <option value="<?=$emp['id_employee']?>"><?=$emp['name']?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+
+                        <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                            <span>Tanggal Input</span>
+                        </div>
+                        <div class="fv-row mb-8">
+                            <input type="date" value="<?= date('Y-m-d') ?>" name="piutang_date" autocomplete="off" class="form-control bg-transparent" />
+                        </div>
+
+                        <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                            <span>Type Piutang</span>
+                        </div>
+                        <div class="fv-row mb-8">
+                            <select class="form-select" aria-label="Default select example" name="type_piutang" id="type_piutang">
+                                <option selected>-Type-</option>
+                                <option value="2">Kasbon</option>
+                                <option value="1">Pinjaman</option>
+                            </select>
+                        </div>
+
+                        <div id="tenor-form" style="display: none;">
+                            <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                                <span>Tenor</span>
+                            </div>
+                            <div class="fv-row mb-8">
+                                <select class="form-select" name="tenor_piutang">
+                                    <option selected>-Tenor-</option>
+                                    <option value="2">2 Bulan</option>
+                                    <option value="3">3 Bulan</option>
+                                    <option value="4">4 Bulan</option>
+                                    <option value="5">5 Bulan</option>
+                                    <option value="6">6 Bulan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                            <span>Amount</span>
+                        </div>
+                        <div class="fv-row mb-8">
+                            <input type="number" name="amount_piutang" autocomplete="off" class="form-control bg-transparent" />
+                        </div>
+
+                        <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+                            <span>Deskripsi</span>
+                        </div>
+                        <div class="fv-row mb-8">
+                            <textarea type="text" class="form-control" id="description" name="description_piutang"></textarea>
+                        </div>
+
+                        <div class="d-grid mb-10">
+                            <button type="submit" id="submit_product" class="btn btn-primary">
+                                <span class="indicator-label">
+                                    Add Piutang
+                                </span>
+                                <span class="indicator-progress">
+                                    Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="modal-footer">
@@ -301,18 +318,18 @@
         
         callDT();
 
+
+        //PAY MODAL
         const exampleModal = document.getElementById('payPiutangModal');
         exampleModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const id = button.getAttribute('data-id_piutang');
             const remainingAmount = button.getAttribute('data-remaining_piutang');
             const tanggal_pelunasan = button.getAttribute('data-tgl_lunas');
-            const angsuran_1 = button.getAttribute('data-angsuran');
-            const type = button.getAttribute('data-type_piutang');
+            const tenor = button.getAttribute('data-tenor_piutang');
 
             console.log("ID:", id);
 
-            // Format angka menjadi Rupiah
             function formatToRupiah(number) {
                 return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
             }
@@ -323,20 +340,28 @@
                 return new Date(dateString).toLocaleDateString('id-ID', options);
             }
 
-            type_formatted = type == 2 ? 'Kasbon ( 1 Bulan )' : 'Pinjaman ( 2 Bulan )';
+            tenor_formatted = '';
+            if(tenor == 1) {
+                tenor_formatted = 'Kasbon (1 Bulan)';
+            } else if(tenor == 2) {
+                tenor_formatted = 'Pinjaman (2 Bulan)';
+            }else if(tenor == 3) {
+                tenor_formatted = 'Pinjaman (3 Bulan)';
+            }else if(tenor == 4) {
+                tenor_formatted = 'Pinjaman (4 Bulan)';
+            }else if(tenor == 5) {
+                tenor_formatted = 'Pinjaman (5 Bulan)';
+            }else if(tenor == 6) {
+                tenor_formatted = 'Pinjaman (6 Bulan)';
+            }
             
 
             console.log('sisa : '+remainingAmount);
-            // $('#final_amount_display').text(formatToRupiah(finalAmount));
+   
             $('#remaining_amount_display').text(formatToRupiah(remainingAmount));
             $('#tgl_lunas_display').text(formatDate(tanggal_pelunasan));
-            if(angsuran_1 == '') {
-                $('#angsuran_display').text('Tidak memiliki angsuran 1');
-            } else {
-                $('#angsuran_display').text(formatDate(angsuran_1));
-            }
-
-            $('#type_piutang_display').text(type_formatted);
+    
+            $('#type_piutang_display').text(tenor_formatted);
             $("#edit_id").val(id);
 
             $.ajax({
@@ -461,6 +486,22 @@
                         }); 
                     }
                 });
+            });
+        });
+
+
+        //TENOR FORM
+        document.addEventListener('DOMContentLoaded', function () {
+            const typePiutangSelect = document.getElementById('type_piutang');
+            const additionalForm = document.getElementById('tenor-form');
+
+            
+            typePiutangSelect.addEventListener('change', function () {
+                if (this.value === '1') { 
+                    additionalForm.style.display = 'block'; 
+                } else {
+                    additionalForm.style.display = 'none';
+                }
             });
         });
 

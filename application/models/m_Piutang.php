@@ -37,7 +37,7 @@ class m_Piutang extends CI_Model {
 
     public function findAllJoin_get()
     {
-        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang,  piutang.piutang_date, piutang.angsuran_piutang, piutang.description_piutang, employee.id_employee, employee.name');
+        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang,  piutang.piutang_date, piutang.description_piutang, employee.id_employee, employee.name');
         $this->db->from('piutang');
         $this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
         $query = $this->db->get();
@@ -70,7 +70,7 @@ class m_Piutang extends CI_Model {
 
     public function getPiutangData_get($type = null, $pelunasan = null ) 
     {
-        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, piutang.angsuran_piutang, employee.id_employee, employee.name');
+        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, employee.id_employee, employee.name');
         $this->db->from('piutang');
         $this->db->where('status_piutang', 2);
         $this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
@@ -78,12 +78,17 @@ class m_Piutang extends CI_Model {
         if ($type && $type !== 'All') {  
             $this->db->where('piutang.type_piutang', $type);
         }
-        if ($pelunasan && $pelunasan !== 'All') {  
-            $this->db->where('piutang.tgl_lunas', $pelunasan);
-        } else if ($pelunasan && $pelunasan == 'next_month') {
-            $this->db->where('piutang.tgl_lunas BETWEEN DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), "%Y-%m-01") AND LAST_DAY(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))');
-        } else if($pelunasan && $pelunasan == 'this_month'){
-            $this->db->where('piutang.tgl_lunas BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
+        // if ($pelunasan && $pelunasan !== 'All') {  
+        //     $this->db->where('piutang.tgl_lunas', $pelunasan);
+        // } 
+         if ($pelunasan === 'next_month') {
+            // Filter untuk bulan berikutnya
+            $this->db->where('piutang.tgl_lunas >=', date('Y-m-01', strtotime('first day of next month')));
+            $this->db->where('piutang.tgl_lunas <=', date('Y-m-t', strtotime('last day of next month')));
+        } else if ($pelunasan === 'this_month') {
+            // Filter untuk bulan ini
+            $this->db->where('piutang.tgl_lunas >=', date('Y-m-01'));
+            $this->db->where('piutang.tgl_lunas <=', date('Y-m-t'));
         }
 
         $i = 0;
@@ -145,7 +150,7 @@ class m_Piutang extends CI_Model {
 
     public function getPiutangWithPaid_get($type = null) 
     {
-        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, piutang.angsuran_piutang, employee.id_employee, employee.name, employee.nip, employee.id_position, position.id_position, position.name_position ');
+        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, employee.id_employee, employee.name, employee.nip, employee.id_position, position.id_position, position.name_position ');
         $this->db->from('piutang');
         $this->db->where('status_piutang', 1);
         $this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');

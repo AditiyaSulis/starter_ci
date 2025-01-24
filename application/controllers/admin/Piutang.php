@@ -68,15 +68,6 @@ class Piutang extends MY_Controller{
             return;
         }
 
-        // if ($this->m_Piutang->unpaid_get($id_emp)) {
-        //     $response = [
-        //         'status' => false,
-        //         'message' => 'Karyawan memiliki piutang yang belum lunas',
-        //     ];
-        //     echo json_encode($response);
-        //     return;
-        // }
-        
         $id_emp = $this->input->post('id_employee', true);
         $emp = $this->m_Employees->findById_get($id_emp);
         $amount_piutang = $this->input->post('amount_piutang',true);
@@ -102,18 +93,29 @@ class Piutang extends MY_Controller{
 
 
         $type = $this->input->post('type_piutang', true);
+        $tenor = $this->input->post('tenor_piutang', true);
         $tgl_lunas = date('Y-m-d');
-        $tenor = 0;
-        $angsuran = null;
 
         if($type == 2) {
             $tgl_lunas = date('Y-m-d', strtotime('+1 months'));
-            $tenor = 2;
-        } else {
-            $tgl_lunas = date('Y-m-d', strtotime('+2 months'));
             $tenor = 1;
-            $angsuran = date('Y-m-d', strtotime('+1 months'));
-        }
+        } else if($tenor == 2) {
+            $tgl_lunas = date('Y-m-d', strtotime('+2 months'));
+            $tenor = 2;
+        } else if($tenor == 3) {
+            $tgl_lunas = date('Y-m-d', strtotime('+3 months'));
+            $tenor = 3;
+        } else if($tenor == 4) {
+            $tgl_lunas = date('Y-m-d', strtotime('+4 months'));
+            $tenor = 4;
+        } else if($tenor == 5) {
+            $tgl_lunas = date('Y-m-d', strtotime('+5 months'));
+            $tenor = 5;
+        } else if($tenor == 6) {
+            $tgl_lunas = date('Y-m-d', strtotime('+6 months'));
+            $tenor = 6;
+        } 
+
 
         $data = [
             'id_employee' => $this->input->post('id_employee', true),
@@ -126,7 +128,6 @@ class Piutang extends MY_Controller{
             'status_piutang' => 2,
             'progress_piutang' => 2,
             'tgl_lunas' => $tgl_lunas,
-            'angsuran_piutang' => $angsuran,
         ];
 
         $employee = $this->m_Piutang->create_post($data);
@@ -167,8 +168,7 @@ class Piutang extends MY_Controller{
                             data-id_piutang="'.htmlspecialchars($item['id_piutang']).'" 
                             data-remaining_piutang="'.htmlspecialchars($item['remaining_piutang']).'"
                             data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
-                            data-type_piutang="'.htmlspecialchars($item['type_piutang']).'"
-                            data-angsuran="'.htmlspecialchars($item['angsuran_piutang']).'"disabled>
+                            data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'"disabled>
                              PAY 
                         </button>
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
@@ -183,8 +183,7 @@ class Piutang extends MY_Controller{
                             data-id_piutang="'.htmlspecialchars($item['id_piutang']).'"
                             data-remaining_piutang="'.htmlspecialchars($item['remaining_piutang']).'"
                             data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
-                            data-type_piutang="'.htmlspecialchars($item['type_piutang']).'"
-                            data-angsuran="'.htmlspecialchars($item['angsuran_piutang']).'">
+                            data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'">
                              PAY
                         </button>
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
@@ -238,8 +237,7 @@ class Piutang extends MY_Controller{
             $row[] = date('d M Y', strtotime($item['piutang_date']));  
             $row[] = $item['name'];  
             $row[] = $item['type_piutang'] == '2' ? 'Kasbon' : 'Pinjaman';  
-            $row[] = $item['tenor_piutang'] == '2' ? '1 Bulan' : '2 Bulan';  
-            $row[] = $item['angsuran_piutang'] != null ? date('d M Y', strtotime($item['angsuran_piutang'])) : '-';  
+            $row[] = $item['tenor_piutang'] . ' ' . 'Bulan';  
             $row[] = date('d M Y', strtotime($item['tgl_lunas']));  
             $row[] = 'Rp.'. number_format($item['amount_piutang'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['remaining_piutang'], 0 , ',', '.');  
@@ -548,7 +546,6 @@ class Piutang extends MY_Controller{
             $row[] = $item['name'];  
             $row[] = $item['type_piutang'] == '2' ? 'Kasbon' : 'Pinjaman';  
             $row[] = $item['tenor_piutang'] == '2' ? '1 Bulan' : '2 Bulan';  
-            $row[] = $item['angsuran_piutang'] != null ? date('d M Y', strtotime($item['angsuran_piutang'])) : '-';  
             $row[] = date('d M Y', strtotime($item['tgl_lunas']));  
             $row[] = 'Rp.'. number_format($item['amount_piutang'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['remaining_piutang'], 0 , ',', '.');  
