@@ -67,7 +67,7 @@ class Piutang extends MY_Controller{
             echo json_encode($response);
             return;
         }
-        
+
         // if ($this->m_Piutang->unpaid_get($id_emp)) {
         //     $response = [
         //         'status' => false,
@@ -76,6 +76,7 @@ class Piutang extends MY_Controller{
         //     echo json_encode($response);
         //     return;
         // }
+        
         $id_emp = $this->input->post('id_employee', true);
         $emp = $this->m_Employees->findById_get($id_emp);
         $amount_piutang = $this->input->post('amount_piutang',true);
