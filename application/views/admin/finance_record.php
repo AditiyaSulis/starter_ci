@@ -66,7 +66,7 @@
     <div class="d-flex justify-content-between flex-wrap mt-5">
         <button type="button" class="btn  rounded-pill btn-flex gradient-btn mt-3" data-bs-toggle="modal"
             data-bs-target="#addProduct">
-            <i class="ti ti-plus"></i> Add Finance Record
+            <i class="bi bi-plus-circle"></i> Add Finance Record
         </button>
     </div>
 
@@ -695,20 +695,148 @@
                         //     });
                         // },
 
+                        // customize: function (doc) {
+                        //     doc.styles.tableHeader.fontSize = 10;
+                        //     doc.styles.tableBodyOdd.fontSize = 8;
+                        //     doc.styles.tableBodyEven.fontSize = 8;
+                        //     doc.content[1].margin = [10, 15, 10, 10];
+
+                        //     var totalsByProduct = { income: {}, expenses: {} };
+                        //     var totalIncome = 0;
+                        //     var totalExpenses = 0;
+
+                            
+                        //     table.rows({ page: 'current' }).data().each(function (row) {
+                        //         var product = row[3]; 
+                        //         var amount = row[4].replace(/[^0-9,-]+/g, '');
+                        //         var type = row[2]; 
+
+                        //         amount = parseFloat(amount.replace(',', ''));
+
+                        //         if (type === 'Income') {
+                        //             if (totalsByProduct.income[product]) {
+                        //                 totalsByProduct.income[product] += amount;
+                        //             } else {
+                        //                 totalsByProduct.income[product] = amount;
+                        //             }
+                        //             totalIncome += amount;
+                        //         } else if (type === 'Expenses') {
+                        //             if (totalsByProduct.expenses[product]) {
+                        //                 totalsByProduct.expenses[product] += amount;
+                        //             } else {
+                        //                 totalsByProduct.expenses[product] = amount;
+                        //             }
+                        //             totalExpenses += amount;
+                        //         }
+                        //     });
+
+                        //     var totalAmountTable = [
+                        //         [
+                        //             { text: 'Product Type', style: 'tableHeader', alignment: 'left', fontSize: '10' },
+                        //             { text: 'Product', style: 'tableHeader', alignment: 'left', fontSize: '10' },
+                        //             { text: 'Total Amount', style: 'tableHeader', alignment: 'left', fontSize: '10' },
+                        //         ]
+                        //     ];
+
+                           
+                        //     Object.keys(totalsByProduct.income).forEach(function (product) {
+                        //         totalAmountTable.push([
+                        //             { text: 'Income', style: 'tableBody', alignment: 'left', fontSize: '8' },
+                        //             { text: product, style: 'tableBody', alignment: 'left', fontSize: '8' },
+                        //             { text: 'Rp. ' + totalsByProduct.income[product].toLocaleString('id-ID'), style: 'tableBody', alignment: 'left', fontSize: '8' },
+                        //         ]);
+                        //     });
+
+                        //     Object.keys(totalsByProduct.expenses).forEach(function (product) {
+                        //         totalAmountTable.push([
+                        //             { text: 'Expenses', style: 'tableBody', alignment: 'left', fontSize: '8' },
+                        //             { text: product, style: 'tableBody', alignment: 'left', fontSize: '8' },
+                        //             { text: 'Rp. ' + totalsByProduct.expenses[product].toLocaleString('id-ID'), style: 'tableBody', alignment: 'left', fontSize: '8' },
+                        //         ]);
+                        //     });
+
+                            
+                        //     totalAmountTable.push([
+                        //         { text: 'Overall Income', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //         { text: '', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //         { text: 'Rp. ' + totalIncome.toLocaleString('id-ID'), style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //     ]);
+
+                        //     totalAmountTable.push([
+                        //         { text: 'Overall Expenses', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //         { text: '', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //         { text: 'Rp. ' + totalExpenses.toLocaleString('id-ID'), style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //     ]);
+
+                        //     totalAmountTable.push([
+                        //         { text: 'Net Total (Income - Expenses)', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //         { text: '', style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //         { text: 'Rp. ' + (totalIncome - totalExpenses).toLocaleString('id-ID'), style: 'tableHeader', alignment: 'left', fontSize: '8' },
+                        //     ]);
+
+                        //     doc.content.push({
+                        //         text: 'Summary of Total Amount',
+                        //         style: 'header',
+                        //         margin: [10, 20, 0, 0],
+                        //     });
+
+                        //     doc.content.push({
+                        //         table: {
+                        //             widths: ['25%', '25%', '20%'],
+                        //             body: totalAmountTable,
+                        //         },
+                        //         layout: 'lightHorizontalLines',
+                        //         margin: [10, 5, 0, 10],
+                        //     });
+                        // }
+
                         customize: function (doc) {
+
                             doc.styles.tableHeader.fontSize = 10;
                             doc.styles.tableBodyOdd.fontSize = 8;
                             doc.styles.tableBodyEven.fontSize = 8;
                             doc.content[1].margin = [10, 15, 10, 10];
 
+
+                            let currentDate = new Date();
+                            let titleDate = '';
+
+                            if (option === 'this_month') {
+                                titleDate = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(currentDate);
+                            } else if (option === 'last_month') {
+                                currentDate.setMonth(currentDate.getMonth() - 1);
+                                titleDate = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(currentDate);
+                            } else if (option === 'this_year') {
+                                titleDate = `Tahun ${currentDate.getFullYear()}`;
+                            } else if (option === 'last_year') {
+                                titleDate = `Tahun ${currentDate.getFullYear() - 1}`;
+                            } else if (option === 'today') {
+                                titleDate = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(currentDate);
+                            } else if (option === 'yesterday') {
+                                currentDate.setDate(currentDate.getDate() - 1);
+                                titleDate = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(currentDate);
+                            } else if (option === 'this_week') {
+                                titleDate = `Minggu ini (${startDate} - ${endDate})`;
+                            } else if (option === 'last_week') {
+                                titleDate = `Minggu lalu (${startDate} - ${endDate})`;
+                            } else if (option === 'custom' && startDate && endDate) {
+                                titleDate = `${startDate} - ${endDate}`;
+                            }
+
+                            doc.content.unshift({
+                                text: titleDate,
+                                alignment: 'right',
+                                margin: [0, 0, 10, 20], 
+                                style: 'subheader',
+                            });
+
                             var totalsByProduct = { income: {}, expenses: {} };
                             var totalIncome = 0;
                             var totalExpenses = 0;
 
-                            
                             table.rows({ page: 'current' }).data().each(function (row) {
                                 var product = row[3]; 
-                                var amount = row[4].replace(/[^0-9,-]+/g, '');
+                                var amount = row[4].replace(/[^0-9,-]+/g, ''); 
                                 var type = row[2]; 
 
                                 amount = parseFloat(amount.replace(',', ''));
@@ -738,7 +866,6 @@
                                 ]
                             ];
 
-                           
                             Object.keys(totalsByProduct.income).forEach(function (product) {
                                 totalAmountTable.push([
                                     { text: 'Income', style: 'tableBody', alignment: 'left', fontSize: '8' },
@@ -755,7 +882,6 @@
                                 ]);
                             });
 
-                            
                             totalAmountTable.push([
                                 { text: 'Overall Income', style: 'tableHeader', alignment: 'left', fontSize: '8' },
                                 { text: '', style: 'tableHeader', alignment: 'left', fontSize: '8' },
@@ -789,6 +915,7 @@
                                 margin: [10, 5, 0, 10],
                             });
                         }
+
 
 
                     },

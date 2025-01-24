@@ -119,7 +119,7 @@
     </div>
 
     <button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
-        <i class="ti ti-plus"></i>
+        <i class="bi bi-plus-circle"></i>
         Add Purchases
     </button>
     

@@ -796,7 +796,7 @@ $(document).ready(function ()
     $("#editPositionForm").on("submit", function (e) {
         e.preventDefault();
         $.ajax({
-            url: base_url + "admin/division/update_position", 
+            url: base_url + "admin/position/update_position", 
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",
@@ -841,7 +841,7 @@ $(document).ready(function ()
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: base_url + "admin/division/delete_position", 
+                    url: base_url + "admin/position/delete_position", 
                     type: "POST",
                     data: { id: id_position },
                     dataType: "json",
@@ -866,6 +866,8 @@ $(document).ready(function ()
         });
     });
 });
+
+
 
 
 

@@ -2,7 +2,7 @@
     <h1>Employee</h1>
 
     <button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-        <i class="ti ti-plus"></i>
+        <i class="bi bi-plus-circle"></i>
         Add Employee
     </button>
 
@@ -417,7 +417,8 @@
 
         let product = 'All'; 
 
-        function callDT() {
+        function callDT() 
+        {
             var table = $('#employees_table').DataTable({
                 responsive:{
                     details: {
@@ -498,7 +499,8 @@
        
         //------ADD BANK 
         const exampleModal = document.getElementById('bankModal');
-        exampleModal.addEventListener('show.bs.modal', function (event) {
+        exampleModal.addEventListener('show.bs.modal', function (event) 
+        {
             const button = event.relatedTarget;
             const id = button.getAttribute('data-id_employee');
             const bank_number = button.getAttribute('data-bank_number');
@@ -662,9 +664,11 @@
                 });
         });  
 
+        
         //-------ADD EMERGENCY CONTACT
         const ecModal = document.getElementById('ecModal');
-        ecModal.addEventListener('show.bs.modal', function (event) {
+        ecModal.addEventListener('show.bs.modal', function (event)
+        {
             const button1 = event.relatedTarget;
             const id_employees = button1.getAttribute('data-id_employees');
             const name_contact = button1.getAttribute('data-name_contact');
@@ -795,6 +799,7 @@
             
         });
 
+
          //------DELETE BANK
          $(document).on("click", ".btn-delete-contact", function () 
         {
@@ -841,6 +846,7 @@
                 });
         }); 
         
+
         //ADD EMPLOYEE 
         $(document).ready(function () 
         {

@@ -298,7 +298,7 @@ class Employee extends MY_Controller{
                             data-bs-toggle="modal" 
                             data-bs-target="#bankModal"
                             data-id_employee="'.htmlspecialchars($item['id_employee']).'">
-                            <i class="bi bi-info-circle"></i>
+                            <i class="bi bi-credit-card"></i>
                            </button>';
             $ec_info = '<button 
                             class="btn btn-primary btn-sm rounded-pill btn-ec" 

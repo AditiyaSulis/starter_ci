@@ -2,7 +2,7 @@
     <h1>Supplier</h1>
 
     <button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
-        <i class="ti ti-plus"></i>
+        <i class="bi bi-plus-circle"></i>
         Add Supplier
     </button>
 
@@ -120,8 +120,6 @@
             </div>
         </div>
     </div>
-
-    
 
     <!-- Modal Edit -->
     <div class="modal fade" id="editSupplierModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">

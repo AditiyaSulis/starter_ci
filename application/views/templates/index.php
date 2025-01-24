@@ -182,6 +182,64 @@
             padding: 500px
                 } */
 
+        /* PRINT PIUTANG */
+        .yang-print {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .kop-surat {
+            text-align: center;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .kop-surat img {
+            height: 100px;
+            width: auto;
+        }
+
+        .kop-surat h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .kop-surat h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .kop-surat p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .isi-surat {
+           
+            line-height: 1.6;
+        }
+
+        .ttd {
+            margin-top: 50px;
+            text-align: right;
+        }
+
+        @media print {
+            main * {
+            visibility: hidden;
+             } 
+            .yang-print {
+                margin: 0;
+                padding: 0;
+            }
+
+            .kop-surat {
+                margin-bottom: 30px;
+            }
+        }
+
+        
 
     </style>
 
@@ -283,7 +341,7 @@
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Division' ? "active": ""?>" href="<?=base_url('admin/division/division_page')?>">
+                                <a class="menu-link <?= $title == 'Division' || $title == 'Position' ? "active": ""?>" href="<?=base_url('admin/division/division_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi bi-buildings"></i>
@@ -314,21 +372,6 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Account Code' ? "active": ""?>" href="<?=base_url('admin/account_code/ac_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-filter"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Account Code</span>
-                                </a>
-                            </div>
-                        </div>
-
-
 
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
@@ -366,6 +409,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Piutang' ? "active": ""?>" href="<?=base_url('admin/piutang/piutang_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="bi bi-currency-exchange"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Piutang</span>
+                                </a>
+                            </div>
+                        </div>     
+
+                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true">
+                            <div class="menu-item">
+                                <a class="menu-link <?= $title == 'Account Code' ? "active": ""?>" href="<?=base_url('admin/account_code/ac_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="ti ti-filter"></i>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Account Code</span>
+                                </a>
+                            </div>
+                        </div>     
 
                         <div  class="menu-item pt-5" >
                             <div  class="menu-content" >
@@ -626,8 +697,119 @@
     <script src="<?=base_url('asset/js/scripts.bundle.js')?>"></script>
     <script src="<?=base_url('asset/js/finance_record.js')?>"></script>
    
+    <!-- <div class="yang-print" style="display:none" >
+        <div class="kop-surat">
+            <img src="logo-instansi.png" alt="Logo Instansi">
+            <h1>SURAT PERNYATAAN KASBON</h1>
+            <h1>KARYAWAN</h1>
+            <p>Jl. Ipik Gandamanah No.303/15, Cisereuh, Kec Purwakarta, Kabupaten Purwakarta, Jawa Barat 41118</p>
+        </div>
+
+        <div class="isi-surat">
+            <p>Kepada Yth,</p>
+            <p>HRD CV.MULTI GRAHA RADHIKA</p>
+            <p>Jl. Ipik Gandamanah No.303/15,</p>
+            <p> Cisereuh, Kec Purwakarta,</p>
+            <p> Kabupaten Purwakarta, Jawa Barat 41118</p>
+            <br>
+            <p>
+                Dengan hormat,<br>
+                Saya yang bertandatangan di bawah ini : 
+            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    <span>Nama</span>
+                </div>
+                <div class="col-md-2">
+                    <span>:</span>
+                </div>
+                <div class="col-md-7">
+                    <span id="nama_employee_print"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <span>Jabatan</span>
+                </div>
+                <div class="col-md-2">
+                    <span>:</span>
+                </div>
+                <div class="col-md-7">
+                    <span id="position_print"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <span>NIP</span>
+                </div>
+                <div class="col-md-2">
+                    <span>:</span>
+                </div>
+                <div class="col-md-7">
+                    <span id="nip_print"></span>
+                </div>
+            </div>
+            <br>
+            <p>
+               Dengan ini saya mengajukan permohonan kasbon sebesar Rp.<span id="amount_piutang"></span> untuk keperluan pribadi.
+            </p>
+            <br>
+            <br>
+            <p>
+                Saya memahami bahwa jumlah kasbon ini akan dipotong dari gaji saya secara bertahap sesuai dengan kesepakatan antara saya dan perusahaan.
+            </p>
+            <br>
+            <p>
+                Adapun alasan pengajuan kasbon ini adalah sebagai berikut :
+            </p>
+            <p>
+               "<span id="description_piutang_print"></span>"
+            </p>
+            <br> 
+            <p>
+                Akan saya kembalikan pada tanggal : <span id="tgl_lunas"></span>
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <div class="ttd">
+                    <p>Hormat saya, </p>
+                    
+                    <br><br><br>
+                    <p>(<span id="name_karyawan_ttd_print">)</span></p>
+                    <p>Tanggal : <span id="piutang_date"></span></p>
+                </div>                              
+            </div>
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="ttd">
+                    <p>Mengetahui, </p>
+                    
+                    <br><br><br>
+                    <p>Amelia Gita Rahayu</span></p>
+                    <p>Admin Finance</span></p>
+                </div>                              
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="ttd">
+                    <p>Mengetahui, </p>
+                    
+                    <br><br><br>
+                    <p>Ara Suhara Sudrajat</span></p>
+                    <p>HRD</span></p>
+                </div>                              
+            </div>
+            
+        </div>
+        
+    </div> -->
 
 </body>
+
+    
 
 
 
