@@ -25,7 +25,7 @@
             </select>
         </div>
         <div class="col-12 col-md-auto">
-            <label class="form-label">Pembayaran :</label>
+            <label class="form-label">Pelunasan :</label>
             <select id="filter-tenor" class="form-select form-select-sm">
                 <option value="All" selected>All</option>
                     <option value="this_month">This month</option>
@@ -505,8 +505,49 @@
             });
         });
 
-    
-
+        //------------DELETE FINANCE
+        function handleDeleteButton(id) {
+                    console.log(id)
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Data yang dihapus tidak dapat dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, Hapus',
+                        cancelButtonText: 'Batal',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const base_url = $('meta[name="base_url"]').attr('content');
+                            $.ajax({
+                                url: base_url + 'admin/piutang/delete',
+                                type: 'POST',
+                                data: {
+                                    id: id
+                                },
+                                success: function(response) {
+                                    var res = JSON.parse(response);
+                                    if (res.status) {
+                                        swallMssg_s(res.message, false, 1500)
+                                            .then(() => {
+                                                location.reload();
+                                            });
+                                    } else {
+                                        swallMssg_e(res.message, true, 0);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire(
+                                        'Kesalahan!',
+                                        'Terjadi kesalahan: Silakan coba lagi.',
+                                        'error'
+                                    );
+                                },
+                            });
+                        }
+                    });
+                }
 
 
 	</script>

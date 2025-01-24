@@ -36,7 +36,7 @@ class m_Purchase_piutang extends CI_Model {
         return $query->row()->payment_amount; 
     }
 
-    public function deleteByPurchaseId_get($id)
+    public function deleteByPiutangId_get($id)
     {
         return $this->db->delete('purchase_piutang', ['id_piutang' => $id]);
     }

@@ -171,7 +171,7 @@ class Piutang extends MY_Controller{
                             data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'"disabled>
                              PAY 
                         </button>
-                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-piutang" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
                             DELETE
                         </button>
                     ' :  
@@ -186,7 +186,7 @@ class Piutang extends MY_Controller{
                             data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'">
                              PAY
                         </button>
-                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-piutang" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
                             DELETE
                         </button>
                      '
@@ -566,370 +566,36 @@ class Piutang extends MY_Controller{
     
         echo json_encode($output);
     }
+     
 
+    public function delete()
+    {
+        $this->_isAjax();
+        $this->_ONLY_SU();
 
-     // public function update() 
-    // {
-
-    //     $this->_ONLY_SU();
-    //     $this->_isAjax();
-    //     $id = $this->input->post('id_employee', true);
-
-    //     $emp = $this->m_Employees->findById_get($id);
-    //     $oldNip = $emp['nip'];
-
-    //     $this->form_validation->set_rules('gender', 'Gender', 'required', [
-    //         'required' => 'Gender harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('basic_salary', 'basic_salary', 'required', [
-    //         'required' => 'Salary harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('uang_makan', 'uang_makan', 'required', [
-    //         'required' => 'Uang makan harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('nip', 'NIP', 'required|min_length[8]|max_length[18]', [
-    //         'required' => 'NIP harus diisi',
-    //         'min_length' => 'NIP minimal 8 karakter',
-    //         'max_length' => 'NIP maksimal 18 karakter',
-    //     ]);
-    //     $this->form_validation->set_rules('name', 'Name', 'required|min_length[3]|max_length[50]', [
-    //         'required' => 'Name harus diisi',
-    //         'min_length' => 'Name minimal 3 karakter',
-    //         'max_length' => 'Name maksimal 50 karakter',
-    //     ]);
-    //     $this->form_validation->set_rules('place_of_birth', 'Place_of_birth', 'required|min_length[4]|max_length[30]', [
-    //         'required' => 'Tempat lahir harus diisi',
-    //         'min_length' => 'Tempat lahir minimal 4 karakter',
-    //         'max_length' => 'Tempat lahir maksimal 50 karakter',
-    //     ]);
+        $id = $this->input->post('id');
         
-    //     $this->form_validation->set_rules('id_position', 'Position', 'required', [
-    //         'required' => 'Position harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('id_division', 'division', 'required', [
-    //         'required' => 'Divisi harus diisi',
-    //     ]);
-
-    //     $this->form_validation->set_rules('gender', 'Gender', 'required', [
-    //         'required' => 'Gender harus diisi',
-    //     ]);
-
-    //     if ($this->form_validation->run() == FALSE) {
-    //         $response = [
-    //             'status' => false,
-    //             'message' => validation_errors('<p>', '</p>'),
-    //             'confirmationbutton' => true,
-    //             'timer' => 0,
-    //             'icon' => 'error',
-    //         ];
-    //         echo json_encode($response);
-    //         return;
-    //     }
-
-    //     $newNip = $this->input->post('nip',true);
-
-    //     if($oldNip != $newNip){
-    //         $nipExist = $this->m_Employees->findByNip_get($newNip);
-    //         if($nipExist){
-    //             $response = [
-    //                 'status' => false,
-    //                 'message' => 'NIP sudah digunakan'
-    //             ];
-
-    //             echo json_encode($response);
-
-    //             return;
-    //         }
-    //     }
-
-    //     $data = [
-    //         'id_product' => $this->input->post('id_product', true),
-    //         'date_in' => $this->input->post('date_in', true),
-    //         'nip' => $this->input->post('nip', true),
-    //         'name' => $this->input->post('name', true),
-    //         'gender' => $this->input->post('gender', true),
-    //         'place_of_birth' => $this->input->post('place_of_birth', true),
-    //         'date_of_birth' => $this->input->post('date_of_birth', true),
-    //         'id_position' => $this->input->post('id_position', true),
-    //         'id_division' => $this->input->post('id_division', true),
-    //         'basic_salary' => $this->input->post('basic_salary', true),
-    //         'uang_makan' => $this->input->post('uang_makan', true),
-    //         'bonus' => $this->input->post('bonus', true),
-    //     ];
-
-    //     $employee = $this->m_Employees->update_post($id, $data);
-
-    //     if ($employee) {
-    //         $response = [
-    //             'status' => true,
-    //             'message' => 'Data karyawan berhasil diupdate',
-    //         ];
-    //     } else {
-    //         $response = [
-    //             'status' => false,
-    //             'message' => 'Data karyawan gagal diupdate',
-    //         ];
-    //     }
-
-    //     echo json_encode($response);
 
 
+        if($this->m_Piutang->delete($id) && $this->m_Purchase_piutang->deleteByPiutangId_get($id) ){
+            $response = [
+                'status' => true,
+                'message' => 'Transaksi berhasil dihapus',
+            ];
+        } else {
+            $response = [
+               'status' => false,  
+               'message' => 'Transaksi gagal dihapus',  
+            ];
+        }
         
-    // }
+        echo json_encode($response);
+
+    }
+
+
+    //---------------------------------------- V2  
+
     
-
-    // public function delete()
-    // {
-    //     $this->_ONLY_SU();
-    //     $this->_isAjax();
-
-    //     $id = $this->input->post('id');
-
-
-    //     if($this->m_Employees->delete($id) && $this->m_Bank_account->deleteByEmployeeId_get($id) && $this->m_Emergency_contact->deleteByEmployeeId_get($id)){
-    //         $response = [
-    //             'status' => true,
-    //             'message' => 'Data karyawan berhasil dihapus',
-    //             'id' => $id
-    //         ];
-    //     } else {
-    //         $response = [
-    //            'status' => false,  
-    //            'message' => 'Data karyawan gagal dihapus',  
-    //         ];
-    //     }
-        
-    //     echo json_encode($response);
-
-    // }
-
-
-    //  //---------BANK ACCOUNT INFO
-    //  public function bank_info() 
-    //  {
-    
-    //      $id = $this->input->post('id');
- 
- 
-    //      if (!$id) {
-    //          echo json_encode([
-    //              'status' => false,
-    //              'message' => 'ID tidak valid.',
-    //          ]);
-    //          return;
-    //      }
- 
-    //      $banklist = $this->m_Bank_account->findByEmployeeId_get($id);
- 
-         
-    //      echo json_encode([
-    //          'status' => true,
-    //          'banks' => $banklist,
-    //      ]);
-    //  }
-
-    //  public function add_bank()
-    // {
-    //     $this->_isAjax();
-    //     $this->_ONLY_SU();
-
-    //     $this->form_validation->set_rules('bank_name', 'bank_name', 'required', [
-    //         'required' => 'Bank name harus diisi',
-    //     ]);
-
-    //     $this->form_validation->set_rules('bank_number', 'bank_number', 'required', [
-    //         'required' => 'Account number harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('bank_holder_name', 'bank_holder_name', 'required', [
-    //         'required' => 'Account holder name harus diisi',
-    //     ]);
-        
-
-    //     if ($this->form_validation->run() == FALSE) {
-    //         $response = [
-    //             'status' => false,
-    //             'message' => validation_errors('<p>', '</p>'),
-    //             'confirmationbutton' => true,
-    //             'timer' => 0,
-    //             'icon' => 'error',
-    //         ];
-    //         echo json_encode($response);
-    //         return;
-    //     }
-
-    //     $id_employee = $this->input->post('id_employee', true);
-
-
-    //     $data = [
-    //         'id_employee' => $this->input->post('id_employee', true),
-    //         'bank_name' => $this->input->post('bank_name', true),
-    //         'bank_number' => $this->input->post('bank_number', true),
-    //         'bank_holder_name' => $this->input->post('bank_holder_name', true),
-    //     ];
-
-    //     $add_bank = $this->m_Bank_account->create_post($data);
-
-    //     if ($add_bank) {
-    //         $response = [
-    //             'status' => true,
-    //             'message' => 'Bank berhasil ditambahkan',
-    //         ];
-    //     } else {
-    //         $response = [
-    //             'status' => false,
-    //             'message' => 'Bank gagal ditambahkan',
-    //         ];
-    //     }
-
-    //     echo json_encode($response);
-    // }
-
-    // public function delete_bank()
-    // {
-    //     $this->_ONLY_SU();
-    //     $this->_isAjax();
-
-    //     $id = $this->input->post('id_bank');
-
-
-    //     if($this->m_Bank_account->delete($id)){
-    //         $response = [
-    //             'status' => true,
-    //             'message' => 'Data Bank berhasil dihapus',
-    //             'id' => $id
-    //         ];
-    //     } else {
-    //         $response = [
-    //            'status' => false,  
-    //            'message' => 'Data Bank gagal dihapus',  
-    //         ];
-    //     }
-        
-    //     echo json_encode($response);
-
-    // }
-
-    // public function get_employee()
-    // {
-    //     $id_employee = $this->input->post('id_employee');
-    //     if (!$id_employee) {
-    //         echo json_encode(['status' => false, 'message' => 'Invalid Employee ID']);
-    //         return;
-    //     }
-
-    //     $data = $this->m_Employees->findById_get($id_employee); // Replace with your model logic
-    //     echo json_encode(['status' => true, 'data' => $data]);
-    // }
-
-
-    // //---------CONTACT INFO
-    // public function contact_info() 
-    // {
    
-    //     $id = $this->input->post('id_employees');
-
-
-    //     if (!$id) {
-    //         echo json_encode([
-    //             'status' => false,
-    //             'message' => 'ID tidak valid.',
-    //         ]);
-    //         return;
-    //     }
-
-    //     $contactList = $this->m_Emergency_contact->findByEmployeeId_get($id);
-
-        
-    //     echo json_encode([
-    //         'status' => true,
-    //         'contacts' => $contactList,
-    //     ]);
-    // }
-
-    // public function add_contact()
-    // {
-    //     $this->_isAjax();
-    //     $this->_ONLY_SU();
-
-    //     $this->form_validation->set_rules('name_contact', 'name_contact', 'required', [
-    //         'required' => 'Contact name harus diisi',
-    //     ]);
-
-    //     $this->form_validation->set_rules('number_contact', 'number_contact', 'required', [
-    //         'required' => 'No.Hp harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('as_contact', 'as_contact', 'required', [
-    //         'required' => 'Hubungan harus diisi',
-    //     ]);
-    //     $this->form_validation->set_rules('address_contact', 'address_contact', 'required', [
-    //         'required' => 'Address harus diisi',
-    //     ]);
-        
-
-    //     if ($this->form_validation->run() == FALSE) {
-    //         $response = [
-    //             'status' => false,
-    //             'message' => validation_errors('<p>', '</p>'),
-    //             'confirmationbutton' => true,
-    //             'timer' => 0,
-    //             'icon' => 'error',
-    //         ];
-    //         echo json_encode($response);
-    //         return;
-    //     }
-
-    //     $id_employee = $this->input->post('id_employee', true);
-
-
-    //     $data = [
-    //         'id_employee' => $this->input->post('id_employee', true),
-    //         'name_contact' => $this->input->post('name_contact', true),
-    //         'number_contact' => $this->input->post('number_contact', true),
-    //         'as_contact' => $this->input->post('as_contact', true),
-    //         'address_contact' => $this->input->post('address_contact', true),
-    //     ];
-
-    //     $add_contact = $this->m_Emergency_contact->create_post($data);
-
-    //     if ($add_contact) {
-    //         $response = [
-    //             'status' => true,
-    //             'message' => 'Emergency contact berhasil ditambahkan',
-    //         ];
-    //     } else {
-    //         $response = [
-    //             'status' => false,
-    //             'message' => 'Emergency contact gagal ditambahkan',
-    //         ];
-    //     }
-
-    //     echo json_encode($response);
-    // }
-
-    // public function delete_contact()
-    // {
-    //     $this->_ONLY_SU();
-    //     $this->_isAjax();
-
-    //     $id = $this->input->post('id_contact');
-
-
-    //     if($this->m_Emergency_contact->delete($id)){
-    //         $response = [
-    //             'status' => true,
-    //             'message' => 'Data berhasil dihapus',
-    //             'id' => $id
-    //         ];
-    //     } else {
-    //         $response = [
-    //            'status' => false,  
-    //            'message' => 'Data gagal dihapus',  
-    //         ];
-    //     }
-        
-    //     echo json_encode($response);
-
-    // }
-
-
 }
