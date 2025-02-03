@@ -18,8 +18,6 @@ class Fetch extends CI_Controller {
             $this->session->set_flashdata('authorize', 'Anda sudah login');
             redirect('admin/dashboard/dashboard_page');
         }
-        
-        
 
     }
 

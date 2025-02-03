@@ -137,45 +137,54 @@
             overflow: hidden; 
         }
 
-        .menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
+		.icon-check-piutang {
+			border: none;
+			color: black;
+		}
+		.icon-check-piutang:hover {
+			color: white;
+			cursor: pointer;
+		}
 
-        .menu-sub {
-            max-height: 0; 
-            overflow: hidden; 
-            transition: max-height 0.3s ease-in-out; 
-            padding-left: 20px;
-        }
+        /*.menu-link {*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: space-between;*/
+        /*    padding: 10px;*/
+        /*    cursor: pointer;*/
+        /*    border: 1px solid transparent;*/
+        /*    border-radius: 4px;*/
+        /*    transition: background-color 0.3s ease;*/
+        /*}*/
 
-        .menu-sub .menu-item {
-            margin-top: 5px;
-        }
+        /*.menu-sub {*/
+        /*    max-height: 0; */
+        /*    overflow: hidden; */
+        /*    transition: max-height 0.3s ease-in-out; */
+        /*    padding-left: 20px;*/
+        /*}*/
 
-        .menu-sub .menu-link {
-            padding: 8px;
-            border-radius: 4px;
-        }
+        /*.menu-sub .menu-item {*/
+        /*    margin-top: 5px;*/
+        /*}*/
 
-        .menu-accordion.active .menu-sub {
-            max-height: 500px; 
-        }
+        /*.menu-sub .menu-link {*/
+        /*    padding: 8px;*/
+        /*    border-radius: 4px;*/
+        /*}*/
 
-        .menu-arrow {
-            transform: rotate(0deg);
-            transition: transform 0.3s ease;
-        }
+        /*.menu-accordion.active .menu-sub {*/
+        /*    max-height: 500px; */
+        /*}*/
 
-        .menu-accordion.active .menu-arrow {
-            transform: rotate(5deg);
-        }
+        /*.menu-arrow {*/
+        /*    transform: rotate(0deg);*/
+        /*    transition: transform 0.3s ease;*/
+        /*}*/
+
+        /*.menu-accordion.active .menu-arrow {*/
+        /*    transform: rotate(5deg);*/
+        /*}*/
 
         /* TEST
         .menu-link {
@@ -186,61 +195,61 @@
                 } */
 
         /* PRINT PIUTANG */
-        .yang-print {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+        /*.yang-print {*/
+        /*    font-family: Arial, sans-serif;*/
+        /*    margin: 20px;*/
+        /*}*/
 
-        .kop-surat {
-            text-align: center;
-            border-bottom: 2px solid black;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+        /*.kop-surat {*/
+        /*    text-align: center;*/
+        /*    border-bottom: 2px solid black;*/
+        /*    padding-bottom: 10px;*/
+        /*    margin-bottom: 20px;*/
+        /*}*/
 
-        .kop-surat img {
-            height: 100px;
-            width: auto;
-        }
+        /*.kop-surat img {*/
+        /*    height: 100px;*/
+        /*    width: auto;*/
+        /*}*/
 
-        .kop-surat h1 {
-            font-size: 20px;
-            margin: 0;
-        }
+        /*.kop-surat h1 {*/
+        /*    font-size: 20px;*/
+        /*    margin: 0;*/
+        /*}*/
 
-        .kop-surat h2 {
-            font-size: 18px;
-            margin: 0;
-        }
+        /*.kop-surat h2 {*/
+        /*    font-size: 18px;*/
+        /*    margin: 0;*/
+        /*}*/
 
-        .kop-surat p {
-            font-size: 14px;
-            margin: 0;
-        }
+        /*.kop-surat p {*/
+        /*    font-size: 14px;*/
+        /*    margin: 0;*/
+        /*}*/
 
-        .isi-surat {
-           
-            line-height: 1.6;
-        }
+        /*.isi-surat {*/
+        /*   */
+        /*    line-height: 1.6;*/
+        /*}*/
 
-        .ttd {
-            margin-top: 50px;
-            text-align: right;
-        }
+        /*.ttd {*/
+        /*    margin-top: 50px;*/
+        /*    text-align: right;*/
+        /*}*/
 
-        @media print {
-            main * {
-            visibility: hidden;
-             } 
-            .yang-print {
-                margin: 0;
-                padding: 0;
-            }
+        /*@media print {*/
+        /*    main * {*/
+        /*    visibility: hidden;*/
+        /*     } */
+        /*    .yang-print {*/
+        /*        margin: 0;*/
+        /*        padding: 0;*/
+        /*    }*/
 
-            .kop-surat {
-                margin-bottom: 30px;
-            }
-        }
+        /*    .kop-surat {*/
+        /*        margin-bottom: 30px;*/
+        /*    }*/
+        /*}*/
 
         
 
@@ -299,7 +308,7 @@
                         <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class="menu-link  <?= $title == 'Admin' ? "active": ""?>" href="<?=base_url('admin/dashboard/dashboard_page')?>">
+                                <a class="menu-link  <?= $title == 'Admin' ? "active": ""?>" href="<?=base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="ti ti-layout-dashboard"></i>
@@ -447,7 +456,7 @@
                                     <span class="menu-title">Piutang</span>
                                 </a>
                             </div>
-                        </div>     
+                        </div>    
 
 
                         <div  class="menu-item pt-5" >

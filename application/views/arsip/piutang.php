@@ -8,16 +8,58 @@
 
     <ul class="nav nav-tabs mt-8">
         <li class="nav-item">
-            <a class="nav-link text-dark" aria-current="page" href="<?=base_url('admin/piutang/piutang_paid_page?status_piutang=1')?>">Paid</a>
+            <a class="nav-link text-dark" aria-current="page" href="<?=base_url('admin/piutang/piutang_paid_page')?>">Paid</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active text-info " href="<?=base_url('admin/piutang/piutang_page?status_piutang=2')?>">Unpaid</a>
+            <a class="nav-link active text-info " href="<?=base_url('admin/piutang/piutang_page')?>">Unpaid</a>
         </li>
     </ul>
 
-	<?php $this->load->view($view_data);?>
+    <div class="row g-3 align-items-center mt-4">
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Type Piutang :</label>
+            <select id="filter-type" class="form-select form-select-sm">
+                <option value="All" selected>All</option>
+                    <option value="2">Kasbon</option>
+                    <option value="1">Pinjaman</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-auto">
+            <label class="form-label">Pelunasan :</label>
+            <select id="filter-tenor" class="form-select form-select-sm">
+                <option value="All" selected>All</option>
+                    <option value="this_month">This month</option>
+                    <option value="next_month">Next month</option>
+            </select>
+        </div>
+    </div>
 
-   <!-- Modal Add Piutang -->
+    <div class="mt-6">
+        <table id="piutang_table" class="table table-bordered table-striped border-primary" style="width:100%">
+            <thead>
+                <?php $no = 1 ?>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Karyawan</th>
+                    <th>Type</th>
+                    <th>Tenor</th>
+                    <th>Pelunasan</th>
+                    <th>Amount</th>
+                    <th>Remaining</th>
+                    <th>Status</th>
+                    <th>Progress</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+
+   <!-- Modal Add Product -->
     <div class="modal fade" tabindex="-1" id="addProduct">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -59,49 +101,32 @@
                         <div class="fv-row mb-8">
                             <select class="form-select" aria-label="Default select example" name="type_piutang" id="type_piutang">
                                 <option selected>-Type-</option>
-                                <option value="2" selected>Kasbon</option>
+                                <option value="2">Kasbon</option>
                                 <option value="1">Pinjaman</option>
                             </select>
                         </div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Amount</span>
-						</div>
-						<div class="fv-row mb-8">
-							<input type="number" name="amount_piutang" autocomplete="off" class="form-control bg-transparent" />
-						</div>
+
                         <div id="tenor-form" style="display: none;">
                             <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                <span>Jangka Piutang</span>
+                                <span>Tenor</span>
                             </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Satuan</span>
-                                <input type="number" class="form-control" min="1" name="tenor_piutang" placeholder="" value="1" aria-label="Username">
-                                <span class="input-group-text">Type</span>
-								<select class="form-select" aria-label="Default select example" name="type_tenor" id="type_tenor">
-									<option value="1">Hari</option>
-									<option value="2">Minggu</option>
-									<option value="3" selected>Bulan</option>
-									<option value="4">Tahun</option>
-								</select>
+                            <div class="fv-row mb-8">
+                                <select class="form-select" name="tenor_piutang">
+                                    <option selected>-Tenor-</option>
+                                    <option value="2">2 Bulan</option>
+                                    <option value="3">3 Bulan</option>
+                                    <option value="4">4 Bulan</option>
+                                    <option value="5">5 Bulan</option>
+                                    <option value="6">6 Bulan</option>
+                                </select>
                             </div>
-							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-								<span>Angsuran</span>
-							</div>
-							<div class="fv-row mb-8">
-								<input type="number" name="angsuran" autocomplete="off" class="form-control bg-transparent" />
-							</div>
                         </div>
+
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                            <span>Jatuh Tempo (Tanggal)</span>
+                            <span>Amount</span>
                         </div>
                         <div class="fv-row mb-8">
-							<input type="number" id="jatuh_tempo" name="jatuh_tempo" autocomplete="off" class="form-control bg-transparent" />
-                        </div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                            <span>Tanggal Lunas</span>
-                        </div>
-                        <div class="fv-row mb-8">
-							<input type="date" id="tgl_lunas" value="<?= date("Y-m-d") ?>" name="tgl_lunas" autocomplete="off" class="form-control bg-transparent" />
+                            <input type="number" name="amount_piutang" autocomplete="off" class="form-control bg-transparent" />
                         </div>
 
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -133,7 +158,7 @@
     </div>
 
      <!-- Modal Pay -->
-    <div class="modal fade" id="payPiutangModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+     <div class="modal fade" id="payPiutangModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
@@ -148,7 +173,7 @@
                                 <span>Sisa: <span id="remaining_amount_display" class="text-success"></span></span>
                             </div>
                             <div class="mb-3">
-                                <span>Tenor: <span id="type_piutang_display" class="text-success"></span></span>
+                                <span>Type: <span id="type_piutang_display" class="text-success"></span></span>
                             </div>
                             <form id="payPiutangForm">
                                 <input type="hidden" id="edit_id" name="id_piutang">
@@ -180,7 +205,7 @@
 
                         <div class="col-md-6 col-sm">
                             <div class="mb-3">
-                                <span>Angsuran : <span id="angsuran_display" class="text-success"></span></span>
+                                <span>Tanggal Pembayaran 1 : <span id="angsuran_display" class="text-success"></span></span>
                             </div>
                             <div class="mb-3">
                                 <span>Tanggal Pelunasan    : <span id="tgl_lunas_display" class="text-success"></span></span>
@@ -200,6 +225,52 @@
         </div>
     </div>
 
+    <!-- MODAL SET PROGRESS -->
+    <div class="modal fade" tabindex="-1" id="setProgressModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Set Progress</h4>
+
+          
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
+                        </span>
+                    </div>
+      
+                </div>
+
+                <div class="modal-body">
+                            <form class="form w-100" id="setProgressForm" enctype="multipart/form-data">
+                            <input type="hidden" id="id_piutang_progress" name="id_piutang">   
+                            <div class="fv-row mb-8">
+                                    <select class="form-select" aria-label="Default select example" id="progress" name="progress_piutang">
+                                        <option value="2">On Process</option>
+                                        <option value="1">Completed</option>
+                                    </select>
+                                </div>
+                                <div class="d-grid mb-10">
+                                    <button type="submit" id="submit_progress" class="btn btn-primary">
+                                            <span class="indicator-label">
+                                                    Save changes
+                                            </span>
+                                            <span class="indicator-progress">
+                                                     Please wait...    
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+                                    </button>
+                                </div>
+                            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+   
 
     <script>
         const base_url = $('meta[name="base_url"]').attr('content');  
@@ -256,8 +327,6 @@
             const remainingAmount = button.getAttribute('data-remaining_piutang');
             const tanggal_pelunasan = button.getAttribute('data-tgl_lunas');
             const tenor = button.getAttribute('data-tenor_piutang');
-            const type_tenor = button.getAttribute('data-type_tenor');
-            const angsuran = button.getAttribute('data-angsuran');
 
             console.log("ID:", id);
 
@@ -271,27 +340,28 @@
                 return new Date(dateString).toLocaleDateString('id-ID', options);
             }
 
-            type_tenor_formatted = '';
-            if(type_tenor == 1) {
-                type_tenor_formatted = 'Hari';
-            } else if(type_tenor == 2) {
-                type_tenor_formatted = 'Minggu';
-            }else if(type_tenor == 3) {
-                type_tenor_formatted = 'Bulan';
-            }else if(type_tenor == 4) {
-                type_tenor_formatted = 'Tahun';
+            tenor_formatted = '';
+            if(tenor == 1) {
+                tenor_formatted = 'Kasbon (1 Bulan)';
+            } else if(tenor == 2) {
+                tenor_formatted = 'Pinjaman (2 Bulan)';
+            }else if(tenor == 3) {
+                tenor_formatted = 'Pinjaman (3 Bulan)';
+            }else if(tenor == 4) {
+                tenor_formatted = 'Pinjaman (4 Bulan)';
+            }else if(tenor == 5) {
+                tenor_formatted = 'Pinjaman (5 Bulan)';
+            }else if(tenor == 6) {
+                tenor_formatted = 'Pinjaman (6 Bulan)';
             }
-			type_formatted = `${tenor} ${type_tenor_formatted}`;
             
 
             console.log('sisa : '+remainingAmount);
    
             $('#remaining_amount_display').text(formatToRupiah(remainingAmount));
-            $('#angsuran_display').text(formatToRupiah(angsuran));
             $('#tgl_lunas_display').text(formatDate(tanggal_pelunasan));
     
-            $('#type_piutang_display').text(type_formatted);
-            $('#pay_amount').val(angsuran);
+            $('#type_piutang_display').text(tenor_formatted);
             $("#edit_id").val(id);
 
             $.ajax({
@@ -479,118 +549,6 @@
                     });
                 }
 
-		document.addEventListener("DOMContentLoaded", function () {
-			const amountInput = document.querySelector("input[name='amount_piutang']");
-			const tenorInput = document.querySelector("input[name='tenor_piutang']");
-			const angsuranInput = document.querySelector("input[name='angsuran']");
-			const type = document.querySelector("input[name='type_tenor']");
-			console.log('tenor_type : ' + type);
-
-			const jatuhTempoInput = document.getElementById("jatuh_tempo");
-			const typeTenorSelect = document.getElementById("type_tenor");
-			const tglLunasInput = document.getElementById("tgl_lunas");
-
-
-			const calculateAngsuran = () => {
-				const amount = parseFloat(amountInput.value) || 0;
-				const tenor = parseFloat(tenorInput.value) || 0;
-				// const tenor_type = parseFloat(type.value) || 0;
-
-
-
-				if (tenor > 0 ) {
-					angsuranInput.value = (amount / tenor).toFixed(2);
-				} else {
-					angsuranInput.value = "";
-				}
-			};
-
-			function calculateTanggalLunas() {
-				//const jatuhTempo = parseInt(jatuhTempoInput.value, 10) || 0;
-				const tenor = parseInt(tenorInput.value, 10) || 0;
-				const typeTenor = parseInt(typeTenorSelect.value, 10);
-
-				let totalDays = 0;
-
-				switch (typeTenor) {
-					case 1:
-						totalDays += tenor;
-						break;
-					case 2:
-						totalDays += tenor * 7;
-						break;
-					case 3:
-						totalDays += tenor * 30;
-						break;
-					case 4:
-						totalDays += tenor * 365;
-						break;
-					default:
-						break;
-				}
-				const currentDate = new Date();
-				currentDate.setDate(currentDate.getDate() + totalDays);
-				const year = currentDate.getFullYear();
-				const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-				const day = String(currentDate.getDate()).padStart(2, '0');
-
-				tglLunasInput.value = `${year}-${month}-${day}`;
-			}
-
-			//jatuhTempoInput.addEventListener("input", calculateTanggalLunas);
-			tenorInput.addEventListener("input", calculateTanggalLunas);
-			typeTenorSelect.addEventListener("change", calculateTanggalLunas);
-
-
-			amountInput.addEventListener("input", calculateAngsuran);
-			tenorInput.addEventListener("input", calculateAngsuran);
-		});
 
 	</script>
 </main>
-
-
-<!--<div class="row g-3 align-items-center mt-4">-->
-<!--	<div class="col-12 col-md-auto">-->
-<!--		<label class="form-label">Type Piutang :</label>-->
-<!--		<select id="filter-type" class="form-select form-select-sm">-->
-<!--			<option value="All" selected>All</option>-->
-<!--			<option value="2">Kasbon</option>-->
-<!--			<option value="1">Pinjaman</option>-->
-<!--		</select>-->
-<!--	</div>-->
-<!--	<div class="col-12 col-md-auto">-->
-<!--		<label class="form-label">Pelunasan :</label>-->
-<!--		<select id="filter-tenor" class="form-select form-select-sm">-->
-<!--			<option value="All" selected>All</option>-->
-<!--			<option value="this_month">This month</option>-->
-<!--			<option value="next_month">Next month</option>-->
-<!--		</select>-->
-<!--	</div>-->
-<!--</div>-->
-<!---->
-<!--<div class="mt-6">-->
-<!--	<table id="piutang_table" class="table table-bordered table-striped border-primary" style="width:100%">-->
-<!--		<thead>-->
-<!--		--><?php //$no = 1 ?>
-<!--		<tr>-->
-<!--			<th>No</th>-->
-<!--			<th>Tanggal</th>-->
-<!--			<th>Karyawan</th>-->
-<!--			<th>Type</th>-->
-<!--			<th>Tenor</th>-->
-<!--			<th>Jatuh Tempo</th>-->
-<!--			<th>Tgl Lunas</th>-->
-<!--			<th>Amount</th>-->
-<!--			<th>Remaining</th>-->
-<!--			<th>Status</th>-->
-<!--			<th>Angsuran</th>-->
-<!--			<th>Description</th>-->
-<!--			<th>Action</th>-->
-<!--		</tr>-->
-<!--		</thead>-->
-<!--		<tbody>-->
-<!---->
-<!--		</tbody>-->
-<!--	</table>-->
-<!--</div>-->

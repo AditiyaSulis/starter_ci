@@ -1,5 +1,5 @@
 <?php
-class Piutang extends MY_Controller{
+class Piutang_BU extends MY_Controller{
 
     function __construct()
     {
@@ -8,6 +8,7 @@ class Piutang extends MY_Controller{
         $this->load->model('m_Piutang');
         $this->load->model('m_Purchase_piutang');
     }
+
 
     public function piutang_page()
     {
@@ -22,8 +23,6 @@ class Piutang extends MY_Controller{
         $data['employee'] = $this->m_Employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoin_get();
 
-		$data['view_data'] = 'core/data_piutang';
-
 
         if($data['user']){
             $this->load->view('templates/index',$data);
@@ -33,149 +32,13 @@ class Piutang extends MY_Controller{
 
     }
 
-	public function add_piutang()
-	{
-		$this->_ONLY_SU();
-		$this->_isAjax();
 
-		$this->form_validation->set_rules('id_employee', 'id_employee', 'required', [
-			'required' => 'Karyawan harus diisi',
-		]);
-		$this->form_validation->set_rules('type_piutang', 'type_piutang', 'required', [
-			'required' => 'Type harus diisi',
-		]);
-		$this->form_validation->set_rules('amount_piutang', 'amount_piutang', 'required', [
-			'required' => 'Amount harus diisi',
-		]);
-		$this->form_validation->set_rules('type_tenor', 'type_tenor', 'required', [
-			'required' => 'Type harus diisi',
-		]);
-		$this->form_validation->set_rules('angsuran', 'angsuran', 'required', [
-			'required' => 'Type harus diisi',
-		]);
-		$this->form_validation->set_rules('jatuh_tempo', 'jatuh_tempo', 'required', [
-			'required' => 'Jatuh tempo harus diisi',
-		]);
-		$this->form_validation->set_rules('description_piutang', 'description_piutang', 'required|min_length[4]|max_length[100]', [
-			'required' => 'Deskripsi harus diisi',
-			'min_length' => 'Deskripsi minimal 4 karakter',
-			'max_length' => 'Deskripsi maksimal 100 karakter',
-		]);
-
-
-		if ($this->form_validation->run() == FALSE) {
-			$response = [
-				'status' => false,
-				'message' => validation_errors('<p>', '</p>'),
-				'confirmationbutton' => true,
-				'timer' => 0,
-				'icon' => 'error',
-			];
-			echo json_encode($response);
-			return;
-		}
-
-		$id_emp = $this->input->post('id_employee', true);
-		$emp = $this->m_Employees->findById_get($id_emp);
-		$amount_piutang = $this->input->post('amount_piutang',true);
-		$type_tenor = $this->input->post('type_tenor',true);
-		$type_piutang = $this->input->post('type_piutang',true);
-		$satuan = $this->input->post('tenor_piutang',true);
-		$angsuran = $this->input->post('angsuran',true);
-
-		$tgl_lunas = $this->input->post('tgl_lunas',true);
-
-		//validasi jika type piutang kasbon
-		if($type_piutang == 2) {
-			$satuan = 1;
-			$type_tenor = 3;
-			$angsuran = $amount_piutang;
-		}
-
-		//validasi berdasarkan type tenor
-		if($type_tenor == 1){
-
-			if($satuan > 30) {
-				$response = [
-					'status' => false,
-					'message' => 'Jika type harian maka satuan tidak boleh melebihi 30.',
-				];
-
-				echo json_encode($response);
-
-				return;
-			}
-		}
-
-		//validasi angsuran tidak boleh melebihi amount
-		if($angsuran > $amount_piutang){
-
-			$response = [
-				'status' => false,
-				'message' => 'Angsuran tidak boleh melebihi amount.',
-			];
-
-			echo json_encode($response);
-			return;
-
-		}
-
-		//validasi peminjaman tidak melebihi gaji
-		if($amount_piutang > $emp['basic_salary']) {
-			$response = [
-				'status' => false,
-				'message' => 'Piutang tidak boleh lebih dari saldo',
-			];
-
-			echo json_encode($response);
-			return;
-		}
-
-		if($this->input->post('jatuh_tempo',true) > 31) {
-			$response = [
-				'status' => false,
-				'message' => 'Jatuh tempo tidak lebih dari tanggal 31',
-			];
-			echo json_encode($response);
-			return;
-		}
-
-		$data = [
-			'id_employee' => $this->input->post('id_employee', true),
-			'type_piutang' => $this->input->post('type_piutang', true),
-			'tenor_piutang' => $satuan,
-			'amount_piutang' => $this->input->post('amount_piutang', true),
-			'remaining_piutang' => $this->input->post('amount_piutang', true),
-			'description_piutang' => $this->input->post('description_piutang', true),
-			'piutang_date' => $this->input->post('piutang_date', true),
-			'status_piutang' => 2,
-			'tgl_lunas' => $tgl_lunas,
-			'type_tenor' => $type_tenor,
-			'angsuran' => $angsuran,
-			'jatuh_tempo' => $this->input->post('jatuh_tempo', true),
-		];
-
-		$employee = $this->m_Piutang->create_post($data);
-
-		if ($employee) {
-			$response = [
-				'status' => true,
-				'message' => 'Piutang berhasil ditambahkan',
-			];
-		} else {
-			$response = [
-				'status' => false,
-				'message' => 'Piutang gagal ditambahkan',
-			];
-		}
-
-		echo json_encode($response);
-	}
-
-    public function add_piutangS()
+    public function add_piutang()
     {
         $this->_ONLY_SU();
         $this->_isAjax();
+
+
 
         $this->form_validation->set_rules('id_employee', 'id_employee', 'required', [
             'required' => 'Karyawan harus diisi',
@@ -284,6 +147,7 @@ class Piutang extends MY_Controller{
         echo json_encode($response);
     }
 
+
     public function dtSideServer() 
     {
         $tenor = $this->input->post('tanggal_pelunasan'); 
@@ -295,18 +159,22 @@ class Piutang extends MY_Controller{
         $no = $this->input->post('start');  
     
         foreach($list as $item) {
-
-			$type_ten = '';
-			if($item['type_tenor'] == 1) {
-				$type_ten = 'Hari';
-			} else if($item['type_tenor'] == 2) {
-				$type_ten = 'Minggu';
-			}else if($item['type_tenor'] == 3) {
-				$type_ten = 'Bulan';
-			}else if($item['type_tenor'] == 4) {
-				$type_ten = 'Tahun';
-			}
-            $action =
+            $action = $item['progress_piutang'] == 2 ? 
+                    '   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#payPiutangModal"
+                            data-id_piutang="'.htmlspecialchars($item['id_piutang']).'" 
+                            data-remaining_piutang="'.htmlspecialchars($item['remaining_piutang']).'"
+                            data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
+                            data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'"disabled>
+                             PAY 
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-piutang" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                    ' :  
                     '   
                         <button 
                             class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
@@ -315,9 +183,7 @@ class Piutang extends MY_Controller{
                             data-id_piutang="'.htmlspecialchars($item['id_piutang']).'"
                             data-remaining_piutang="'.htmlspecialchars($item['remaining_piutang']).'"
                             data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
-                            data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'"
-                            data-angsuran="'.htmlspecialchars($item['angsuran']).'"
-                            data-type_tenor="'.htmlspecialchars($item['type_tenor']).'">
+                            data-tenor_piutang="'.htmlspecialchars($item['tenor_piutang']).'">
                              PAY
                         </button>
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-piutang" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
@@ -325,7 +191,28 @@ class Piutang extends MY_Controller{
                         </button>
                      '
                     ;
-
+            
+            $progress = $item['progress_piutang'] == 2 ?
+                            '
+                                <td>
+                                    <a href="javascript:void(0)" onclick="setProgress(this)" class="btn btn-info btn-sm rounded-pill btn-progress" 
+                                    data-id_piutang=" '. htmlspecialchars($item['id_piutang']) .'" 
+                                    data-progress_piutang="'. htmlspecialchars($item['progress_piutang']).'">
+                                        <i class="bi bi-clock-history"></i>
+                                    </a>
+                                </td>
+                             '
+                                :
+                            '
+                                <td>
+                                    <a href="javascript:void(0)" onclick="setProgress(this)" class="btn btn-success btn-sm rounded-pill btn-progress"
+                                    data-id_piutang=" '. htmlspecialchars($item['id_piutang']) .'" 
+                                    data-progress_piutang="'. htmlspecialchars($item['progress_piutang']).'">
+                                        <i class="bi bi-check-lg"></i>
+                                    </a>
+                                </td>
+                             '
+                          ;
             
             $status = $item['status_piutang'] == 2 ?
                           '
@@ -350,13 +237,12 @@ class Piutang extends MY_Controller{
             $row[] = date('d M Y', strtotime($item['piutang_date']));  
             $row[] = $item['name'];  
             $row[] = $item['type_piutang'] == '2' ? 'Kasbon' : 'Pinjaman';  
-            $row[] = $item['tenor_piutang'] . ' ' . $type_ten;
-            $row[] = 'Tanggal '.$item['jatuh_tempo'];
-            $row[] = date('d M Y', strtotime($item['tgl_lunas']));
-            $row[] = 'Rp.'. number_format($item['amount_piutang'], 0 , ',', '.');
-            $row[] = 'Rp.'. number_format($item['remaining_piutang'], 0 , ',', '.');
+            $row[] = $item['tenor_piutang'] . ' ' . 'Bulan';  
+            $row[] = date('d M Y', strtotime($item['tgl_lunas']));  
+            $row[] = 'Rp.'. number_format($item['amount_piutang'], 0 , ',', '.');  
+            $row[] = 'Rp.'. number_format($item['remaining_piutang'], 0 , ',', '.');  
             $row[] = $status;
-            $row[] = 'Rp.'. number_format($item['angsuran'], 0 , ',', '.');
+            $row[] = $progress;;  
             $row[] = $item['description_piutang'];  
             $row[] = $action;  
             $data[] = $row;
@@ -373,6 +259,7 @@ class Piutang extends MY_Controller{
     
         echo json_encode($output);
     }
+
 
     public function pay_logs() 
     {
@@ -396,6 +283,7 @@ class Piutang extends MY_Controller{
             'logs' => $logs,
         ]);
     }
+
 
     public function add_pay()
     {
@@ -529,7 +417,7 @@ class Piutang extends MY_Controller{
   
     }
 
-	//-------------------------------PAID
+//-------------------------------PAID
     public function piutang_paid_page()
     {
         $this->_ONLYSELECTED([1,2]);
@@ -539,8 +427,6 @@ class Piutang extends MY_Controller{
         $data['view_name'] = 'admin/piutang_paid';
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
-
-		$data['view_component_table'] = 'core/data_piutang';
 
         $data['employee'] = $this->m_Employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoin_get();
@@ -565,37 +451,76 @@ class Piutang extends MY_Controller{
         $no = $this->input->post('start');  
     
         foreach($list as $item) {
-
-			$type_ten = '';
-			if($item['type_tenor'] == 1) {
-				$type_ten = 'Hari';
-			} else if($item['type_tenor'] == 2) {
-				$type_ten = 'Minggu';
-			}else if($item['type_tenor'] == 3) {
-				$type_ten = 'Bulan';
-			}else if($item['type_tenor'] == 4) {
-				$type_ten = 'Tahun';
-			}
-
-            $action =
+            $action = $item['progress_piutang'] == 2 ? 
+                    '   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#logPiutangModal"
+                            data-id_piutang="'.htmlspecialchars($item['id_piutang']).'" disabled>
+                             LOG
+                        </button>
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-print" style="width : 70px"
+                            data-id_employee="'.htmlspecialchars($item['name']).'"
+                            data-id_position="'.htmlspecialchars($item['name_position']).'"
+                            data-nip="'.htmlspecialchars($item['nip']).'"
+                            data-amount_piutang="'.htmlspecialchars($item['amount_piutang']).'"
+                            data-description_piutang="'.htmlspecialchars($item['description_piutang']).'"
+                            data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
+                            data-piutang_date="'.htmlspecialchars($item['piutang_date']).'">
+                            PRINT
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                    ' :  
                     '   
                         <button 
                             class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
                             data-bs-toggle="modal" 
                             data-bs-target="#payPiutangModal"
-                            data-id_piutang="'.htmlspecialchars($item['id_piutang']).'"
-                            data-name_log="'.htmlspecialchars($item['name']).'"
-                            data-totals_log="'.htmlspecialchars($item['amount_piutang']).'"
-                            data-paydate_log="'.htmlspecialchars($item['piutang_date']).'"
-                            data-tgl_lunas_log="'.htmlspecialchars($item['tgl_lunas']).'">
+                            data-id_piutang="'.htmlspecialchars($item['id_piutang']).'">
                              LOG
+                        </button>
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-print" style="width : 70px"
+                            data-id_employee="'.htmlspecialchars($item['name']).'"
+                            data-id_position="'.htmlspecialchars($item['name_position']).'"
+                            data-nip="'.htmlspecialchars($item['nip']).'"
+                            data-amount_piutang="'.htmlspecialchars($item['amount_piutang']).'"
+                            data-description_piutang="'.htmlspecialchars($item['description_piutang']).'"
+                            data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
+                            data-piutang_date="'.htmlspecialchars($item['piutang_date']).'">
+                            PRINT
                         </button>
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_piutang']).')" style="width : 70px">
                             DELETE
                         </button>
                      '
                     ;
-
+            
+            $progress = $item['progress_piutang'] == 2 ?
+                            '
+                                <td>
+                                    <a href="javascript:void(0)" onclick="setProgress(this)" class="btn btn-info btn-sm rounded-pill btn-progress" 
+                                    data-id_piutang=" '. htmlspecialchars($item['id_piutang']) .'" 
+                                    data-progress_piutang="'. htmlspecialchars($item['progress_piutang']).'">
+                                        <i class="bi bi-clock-history"></i>
+                                    </a>
+                                </td>
+                             '
+                                :
+                            '
+                                <td>
+                                    <a href="javascript:void(0)" onclick="setProgress(this)" class="btn btn-success btn-sm rounded-pill btn-progress"
+                                    data-id_piutang=" '. htmlspecialchars($item['id_piutang']) .'" 
+                                    data-progress_piutang="'. htmlspecialchars($item['progress_piutang']).'">
+                                        <i class="bi bi-check-lg"></i>
+                                    </a>
+                                </td>
+                             '
+                          ;
             
             $status = $item['status_piutang'] == 2 ?
                           '
@@ -619,12 +544,13 @@ class Piutang extends MY_Controller{
             $row[] = ++$no;  
             $row[] = date('d M Y', strtotime($item['piutang_date']));  
             $row[] = $item['name'];  
-            $row[] = $item['type_piutang'] == '2' ? 'Kasbon' : 'Pinjaman';
-			$row[] = $item['tenor_piutang'] . ' ' . $type_ten;
+            $row[] = $item['type_piutang'] == '2' ? 'Kasbon' : 'Pinjaman';  
+            $row[] = $item['tenor_piutang'] == '2' ? '1 Bulan' : '2 Bulan';  
             $row[] = date('d M Y', strtotime($item['tgl_lunas']));  
             $row[] = 'Rp.'. number_format($item['amount_piutang'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['remaining_piutang'], 0 , ',', '.');  
             $row[] = $status;
+            $row[] = $progress;;  
             $row[] = $item['description_piutang'];  
             $row[] = $action;  
             $data[] = $row;
@@ -640,6 +566,7 @@ class Piutang extends MY_Controller{
     
         echo json_encode($output);
     }
+     
 
     public function delete()
     {
@@ -667,7 +594,8 @@ class Piutang extends MY_Controller{
     }
 
 
-    //--------------------------------- V2
+    //---------------------------------------- V2  
+
     public function piutang_page_v2()
     {
         $this->_ONLYSELECTED([1,2]);
@@ -1030,6 +958,7 @@ class Piutang extends MY_Controller{
     }
 
     //---------------------------------------PAID V2
+    
     public function piutang_paid_page_v2()
     {
         $this->_ONLYSELECTED([1,2]);

@@ -116,6 +116,7 @@ class m_Finance_records extends CI_Model {
 
     private function _get_datatables_query($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null)
     {
+
             $this->db->select('F.*, A.name_code, A.code, P.name_product, C.id_kategori, C.name_kategori');
             $this->db->from($this->table);
             $this->db->join('products P', 'P.id_product = F.product_id');
@@ -158,7 +159,7 @@ class m_Finance_records extends CI_Model {
                $this->db->order_by(key($this->order), $this->order[key($this->order)]);
            }
     }
-   
+
 
     public function get_datatables($option = null, $startDate = null, $endDate = null, $product = null, $code = null, $category = null )
     {

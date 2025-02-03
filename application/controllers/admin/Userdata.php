@@ -10,7 +10,6 @@ class Userdata extends MY_Controller{
 
     }
 
-
     public function datauser_page()
     {
         $this->_ONLY_SU();

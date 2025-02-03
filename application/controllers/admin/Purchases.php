@@ -25,7 +25,10 @@ class Purchases extends MY_Controller{
        $data['menu'] = 'Supplier';
        $data['total_paid'] = $this->m_Purchases->totalPaid_get();
        $data['total_unpaid'] = $this->m_Purchases->totalUnpaid_get();
-       
+
+	   $data['jatuh_tempo'] = $this->m_Purchases->jatuhTempo_get();
+	   $data['total_jatuh_tempo'] = $this->m_Purchases->totalJatuhTempo_get();
+
        $data['purchases'] = $this->m_Purchases->findAllWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
        $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
@@ -41,7 +44,6 @@ class Purchases extends MY_Controller{
        }
         
     }
-
 
     public function purchases_paid_page()
     {
@@ -59,6 +61,9 @@ class Purchases extends MY_Controller{
        $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
        $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
+
+	   $data['jatuh_tempo'] = $this->m_Purchases->jatuhTempo_get();
+	   $data['total_jatuh_tempo'] = $this->m_Purchases->totalJatuhTempo_get();
        
        $data['purchases'] = $this->m_Purchases->findAllByPaidWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
@@ -73,6 +78,98 @@ class Purchases extends MY_Controller{
         
     }
 
+	public function dtSideServer()
+	{
+		$option = $this->input->post('option');
+		$startDate = $this->input->post('startDate');
+		$endDate = $this->input->post('endDate');
+
+		$list = $this->m_Purchases-> getPurchasesDataPaid_get($option, $startDate, $endDate);
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach($list as $item) {
+
+			$action =
+				'   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#payModal"
+                            data-id-supplier="'.htmlspecialchars($item['id_purchases']).'"
+                            data-final-amount="'.htmlspecialchars($item['final_amount']).'"
+                            data-remaining-amount="'.htmlspecialchars($item['remaining_amount']).'">
+                             PAY
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-pc" onclick="handleDeleteButton('.htmlspecialchars($item['id_purchases']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                     '
+			;
+
+			$status = $item['status_purchases'] == 0 ?
+							'
+                              <td>
+                                  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
+                                      Unpaid
+                                  </span>
+                              </td>
+                           '
+							:
+							'
+                              <td>
+                                  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
+                                      Paid
+                                  </span>
+                              </td>
+                           ';
+
+			$type = $item['payment_type'] == 1 ?
+				     		'
+                              <td>
+                                 <span class="badge gradient-btn-debit btn-sm" style="width:50px">
+                                 	Debit
+                           		 </span>
+                              </td>
+                           	'
+							:
+							'
+                              <td>
+                                  <span class="badge gradient-btn-kredit btn-sm" style="width:50px">
+                                 	Kredit
+                            	  </span>
+                              </td>
+                           ';
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = date('d M Y', strtotime($item['input_at']));
+			$row[] = $item['name_supplier'];
+			$row[] = 'Rp.'. number_format($item['total_amount'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['pot_amount'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['final_amount'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['remaining_amount'], 0 , ',', '.');
+			$row[] = $status;
+			$row[] = $type;
+			$row[] = date('d M Y', strtotime($item['jatuh_tempo']));
+			$row[] = $item['description'];
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => count($list),
+			"recordsFiltered" => count($list),
+			"option" => $option,
+			"startDate" => $startDate,
+			"endDate" => $endDate,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+	}
 
     public function add_purchases()
     {
@@ -101,6 +198,9 @@ class Purchases extends MY_Controller{
 
         $this->form_validation->set_rules('description', 'description', 'required', [
             'required' => 'Description harus diisi',
+        ]);
+		$this->form_validation->set_rules('jatuh_tempo', 'jatuh_tempo', 'required', [
+            'required' => 'Jatuh tempo harus diisi',
         ]);
         
 
@@ -135,6 +235,7 @@ class Purchases extends MY_Controller{
             'status_purchases' => $status,
             'description' => $this->input->post('description', true),
             'payment_type' => $this->input->post('payment_type', true),
+			'jatuh_tempo' => $this->input->post('jatuh_tempo', true),
         ];
 
         $purchases = $this->m_Purchases->create_post($data);
@@ -153,7 +254,6 @@ class Purchases extends MY_Controller{
 
         echo json_encode($response);
     }
-
 
     public function delete()
     {

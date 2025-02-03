@@ -41,4 +41,24 @@ class m_Purchase_piutang extends CI_Model {
         return $this->db->delete('purchase_piutang', ['id_piutang' => $id]);
     }
 
+    //========================V2
+    public function findByPiutangIdV2_get($id)
+    {
+
+        $this->db->select('purchase_piutang.id_purchase_piutang, purchase_piutang.id_piutang, purchase_piutang.pay_amount, purchase_piutang.description, purchase_piutang.pay_date, purchase_piutang.jatuh_tempo, purchase_piutang.status, piutang.id_piutang, piutang.angsuran');
+        $this->db->from('purchase_piutang'); 
+        $this->db->where('purchase_piutang.id_piutang', $id);
+        $this->db->join('piutang', 'piutang.id_piutang = purchase_piutang.id_piutang', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function pay_post($id, $data)
+    {
+        $this->db->where('id_purchase_piutang', $id);
+        return $this->db->update('purchase_piutang', $data);
+    }
+
+    
+
 }
