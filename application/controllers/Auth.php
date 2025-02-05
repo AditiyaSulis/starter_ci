@@ -58,7 +58,7 @@ class Auth extends CI_Controller{
             $response = [
                 'status' => true,
                 'message' => 'Berhasil Login',
-                'redirect' => base_url('admin/dashboard/dashboard_page'),
+                'redirect' => base_url('admin/dashboard/dashboard_page?with_alerts=1'),
             ];
         } else {
             $response = [
@@ -350,4 +350,3 @@ class Auth extends CI_Controller{
     
 } 
 
- 

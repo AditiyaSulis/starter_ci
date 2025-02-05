@@ -536,50 +536,50 @@ $(document).ready(function () {
 });
 
 
-// Delete Product
-$(document).ready(function () {
-    var base_url = $('meta[name="base_url"]').attr('content');
-
-    $(".btn-delete-pc").on("click", function () {
-        var id = $(this).data("id_purchases");
-
-        Swal.fire({
-            title: "Apakah Anda yakin?",
-            text: "Transaksi ini akan dihapus secara permanen!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: base_url + "admin/purchases/delete", 
-                    type: "POST",
-                    data: { id_purchases: id },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.status) {
-                            swallMssg_s(response.message, false, 1500)
-                            .then(() =>  {
-                                location.reload();
-                            });
-                        } else {
-                            swallMssg_e(response.message, true, 0);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product '+error , true, 0).
-                        then(() =>  {
-                            location.reload();
-                        });
-                    }
-                });
-            }
-        });
-    });
-});
+// Delete purchases
+// $(document).ready(function () {
+//     var base_url = $('meta[name="base_url"]').attr('content');
+//
+//     $(".btn-delete-pc").on("click", function () {
+//         var id = $(this).data("id_purchases");
+//
+//         Swal.fire({
+//             title: "Apakah Anda yakin?",
+//             text: "Transaksi ini akan dihapus secara permanen!",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonColor: "#d33",
+//             cancelButtonColor: "#3085d6",
+//             confirmButtonText: "Ya, hapus!",
+//             cancelButtonText: "Batal"
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 $.ajax({
+//                     url: base_url + "admin/purchases/delete",
+//                     type: "POST",
+//                     data: { id_purchases: id },
+//                     dataType: "json",
+//                     success: function (response) {
+//                         if (response.status) {
+//                             swallMssg_s(response.message, false, 1500)
+//                             .then(() =>  {
+//                                 location.reload();
+//                             });
+//                         } else {
+//                             swallMssg_e(response.message, true, 0);
+//                         }
+//                     },
+//                     error: function (xhr, status, error) {
+//                         swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product '+error , true, 0).
+//                         then(() =>  {
+//                             location.reload();
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     });
+// });
 
 
 // SET VISIBILITY PRODUCT

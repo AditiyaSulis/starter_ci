@@ -6,6 +6,7 @@ class Core_data extends MY_Controller{
         parent::__construct();
         $this->load->model('m_Employees');
         $this->load->model('m_Piutang');
+        $this->load->model('m_Purchases');
         $this->load->model('m_Purchase_piutang');
     }
 
@@ -15,7 +16,7 @@ class Core_data extends MY_Controller{
 		$type = $this->input->post('type');
 		$status_piutang = $this->input->post('status_piutang');
 
-		$list = $this->m_Piutang->getPiutangDataCore_get();
+		$list = $this->m_Piutang->get_datatables();
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -37,7 +38,7 @@ class Core_data extends MY_Controller{
                         <button 
                             class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
                             data-bs-toggle="modal" 
-                            data-bs-target="#payPiutangModal"
+                            data-bs-target="#logPiutangModal"
                             data-id_piutang="'.htmlspecialchars($item['id_piutang']).'"
                             data-name_log="'.htmlspecialchars($item['name']).'"
                             data-totals_log="'.htmlspecialchars($item['amount_piutang']).'"
@@ -67,9 +68,7 @@ class Core_data extends MY_Controller{
                             DELETE
                         </button>
 						';
-
-
-
+						
 			$status = $item['status_piutang'] == 2 ?
 						'
 						  <td>
@@ -106,8 +105,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => count($list),
-			"recordsFiltered" => count($list),
+			"recordsTotal" => $this->m_Piutang->count_all(),
+			"recordsFiltered" => $this->m_Piutang->count_filtered(),
 			"tenor" => $tenor,
 			"type" => $type,
 			"data" => $data,
@@ -115,4 +114,111 @@ class Core_data extends MY_Controller{
 
 		echo json_encode($output);
 	}
+
+	public function data_purchases(){
+		$option = $this->input->post('option');
+		$startDate = $this->input->post('startDate');
+		$endDate = $this->input->post('endDate');
+		$status = $this->input->post('status_purchases');
+
+		$list = $this->m_Purchases->get_datatables();
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach($list as $item) {
+			$action = $status == 1 ?
+					'   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#logModal"
+                            data-id-supplier="'.htmlspecialchars($item['id_purchases']).'"
+                            data-final-amount="'.htmlspecialchars($item['final_amount']).'"
+                            data-remaining-amount="'.htmlspecialchars($item['remaining_amount']).'">
+                            LOG
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-pc" onclick="handleDeletePurchaseButton('.htmlspecialchars($item['id_purchases']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                     '
+					:
+					'   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#payModal"
+                            data-id-supplier="'.htmlspecialchars($item['id_purchases']).'"
+                            data-final-amount="'.htmlspecialchars($item['final_amount']).'"
+                            data-remaining-amount="'.htmlspecialchars($item['remaining_amount']).'">
+                             PAY
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-pc" onclick="handleDeletePurchaseButton('.htmlspecialchars($item['id_purchases']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                     ';
+
+			$status = $item['status_purchases'] == 0 ?
+							'
+                              <td>
+                                  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
+                                      Unpaid
+                                  </span>
+                              </td>
+                           '
+							:
+							'
+                              <td>
+                                  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
+                                      Paid
+                                  </span>
+                              </td>
+                           ';
+
+			$type = $item['payment_type'] == 1 ?
+							'
+                              <td>
+                                 <span class="badge gradient-btn-debit btn-sm" style="width:50px">
+                                 	Debit
+                           		 </span>
+                              </td>
+                           	'
+							:
+							'
+                              <td>
+                                  <span class="badge gradient-btn-kredit btn-sm" style="width:50px">
+                                 	Kredit
+                            	  </span>
+                              </td>
+                           ';
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = date('d M Y', strtotime($item['input_at']));
+			$row[] = $item['name_supplier'];
+			$row[] = 'Rp.'. number_format($item['total_amount'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['pot_amount'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['final_amount'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['remaining_amount'], 0 , ',', '.');
+			$row[] = $status;
+			$row[] = $type;
+			$row[] = date('d M Y', strtotime($item['jatuh_tempo']));
+			$row[] = $item['description'];
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => $this->m_Purchases->count_all(),
+			"recordsFiltered" => $this->m_Purchases->count_filtered(),
+			"option" => $option,
+			"startDate" => $startDate,
+			"endDate" => $endDate,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+	}
+
 }

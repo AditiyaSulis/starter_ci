@@ -53,10 +53,8 @@
             </table>
         </div>
     </div>
-
-    
-    
 </div>
+
 
 
 <!-- Modal Add Position -->

@@ -264,7 +264,7 @@ class Employee extends MY_Controller{
     {
         $product = $this->input->post('product'); 
     
-        $list = $this->m_Employees->getEmployeesData($product);
+        $list = $this->m_Employees->get_datatables($product);
         
         $data = [];
         $no = $this->input->post('start');  
@@ -330,8 +330,8 @@ class Employee extends MY_Controller{
     
         $output = [
             "draw" =>@$_POST['draw'],
-            "recordsTotal" => count($list),  
-            "recordsFiltered" => count($list),  
+            "recordsTotal" => $this->m_Employees->count_all(),
+            "recordsFiltered" => $this->m_Employees->count_filtered($product),
             "data" => $data,
         ];
     

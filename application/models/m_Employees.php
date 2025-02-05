@@ -3,8 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class m_Employees extends CI_Model {
-    private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position'); 
-    
+    private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
+	private $column_order = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
+	private $order = array('employee.date_in' => 'asc');
     public function findById_get($id)
     {
         return $this->db->get_where('employee', ['id_employee' => $id])->row_array();
@@ -100,10 +101,37 @@ class m_Employees extends CI_Model {
             }
             $i++;
         }
-    
-        $query = $this->db->get();
-        return $query->result_array();  
-    }
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else {
+			$this->db->order_by(key($this->order), $this->order[key($this->order)]);
+		}
+
+	}
+
+	public function get_datatables($product = null)
+	{
+		$this->getEmployeesData($product);
+		if (@$_POST['length'] != -1) {
+			$this->db->limit(@$_POST['length'], @$_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function count_filtered($product = null)
+	{
+		$this->getEmployeesData($product);
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_all()
+	{
+		$this->db->from('employee');
+		return $this->db->count_all_results();
+	}
 
     public function findByDivisionId_get($id) 
     {

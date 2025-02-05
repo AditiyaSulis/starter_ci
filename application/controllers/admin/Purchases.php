@@ -29,12 +29,14 @@ class Purchases extends MY_Controller{
 	   $data['jatuh_tempo'] = $this->m_Purchases->jatuhTempo_get();
 	   $data['total_jatuh_tempo'] = $this->m_Purchases->totalJatuhTempo_get();
 
+	   $data['view_data'] = 'core/purchases/data_purchases';
+	   $data['view_component'] = 'core/purchases/data_purchases_components';
+
        $data['purchases'] = $this->m_Purchases->findAllWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
        $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
        $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
-   
 
        if($data['user']) {
             $this->load->view('templates/index', $data);
@@ -65,7 +67,10 @@ class Purchases extends MY_Controller{
 	   $data['jatuh_tempo'] = $this->m_Purchases->jatuhTempo_get();
 	   $data['total_jatuh_tempo'] = $this->m_Purchases->totalJatuhTempo_get();
        
-       $data['purchases'] = $this->m_Purchases->findAllByPaidWithJoin_get();
+
+	   $data['view_data'] = 'core/purchases/data_purchases';
+	   $data['view_component'] = 'core/purchases/data_purchases_components';
+
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
    
 
@@ -260,13 +265,13 @@ class Purchases extends MY_Controller{
         $this->_isAjax();
         $this->_ONLY_SU();
 
-        $id = $this->input->post('id_purchases');
-        
+        $id = $this->input->post('id', true);
 
 
-        if($this->m_Purchases->delete($id) && $this->m_Purchase_payment->deleteByPurchaseId_get($id) ){
+        if($this->m_Purchases->delete($id) && $this->m_Purchase_payment->deleteByPurchaseId_get($id)){
             $response = [
                 'status' => true,
+				'id' => $id,
                 'message' => 'Transaksi berhasil dihapus',
             ];
         } else {

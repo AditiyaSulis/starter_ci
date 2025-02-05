@@ -30,7 +30,8 @@ class Dashboard extends MY_Controller{
 		$data['totalUnpaid']= $this->m_Piutang->totalUnpaid_get();
 		$data['totalPaid']= $this->m_Piutang->totalPaid_get();
 
-		$data['view_data'] = 'core/data_piutang';
+		$data['view_data'] = 'core/piutang/data_piutang';
+		$data['view_components'] = 'core/piutang/data_piutang_components';
 
 
 

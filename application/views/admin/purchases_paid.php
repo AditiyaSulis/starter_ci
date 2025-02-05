@@ -40,8 +40,8 @@
 		</div>
 	</div>
 
-
 	<h4 class="mt-10">Status Summary</h4>
+
     <div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5" id="card-container1">
         <div class="col">
             <div class="card bg-body ">
@@ -71,7 +71,6 @@
         </div>
         
     </div>
-
 
     <div class="accordion" id="kt_accordion_1">
         <div class="accordion-item">
@@ -135,7 +134,7 @@
                             <div class="card card-flush h-lg-100 ">
                                 <div class="card-header px-5 mb-0" style="min-height:55px !important">
                                     <h3 class="card-title align-items-start flex-column mb-0">
-                                        <p class="fw-bold mb-0 text-primary">Remaining Amount</sp>
+                                        <p class="fw-bold mb-0 text-primary">Remaining Amount</p>
                                     </h3>
                                 </div>
                                 <div class="card-body px-5 pb-4 pt-0">
@@ -166,78 +165,16 @@
     
     <ul class="nav nav-tabs mt-8">
         <li class="nav-item">
-            <a class="nav-link active text-info" aria-current="page" href="<?=base_url('admin/purchases/purchases_paid_page')?>">Paid</a>
+            <a class="nav-link active text-info" aria-current="page" href="<?=base_url('admin/purchases/purchases_paid_page?status_purchases=1')?>">Paid</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="<?=base_url('admin/purchases/purchases_unpaid_page')?>">Unpaid</a>
+            <a class="nav-link text-dark" href="<?=base_url('admin/purchases/purchases_unpaid_page?status_purchases=0')?>">Unpaid</a>
         </li>
     </ul>
 
-    <div class="mt-6">
-        <table id="purchase_paid_table" class="table table-bordered table-striped" style="width:100%">
-            <thead>
-                <?php $no = 1 ?>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal Input</th>
-                    <th>Supplier</th>
-                    <th>Total</th>
-                    <th>Potongan</th>
-                    <th>Final</th>
-                    <th>Sisa</th>
-                    <th>Status</th>
-                    <th>Type</th>
-					<th>Jatuh tempo</th>
-                    <th>Deskripsi</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($purchases as $purchase): ?>
-                <tr>
-                    <td><?= $no; ?></td>
-                    <td><?=   date('d F Y', strtotime($purchase['input_at'])); ?></td>
-                    <td><?= $purchase['name_supplier']; ?></td>
-                    <td>Rp.<?= number_format($purchase['total_amount'], 0 , ',', '.'); ?></td>
-                    <td>Rp.<?= number_format($purchase['pot_amount'], 0, ',','.' ); ?></td>
-                    <td>Rp.<?= number_format($purchase['final_amount'], 0,',', '.'); ?></td>
-                    <td>Rp.<?= number_format($purchase['remaining_amount'], 0, ',', '.'); ?></td>
-                    <td>
-                        <span class="badge gradient-btn-paid">Paid</span>
-                    </td>
-                    <td>
-                        <?php if($purchase['payment_type'] == 1):?>
-                            <span class="badge gradient-btn-debit btn-sm" style="width:50px">
-                                 Debit
-                            </span>
-                        <?php else:?> 
-                            <span class="badge gradient-btn-kredit btn-sm" style="width:50px">
-                                 Kredit
-                            </span>
-                        <?php endif; ?>
-                    </td>
-					<td><?=   date('d F Y', strtotime($purchase['jatuh_tempo'])); ?></td>
-                    <td><?= $purchase['description']; ?></td>
-                    <td>
-                        <button 
-                            class="btn gradient-btn-edit btn-sm mb-2 rounded-pill btn-pay" style="width : 70px" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#logModal"
-                            data-id-supplier="<?= $purchase['id_purchases']; ?>" 
-                            data-final-amount="<?= $purchase['final_amount']; ?>" 
-                            data-remaining-amount="<?= $purchase['remaining_amount']; ?>" >
-                            LOG
-                        </button>
-                        <button class="btn gradient-btn-delete mb-2 btn-sm rounded-pill btn-delete-pc" data-id_purchases="<?= $purchase['id_purchases']; ?>" style="width : 70px">
-                            DELETE
-                        </button>
-                    </td>
-                </tr>
-                <?php $no++?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+
+	<?php $this->load->view($view_data);?>
+	<?php $this->load->view($view_component);?>
 
     <!-- Modal Add Purchase -->
     <div class="modal fade" tabindex="-1" id="addProduct">
@@ -352,7 +289,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="table-responsive">
-						<table id="jatuhtempo_table" class="table table-bordered table-striped border-primary">
+						<table id="jatuhtempo_table" class="table table-bordered table-striped border-primary" style="width:100%">
 							<thead>
 							<?php $no = 1 ?>
 							<tr>
@@ -424,95 +361,7 @@
 		</div>
 	</div>
 
-	<!-- PAY-->
-	<div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-
-						<div class="col-md-6">
-							<div class="mb-3">
-								<span>Sisa: <span id="remaining_amount_display" class="text-success"></span></span>
-							</div>
-							<form id="payForm">
-								<input type="hidden" id="edit_id" name="id_purchases">
-								<div class="mb-3">
-									<label for="form_date" class="form-label">Tanggal</label>
-									<input type="datetime-local" value="<?= date('Y-m-d\TH:i') ?>" name="payment_date" class="form-control" id="pay_date" required>
-								</div>
-								<div class="mb-3">
-									<label for="form_text1" class="form-label">Amount</label>
-									<input type="number" class="form-control" id="pay_amount" placeholder="Rp.1xxxx" name="payment_amount" required>
-								</div>
-								<div class="mb-3">
-									<label for="form_text2" class="form-label">Deskripsi</label>
-									<textarea type="text" class="form-control" id="pay_description" placeholder="Enter text" name="description" required> </textarea>
-								</div>
-								<div class="d-grid mb-10 mt-10">
-									<button type="submit" class="btn btn-primary">
-                                        <span class="indicator-label">
-                                            Pay
-                                        </span>
-										<span class="indicator-progress">
-                                            Please wait...
-                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                        </span>
-									</button>
-								</div>
-							</form>
-						</div>
-
-						<div class="col-md-6 col-sm">
-							<div class="mb-3">
-								<span>Total: <span id="final_amount_display" class="text-success"></span></span>
-							</div>
-							<div class="card p-4 shadow">
-								<div class="mb-3">
-									<h6>Log:</h6>
-									<ul id="log_list_pay" class="list-group">
-
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-    <!-- Modal LOG -->
-    <div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <span>Total : <span id="final_amount_display" class="text-success"></span></span>
-                    </div>
-                    <div class="card p-5 shadow mb-5" style="width: auto; max-height: 200px; overflow-y: auto;">
-                        <div class="mb-3">
-                            <h6>Log :</h6>
-                            <ul id="log_list" class="list-group">
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-		$('#purchase_paid_table').DataTable();
 
         const base_url = $('meta[name="base_url"]').attr('content');
 
@@ -542,174 +391,22 @@
         });
 
 		//ALERT JATUH TEMPO
-		$(document).ready(function() {
-			$('#jatuhtempo_table').DataTable({
-				responsive: true,
-				scrollX: true,
-				autoWidth: false,
-				columnDefs: [
-					{ width: '150px', targets: [2, 3, 4, 5] },
-					{ className: "text-nowrap", targets: "_all" }
-				]
-			});
+		$('#jatuhtempo_table').DataTable({
+			responsive: true,
+			scrollX: true,
+			autoWidth: false,
+			columnDefs: [
+				{ width: '150px', targets: [2, 3, 4, 5] },
+				{ className: "text-nowrap", targets: "_all" }
+			]
 		});
+
 		function showJatuhTempo(){
 
 			$("#jatuhTempoModal").modal("show");
 		}
 
-		// LOG
-        const exampleModal = document.getElementById('logModal');
-        exampleModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const id = button.getAttribute('data-id-supplier');
-            const finalAmount = button.getAttribute('data-final-amount');
-            const remainingAmount = button.getAttribute('data-remaining-amount');
 
-            console.log("Final Amount:", finalAmount);
-            console.log("Remaining Amount:", remainingAmount);
-            console.log("ID:", id);
-
-            // Format angka menjadi Rupiah
-            function formatToRupiah(number) {
-                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
-            }
-
-            // Format tanggal menjadi DD-MM-YYYY
-            function formatDate(dateString) {
-                const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-                return new Date(dateString).toLocaleDateString('id-ID', options);
-            }
-
-            $('#final_amount_display').text(formatToRupiah(finalAmount));
-            $('#remaining_amount_display').text(formatToRupiah(remainingAmount));
-            $("#edit_id").val(id);
-
-            $.ajax({
-                url: base_url + 'admin/purchases/pay_logs',
-                method: 'POST',
-                data: { id: id },
-                dataType: 'json',
-                success: function (response) {
-                    const logList = $('#log_list');
-                    logList.empty();
-                    if (response.logs && response.logs.length > 0) {
-                        response.logs.forEach(log => {
-                            const formattedDate = formatDate(log.payment_date);
-                            const formattedAmount = formatToRupiah(log.payment_amount);
-                            logList.append(`<li class="list-group-item">${formattedDate} sebesar ${formattedAmount}</li>`);
-                        });
-                    } else {
-                        
-                        logList.append(`<li class="list-group-item text-danger text-primary">Tidak ada riwayat pembayaran untuk transaksi ini.</li>`);
-                    }
-                },
-                error: function () {
-                    $('#log_list').html('<li class="list-group-item text-danger">Gagal memuat riwayat pembayaran.</li>');
-                }
-            });
-        });
-
-		// PAY
-		const pay = document.getElementById('payModal');
-		pay.addEventListener('show.bs.modal', function (event) {
-			const button = event.relatedTarget;
-			const id = button.getAttribute('data-id-supplier');
-			const finalAmount = button.getAttribute('data-final-amount');
-			const remainingAmount = button.getAttribute('data-remaining-amount');
-
-			console.log("Final Amount:", finalAmount);
-			console.log("Remaining Amount:", remainingAmount);
-			console.log("ID:", id);
-
-			// Format angka menjadi Rupiah
-			function formatToRupiah(number) {
-				return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
-			}
-
-			// Format tanggal menjadi tanggal-bulan-tahun
-			function formatDate(dateString) {
-				const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-				return new Date(dateString).toLocaleDateString('id-ID', options);
-			}
-
-			$('#final_amount_display').text(formatToRupiah(finalAmount));
-			$('#remaining_amount_display').text(formatToRupiah(remainingAmount));
-			$("#edit_id").val(id);
-
-			$.ajax({
-				url: base_url + 'admin/purchases/pay_logs',
-				method: 'POST',
-				data: { id: id },
-				dataType: 'json',
-				success: function (response) {
-					const logList = $('#log_list_pay');
-					logList.empty();
-					if (response.logs && response.logs.length > 0) {
-						response.logs.forEach(log => {
-							const formattedDate = formatDate(log.payment_date);
-							const formattedAmount = formatToRupiah(log.payment_amount);
-							logList.append(`<li class="list-group-item text-info"><i class="ti ti-credit-card"></i> - ${formattedDate} sebesar ${formattedAmount}</li>`);
-						});
-					} else {
-
-						logList.append(`<li class="list-group-item text-danger">Tidak ada riwayat pembayaran untuk transaksi ini.</li>`);
-					}
-				},
-				error: function () {
-					$('#log_list_pay').html('<li class="list-group-item text-danger">Gagal memuat riwayat pembayaran.</li>');
-				}
-			});
-
-
-			$("#payForm").on("submit", function (e) {
-				e.preventDefault();
-
-				const submitButton = $("#payForm button[type=submit]");
-				submitButton.prop("disabled", true).text("Processing...");
-
-				Swal.fire({
-					title: 'Apakah Anda yakin?',
-					text: "Pembayaran tidak dapat dikembalikan!",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#d33',
-					cancelButtonColor: '#3085d6',
-					confirmButtonText: 'Bayar',
-					cancelButtonText: 'Batal',
-				}).then((result) => {
-					if (result.isConfirmed) {
-
-
-						$.ajax({
-							url: base_url + "admin/purchases/add_pay",
-							type: "POST",
-							data: $(this).serialize(),
-							dataType: "json",
-							success: function (response) {
-								if (response.status) {
-									swallMssg_s(response.message, false, 1500)
-										.then(() => {
-											location.reload();
-										});
-								} else {
-									swallMssg_e(response.message, true, 0);
-									submitButton.prop("disabled", false).text("Submit");
-								}
-							},
-							error: function (xhr, status, error) {
-								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
-									.then(() => {
-										location.reload();
-									});
-								submitButton.prop("disabled", false).text("Submit");
-							}
-						});
-					}
-				});
-			});
-
-		});
 
 	</script>
 </main>

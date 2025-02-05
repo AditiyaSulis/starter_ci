@@ -22,7 +22,8 @@ class Piutang extends MY_Controller{
         $data['employee'] = $this->m_Employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoin_get();
 
-		$data['view_data'] = 'core/data_piutang';
+		$data['view_data'] = 'core/piutang/data_piutang';
+		$data['view_components'] = 'core/piutang/data_piutang_components';
 
 
         if($data['user']){
@@ -393,6 +394,7 @@ class Piutang extends MY_Controller{
         
         echo json_encode([
             'status' => true,
+			'id' => $id,
             'logs' => $logs,
         ]);
     }
@@ -540,7 +542,8 @@ class Piutang extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
-		$data['view_component_table'] = 'core/data_piutang';
+		$data['view_component_table'] = 'core/piutang/data_piutang';
+		$data['view_components'] = 'core/piutang/data_piutang_components';
 
         $data['employee'] = $this->m_Employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoin_get();

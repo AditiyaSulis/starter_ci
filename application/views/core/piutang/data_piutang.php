@@ -17,6 +17,7 @@
 	</div>
 </div>
 
+
 <div class="mt-6">
 	<div class="table-responsive">
 		<table id="piutang_table" class="table table-bordered table-striped border-primary w-100" style="width:100%">
@@ -44,10 +45,13 @@
 	</div>
 </div>
 
+
 <script>
 	let data = null;
 	const base_urls = $('meta[name="base_url"]').attr('content');
 
+	let tenor = 'All';
+	let type = 'All';
 
 	$(document).ready(function(){
 		let params = new URLSearchParams(window.location.search);
@@ -55,22 +59,12 @@
 	});
 
 	let params = new URLSearchParams(window.location.search);
-		data =  {
+	data =  {
 			'type_piutang' :  $('#filter-type').val(),
 			'tgl_lunas' :  $('#filter-tenor').val(),
 			'status_piutang' :  params.get('status_piutang'),
 			'with_alerts' :  params.get('with_alerts'),
-		}
-
-	// $('#jatuhtempo_table').DataTable({
-	// 	responsive: true,
-	// 	scrollX: true,
-	// 	autoWidth: false,
-	// 	columnDefs: [
-	// 		{ width: '150px', targets: [2, 3, 4, 5] },
-	// 		{ className: "text-nowrap", targets: "_all" }
-	// 	]
-	// });
+	}
 
 	function dtPiutang() {
 		var table = $('#piutang_table').DataTable({
@@ -86,8 +80,8 @@
 				url: base_urls + 'core/core_data/data_piutang',
 				type: 'POST',
 				data: function (d) {
-					type = data.type_piutang;
-					tenor = data.tgl_lunas;
+					type =  product = $('#filter-type').val();
+					tenor =  product = $('#filter-tenor').val();
 					d.type_piutang = type;
 					d.tgl_lunas = tenor;
 					d.with_alerts = data.with_alerts;
@@ -113,4 +107,8 @@
 
 	console.log(data);
 	dtPiutang()
+
 </script>
+
+
+

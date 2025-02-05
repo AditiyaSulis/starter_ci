@@ -3,13 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class m_Piutang extends CI_Model {
-    private $column_search = array('employee.name', 'piutang.remaining_piutang', 'piutang.amount_piutang');
-    
-    public function findById_get($id)
+	private $column_order = array('employee.name', 'piutang.remaining_piutang', 'piutang.amount_piutang');
+	private $column_search = array('employee.name', 'piutang.remaining_piutang', 'piutang.amount_piutang');
+	private $order = array('piutang.id_piutang' => 'asc');
+
+	public function findById_get($id)
     {
         return $this->db->get_where('piutang', ['id_piutang' => $id])->row_array();
     }
-
 
     public function findByProductId_get($id)
     {
@@ -27,7 +28,6 @@ class m_Piutang extends CI_Model {
     public function findAllWithUnpaid_get($id){
         return $this->db->get_where('piutang', ['status_piutang' => 2])->result_array();
     }
-
     
     public function findAll_get()
     {
@@ -68,50 +68,6 @@ class m_Piutang extends CI_Model {
     }
 
 
-    public function getPiutangData_get($type = null, $pelunasan = null ) 
-    {
-
-        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, piutang.type_tenor, piutang.angsuran, piutang.jatuh_tempo, employee.id_employee, employee.name');
-        $this->db->from('piutang');
-        $this->db->where('status_piutang', 2);
-        $this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
-    
-        if ($type && $type !== 'All') {  
-            $this->db->where('piutang.type_piutang', $type);
-        }
-        // if ($pelunasan && $pelunasan !== 'All') {  
-        //     $this->db->where('piutang.tgl_lunas', $pelunasan);
-        // } 
-         if ($pelunasan === 'next_month') {
-            // Filter untuk bulan berikutnya
-            $this->db->where('piutang.tgl_lunas >=', date('Y-m-01', strtotime('first day of next month')));
-            $this->db->where('piutang.tgl_lunas <=', date('Y-m-t', strtotime('last day of next month')));
-        } else if ($pelunasan === 'this_month') {
-            // Filter untuk bulan ini
-            $this->db->where('piutang.tgl_lunas >=', date('Y-m-01'));
-            $this->db->where('piutang.tgl_lunas <=', date('Y-m-t'));
-        }
-
-        $i = 0;
-        foreach ($this->column_search as $item) {
-            if (@$_POST['search']['value']) {
-                if ($i === 0) { 
-                    $this->db->group_start();
-                    $this->db->like($item, $_POST['search']['value']);
-                } else {
-                    $this->db->or_like($item, $_POST['search']['value']);
-                }
-                if (count($this->column_search) - 1 === $i) {
-                    $this->db->group_end();
-                }
-            }
-            $i++;
-        }
-    
-        $query = $this->db->get();
-        return $query->result_array();  
-    }
-
 	public function getPiutangDataCore_get()
 	{
 		$type_piutang = $this->input->post("type_piutang", true);
@@ -141,8 +97,8 @@ class m_Piutang extends CI_Model {
 		}
 
 		if(!empty($with_alerts)) {
-			//$today = (int) date('d');
-			$today = 1;
+			$today = (int) date('d');
+			//$today = 1;
 			$three_days_later = $today + 3;
 			$paydate = date('Y-m-d');
 
@@ -193,11 +149,37 @@ class m_Piutang extends CI_Model {
 			}
 			$i++;
 		}
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else {
+			$this->db->order_by(key($this->order), $this->order[key($this->order)]);
+		}
 
+
+	}
+
+	public function get_datatables()
+	{
+		$this->getPiutangDataCore_get();
+		if (@$_POST['length'] != -1) {
+			$this->db->limit(@$_POST['length'], @$_POST['start']);
+		}
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
+	public function count_filtered()
+	{
+		$this->getPiutangDataCore_get();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_all()
+	{
+		$this->db->from('piutang');
+		return $this->db->count_all_results();
+	}
 
     public function setStatus_post($id, $status)
     {
@@ -209,7 +191,6 @@ class m_Piutang extends CI_Model {
       return true;
 
     }
-
     
     public function setProgress_post($id, $status)
     {
@@ -233,41 +214,6 @@ class m_Piutang extends CI_Model {
       return true;
 
     }
-
-
-    public function getPiutangWithPaid_get($type = null) 
-    {
-        $this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, employee.id_employee, employee.name, employee.nip,  piutang.type_tenor, piutang.angsuran, piutang.jatuh_tempo, employee.id_position, position.id_position, position.name_position ');
-        $this->db->from('piutang');
-        $this->db->where('status_piutang', 1);
-        $this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
-        $this->db->join('position', 'employee.id_position = position.id_position', 'left');
-    
-        if ($type && $type !== 'All') {  
-            $this->db->where('piutang.type_piutang', $type);
-        }
-
-
-        $i = 0;
-        foreach ($this->column_search as $item) {
-            if (@$_POST['search']['value']) {
-                if ($i === 0) { 
-                    $this->db->group_start();
-                    $this->db->like($item, $_POST['search']['value']);
-                } else {
-                    $this->db->or_like($item, $_POST['search']['value']);
-                }
-                if (count($this->column_search) - 1 === $i) {
-                    $this->db->group_end();
-                }
-            }
-            $i++;
-        }
-    
-        $query = $this->db->get();
-        return $query->result_array();  
-    }
-
 
     public function getTotalAmountPiutang_get($id)
     {
@@ -379,7 +325,6 @@ class m_Piutang extends CI_Model {
 	}
 
 
-
 	//================V2=====================
 
     public function findAllJoinV2_get()
@@ -472,5 +417,82 @@ class m_Piutang extends CI_Model {
         return $query->result_array();  
     }
 
+
+	//==========UNUSED======================
+	public function getPiutangData_get($type = null, $pelunasan = null )
+	{
+
+		$this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, piutang.type_tenor, piutang.angsuran, piutang.jatuh_tempo, employee.id_employee, employee.name');
+		$this->db->from('piutang');
+		$this->db->where('status_piutang', 2);
+		$this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
+
+		if ($type && $type !== 'All') {
+			$this->db->where('piutang.type_piutang', $type);
+		}
+		// if ($pelunasan && $pelunasan !== 'All') {
+		//     $this->db->where('piutang.tgl_lunas', $pelunasan);
+		// }
+		if ($pelunasan === 'next_month') {
+			// Filter untuk bulan berikutnya
+			$this->db->where('piutang.tgl_lunas >=', date('Y-m-01', strtotime('first day of next month')));
+			$this->db->where('piutang.tgl_lunas <=', date('Y-m-t', strtotime('last day of next month')));
+		} else if ($pelunasan === 'this_month') {
+			// Filter untuk bulan ini
+			$this->db->where('piutang.tgl_lunas >=', date('Y-m-01'));
+			$this->db->where('piutang.tgl_lunas <=', date('Y-m-t'));
+		}
+
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (@$_POST['search']['value']) {
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if (count($this->column_search) - 1 === $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	public function getPiutangWithPaid_get($type = null)
+	{
+		$this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, employee.id_employee, employee.name, employee.nip,  piutang.type_tenor, piutang.angsuran, piutang.jatuh_tempo, employee.id_position, position.id_position, position.name_position ');
+		$this->db->from('piutang');
+		$this->db->where('status_piutang', 1);
+		$this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
+		$this->db->join('position', 'employee.id_position = position.id_position', 'left');
+
+		if ($type && $type !== 'All') {
+			$this->db->where('piutang.type_piutang', $type);
+		}
+
+
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (@$_POST['search']['value']) {
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if (count($this->column_search) - 1 === $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 
 }
