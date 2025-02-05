@@ -267,13 +267,65 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Employee' ? "active": ""?>" href="<?=base_url('absence/absence/absence_page')?>">
+								<a class="menu-link <?= $title == 'Absence' ? "active": ""?>" href="<?=base_url('absence/absence/absence_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi bi-calendar-week"></i>
                                         </span>
                                     </span>
 									<span class="menu-title">Attendance</span>
+								</a>
+							</div>
+						</div>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item">
+								<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/dayoff/day_off_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="bi bi-calendar-x"></i>
+                                        </span>
+                                    </span>
+									<span class="menu-title">Day Off</span>
+								</a>
+							</div>
+						</div>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item">
+								<a class="menu-link <?= $title == 'Leave' ? "active": ""?>" href="<?=base_url('absence/leave/leave_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="bi bi-calendar-range"></i>
+                                        </span>
+                                    </span>
+									<span class="menu-title">Leave</span>
+								</a>
+							</div>
+						</div>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item">
+								<a class="menu-link <?= $title == 'Overtime' ? "active": ""?>" href="<?=base_url('absence/overtime/overtime_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="bi bi-clock"></i>
+                                        </span>
+                                    </span>
+									<span class="menu-title">Overtime</span>
+								</a>
+							</div>
+						</div>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item">
+								<a class="menu-link <?= $title == 'Holyday' ? "active": ""?>" href="<?=base_url('absence/holyday/holyday_page')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="bi bi-calendar3-event"></i>
+                                        </span>
+                                    </span>
+									<span class="menu-title">Holyday</span>
 								</a>
 							</div>
 						</div>

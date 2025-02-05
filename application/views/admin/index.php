@@ -235,7 +235,7 @@
 	</div>
 
 	<!-- Modal datatables -->
-	<div class="modal" id="jatuhTempoModal" tabindex="-1">
+	<div class="modal fade" id="jatuhTempoModal" tabindex="-1">
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">

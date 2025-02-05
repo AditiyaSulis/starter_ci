@@ -9,7 +9,7 @@ class Leave extends MY_Controller{
 
 	}
 
-	public function absence_page()
+	public function leave_page()
 	{
 		$this->_ONLYSELECTED([1,2]);
 		$data = $this->_basicData();
