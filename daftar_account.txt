@@ -1,0 +1,11 @@
+akun super user : 
+superuser@superuser.com		
+superuser
+
+akun employee : 
+-zuki@gmail.com  pw : zuki
+-pika@gmail.com  pw : pika
+-rita@email.com  pw : rita
+-agus@gmail.com  pw : rita
+-luna@gmail.com  pw : luna
+-zilong@gmail.com  pw : zilong
