@@ -45,4 +45,12 @@ class m_Division extends CI_Model {
         return $this->db->get_where('division', ['code_division' => $code])->row_array();
     }
 
+	public function getAllIds_get() {
+		$this->db->select('id_division');
+		$this->db->from('division');
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
 }

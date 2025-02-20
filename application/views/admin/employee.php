@@ -52,13 +52,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Employee - Step 1</h3>
+                    <h3 class="modal-title">Add Employee - Step 1/4</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                     <div class="progress mb-8">
-                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <form id="addEmployeeForm">
                         <div class="mb-3">
@@ -74,6 +74,14 @@
                             <label for="date_in" class="form-label">Tanggal Masuk</label>
                             <input type="date" class="form-control" name="date_in" required />
                         </div>
+						<div class="mb-3">
+							<label for="email" class="form-label">Email</label>
+							<input type="email" class="form-control" name="email" required />
+						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">Password</label>
+							<input type="password" class="form-control" name="password" required />
+						</div>
                         <div class="mb-3">
                             <label for="nip" class="form-label">NIP</label>
                             <input type="number" class="form-control" name="nip" required />
@@ -116,12 +124,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Employee - Step 2</h3>
+                    <h3 class="modal-title">Add Employee - Step 2/4</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <div class="progress mb-8">
-                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <form id="formAddSalary">
                         <div class="mb-3">
@@ -158,12 +166,94 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="backToAddProduct">Back</button>
-                    <button type="button" class="btn btn-success" id="submitEmployee">Add Employee</button>
+<!--                    <button type="button" class="btn btn-success" id="submitEmployee">Add Employee</button>-->
+					<button type="button" class="btn btn-primary" id="nextToAddBankAccount">Next</button>
                 </div>
             </div>
         </div>
     </div>
 
+	<!-- Modal Add Bank Account -->
+	<div class="modal fade" tabindex="-1" id="addBank" data-bs-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Add Employee - Step 3/4</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="progress mb-8">
+						<div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+					<form id="addBankForm">
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">Nama Bank</label>
+							<input type="text" class="form-control" id="bank_name1" placeholder="Bank Name" name="bank_name" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">No.Rek</label>
+							<input type="number" class="form-control" id="bank_number1" placeholder="Bank Number" name="bank_number" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Atas Nama</label>
+							<input type="text" class="form-control" id="bank_holder_name1" placeholder="Holder Name" name="bank_holder_name" required>
+						</div>
+						<div class="d-grid mb-10 mt-10">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="backToAddSalary">Back</button>
+					<button type="button" class="btn btn-primary" id="nextToAddEc">Next</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Add Emergency Contact -->
+	<div class="modal fade" tabindex="-1" id="addEmergencyContact" data-bs-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Add Employee - Step 4/4</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="progress mb-8">
+						<div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+					<form id="addEcForm">
+						<div class="mb-5">
+							<label for="form_text1" class="form-label">Name</label>
+							<input type="text" class="form-control" id="name_contact1" placeholder="Name contact" name="name_contact" required>
+						</div>
+						<div class="mb-5">
+							<label for="form_text2" class="form-label">No.Hp</label>
+							<input type="number" class="form-control" id="number_contact1" placeholder="08122xxxx" name="number_contact" required>
+						</div>
+						<div class="mb-5">
+							<label for="form_text2" class="form-label">Hubungan</label>
+							<div class="fv-row">
+								<select class="form-select" aria-label="Default select example"  name="as_contact">
+									<option selected>-Pilih hubungan-</option>
+									<option value="0">Keluarga</option>
+									<option value="1">Teman</option>
+								</select>
+							</div>
+						</div>
+						<div class="mb-5">
+							<label for="form_text2" class="form-label">Alamat</label>
+							<textarea type="text" class="form-control" id="address_contact1" name="address_contact" required></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="backToAddBankAccount">Back</button>
+					<button type="button" class="btn btn-success" id="submitEmployee">Add Employee</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- Modal Edit Employee-->
     <div class="modal fade" tabindex="-1" id="editProduct">
@@ -225,7 +315,6 @@
         </div>
     </div>
 
- 
      <!-- Modal Edit Salary-->
     <div class="modal fade" tabindex="-1" id="editSalary">
         <div class="modal-dialog">
@@ -287,7 +376,6 @@
             </div>
         </div>
     </div>
-
 
      <!-- Modal Bank-->
     <div class="modal fade" id="bankModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
@@ -360,7 +448,8 @@
                             <form id="ecForm">
                                 <input type="hidden" id="edit_id_contact" name="id_employee">
                                 <div class="mb-5">
-                                    <label for="form_text1" class="form-label">Name</label>
+                                    <la for="form_text1" class="form-label">Name</la
+                                    bel>
                                     <input type="text" class="form-control" id="name_contact" placeholder="Name contact" name="name_contact" required>
                                 </div>
                                 <div class="mb-5">
@@ -859,73 +948,104 @@
                     $('#addEmployeeForm')[0].reportValidity();
                 }
             });
-
             $('#backToAddProduct').on('click', function () {
                 $('#addSalary').modal('hide');
                 $('#addEmployeeModal').modal('show');
-            });
+            })
 
-            $('#submitEmployee').on('click', function () {
-                const productData = $('#addEmployeeForm').serializeArray();
-                const salaryData = $('#formAddSalary').serializeArray();
-                const formData = {};
 
-                productData.concat(salaryData).forEach(field => {
-                    formData[field.name] = field.value;
-                });
+			$('#nextToAddBankAccount').on('click', function () {
+				if ($('#formAddSalary')[0].checkValidity()) {
+					$('#addSalary').modal('hide');
+					$('#addBank').modal('show');
+				} else {
+					$('#formAddSalary')[0].reportValidity();
+				}
+			});
+			$('#backToAddSalary').on('click', function () {
+				$('#addBank').modal('hide');
+				$('#addSalary').modal('show');
+			});
 
-                if ($('#formAddSalary')[0].checkValidity()) {
-                    Swal.fire({
-                        title: 'Apakah kamu yakin?',
-                        text: "Pastikan data yang dimasukan sudah benar",
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-   
-                            $.ajax({
-                                url: '<?= site_url("admin/employee/add_employees") ?>',
-                                type: 'POST',
-                                data: formData,
-                                dataType: 'json',
-                                success: function (response) {
-                                    if (response.status) {
-                                        Swal.fire({
-                                            title: 'Success!',
-                                            text: 'Karyawan berhasil ditambahkan.',
-                                            icon: 'success',
-                                            timer: 2000,
-                                            showConfirmButton: false,
-                                        }).then(() => {
-                                            $('#addSalary').modal('hide');
-                                            location.reload();
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            title: 'Error!',
-                                            text: response.message || 'Gagal menambah karyawan.',
-                                            icon: 'error',
-                                        });
-                                    }
-                                },
-                                error: function () {
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: 'An error occurred while adding the employee.',
-                                        icon: 'error',
-                                    });
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    $('#formAddSalary')[0].reportValidity();
-                }
-            });
-        });
+			$('#nextToAddEc').on('click', function () {
+				if ($('#addBankForm')[0].checkValidity()) {
+					$('#addBank').modal('hide');
+					$('#addEmergencyContact').modal('show');
+				} else {
+					$('#addBankForm')[0].reportValidity();
+				}
+			});
+			$('#backToAddBankAccount').on('click', function () {
+				$('#addEmergencyContact').modal('hide');
+				$('#addBank').modal('show');
+			});
+
+			$('#submitEmployee').on('click', function () {
+				const employeeData = $('#addEmployeeForm').serializeArray();
+				const salaryData = $('#formAddSalary').serializeArray();
+				const bankData = $('#addBankForm').serializeArray();
+				const ecData = $('#addEcForm').serializeArray();
+
+				const formData = {};
+
+				employeeData.concat(salaryData, bankData, ecData).forEach(field => {
+					formData[field.name] = field.value;
+				});
+
+				if ($('#addEmployeeForm')[0].checkValidity() && $('#formAddSalary')[0].checkValidity() && $('#addBankForm')[0].checkValidity() && $('#addEcForm')[0].checkValidity()) {
+					Swal.fire({
+						title: 'Apakah kamu yakin?',
+						text: "Pastikan data yang dimasukan sudah benar",
+						icon: 'question',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Ya'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$.ajax({
+								url: '<?= site_url("admin/employee/add_all_data_employee") ?>',
+								type: 'POST',
+								data: formData,
+								dataType: 'json',
+								success: function (response) {
+									if (response.status) {
+										Swal.fire({
+											title: 'Success!',
+											text: 'Karyawan berhasil ditambahkan.',
+											icon: 'success',
+											timer: 2000,
+											showConfirmButton: false,
+										}).then(() => {
+											$('#addEmergencyContact').modal('hide');
+											location.reload();
+										});
+									} else {
+										Swal.fire({
+											title: 'Error!',
+											text: response.message || 'Gagal menambah karyawan.',
+											icon: 'error',
+										});
+									}
+								},
+								error: function () {
+									Swal.fire({
+										title: 'Error!',
+										text: 'An error occurred while adding the employee.',
+										icon: 'error',
+									});
+								}
+							});
+						}
+					});
+				} else {
+					$('#addEmployeeForm')[0].reportValidity();
+					$('#formAddSalary')[0].reportValidity();
+					$('#addBankForm')[0].reportValidity();
+					$('#addEcForm')[0].reportValidity();
+				}
+			});
+		});
 
 
          // ------------EDIT FINANCE

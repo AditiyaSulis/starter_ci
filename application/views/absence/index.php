@@ -1,27 +1,58 @@
+<?php
+$status = '';
+if($schedule) {
+	if($schedule['status']==1) {
+		$status = '<p class="card-text">Silahkan melakukan absen dengan menekan tombol dibawah.</p>
+						<form class="form w-100" id="addproduct" data-action="'.site_url("absence/absence/add_attendance") .'" enctype="multipart/form-data">
+								<input type="hidden" value="'. $schedule['id_employee'].'" name="id_employee" autocomplete="off" class="form-control bg-transparent" />
+								<input type="hidden" value="'. $schedule['id_schedule'].'" name="id_schedule" autocomplete="off" class="form-control bg-transparent" />
+								<input type="hidden" value="'. date('H:i:s').'" name="jam_masuk" autocomplete="off" class="form-control bg-transparent" />
+								<input type="hidden" value="'. date('Y-m-d').'" name="tanggal_masuk" autocomplete="off" class="form-control bg-transparent" />
+								<button type="submit" id="submit_product" class="btn gradient-btn rounded-pill mt-6 mb-6">
+									<i class="bi bi-calendar-check"></i> CLOCK IN
+									<span class="indicator-progress">
+									Please wait...
+									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+								</span>
+								</button>
+						</form>
+						<p class="card-text text-danger">*Jam Masuk : '.date("H:i", strtotime($schedule['clock_in'])).'</p>';
+	}
+	else if($schedule['status']== 2) {
+		$status = '<p class="card-text text-warning fw-bolder mt-4">*Hari ini adalah jadwal libur anda.</p>';
+	} else if($schedule['status']== 3) {
+		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini adalah tanggal merah</p>';
+	} else if($schedule['status']== 4) {
+		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini  adalah jadwal cuti anda.</p>';
+	}else if($schedule['status']== 5) {
+		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini anda mengajukan izin.</p>';
+	} else if($schedule['status']== 6) {
+		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Anda Sudah melakukan absen hari ini pukul : '. date('H:i',strtotime($schedule['jam_masuk'])).' WIB </p>';
+	}
+} else {
+	$status = '<p class="card-text text-warning  fw-bolder mt-4">*Tidak ada jadwal hari ini </p>';
+}
+
+
+?>
+
 <main>
 	<h1>Absence</h1>
+
+	<ul class="nav nav-tabs mt-8">
+		<li class="nav-item">
+			<a class="nav-link active text-info" aria-current="page" href="<?=base_url('absence/absence/absence_page')?>">Kehadiran</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  text-dark" href="<?=base_url('absence/attendance/attendance_page')?>">Rekap Kehadiran</a>
+		</li>
+	</ul>
 
 	<div class="row mt-12">
 		<div class="col-md-6 col-6 mb-4 col-sm-12">
 			<h4>Data Kehadiran Hari Ini</h4>
 			<div class="table-responsive">
-				<table id="position_table" class="table table-bordered table-striped" style="width:100%">
-					<thead>
-					<?php $no = 1 ?>
-					<tr>
-						<th>No</th>
-						<th>Product</th>
-						<th>Division</th>
-						<th>Name</th>
-						<th>Date</th>
-						<th>Clock In</th>
-						<th>Status</th>
-					</tr>
-					</thead>
-					<tbody>
-
-					</tbody>
-				</table>
+				<?php $this->load->view($view_log_attendance); ?>
 			</div>
 		</div>
 		<div class="col-md-6 col-6 mb-4 col-sm-12">
@@ -32,16 +63,11 @@
 				<div class="card-body">
 					<h2 class="card-title"><?= date('d F Y')?></h2>
 					<h1 id="realtime-clock"></h1>
-					<p class="card-text">Silahkan melakukan absen dengan menekan tombol dibawah.</p>
-					<button type="button" class="btn gradient-btn rounded-pill mt-6 mb-6" data-bs-toggle="modal" data-bs-target="#addPosition">
-						<i class="bi bi-calendar-check"></i>
-						CLOCK IN
-					</button>
-					<p class="card-text text-danger">*Jam Masuk : 08:00 WIB</p>
+					<?= $status?>
 
 				</div>
 				<div class="card-footer justify-content-start">
-					<button type="button" class="btn bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#izinModal">
+					<button type="button" class="btn bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#addProduct">
 						<span class="text-primary">Ajukan Izin</span>
 					</button>
 				</div>
@@ -51,7 +77,7 @@
 
 
 	<!-- Modal Izin Modal-->
-	<div class="modal fade" tabindex="-1" id="izinModal">
+	<div class="modal fade" tabindex="-1" id="addProduct">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -66,12 +92,13 @@
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/piutang/add_piutang') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/data/dataizin/add_izin') ?>" enctype="multipart/form-data">
+							<input type="hidden" value="<?= $user['email'] ?>" name="id_employee" autocomplete="off" class="form-control bg-transparent" readonly/>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Izin Dibuat</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="date" value="<?= date('Y-m-d') ?>" name="piutang_date" autocomplete="off" class="form-control bg-transparent" readonly/>
+							<input type="date" value="<?= date('Y-m-d') ?>" name="input_at" autocomplete="off" class="form-control bg-transparent" readonly/>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Alasan Izin</span>
@@ -89,20 +116,20 @@
 								<span>Bukti</span>
 							</div>
 							<div class="fv-row mb-8">
-								<input type="file" name="amount_piutang" autocomplete="off" class="form-control bg-transparent" />
+								<input type="file" name="bukti_surat_sakit" autocomplete="off" class="form-control bg-transparent" />
 							</div>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Tanggal Izin</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="date" id="tgl_lunas" value="<?= date("Y-m-d") ?>" name="tgl_lunas" autocomplete="off" class="form-control bg-transparent" />
+							<input type="date" id="tgl_lunas" value="<?= date("Y-m-d") ?>" name="tanggal_izin" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
 						</div>
 						<div class="fv-row mb-8">
-							<textarea type="text" class="form-control" id="description" name="description_piutang"></textarea>
+							<textarea type="text" class="form-control" id="description" name="description"></textarea>
 						</div>
 
 						<div class="d-grid mb-10">

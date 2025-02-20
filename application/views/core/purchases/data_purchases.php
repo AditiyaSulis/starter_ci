@@ -75,8 +75,8 @@
 				type: 'POST',
 				data: function(d) {
 					d.option = $('#filterSelect').val();
-					d.startDate = data.startDate;
-					d.endDate = data.endDate;
+					d.startDate = $('#startDate').val();
+					d.endDate = $('#endDate').val();
 					d.status_purchases = data.status_purchases;
 					d.with_alerts = data.with_alerts;
 				}
@@ -89,8 +89,7 @@
 			]
 		});
 		$('#filterSelect').on('change', function() {
-			// option = $(this).val();
-
+			option = $(this).val();
 			if (option === 'custom') {
 				$('#customDateModal').modal('show');
 			} else {

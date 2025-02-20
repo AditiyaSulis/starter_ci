@@ -54,11 +54,14 @@ class Auth extends CI_Controller{
     
             $this->m_Admin->updateLogin_post($data['email']);
             $this->session->set_userdata('user', $infoAccount['id']);
-    
+
+			$url = $infoAccount['role'] == 1 || $infoAccount['role'] == 2 ? 'admin/dashboard/dashboard_page?with_alerts=1' : 'absence/absence/absence_page';
+
+
             $response = [
                 'status' => true,
                 'message' => 'Berhasil Login',
-                'redirect' => base_url('admin/dashboard/dashboard_page?with_alerts=1'),
+                'redirect' => base_url($url),
             ];
         } else {
             $response = [

@@ -227,5 +227,6 @@
 
     <script>
 		$('#supplier_table').DataTable();
+
 	</script>
 </main>

@@ -78,4 +78,14 @@ class m_Products extends CI_Model {
       return true;
 
     }
+
+
+	public function getAllIds_get() {
+		$this->db->select('id_product');
+		$this->db->from('products');
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
 }

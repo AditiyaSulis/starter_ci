@@ -123,6 +123,137 @@ class Employee extends MY_Controller{
         echo json_encode($response);
     }
 
+	public function add_all_data_employee(){
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('gender', 'Gender', 'required', [
+			'required' => 'Gender harus diisi',
+		]);
+		$this->form_validation->set_rules('basic_salary', 'basic_salary', 'required', [
+			'required' => 'Salary harus diisi',
+		]);
+		$this->form_validation->set_rules('uang_makan', 'uang_makan', 'required', [
+			'required' => 'Uang makan harus diisi',
+		]);
+		$this->form_validation->set_rules('nip', 'NIP', 'required|min_length[8]|max_length[18]|is_unique[employee.nip]', [
+			'required' => 'NIP harus diisi',
+			'min_length' => 'NIP minimal 8 karakter',
+			'max_length' => 'NIP maksimal 18 karakter',
+			'is_unique' => 'NIP sudah dipakai',
+		]);
+		$this->form_validation->set_rules('name', 'Name', 'required|min_length[3]|max_length[50]', [
+			'required' => 'Name harus diisi',
+			'min_length' => 'Name minimal 3 karakter',
+			'max_length' => 'Name maksimal 50 karakter',
+		]);
+		$this->form_validation->set_rules('place_of_birth', 'Place_of_birth', 'required|min_length[4]|max_length[30]', [
+			'required' => 'Tempat lahir harus diisi',
+			'min_length' => 'Tempat lahir minimal 4 karakter',
+			'max_length' => 'Tempat lahir maksimal 50 karakter',
+		]);
+		$this->form_validation->set_rules('id_position', 'id_position', 'required', [
+			'required' => 'Posisi harus diisi',
+		]);
+		$this->form_validation->set_rules('id_division', 'id_division', 'required', [
+			'required' => 'Divisi harus diisi',
+		]);
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[4]|max_length[20]',[
+			'required' => 'password harus diisi',
+			'min_length'=> 'password minimal memiliki 4 karakter huruf',
+			'max_length'=> 'password tidak boleh melebihi 20 huruf',
+		]);
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[admin.email]',[
+			'valid_email' => 'Invalid email',
+			'is_unique' => 'Email sudah digunakan'
+		]);
+		$this->form_validation->set_rules('bank_name', 'bank_name', 'required', [
+			'required' => 'Bank name harus diisi',
+		]);
+		$this->form_validation->set_rules('bank_number', 'bank_number', 'required', [
+			'required' => 'Account number harus diisi',
+		]);
+		$this->form_validation->set_rules('bank_holder_name', 'bank_holder_name', 'required', [
+			'required' => 'Account holder name harus diisi',
+		]);
+		$this->form_validation->set_rules('name_contact', 'name_contact', 'required', [
+			'required' => 'Contact name harus diisi',
+		]);
+		$this->form_validation->set_rules('number_contact', 'number_contact', 'required', [
+			'required' => 'No.Hp harus diisi',
+		]);
+		$this->form_validation->set_rules('as_contact', 'as_contact', 'required', [
+			'required' => 'Hubungan harus diisi',
+		]);
+		$this->form_validation->set_rules('address_contact', 'address_contact', 'required', [
+			'required' => 'Address harus diisi',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$lb = new Opensslencryptdecrypt();
+		$encrypt =$lb->encrypt($this->input->post('password', true));
+
+		$emp = [
+			'id_product' => $this->input->post('id_product', true),
+			'date_in' => $this->input->post('date_in', true),
+			'nip' => $this->input->post('nip', true),
+			'name' => $this->input->post('name', true),
+			'gender' => $this->input->post('gender', true),
+			'email' => $this->input->post('email', true),
+			'place_of_birth' => $this->input->post('place_of_birth', true),
+			'date_of_birth' => $this->input->post('date_of_birth', true),
+			'id_position' => $this->input->post('id_position', true),
+			'id_division' => $this->input->post('id_division', true),
+			'uang_makan' => $this->input->post('uang_makan', true),
+			'basic_salary' => $this->input->post('basic_salary', true),
+			'bonus' => $this->input->post('bonus', true),
+		];
+		$account = [
+			'name' => $this->input->post('name', true),
+			'email' => $this->input->post('email', true),
+			'password' => $encrypt,
+			'role' => 3,
+		];
+		$bank = [
+			'bank_name' => $this->input->post('bank_name', true),
+			'bank_number' => $this->input->post('bank_number', true),
+			'bank_holder_name' => $this->input->post('bank_holder_name', true),
+		];
+		$ec = [
+			'name_contact' => $this->input->post('name_contact', true),
+			'number_contact' => $this->input->post('number_contact', true),
+			'as_contact' => $this->input->post('as_contact', true),
+			'address_contact' => $this->input->post('address_contact', true),
+		];
+
+		$employee = $this->m_Employees->create_allDataEmployees($emp, $account, $bank, $ec);
+
+		if ($employee) {
+			$response = [
+				'status' => true,
+				'message' => 'Employee berhasil ditambahkan',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Employee gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
 
     public function update() 
     {

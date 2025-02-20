@@ -869,5 +869,141 @@ $(document).ready(function ()
 
 
 
+//ADD WORKSHIFT
+$(document).ready(function () {
+    $("#addWorkshiftForm").on("submit", function (e) {
+        e.preventDefault(); 
+
+        var formElement = this; 
+        var formData = new FormData(formElement); 
+
+        $("#submit_position").prop("disabled", true); 
+
+        $.ajax({
+            url: $(formElement).data("action"), 
+            type: "POST", 
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            dataType: "json", 
+            success: function (response) {
+                $("#submit_position").prop("disabled", false); 
+                if (response.status) {
+                    swallMssg_s(response.message, false, 1500)
+                    .then(() =>  {
+                        location.reload();
+                    });
+                } else {
+                    swallMssg_e(response.message, true, 0); 
+                }
+            },
+            error: function (xhr, status, error) {
+                $("#submit_product").prop("disabled", false); 
+                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0).
+                then(() =>  {
+                    location.reload();
+                });
+            },
+        });
+    });
+
+});
+
+//EDIT WORKSHIFT
+function editWorkshiftButton(element)
+{
+    let $element = $(element);
+
+    $("#id_workshift").val($element.data('id_workshift'));
+    $("#code_workshift").val($element.data('code_workshift'));
+    $("#name_workshift").val($element.data('name_workshift'));
+    $("#clock_in").val($element.data('clock_in'));
+    $("#clock_out").val($element.data('clock_out'));
+    $("#description").val($element.data('description'));
+
+
+    $("#editWorkshiftModal").modal("show");
+}
+
+
+$(document).ready(function () 
+{
+    var base_url = $('meta[name="base_url"]').attr('content');
+    console.log($("#id_workshift").val());
+
+    $("#editWorkshiftForm").on("submit", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: base_url + "absence/workshift/update_workshift", 
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+                if (response.status) {
+                    swallMssg_s(response.message, false, 1500)
+                    .then(() =>  {
+                        location.reload();
+                    });
+                } else {
+                        swallMssg_e(response.message, true, 0);
+                }
+            },
+            error: function (xhr, status, error) {
+                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk mengedit data ' + error, true, 0).
+                then(() =>  {
+                    location.reload();
+                }); 
+            }
+        });
+    });
+});
+
+
+// DELETE WORKSHIFT
+$(document).ready(function () 
+{
+    var base_url = $('meta[name="base_url"]').attr('content');
+
+    $(".btn-delete-shift").on("click", function () {
+        var id_workshift = $(this).data("id_workshift");
+
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Shift ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: base_url + "absence/workshift/delete", 
+                    type: "POST",
+                    data: { id: id_workshift },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            swallMssg_s(response.message, false, 1500)
+                            .then(() =>  {
+                                location.reload();
+                            });
+                        } else {
+                            swallMssg_e(response.message, true, 0);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menghapus product ' + error , true, 0).
+                        then(() =>  {
+                            location.reload();
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
 
 

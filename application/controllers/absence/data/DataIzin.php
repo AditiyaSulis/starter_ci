@@ -6,6 +6,9 @@ class DataIzin extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('m_Izin');
+		$this->load->model('m_Employees');
+		$this->load->model('m_Schedule');
 
 	}
 
@@ -14,10 +17,18 @@ class DataIzin extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$data = $this->_basicData();
 
+
 		$data['title'] = 'Data Izin';
-		$data['view_name'] = 'absence/data/data_izin';
+		$data['view_name'] = 'absence/data/izin';
 		$data['breadcrumb'] = 'Data - Izin';
-		$data['menu'] = '';
+		$data['menu'] = 'Data';
+
+		$data['employee'] = '';
+		$data['employees'] = $this->m_Employees->findAll_get();
+
+
+		$data['view_data'] = 'core/izin/data_izin';
+		$data['view_components'] = 'core/izin/data_izin_components';
 
 		if($data['user']) {
 			$this->load->view('templates/index' ,$data);
@@ -27,7 +38,270 @@ class DataIzin extends MY_Controller{
 		}
 	}
 
+	public function emp_data_izin_page()
+	{
+		$this->_ONLYSELECTED([3]);
+		$data = $this->_basicData();
 
+		$data['title'] = 'Izin';
+		$data['view_name'] = 'absence/izin';
+		$data['breadcrumb'] = 'Izin';
+		$data['menu'] = '';
+
+		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$data['employee'] = $id['id_employee'];
+		$data['employees'] = $this->m_Employees->findAll_get();
+		$data['total_izin'] = $this->m_Izin->totalIzinByEmployeeId_get($id['id_employee']);
+		$data['total_izin_this_month'] = $this->m_Izin->totalIzinThisMonthByEmployeeId_get($id['id_employee']);
+
+
+		$data['view_data'] = 'core/izin/data_izin';
+		$data['view_components'] = 'core/izin/data_izin_components';
+
+		if($data['user']) {
+			$this->load->view('templates/index' ,$data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('fetch/login');
+		}
+	}
+
+	public function add_izin()
+	{
+		$this->_ONLYSELECTED([1,3]);
+		$this->_isAjax();
+		$this->form_validation->set_rules('alasan_izin', 'alasan_izin', 'required', [
+			'required' => 'Alasan Izin harus diisi',
+		]);
+		$this->form_validation->set_rules('tanggal_izin', 'tanggal_izin', 'required', [
+			'required' => 'Tanggal Izin harus diisi',
+		]);
+
+		$this->form_validation->set_rules('description', 'Description', 'trim|required|min_length[4]', [
+			'required' => 'Deskripsi harus diisi',
+			'min_length' => 'Deskripsi minimal 4 huruf',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$surat_sakit = '-';
+		$alasan_izin = $this->input->post('alasan_izin');
+		$email = $this->input->post('id_employee');
+		$id = $this->m_Employees->findByEmail_get($email);
+
+		if(!$id) {
+			$response = [
+				'status' => false,
+				'message' => 'Data tidak ditemukan',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+
+		if($alasan_izin == 2) {
+			$this->load->helper('image_helper');
+
+			$upload_path = 'bukti/compressed';
+			$resize_width = 500;
+			$resize_height = 500;
+			$resize_quality = 60;
+
+			$upload_result = upload_and_resize('bukti_surat_sakit', $upload_path, $resize_width, $resize_height, $resize_quality);
+
+			if (!$upload_result['status']) {
+				$response = [
+					'status' => false,
+					'message' => $upload_result['message'],
+				];
+				echo json_encode($response);
+				return;
+			}
+
+			$surat_sakit = $upload_result['message'];
+		}
+
+		$data = [
+			'input_at' => $this->input->post('input_at', true),
+			'id_employee' => $id['id_employee'],
+			'description' => $this->input->post('description', true),
+			'alasan_izin' => $this->input->post('alasan_izin', true),
+			'tanggal_izin' => $this->input->post('tanggal_izin', true),
+			'bukti_surat_sakit' => $surat_sakit,
+		];
+
+		$product = $this->m_Izin->create_post($data);
+
+		if ($product) {
+			$response = [
+				'status' => true,
+				'message' => 'Izin berhasil dibuat',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Izin gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+	}
+
+	public function set_status()
+	{
+
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$id = $this->input->post('id_izin', true);
+		$idEmployee = $this->input->post('id_employee', true);
+		$tanggal = $this->input->post('tanggal_izin', true);
+
+		$this->form_validation->set_rules('status', 'status', 'required', [
+			'required' => 'Status harus diisi',
+		]);
+
+		if ($this->form_validation->run() == false) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error'
+			];
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		$setstatus = $this->input->post('status', true);
+
+		if($setstatus == 2) {
+			$setStatus1 = $this->m_Schedule->setStatus_post($idEmployee, $tanggal, 5);
+		} else {
+			$setStatus1 = $this->m_Schedule->setStatus_post($idEmployee, $tanggal, 1);
+		}
+
+		if ($this->m_Izin->setStatus_post($id, $setstatus)) {
+			$response = [
+				'status' => true,
+				'message' => 'Status berhasil diperbarui.'
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Gagal memperbarui Status.'
+			];
+		}
+
+		echo json_encode($response);
+
+
+	}
+
+	public function delete()
+	{
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$id = $this->input->post('id');
+
+		$dataIzin = $this->m_Izin->findById_get($id);
+
+		if(!empty($dataIzin)){
+			if (isset($dataIzin['bukti_surat_sakit']) && !empty($dataIzin['bukti_surat_sakit'])) {
+				$imagePath = './uploads/bukti/compressed/' . $dataIzin['bukti_surat_sakit'];
+				if (file_exists($imagePath)) {
+					unlink($imagePath);
+				}
+
+			}
+		}
+
+
+		if($this->m_Izin->delete($id)){
+			$this->m_Schedule->setStatus_post($dataIzin['id_employee'], $dataIzin['tanggal_izin'], 1);
+
+			$response = [
+				'status' => true,
+				'message' => 'Data izin karyawan berhasil dihapus',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Data izin karyawan gagal dihapus',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
+
+	public function update_bukti()
+	{
+		$this->_ONLYSELECTED([1,3]);
+		$this->_isAjax();
+
+		$id = $this->input->post('id_izin', true);
+
+		$izin = $this->m_Izin->findById_get($id);
+
+		if ($izin && !empty($izin['bukti_surat_sakit'])) {
+			$old_logo_path = './uploads/bukti/compressed/' . $izin['bukti_surat_sakit'];
+			if (file_exists($old_logo_path)) {
+				unlink($old_logo_path);
+			}
+
+			$this->load->helper('image_helper');
+			$upload_path = 'bukti/compressed';
+			$resize_width = 500;
+			$resize_height = 500;
+			$resize_quality = 60;
+
+			$upload_result = upload_and_resize('bukti_surat_sakit', $upload_path, $resize_width, $resize_height, $resize_quality);
+
+			if (!$upload_result['status']) {
+				$response = [
+					'status' => false,
+					'message' => $upload_result['message'],
+				];
+				echo json_encode($response);
+				return;
+			}
+
+			$logo_name = $upload_result['message'];
+			$data = [
+				'bukti_surat_sakit' => $logo_name
+			];
+
+			if ($this->m_Izin->update_post($id, $data)) {
+				$response = [
+					'status' => true,
+					'message' => 'Bukti berhasil diperbarui.'
+				];
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Bukti memperbarui product.'
+				];
+			}
+
+			echo json_encode($response);
+			return;
+		}
+
+	}
 
 
 }

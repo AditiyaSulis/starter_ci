@@ -34,7 +34,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
-    <style>
+
+
+
+	<style>
         #exportPDF {
             background-color: #17a2b8; 
             color: white;
@@ -183,7 +186,7 @@
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
-                    <a href="<?= base_url('admin/dashboard/dashboard_page')?>">
+                    <a href="<?= base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
                         <img alt="Logo" src="<?= base_url('asset/media/logos/Logo.png')?>" class="h-15px logo" />
                     </a>
                     <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
@@ -199,64 +202,68 @@
                         data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
                         data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
                         data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link  <?= $title == 'Admin' ? "active": ""?>" href="<?=base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-layout-dashboard"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Dashboard</span>
-                                </a>
-                            </div>
-                        </div>
+						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link  <?= $title == 'Admin' ? "active": ""?>" href="<?=base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-layout-dashboard"></i>
+											</span>
+										</span>
+										<span class="menu-title">Dashboard</span>
+									</a>
+								</div>
+							</div>
 
-                        <div  class="menu-item pt-5" >
-                            <div  class="menu-content" >
-                                <span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">EMPLOYMENT</span>
-                            </div>
-                        </div>
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Employee' ? "active": ""?>" href="<?=base_url('admin/employee/employee_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-id-badge"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Employee</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Product' ? "active": ""?>" href="<?=base_url('admin/product/product_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-package"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Product</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Division' || $title == 'Position' ? "active": ""?>" href="<?=base_url('admin/division/division_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-buildings"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Division & Position</span>
-                                </a>
-                            </div>
-                        </div>
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">EMPLOYMENT</span>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Employee' ? "active": ""?>" href="<?=base_url('admin/employee/employee_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-id-badge"></i>
+											</span>
+										</span>
+										<span class="menu-title">Employee</span>
+									</a>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Product' ? "active": ""?>" href="<?=base_url('admin/product/product_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-package"></i>
+											</span>
+										</span>
+										<span class="menu-title">Product</span>
+									</a>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Division' || $title == 'Position' ? "active": ""?>" href="<?=base_url('admin/division/division_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-buildings"></i>
+											</span>
+										</span>
+										<span class="menu-title">Division & Position</span>
+									</a>
+								</div>
+							</div>
+
+						<?php endif;?>
+
 
 						<div  class="menu-item pt-5" >
 							<div  class="menu-content" >
@@ -264,6 +271,7 @@
 							</div>
 						</div>
 
+						<?php if($user['role'] == 3): ?>
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
@@ -280,7 +288,20 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/dayoff/day_off_page')?>">
+								<a class="menu-link <?= $title == 'Schedule' ? "active": ""?>" href="<?=base_url('absence/schedule/schedule_page')?>">
+								<span class="menu-icon">
+									<span class="svg-icon svg-icon-2">
+										<i class="bi bi-calendar-week"></i>
+									</span>
+								</span>
+									<span class="menu-title">Schedule</span>
+								</a>
+							</div>
+						</div>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item">
+								<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/dayoff/day_off_page?status_day_off=3&is=3')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi bi-calendar-x"></i>
@@ -293,7 +314,7 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Leave' ? "active": ""?>" href="<?=base_url('absence/leave/leave_page')?>">
+								<a class="menu-link <?= $title == 'Leave' ? "active": ""?>" href="<?=base_url('absence/leave/leave_page?status_leave=3&is=3')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi bi-calendar-range"></i>
@@ -306,7 +327,20 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Overtime' ? "active": ""?>" href="<?=base_url('absence/overtime/overtime_page')?>">
+								<a class="menu-link <?= $title == 'Izin' ? "active": ""?>" href="<?=base_url('absence/data/dataizin/emp_data_izin_page?status_izin=3&is=3')?>">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <i class="bi  bi-calendar-plus"></i>
+                                        </span>
+                                    </span>
+									<span class="menu-title">Izin</span>
+								</a>
+							</div>
+						</div>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item">
+								<a class="menu-link <?= $title == 'Overtime' ? "active": ""?>" href="<?=base_url('absence/overtime/overtime_page?status_overtime=3&is=3')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi bi-clock"></i>
@@ -316,135 +350,225 @@
 								</a>
 							</div>
 						</div>
+						<?php endif;?>
+
+						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Holyday' ? "active": ""?>" href="<?=base_url('absence/holyday/holyday_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-calendar3-event"></i>
-                                        </span>
-                                    </span>
-									<span class="menu-title">Holyday</span>
-								</a>
+							<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+								<!-- Menu Link -->
+								<span class="menu-link <?= $menu == 'Data' ? "active": ""?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-calendar3"></i>
+											</span>
+										</span>
+
+										<span class="menu-title">Data</span>
+										<span class="menu-arrow"></span>
+									</span>
+
+								<!-- Dropdown Submenu -->
+								<div class="menu-sub menu-sub-accordion">
+									<div class="menu-item">
+										<a href="<?=base_url('absence/data/dataizin/data_izin_page?status_izin=3')?>" class="menu-link <?= $title == 'Data Izin' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Izin</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/leave/su_leave_page?status_leave=3&is=1')?>" class="menu-link <?= $title == 'Data Leave' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Leave</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/overtime/su_overtime_page?status_overtime=3&is=1')?>" class="menu-link <?= $title == 'Data Overtime' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Overtime</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/dayoff/su_day_off_page?status_day_off=3&is=1')?>" class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Day off</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/holyday/holyday_page')?>" class="menu-link <?= $title == 'Data Holyday' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Holiday</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/workshift/workshift_page')?>" class="menu-link <?= $title == 'Data Workshift' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Workshift</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/schedule/su_schedule_page')?>" class="menu-link <?= $title == 'Data Schedule' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Schedule</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a href="<?=base_url('absence/attendance/su_attendance_page')?>" class="menu-link <?= $title == 'Data Attendance' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Attendance</span>
+										</a>
+									</div>
+
+								</div>
 							</div>
 						</div>
+						<?php endif;?>
+
+						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+									<!-- Menu Link -->
+									<span class="menu-link <?= $menu == 'FR' ? "active": ""?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-receipt"></i>
+											</span>
+										</span>
+
+										<span class="menu-title">Finance Record</span>
+										<span class="menu-arrow"></span>
+									</span>
+
+									<!-- Dropdown Submenu -->
+									<div class="menu-sub menu-sub-accordion">
+										<div class="menu-item">
+											<a href="<?=base_url('admin/finance_record/finance_record_page')?>" class="menu-link <?= $title == 'Finance Record' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Transaction</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a href="<?=base_url('admin/account_code/ac_page')?>" class="menu-link <?= $title == 'Account Code' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Account Code</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+									<!-- Menu Link -->
+									<span class="menu-link <?= $menu == 'Supplier' ? "active": ""?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-truck"></i>
+											</span>
+										</span>
+
+										<span class="menu-title">Supplier</span>
+										<span class="menu-arrow"></span>
+									</span>
+
+									<!-- Dropdown Submenu -->
+									<div class="menu-sub menu-sub-accordion">
+										<div class="menu-item">
+											<a href="<?=base_url('admin/supplier/data_supplier_page')?>" class="menu-link <?= $title == 'Supplier' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Data</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a href="<?=base_url('admin/purchases/purchases_unpaid_page?status_purchases=0')?>" class="menu-link <?= $title == 'Purchases Unpaid' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Purchases</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Piutang' ? "active": ""?>" href="<?=base_url('admin/piutang/piutang_page?status_piutang=2')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-currency-exchange"></i>
+											</span>
+										</span>
+										<span class="menu-title">Piutang</span>
+									</a>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Payroll' ? "active": ""?>" href="<?=base_url('admin/payroll/payroll_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-wallet"></i>
+											</span>
+										</span>
+										<span class="menu-title">Payroll</span>
+									</a>
+								</div>
+							</div>
 
 
-                        <div  class="menu-item pt-5" >
-                            <div  class="menu-content" >
-                                <span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
-                            </div>
-                        </div>
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">SETTING</span>
+								</div>
+							</div>
 
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
-                                <!-- Menu Link -->
-                                <span class="menu-link <?= $menu == 'FR' ? "active": ""?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-receipt"></i>
-                                        </span>
-                                    </span>
-                                    
-                                    <span class="menu-title">Finance Record</span>
-                                    <span class="menu-arrow"></span>
-                                </span>
-
-                                <!-- Dropdown Submenu -->
-                                <div class="menu-sub menu-sub-accordion">
-                                    <div class="menu-item">
-                                        <a href="<?=base_url('admin/finance_record/finance_record_page')?>" class="menu-link <?= $title == 'Finance Record' ? "active": ""?>">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">Transaction</span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a href="<?=base_url('admin/account_code/ac_page')?>" class="menu-link <?= $title == 'Account Code' ? "active": ""?>">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">Account Code</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
-                                <!-- Menu Link -->
-                                <span class="menu-link <?= $menu == 'Supplier' ? "active": ""?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-truck"></i>
-                                        </span>
-                                    </span>
-                                    
-                                    <span class="menu-title">Supplier</span>
-                                    <span class="menu-arrow"></span>
-                                </span>
-
-                                <!-- Dropdown Submenu -->
-                                <div class="menu-sub menu-sub-accordion">
-                                    <div class="menu-item">
-                                        <a href="<?=base_url('admin/supplier/data_supplier_page')?>" class="menu-link <?= $title == 'Supplier' ? "active": ""?>">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">Data</span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a href="<?=base_url('admin/purchases/purchases_unpaid_page?status_purchases=0')?>" class="menu-link <?= $title == 'Purchases Unpaid' ? "active": ""?>">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">Purchases</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Piutang' ? "active": ""?>" href="<?=base_url('admin/piutang/piutang_page?status_piutang=2')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-currency-exchange"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Piutang</span>
-                                </a>
-                            </div>
-                        </div>    
-
-
-                        <div  class="menu-item pt-5" >
-                            <div  class="menu-content" >
-                                <span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">SETTING</span>
-                            </div>
-                        </div>
-                        
-                        <div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-                            id="#kt_aside_menu" data-kt-menu="true">
-                            <div class="menu-item">
-                                <a class="menu-link <?= $title == 'Setting' ? "active": ""?>" href="<?=base_url('admin/setting/setting_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="ti ti-settings"></i>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">Setting</span>
-                                </a>
-                            </div>
-                        </div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Setting' ? "active": ""?>" href="<?=base_url('admin/setting/setting_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-settings"></i>
+											</span>
+										</span>
+										<span class="menu-title">Setting</span>
+									</a>
+								</div>
+							</div>
+						<?php endif;?>
 
                     </div>
                 </div>
@@ -480,7 +604,7 @@
                                     class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                     <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="<?= base_url('admin/dashboard/dashboard_page')?>"
+                                            <a href="<?= base_url('admin/dashboard/dashboard_page?with_alerts=1')?>"
                                                 class="text-muted text-hover-primary">Home</a>
                                         </li>
                                         <li class="breadcrumb-item">
@@ -685,7 +809,6 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <script src="<?=base_url('asset/plugins/global/theme-mode.js')?>"></script>
     <script src="<?=base_url('asset/plugins/global/plugins.bundle.js')?>"></script>
-    <!-- <script src="<?=base_url('asset/plugins/global/pluginnew.bundle.js')?>"></script> -->
     <script src="<?=base_url('asset/js/scripts.bundle.js')?>"></script>
     <script src="<?=base_url('asset/js/finance_record.js')?>"></script>
    

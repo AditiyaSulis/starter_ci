@@ -11,6 +11,16 @@ class m_Employees extends CI_Model {
         return $this->db->get_where('employee', ['id_employee' => $id])->row_array();
     }
 
+	public function findByIdJoin_get($id){
+		$this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product');
+
+		$this->db->from('employee');
+		$this->db->where('employee.id_employee', $id);
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('position', 'position.id_position = employee.id_position', 'left');
+		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
+		return  $this->db->get()->row_array();
+	}
 
     public function findByProductId_get($id)
     {
@@ -35,8 +45,17 @@ class m_Employees extends CI_Model {
         return $query->result_array();
     }
 
+	public function findByEmail_get($email){
+		return $this->db->get_where('employee', ['email' => $email])->row_array();
+	}
 
-    public function create_post($data)
+	public function findByProductNDivisionId_get($idProduct, $idDivision)
+	{
+		return $this->db->get_where('employee', ['id_product' => $idProduct, 'id_division' => $idDivision])->result_array();
+	}
+
+
+	public function create_post($data)
     {
         if ($this->db->insert('employee', $data)) {
             return true;
@@ -51,12 +70,10 @@ class m_Employees extends CI_Model {
         return $this->db->delete('employee', ['id_employee' => $id]);
     }
 
-
     public function findByNip_get($nip) 
     {
        return $this->db->get_where('employee', ['nip' => $nip])->row_array();
     }
-
 
     public function update_post($id, $data) 
     {
@@ -64,19 +81,22 @@ class m_Employees extends CI_Model {
         return $this->db->update('employee', $data);
     }
 
-
     public function totalEmployees_get()
     {
         $count =  $this->db->get('employee')->num_rows();
     
         return $count;
     }
-    
 
     public function getEmployeesData($product = null) 
     {
+		$employee = $this->input->post('employee');
+
         $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility');
-       
+
+		if(!empty($employee)){
+			$this->db->where('employee.id_employee', $employee);
+		}
         $this->db->from('employee');
         $this->db->join('products', 'products.id_product = employee.id_product', 'left');
         $this->db->join('position', 'position.id_position = employee.id_position', 'left');
@@ -143,6 +163,32 @@ class m_Employees extends CI_Model {
        return $this->db->get_where('employee', ['id_position' => $id])->row_array();
     }
 
-    
+	public function create_allDataEmployees($emp, $account, $bank, $ec)
+	{
+		$this->db->trans_start();
 
+
+		$this->db->insert('employee', $emp);
+		$employeeId = $this->db->insert_id();
+		if (!$employeeId) {
+			$this->db->trans_rollback();
+			return false;
+		}
+
+		$this->db->insert('admin', $account);
+
+		$bank['id_employee'] = $employeeId;
+		$this->db->insert('bank_account', $bank);
+
+		$ec['id_employee'] = $employeeId;
+		$this->db->insert('emergency_contact', $ec);
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			return false;
+		} else {
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }

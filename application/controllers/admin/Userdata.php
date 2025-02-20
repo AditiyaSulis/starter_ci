@@ -227,6 +227,10 @@ class Userdata extends MY_Controller{
             'role' => $this->input->post('role'),
         ];
 
+		$account = [
+			'email' => $this->input->post('email')
+		];
+
         $account_updated = $this->m_Admin->update_post($id, $data);
 
         if($account_updated) {

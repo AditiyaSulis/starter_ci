@@ -255,34 +255,13 @@
 
 	<?php $this->load->view($view_components);?>
 
-
-
-
-
 	<script>
 		const base_url = $('meta[name="base_url"]').attr('content');
-
-		// $(document).ready(function() {
-		//
-		// }
-		// $('#jatuhtempo_table').DataTable({
-		// 	responsive: true,
-		// 	scrollX: true,
-		// 	autoWidth: false,
-		// 	columnDefs: [
-		// 		{ width: '150px', targets: [2, 3, 4, 5] },
-		// 		{ className: "text-nowrap", targets: "_all" }
-		// 	]
-		// });
 
 		function showJatuhTempo(){
 
 			$("#jatuhTempoModal").modal("show");
 		}
-
-
-
-
 
 	</script>
 

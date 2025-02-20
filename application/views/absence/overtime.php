@@ -1,3 +1,7 @@
+<?php
+	$status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 3;
+?>
+
 
 <main>
 	<h1>Overtime</h1>
@@ -59,46 +63,25 @@
 		Add Overtime
 	</button>
 
-	<div class="mt-8">
-		<div class="col-2 col-md-2 mb-3">
-			<label class="form-label">Filter Waktu:</label>
-			<select id="filterSelect" class="form-select form-select-sm">
-				<option value="" selected>All</option>
-				<option value="today">Today</option>
-				<option value="tommorow">Tomorrow</option>
-				<option value="this_week">This Week</option>
-				<option value="last_week">Last Week</option>
-				<option value="this_month">This Month</option>
-				<option value="last_month">Last Month</option>
-				<option value="this_year">This Year</option>
-				<option value="next_year">Last Year</option>
-				<option value="custom">Custom Range</option>
-			</select>
-		</div>
-		<table id="dayoff_table" class="table table-bordered table-striped" style="width:100%">
-			<thead>
-			<?php $no = 1 ?>
-			<tr>
-				<th>No</th>
-				<th>Tanggal Input</th>
-				<th>Nama</th>
-				<th>Produk</th>
-				<th>Divisi</th>
-				<th>Tanggal Lembur</th>
-				<th>Total Jam</th>
-				<th>Mulai Lembur</th>
-				<th>Selesai Lembur</th>
-				<th>Deskripsi</th>
-				<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
+	<ul class="nav nav-tabs mt-8">
+		<li class="nav-item">
+			<a class="nav-link <?= ($status_overtime == 3) ? 'active text-info' : ' text-dark' ?>"
+			   href="<?=base_url('absence/overtime/overtime_page?status_overtime=3&is=3')?>">Pending</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  <?= ($status_overtime == 1) ? 'active text-info' : 'text-dark' ?>"
+			   href="<?=base_url('absence/overtime/overtime_page?status_overtime=1&is=3')?>">Disapproval</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  <?= ($status_overtime == 2) ? 'active text-info' : ' text-dark' ?>"
+			   href="<?=base_url('absence/overtime/overtime_page?status_overtime=2&is=3')?>">Approval</a>
+		</li>
+	</ul>
 
-			</tbody>
-		</table>
-	</div>
+	<?php $this->load->view($view_data); ?>
+	<?php $this->load->view($view_components); ?>
 
-	<!-- Modal  Leave -->
+	<!-- Modal  Overtime -->
 	<div class="modal fade" tabindex="-1" id="addProduct">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -114,7 +97,8 @@
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/piutang/add_piutang') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/overtime/add_overtime') ?>" enctype="multipart/form-data">
+						<input type="hidden" value="<?= $user['email']?>" name="id_employee" autocomplete="off" class="form-control bg-transparent"/>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Tanggal Input</span>
 						</div>
@@ -125,25 +109,25 @@
 							<span>Tanggal Lembur</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="date" value="<?= date('Y-m-d') ?>" name="date_leave" autocomplete="off" class="form-control bg-transparent" />
+							<input type="date" value="<?= date('Y-m-d') ?>" name="tanggal" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Mulai Lembur (Jam)</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="time" id="start_overtime" name="start_overtime" autocomplete="off" class="form-control bg-transparent" />
+							<input type="time" id="start_overtime" name="start" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Selesai Lembur (Jam)</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="time" id="end_overtime" name="end_overtime" autocomplete="off" class="form-control bg-transparent" />
+							<input type="time" id="end_overtime" name="end" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Total Jam</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="number" id="total_hours" name="total_hours" class="form-control bg-transparent" />
+							<input type="number" id="total_hours" name="time_spend" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
@@ -154,7 +138,7 @@
 
 						<div class="d-grid mb-10">
 							<button type="submit" id="submit_product" class="btn btn-primary">
-								<span class="indicator-label">Buat Lembur</span>
+								<span class="indicator-label">Ajukan Lembur</span>
 								<span class="indicator-progress">
 									Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -171,158 +155,10 @@
 		</div>
 	</div>
 
-	<!-- Modal  Custom Date -->
-	<div id="customDateModal" class="modal fade" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Select Date Range</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<div class="modal-body">
-					<form id="customDateForm">
-						<div class="mb-3">
-							<label for="startDate" class="form-label">Start Date</label>
-							<input type="date" id="startDate" name="start_date" class="form-control">
-						</div>
-						<div class="mb-3">
-							<label for="endDate" class="form-label">End Date</label>
-							<input type="date" id="endDate" name="end_date" class="form-control">
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="applyCustomDate">Apply</button>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
+
 
 
 	<script>
-		let table;
-		let option = '';
-		let startDate = '';
-		let endDate = '';
-		const base_urls = $('meta[name="base_url"]').attr('content');
-
-		$(document).ready(function(){
-			let params = new URLSearchParams(window.location.search);
-			data = Object.fromEntries(params.entries());
-		});
-
-
-		function callDT() {
-			table = $('#purchases_table').DataTable({
-				responsive: {
-					details: {
-						type: 'column',
-						target: 'tr',
-					}
-				},
-				processing: true,
-				serverSide: true,
-				ajax: {
-					url: base_urls + 'core/core_data/data_purchases',
-					type: 'POST',
-					data: function(d) {
-						d.option = option;
-						d.startDate = startDate;
-						d.endDate = endDate;
-					}
-				},
-				columnDefs: [
-					{ targets: "_all", orderable: false },
-					{ targets: 0, className: "text-center" },
-					{ targets: [1, 2, 3, 4], responsivePriority: 1 },
-					{ targets: -1, responsivePriority: 2 },
-				]
-			});
-
-		}
-
-
-		callDT();
-
-		// ---------- FILTER DATE
-		$('#filterSelect').on('change', function() {
-			option = $(this).val();
-
-			if (option === 'custom') {
-				$('#customDateModal').modal('show');
-			} else {
-				table.ajax.reload();
-
-				updateCards(option)
-			}
-
-
-		});
-
-
-		$('#applyCustomDate').on('click', function() {
-			startDate = $('#startDate').val();
-			endDate = $('#endDate').val();
-
-			if (!startDate || !endDate) {
-				Swal.fire({
-					icon: "error",
-					title: "Error",
-					text: "Masukan tanggal dengan benar"
-				});
-				return;
-			}
-
-			$('#customDateModal').modal('hide');
-			option = 'custom';
-			table.ajax.reload();
-			updateCards(option, startDate, endDate);
-		});
-
-
-		//DELETE
-		function handleDeletePurchaseButton(id) {
-			console.log('id nya : '+id)
-			Swal.fire({
-				title: 'Apakah Anda yakin?',
-				text: "Data yang dihapus tidak dapat dikembalikan!",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#d33',
-				cancelButtonColor: '#3085d6',
-				confirmButtonText: 'Ya, Hapus',
-				cancelButtonText: 'Batal',
-			}).then((result) => {
-				if (result.isConfirmed) {
-					const base_url = $('meta[name="base_url"]').attr('content');
-					$.ajax({
-						url: base_url + 'admin/purchases/delete',
-						type: 'POST',
-						data: { id: id },
-						success: function(response) {
-							console.log(response);
-							var res = JSON.parse(response);
-							if (res.status) {
-								swallMssg_s(res.message, true, 0)
-									.then(() => {
-										location.reload();
-									});
-							} else {
-								swallMssg_e(res.message, true, 0);
-							}
-						},
-						error: function(xhr, status, error) {
-							Swal.fire(
-								'Kesalahan!',
-								'Terjadi kesalahan: Silakan coba lagi.',
-								'error'
-							);
-						},
-					});
-				}
-			});
-		}
 
 		//MULAI CUTI FORM
 		document.addEventListener('DOMContentLoaded', function() {

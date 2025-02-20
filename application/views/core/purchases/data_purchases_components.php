@@ -116,6 +116,23 @@
 
 <script>
 
+	$('#applyCustomDate').on('click', function() {
+		startDate = $('#startDate').val();
+		endDate = $('#endDate').val();
+
+		if (!startDate || !endDate) {
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Masukan tanggal dengan benar"
+			});
+			return;
+		}
+
+		$('#customDateModal').modal('hide');
+		table.ajax.reload();
+	});
+
 	// LOG
 	const exampleModal = document.getElementById('logModal');
 	exampleModal.addEventListener('show.bs.modal', function (event) {

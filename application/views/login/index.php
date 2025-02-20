@@ -103,10 +103,10 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="fv-row mb-8">
-                                    <input type="text" placeholder="Email" name="email" id="email" autocomplete="off" class="form-control bg-transparent"/> 
+                                    <input type="text" placeholder="Email" name="email" id="email" autocomplete="true" class="form-control bg-transparent"/>
                                 </div>
                                 <div class="fv-row mb-3">    
-                                    <input type="password" placeholder="Password" name="password"  id="password" autocomplete="off" class="form-control bg-transparent"/>
+                                    <input type="password" placeholder="Password" name="password"  id="password" autocomplete="true" class="form-control bg-transparent"/>
                                 </div>
 
                                 <div class="d-grid mb-10">

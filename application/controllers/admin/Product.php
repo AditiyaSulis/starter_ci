@@ -158,50 +158,50 @@ class Product extends MY_Controller{
     
         $product = $this->m_Products->findById_get($id);
         if ($product && !empty($product['logo'])) {
-            $old_logo_path = './uploads/products/compressed/' . $product['logo'];
-            if (file_exists($old_logo_path)) {
-                unlink($old_logo_path); 
-        }
-    
-        $this->load->helper('image_helper');
-        $upload_path = 'products/compressed';
-        $resize_width = 500;
-        $resize_height = 500;
-        $resize_quality = 60;
-    
-        $upload_result = upload_and_resize('logo', $upload_path, $resize_width, $resize_height, $resize_quality);
-    
-        if (!$upload_result['status']) {
-            $response = [
-                'status' => false,
-                'message' => $upload_result['message'],
+                $old_logo_path = './uploads/products/compressed/' . $product['logo'];
+                if (file_exists($old_logo_path)) {
+                    unlink($old_logo_path); 
+            }
+        
+            $this->load->helper('image_helper');
+            $upload_path = 'products/compressed';
+            $resize_width = 500;
+            $resize_height = 500;
+            $resize_quality = 60;
+        
+            $upload_result = upload_and_resize('logo', $upload_path, $resize_width, $resize_height, $resize_quality);
+        
+            if (!$upload_result['status']) {
+                $response = [
+                    'status' => false,
+                    'message' => $upload_result['message'],
+                ];
+                echo json_encode($response);
+                return;
+            }
+        
+            $logo_name = $upload_result['message'];
+            $data = [
+                'name_product' => $name,
+                'description' => $description,
+                'url' => $url,
+                'logo' => $logo_name
             ];
+        
+            if ($this->m_Products->update_post($id, $data)) {
+                $response = [
+                    'status' => true,
+                    'message' => 'Product berhasil diperbarui.'
+                ];
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => 'Gagal memperbarui product.'
+                ];
+            }
+        
             echo json_encode($response);
             return;
-        }
-    
-        $logo_name = $upload_result['message'];
-        $data = [
-            'name_product' => $name,
-            'description' => $description,
-            'url' => $url,
-            'logo' => $logo_name
-        ];
-    
-        if ($this->m_Products->update_post($id, $data)) {
-            $response = [
-                'status' => true,
-                'message' => 'Product berhasil diperbarui.'
-            ];
-        } else {
-            $response = [
-                'status' => false,
-                'message' => 'Gagal memperbarui product.'
-            ];
-        }
-    
-        echo json_encode($response);
-        return;
 
         }
     }

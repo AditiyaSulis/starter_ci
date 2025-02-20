@@ -22,8 +22,6 @@ class Position extends MY_Controller{
        $data['breadcrumb'] = 'Position';
        $data['menu'] = '';
 
-	   $data['view_data'] = 'core/purchases/data_purchases';
-	   $data['view_components'] = 'core/purchases/data_purchases_components';
 
        $data['position'] = $this->m_Position->findAll_get();
 
