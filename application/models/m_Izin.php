@@ -18,6 +18,7 @@ class m_Izin extends CI_Model {
 		return $this->db->get_where('izin', ['id_izin' => $id])->row_array();
 	}
 
+
 	public function findAllWithJoin_get()
 	{
 		$this->db->select('izin.id_izin, izin.id_employee, izin.alasan_izin, izin.input_at, izin.tanggal_izin, izin.bukti_surat_sakit, izin.description, izin.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
@@ -115,13 +116,14 @@ class m_Izin extends CI_Model {
 		$option = $this->input->post('option', true);
 		$status_izin = $this->input->post('status_izin', true);
 		$id = $this->input->post('employee', true);
+		$product = $this->input->post('product', true);
 
 
 
 		if(!empty($status_izin)){
 			$this->db->select('izin.id_izin, izin.id_employee, izin.alasan_izin, izin.input_at, izin.tanggal_izin, izin.bukti_surat_sakit, izin.description, izin.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
 			$this->db->where('izin.status', $status_izin);
-			if($id != '') {
+			if($id != 'false') {
 				$this->db->where('izin.id_employee', $id);
 			}
 			$this->db->from('izin');
@@ -130,6 +132,9 @@ class m_Izin extends CI_Model {
 			$this->db->join('products', 'products.id_product = employee.id_product', 'left');
 			if(!empty($option) ){
 				$this->_filterDATE($option);
+			}
+			if(!empty($product) && $product != 'all'){
+				$this->db->where('employee.id_product', $product);
 			}
 
 
@@ -198,12 +203,15 @@ class m_Izin extends CI_Model {
 	{
 		$currentYear = date('Y');
 
-		$count = $this->db
+		$count = $id != null ?
+			$this->db
 			->where('id_employee', $id)
 			->where('status', 2)
 			->where('YEAR(tanggal_izin)', $currentYear)
+			->count_all_results('izin') :
+			$this->db
+			->where('YEAR(tanggal_izin)', $currentYear)
 			->count_all_results('izin');
-
 
 		return $count;
 	}
@@ -212,12 +220,15 @@ class m_Izin extends CI_Model {
 	{
 		$currentMonth = date('m');
 
-		$count = $this->db
-			->where('id_employee', $id)
-			->where('status', 2)
-			->where('MONTH(tanggal_izin)', $currentMonth)
-			->count_all_results('izin');
-
+		$count = $id != null ?
+			$this->db
+				->where('id_employee', $id)
+				->where('status', 2)
+				->where('MONTH(tanggal_izin)', $currentMonth)
+				->count_all_results('izin'):
+			$this->db
+				->where('MONTH(tanggal_izin)', $currentMonth)
+				->count_all_results('izin');
 
 		return $count;
 	}

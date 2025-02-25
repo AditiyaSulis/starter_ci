@@ -14,10 +14,12 @@ class m_Schedule extends CI_Model
 		return $this->db->get('schedule')->result_array();
 	}
 
+
 	public function findById_get($id)
 	{
 		return $this->db->get_where('schedule', ['id_schedule' => $id])->row_array();
 	}
+
 
 	public function findByEmployeeId_get($id)
 	{
@@ -29,6 +31,7 @@ class m_Schedule extends CI_Model
 		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
 		return $this->db->get()->result_array();
 	}
+
 
 	public function findByEmployeeIdAndTimeSpecific_get($id, $year, $month)
 	{
@@ -43,6 +46,7 @@ class m_Schedule extends CI_Model
 		return $this->db->get()->result_array();
 	}
 
+
 	public function findScheduleToday_get($id, $today)
 	{
 		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.status, schedule.waktu, schedule.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, attendance.jam_masuk');
@@ -53,6 +57,7 @@ class m_Schedule extends CI_Model
 		$this->db->join('attendance', 'attendance.id_schedule = schedule.id_schedule', 'left');
 		return $this->db->get()->row_array();
 	}
+
 
 	public function findAllWithJoin_get()
 	{
@@ -78,15 +83,18 @@ class m_Schedule extends CI_Model
 		return $this->db->delete('schedule', ['id_schedule' => $id]);
 	}
 
+
 	public function findByEmplooyeeId_get($id)
 	{
 		return $this->db->get_where('schedule', ['id_employee' => $id])->result_array();
 	}
+
 	
 	public function findByWorkshiftId_get($id)
 	{
 		return $this->db->get_where('schedule', ['id_workshift' => $id])->result_array();
 	}
+
 
 	public function create_post($data)
 	{
@@ -97,9 +105,11 @@ class m_Schedule extends CI_Model
 		}
 	}
 
+
 	public function create_batch_post($data) {
 		return $this->db->insert_batch('schedule', $data);
 	}
+
 
 	private function _filterDATE($type)
 	{
@@ -146,6 +156,7 @@ class m_Schedule extends CI_Model
 				break;
 		}
 	}
+
 
 	public function getScheduleDataCore_get()
 	{
@@ -195,6 +206,7 @@ class m_Schedule extends CI_Model
 
 	}
 
+
 	public function get_datatables()
 	{
 		$this->getScheduleDataCore_get();
@@ -205,6 +217,7 @@ class m_Schedule extends CI_Model
 		return $query->result_array();
 	}
 
+
 	public function count_filtered()
 	{
 		$this->getScheduleDataCore_get();
@@ -212,11 +225,13 @@ class m_Schedule extends CI_Model
 		return $query->num_rows();
 	}
 
+
 	public function count_all()
 	{
 		$this->db->from('schedule');
 		return $this->db->count_all_results();
 	}
+
 
 	public function setStatus_post($id, $tanggal, $status)
 	{
@@ -231,6 +246,7 @@ class m_Schedule extends CI_Model
 		return true;
 	}
 
+
 	public function setStatusFromHolyday_post($idProduct, $idDivision, $tanggal, $status)
 	{
 		$this->db->set(['status' => $status]);
@@ -241,6 +257,7 @@ class m_Schedule extends CI_Model
 		return true;
 	}
 
+
 	public function mark_absent_if_no_checkin() {
 		$currentDate = date('Y-m-d', strtotime('-1 day'));
 
@@ -250,6 +267,7 @@ class m_Schedule extends CI_Model
 
 		return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
 	}
+	
 
 	public function totalAbsentLastMonthToNowByEmployeeId_get($id, $tanggal)
 	{

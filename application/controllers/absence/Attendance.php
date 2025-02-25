@@ -47,7 +47,7 @@ class Attendance extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Attendance';
 		$data['menu'] = 'Data';
 
-		$data['employee'] = '';
+		$data['employee'] = 'false';
 
 		$data['view_data'] = 'core/attendance/data_attendance';
 		$data['products'] = $this->m_Products->findAll_get();
@@ -71,7 +71,7 @@ class Attendance extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Attendance';
 		$data['menu'] = 'Data';
 
-		$data['employee'] = '';
+		$data['employee'] = 'false';
 
 		$data['view_data'] = 'core/log_attendance/data_log_attendance';
 		$data['products'] = $this->m_Products->findAll_get();

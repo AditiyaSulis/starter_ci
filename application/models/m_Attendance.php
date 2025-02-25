@@ -114,46 +114,44 @@ class m_attendance extends CI_Model
 
 		$id = $this->input->post('employee', true);
 
-			$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
-			if($id != '' || !empty($id)) {
-				$this->db->where('attendance.id_employee', $id);
-			}
-			if($product != '' || !empty($product)) {
-				$this->db->where('employee.id_product', $product);
-			}
-			$this->db->from('attendance');
-			$this->db->join('employee', 'employee.id_employee = attendance.id_employee', 'left');
-			$this->db->join('schedule', 'schedule.id_schedule = attendance.id_schedule', 'left');
-			$this->db->join('products', 'products.id_product = employee.id_product', 'left');
-			$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
-			if(!empty($option) ){
-				$this->_filterDATE($option);
-			}
+		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
+		if($id != 'false') {
+			$this->db->where('attendance.id_employee', $id);
+		}
+		if($product != '' || !empty($product)) {
+			$this->db->where('employee.id_product', $product);
+		}
+		$this->db->from('attendance');
+		$this->db->join('employee', 'employee.id_employee = attendance.id_employee', 'left');
+		$this->db->join('schedule', 'schedule.id_schedule = attendance.id_schedule', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		if(!empty($option) ){
+			$this->_filterDATE($option);
+		}
 
 
-			$i = 0;
-			foreach ($this->column_search as $item) {
-				if (@$_POST['search']['value']) {
-					if ($i === 0) {
-						$this->db->group_start();
-						$this->db->like($item, $_POST['search']['value']);
-					} else {
-						$this->db->or_like($item, $_POST['search']['value']);
-					}
-					if (count($this->column_search) - 1 === $i) {
-						$this->db->group_end();
-					}
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (@$_POST['search']['value']) {
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
 				}
-				$i++;
+				if (count($this->column_search) - 1 === $i) {
+					$this->db->group_end();
+				}
 			}
+			$i++;
+		}
 
-			if (isset($_POST['order'])) {
-				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-			} else {
-				$this->db->order_by(key($this->order), $this->order[key($this->order)]);
-			}
-
-
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else {
+			$this->db->order_by(key($this->order), $this->order[key($this->order)]);
+		}
 
 
 	}
@@ -193,55 +191,5 @@ class m_attendance extends CI_Model
 	}
 
 
-//	public function getattendanceDataCore_get()
-//	{
-//
-//		$option = $this->input->post('option', true);
-//		$status_attendance = $this->input->post('status_attendance', true);
-//		$id = $this->input->post('employee', true);
-//
-//
-//
-//		if(!empty($status_attendance)){
-//			$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule, attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, employee.id_employee, employee.name');
-//			$this->db->where('attendance.status', $status_attendance);
-//			if($id != '') {
-//				$this->db->where('attendance.id_employee', $id);
-//			}
-//			$this->db->from('attendance');
-//			$this->db->join('employee', 'employee.id_employee = attendance.id_employee', 'left');
-//			$this->db->join('schedule', 'schedule.id_schedule = attendance.id_schedule', 'left');
-//			$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
-//			if(!empty($option) ){
-//				$this->_filterDATE($option);
-//			}
-//
-//
-//			$i = 0;
-//			foreach ($this->column_search as $item) {
-//				if (@$_POST['search']['value']) {
-//					if ($i === 0) {
-//						$this->db->group_start();
-//						$this->db->like($item, $_POST['search']['value']);
-//					} else {
-//						$this->db->or_like($item, $_POST['search']['value']);
-//					}
-//					if (count($this->column_search) - 1 === $i) {
-//						$this->db->group_end();
-//					}
-//				}
-//				$i++;
-//			}
-//
-//			if (isset($_POST['order'])) {
-//				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-//			} else {
-//				$this->db->order_by(key($this->order), $this->order[key($this->order)]);
-//			}
-//
-//		}
-//
-//
-//	}
 
 }

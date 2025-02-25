@@ -45,6 +45,11 @@ class m_Finance_records extends CI_Model {
         }
     }
 
+    public function create_batch_post($data)
+	{
+		return $this->db->insert_batch('finance_records', $data);
+	}
+
 
     public function update_post($id, $data)
     {

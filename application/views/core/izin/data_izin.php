@@ -24,6 +24,7 @@
 			<th>Produk</th>
 			<th>Divisi</th>
 			<th>Tanggal Izin</th>
+			<th>Alasan</th>
 			<th>Bukti</th>
 			<th>Status</th>
 			<th>Deskripsi</th>

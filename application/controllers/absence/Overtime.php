@@ -23,6 +23,7 @@ class Overtime extends MY_Controller{
 		$data['menu'] = '';
 
 		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['view_data'] = 'core/overtime/data_overtime';
 		$data['view_components'] = 'core/overtime/data_overtime_components';
@@ -40,16 +41,20 @@ class Overtime extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$data = $this->_basicData();
 
-		$data['title'] = 'Data Overtime';
+		$data['title'] = 'Overtime';
 		$data['view_name'] = 'absence/data/overtime';
-		$data['breadcrumb'] = 'Data - Overtime';
-		$data['menu'] = 'Data';
+		$data['breadcrumb'] = 'Overtime';
+		$data['menu'] = '';
 
-		$data['employee'] = '';
+
+		$data['employee'] = 'false';
 
 		$data['employees'] = $this->m_Employees->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
 		$data['products'] = $this->m_Products->findAll_get();
+
+		$data['this_month'] = $this->m_Overtime->totalOvertimeThisMonth_get();
+		$data['this_year'] = $this->m_Overtime->totalOvertime_get();
 
 
 		$data['view_data'] = 'core/overtime/data_overtime';

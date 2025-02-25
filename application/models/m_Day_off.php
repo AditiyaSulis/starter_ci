@@ -123,12 +123,13 @@ class m_Day_off extends CI_Model
 		$option = $this->input->post('option', true);
 		$status_day_off = $this->input->post('status_day_off', true);
 		$id = $this->input->post('employee', true);
+		$product = $this->input->post('product', true);
 
 
 		if (!empty($status_day_off)) {
 			$this->db->select('day_off.id_day_off, day_off.id_employee, day_off.tgl_day_off, day_off.input_at, day_off.description, day_off.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
 			$this->db->where('day_off.status', $status_day_off);
-			if($id != '') {
+			if($id != 'false') {
 				$this->db->where('day_off.id_employee', $id);
 			}
 			$this->db->from('day_off');
@@ -137,6 +138,9 @@ class m_Day_off extends CI_Model
 			$this->db->join('products', 'products.id_product = employee.id_product', 'left');
 			if (!empty($option)) {
 				$this->_filterDATE($option);
+			}
+			if(!empty($product) && $product != 'all'){
+				$this->db->where('employee.id_product', $product);
 			}
 
 
@@ -263,6 +267,31 @@ class m_Day_off extends CI_Model
 			->where('tgl_day_off >=', $tanggal1)
 			->where('tgl_day_off <=', $tanggal2)
 			->count_all_results('day_off');
+
+		return $count;
+	}
+
+	public function totalDayOff_get()
+	{
+		$currentYear = date('Y');
+
+		$count = $this->db
+			->where('status', 2)
+			->where('YEAR(tgl_day_off)', $currentYear)
+			->count_all_results('day_off');
+
+
+		return $count;
+	}
+	public function totalDayOffThisMonth_get()
+	{
+		$currentYear = date('m');
+
+		$count = $this->db
+			->where('status', 2)
+			->where('MONTH(tgl_day_off)', $currentYear)
+			->count_all_results('day_off');
+
 
 		return $count;
 	}

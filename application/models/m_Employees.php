@@ -3,16 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class m_Employees extends CI_Model {
-    private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
-	private $column_order = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
+    private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.type_employee' , 'employee.contract_expired' ,'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
+	private $column_order = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.type_employee' , 'employee.contract_expired' , 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
 	private $order = array('employee.date_in' => 'asc');
     public function findById_get($id)
     {
         return $this->db->get_where('employee', ['id_employee' => $id])->row_array();
     }
 
+
 	public function findByIdJoin_get($id){
-		$this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product');
+		$this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee , employee.contract_expired, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, employee.id_division, division.id_division, division.code_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product');
 
 		$this->db->from('employee');
 		$this->db->where('employee.id_employee', $id);
@@ -21,6 +22,7 @@ class m_Employees extends CI_Model {
 		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
 		return  $this->db->get()->row_array();
 	}
+
 
     public function findByProductId_get($id)
     {
@@ -49,10 +51,60 @@ class m_Employees extends CI_Model {
 		return $this->db->get_where('employee', ['email' => $email])->row_array();
 	}
 
+
 	public function findByProductNDivisionId_get($idProduct, $idDivision)
 	{
 		return $this->db->get_where('employee', ['id_product' => $idProduct, 'id_division' => $idDivision])->result_array();
 	}
+
+
+    public function findByProductNTechnicianId_get($idProduct)
+	{
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, division.id_division, position.id_position, employee.id_division, division.name_division, division.code_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility');
+        $this->db->where('division.code_division', 'TKS');
+        $this->db->where('employee.id_product', $idProduct);
+        $this->db->from('employee');
+        $this->db->join('products', 'products.id_product = employee.id_product', 'left');
+        $this->db->join('position', 'position.id_position = employee.id_position', 'left');
+        $this->db->join('division', 'division.id_division = employee.id_division', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+	}
+
+
+    public function findAllTechnician_get()
+	{
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, division.id_division, position.id_position, employee.id_division, division.name_division, division.code_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility');
+        $this->db->where('division.code_division', 'TKS');
+        $this->db->from('employee');
+        $this->db->join('products', 'products.id_product = employee.id_product', 'left');
+        $this->db->join('position', 'position.id_position = employee.id_position', 'left');
+        $this->db->join('division', 'division.id_division = employee.id_division', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+	}
+
+    public function findForCodeDivision_get($id)
+	{
+        $this->db->select('
+        employee.id_employee, employee.date_in, employee.nip, employee.name, 
+        employee.gender, employee.place_of_birth, employee.date_of_birth, 
+        employee.basic_salary, employee.uang_makan, employee.bonus, 
+        employee.id_position, division.id_division, position.id_position, 
+        employee.id_division, division.name_division, division.code_division, 
+        position.name_position, employee.status, 
+        products.id_product, products.name_product, products.visibility
+    ');
+    $this->db->from('employee');
+    $this->db->join('products', 'products.id_product = employee.id_product', 'left');
+    $this->db->join('position', 'position.id_position = employee.id_position', 'left');
+    $this->db->join('division', 'division.id_division = employee.id_division', 'left');
+    $this->db->where('employee.id_employee', $id); // Hanya filter berdasarkan id_employee
+    
+    $query = $this->db->get();
+    return $query->result_array();
+	}
+
 
 
 	public function create_post($data)
@@ -75,6 +127,7 @@ class m_Employees extends CI_Model {
        return $this->db->get_where('employee', ['nip' => $nip])->row_array();
     }
 
+
     public function update_post($id, $data) 
     {
         $this->db->where('id_employee', $id);
@@ -92,7 +145,7 @@ class m_Employees extends CI_Model {
     {
 		$employee = $this->input->post('employee');
 
-        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility');
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee , employee.contract_expired, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.bonus, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility');
 
 		if(!empty($employee)){
 			$this->db->where('employee.id_employee', $employee);
@@ -190,5 +243,16 @@ class m_Employees extends CI_Model {
 			$this->db->trans_commit();
 			return true;
 		}
+	}
+
+	public function renewContract_post($id, $status)
+	{
+
+		$this->db->set('contract_expired', $status);
+		$this->db->where('id_employee', $id);
+		$this->db->update('employee');
+
+		return true;
+
 	}
 }

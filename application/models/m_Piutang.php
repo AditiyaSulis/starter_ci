@@ -12,22 +12,27 @@ class m_Piutang extends CI_Model {
         return $this->db->get_where('piutang', ['id_piutang' => $id])->row_array();
     }
 
+
     public function findByProductId_get($id)
     {
         return $this->db->get_where('employee', ['id_product' => $id])->row_array();
     }
 
+
     public function findByEmployeeId_get($id){
         return $this->db->get_where('piutang', ['id_employee' => $id])->row_array();
     }
+
 
     public function unpaid_get($id){
         return $this->db->get_where('piutang', ['id_employee' => $id, 'status_piutang' => 2])->row_array();
     }
 
+
     public function findAllWithUnpaid_get($id){
         return $this->db->get_where('piutang', ['status_piutang' => 2])->result_array();
     }
+	
     
     public function findAll_get()
     {
@@ -158,6 +163,7 @@ class m_Piutang extends CI_Model {
 
 	}
 
+
 	public function get_datatables()
 	{
 		$this->getPiutangDataCore_get();
@@ -168,6 +174,7 @@ class m_Piutang extends CI_Model {
 		return $query->result_array();
 	}
 
+
 	public function count_filtered()
 	{
 		$this->getPiutangDataCore_get();
@@ -175,11 +182,13 @@ class m_Piutang extends CI_Model {
 		return $query->num_rows();
 	}
 
+
 	public function count_all()
 	{
 		$this->db->from('piutang');
 		return $this->db->count_all_results();
 	}
+
 
     public function setStatus_post($id, $status)
     {
@@ -191,6 +200,7 @@ class m_Piutang extends CI_Model {
       return true;
 
     }
+
     
     public function setProgress_post($id, $status)
     {
@@ -215,6 +225,7 @@ class m_Piutang extends CI_Model {
 
     }
 
+
     public function getTotalAmountPiutang_get($id)
     {
         $this->db->select_sum('amount_piutang', 'total_amount');
@@ -228,6 +239,7 @@ class m_Piutang extends CI_Model {
 
         return 0; 
     }
+
 
 	public function jatuhTempo_get(){
 		$today = (int) date('d');
@@ -268,6 +280,7 @@ class m_Piutang extends CI_Model {
 		$query = $this->db->get();
 		return $query->result();
 	}
+	
 
 	public function totalJatuhTempo_get() {
 		$today = (int) date('d');
@@ -310,12 +323,35 @@ class m_Piutang extends CI_Model {
 		return $data;
 	}
 
+
+	public function findPiutangThisMonthByEmployeeId_get($id, $month, $year) {
+		$this->db->select('piutang.*, employee.id_employee, employee.name');
+        $this->db->from('piutang');
+        $this->db->join('purchase_piutang', 'purchase_piutang.id_piutang = piutang.id_piutang', 'left');
+        $this->db->join('employee', 'employee.id_employee = piutang.id_employee', 'left');
+
+        // Filter berdasarkan id_employee dan status piutang
+        $this->db->where('piutang.id_employee', $id);
+        $this->db->where('piutang.status_piutang', 2); // Hanya piutang yang masih aktif
+
+        // Cek apakah pay_date di bulan yang dikirim NULL atau bukan bulan yang dikirim
+        $this->db->group_start();
+        $this->db->where('purchase_piutang.pay_date IS NULL', null, false);
+        $this->db->or_where('MONTH(purchase_piutang.pay_date) !=', $month);
+        $this->db->or_where('YEAR(purchase_piutang.pay_date) !=', $year);
+        $this->db->group_end();
+
+        return $this->db->get()->row_array(); // Mengembalikan array data
+	}
+
+
 	public function totalUnpaid_get()
 	{
 		$count = $this->db->where('status_piutang', 2)->count_all_results('piutang');
 
 		return $count;
 	}
+
 
 	public function totalPaid_get()
 	{
@@ -383,6 +419,7 @@ class m_Piutang extends CI_Model {
             return false; 
         }
     }
+
 
     public function getPiutangWithPaidV2_get($type = null) 
     {
@@ -462,6 +499,8 @@ class m_Piutang extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+
 	public function getPiutangWithPaid_get($type = null)
 	{
 		$this->db->select('piutang.id_piutang, piutang.id_employee, piutang.type_piutang, piutang.tenor_piutang, piutang.amount_piutang, piutang.tgl_lunas, piutang.remaining_piutang, piutang.status_piutang, piutang.progress_piutang, piutang.description_piutang, piutang.piutang_date, employee.id_employee, employee.name, employee.nip,  piutang.type_tenor, piutang.angsuran, piutang.jatuh_tempo, employee.id_position, position.id_position, position.name_position ');

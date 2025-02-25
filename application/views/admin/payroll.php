@@ -29,7 +29,7 @@
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/payroll/su_add_batch_payroll') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/payroll/add_batch_payroll') ?>" enctype="multipart/form-data">
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Kode</span>
 						</div>
@@ -84,6 +84,24 @@
 						<div class="fv-row mb-8">
 							<textarea type="text" class="form-control" id="description" name="description"></textarea>
 						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Insert Finance Record</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="finance_record" id="finance_record">
+									<option value="1" selected>Auto Insert</option>
+									<option value="2">Manual Insert</option>
+							</select>
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Piutang</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="piutang" id="piutang">
+								<option value="1" selected>Include</option>
+								<option value="2">Exclude</option>
+							</select>
+						</div>
 
 						<div class="d-grid mb-10">
 							<button type="submit" id="submit_product" class="btn btn-primary">
@@ -108,7 +126,7 @@
 
 
 	<script>
-
+		const base_url = $('meta[name="base_url"]').attr('content');
 
 
 		//option select employee

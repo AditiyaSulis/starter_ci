@@ -19,8 +19,8 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="S">
-												3 Hours
+											<span class="text-success" data-category-id="<?= $this_month?>">
+												<?= number_format($this_month, 0 , ',', '.') ?> Hours
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">
@@ -41,8 +41,8 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="">
-												4 Hours
+											<span class="text-success" data-category-id="<?= $this_year?>">
+												<?= number_format($this_year, 0 , ',', '.') ?> Hours
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">

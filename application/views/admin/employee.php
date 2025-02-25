@@ -1,3 +1,23 @@
+<style>
+
+	#employees_table {
+		width: 100% !important;
+	}
+
+
+	#employees_table thead th,
+	#employees_table tbody td {
+		white-space: nowrap;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+</style>
+
 <main>
     <h1>Employee</h1>
 
@@ -18,36 +38,41 @@
         </div>
     </div>
 
-    <div class="mt-6">
-        <table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
-            <thead>
-                <?php $no = 1 ?>
-                <tr>
-                    <th>No</th>
-                    <th>Produk</th>
-                    <th>Date In</th>
-                    <th>NIP</th>
-                    <th>Name</th>
-                    <th>Gender</th>
-                    <th>Tempat Lahir</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Divisi</th>
-                    <th>Posisi</th>
-                    <th>Gaji</th>
-                    <th>Uang Makan</th>
-                    <th>Bonus</th>
-                    <th>Bank</th>
-                    <th>EC</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
-    </div>
+	<div class="mt-6">
+		<div style="overflow-x: auto; width: 100%;">
+			<table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
+				<thead class="table-primary">
+				<tr>
+					<th>No</th>
+					<th>Produk</th>
+					<th>Date In</th>
+					<th>NIP</th>
+					<th>Name</th>
+					<th>Gender</th>
+					<th class="px-2">Tempat Lahir</th>
+					<th class="px-2">Tanggal Lahir</th>
+					<th class="px-2">Divisi</th>
+					<th class="px-2">Posisi</th>
+					<th class="px-2">Type</th>
+					<th>Contract</th>
+					<th>Gaji</th>
+					<th class="px-2">Uang Makan</th>
+					<th class="px-2">Bonus</th>
+					<th>Bank</th>
+					<th>EC</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
 
-    <!-- Modal Add Product -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+	<!-- Modal Add Product -->
     <div class="modal fade" tabindex="-1" id="addEmployeeModal" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -81,6 +106,10 @@
 						<div class="mb-3">
 							<label for="password" class="form-label">Password</label>
 							<input type="password" class="form-control" name="password" required />
+						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">Ketik Ulang Password</label>
+							<input type="password" class="form-control" name="rewrite_password" required />
 						</div>
                         <div class="mb-3">
                             <label for="nip" class="form-label">NIP</label>
@@ -158,6 +187,21 @@
                             <label for="uang_makan" class="form-label">Uang Makan</label>
                             <input type="number" class="form-control" name="uang_makan" required />
                         </div>
+						<div class="mb-3" id="type">
+							<label for="position" class="form-label">Type Karyawan</label>
+							<select id="type_employee" class="form-select" name="type_employee" required>
+								<option value="" selected>Pilih Posisi</option>
+								<option value="1">Kontrak</option>
+								<option value="2">Magang</option>
+								<option value="3">Permanent</option>
+							</select>
+						</div>
+						<div id="newContract">
+							<div class="mb-3">
+								<label for="contract_expired" class="form-label">Kontrak Selesai</label>
+								<input type="date" class="form-control" name="contract_expired" required />
+							</div>
+						</div>
                         <div class="mb-3">
                             <label for="bonus" class="form-label">Bonus</label>
                             <input type="number" value="0" class="form-control" name="bonus" required />
@@ -500,44 +544,99 @@
         </div>
     </div>
 
+	<!-- Modal Renew Contract-->
+	<div class="modal fade" id="contractModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ecLabel">Renew Contract</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+
+						<div class="col-md-6">
+							<form id="contractForm">
+								<input type="hidden" id="edit_id_contract" name="id_employee">
+								<input type="hidden" id="edit_old_contract" name="old_contract">
+								<div class="mb-5">
+									<la for="form_text1" class="form-label">New Contract</la
+										bel>
+									<input type="date" class="form-control" id="new_contract" placeholder="Name contact" name="new_contract" required>
+								</div>
+								<div class="mb-5">
+									<label for="form_text2" class="form-label">Description</label>
+									<textarea type="text" class="form-control" id="description" name="description" required></textarea>
+								</div>
+								<div class="d-grid mb-10 mt-10">
+									<button type="submit" class="btn btn-primary">
+                                        <span class="indicator-label">
+                                            Renew Contract
+                                        </span>
+										<span class="indicator-progress">
+                                            Please wait...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+									</button>
+								</div>
+							</form>
+						</div>
+
+						<div class="col-md-6 col-sm">
+							<div class="card p-4 shadow">
+								<div class="mb-3">
+									<h6>Log Renew Contract :</h6>
+									<ul id="contract_list" class="list-group">
+
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
     <script>
         const base_url = $('meta[name="base_url"]').attr('content');  
 
-        let product = 'All'; 
+        let product = 'All';
 
-        function callDT() 
-        {
-            var table = $('#employees_table').DataTable({
-                responsive:{
-                    details: {
-                        type: 'column',
-                        target: 'tr',
-                    }
-                },
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: base_url + 'admin/employee/dtSideServer',  
-                    type: 'POST',
-                    data: function(d) {
-                        product = $('#filter-product').val();  
-                        d.product = product; 
-                    }
-                },
-                columnDefs: [
-                    { targets: "_all", orderable: false },  
-                    { targets: 0, className: "text-center" }, 
-                    { targets: [1, 2, 3, 4], responsivePriority: 1 }, 
-                    { targets: -1, responsivePriority: 2 }, 
-                ],
-                
-            });
+		function callDT() {
+			var table = $('#employees_table').DataTable({
+				scrollX: true,
+				autoWidth: false,
+				processing: true,
+				serverSide: true,
+				ordering: false,
+				fixedColumns: {
+					leftColumns: 1,
+					rightColumns: 1
+				},
+				ajax: {
+					url: base_url + 'admin/employee/dtSideServer',
+					type: 'POST',
+					data: function(d) {
+						d.product = $('#filter-product').val();
+					}
+				},
+				columnDefs: [
 
-            $('#filter-product').change(function() {
-                table.ajax.reload();  
-            });
-        }
+					{ targets: 0, className: "text-center" },
+					{ targets: [1, 2, 3, 4], responsivePriority: 1 },
+					{ targets: -1, responsivePriority: 2 },
+				],
+				initComplete: function() {
+					table.columns.adjust().draw();
+				}
+			});
+
+			$('#filter-product').change(function() {
+				table.ajax.reload();
+			});
+		}
         
         callDT();
 
@@ -1148,8 +1247,121 @@
 
         });
 
-        
+		//KONTRAK FORM
+		document.addEventListener('DOMContentLoaded', function () {
+			const type_employee = document.getElementById('type_employee');
+			const newContract = document.getElementById('newContract');
 
+
+			type_employee.addEventListener('change', function () {
+				if (this.value === '1' || this.value == 2) {
+					newContract.style.display = 'block';
+				} else {
+					newContract.style.display = 'none';
+				}
+			});
+		});
+
+		//RENEW CONTRACT
+		const contractModal = document.getElementById('contractModal');
+		contractModal.addEventListener('show.bs.modal', function (event)
+		{
+			const button1 = event.relatedTarget;
+			const id_employees = button1.getAttribute('data-id_employees');
+			const old_contract = button1.getAttribute('data-old_contract');
+
+			console.log("id:", id_employees);
+			$("#edit_id_contract").val(id_employees);
+			$("#edit_old_contract").val(old_contract);
+
+			$.ajax({
+				url: base_url + 'admin/employee/contract_info',
+				method: 'POST',
+				data: { id_employees: id_employees },
+				dataType: 'json',
+				success: function (response) {
+					const contractList = $('#contract_list');
+					contractList.empty();
+					if (response.contract && response.contract.length > 0) {
+						response.contract.forEach(contract => {
+							const old_contract = contract.old_contract
+							const new_contract = contract.new_contract;
+							const description = contract.description;
+
+							contractList.append(`<li class="list-group-item shadow-lg mb-3">
+
+                                                           <div class="mb-3">
+                                                                <p class="text-dark mb-1"><strong>Old Contract :</strong> </p>
+                                                                <input type="text" class="form-control smaller-input text-info" value="${old_contract}" disabled readonly>
+                                                            </div>
+                                                           <div class="mb-3">
+                                                                <p class="text-dark mb-1"><strong>New Contract :</strong> </p>
+                                                                <input type="text" class="form-control smaller-input text-info" value="${new_contract}" disabled readonly>
+                                                            </div>
+ 															 <div class="mb-3">
+                                                                <p class="text-dark mb-1"><strong>Description :</strong> </p>
+                                                                <textarea type="text" class="form-control smaller-input text-info" disabled readonly>${description}</textarea>
+                                                            </div>
+
+                                                </li>`);
+						});
+					} else {
+						contractList.append(`<li class="list-group-item text-danger">Belum ada perpanjangan contract.</li>`);
+					}
+				},
+				error: function () {
+					$('#contractList').html('<li class="list-group-item text-danger">Gagal memuat.</li>');
+				}
+			});
+
+			$("#contractForm").on("submit", function (e) {
+				e.preventDefault();
+
+				const submitbuttom1 = $("#ecForm button[type=submit]");
+				submitbuttom1.prop("disabled", true).text("Processing...");
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Pastikan data sudah benar",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Tambah',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+
+
+						$.ajax({
+							url: base_url + "admin/employee/add_contract",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									submitbuttom1.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								submitbuttom1.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+
+		});
 
 
 	</script>

@@ -106,12 +106,15 @@ if($schedule) {
 						<div class="fv-row mb-8">
 							<select class="form-select" aria-label="Default select example" name="alasan_izin" id="alasan_izin">
 								<option selected>-pilih alasan izin-</option>
-									<option value="1">Keluarga Melahirkan</option>
-									<option value="2">Sakit</option>
-									<option value="3">Hayang Meuli Lotek</option>
+								<option value="Izin Keluarga Melahirkan">Izin Keluarga Melahirkan</option>
+								<option value="Izin Menghadiri Acara Keagamaan">Izin Menghadiri Acara Keagamaan</option>
+								<option value="Izin Sakit">Izin Sakit</option>
+								<option value="Izin Mengurus Administrasi">Izin Mengurus Administrasi</option>
+								<option value="Izin Menghadiri Pemakaman">Izin Menghadiri Pemakaman</option>
+								<option value="Keperluan Mendesak Lainnya">Keperluan Mendesak Lainnya</option>
 							</select>
 						</div>
-						<div id="bukti-form" style="display: none;">
+						<div id="bukti-form" style="display: block;">
 							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 								<span>Bukti</span>
 							</div>

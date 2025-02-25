@@ -116,7 +116,7 @@
 					d.product = $('#filterProduct').val();
 					d.startDate = $('#startDate').val();
 					d.endDate = $('#endDate').val();
-					d.employee = data.employee;
+					d.employee = <?= $employee?>;
 				}
 			},
 			columnDefs: [
@@ -138,6 +138,7 @@
 		$('#applyCustomDate').on('click', function() {
 			startDate = $('#startDate').val();
 			endDate = $('#endDate').val();
+			 employee = '<?= $employee;?>';
 
 			if (!startDate || !endDate) {
 				Swal.fire({
@@ -154,6 +155,7 @@
 
 		$('#filterProduct').change(function() {
 			product = $('#filterProduct').val();
+			employee = '<?= $employee;?>';
 			table.ajax.reload();
 		});
 	}

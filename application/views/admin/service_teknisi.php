@@ -1,14 +1,14 @@
 <?php
-$status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
+$status_service_teknisi = isset($_GET['status_service_teknisi']) ? $_GET['status_service_teknisi'] : 3;
 ?>
 
 <main>
-	<h1>Day Off</h1>
+	<h1>Record Service Teknisi</h1>
 
 
 	<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
 
-		<h4>Day Off Summary</h4>
+		<h4> Summary</h4>
 		<div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 mt-3" id="card-container1">
 
 			<div class="col">
@@ -17,8 +17,8 @@ $status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="<?=$this_month?>">
-												<?=$this_month?>
+											<span class="text-success" data-category-id="<?=$total_service_teknisi_this_month?>">
+											<?=$total_service_teknisi_this_month?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">
@@ -39,8 +39,8 @@ $status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="<?=$this_year?>">
-												<?=$this_year?>
+											<span class="text-success" data-category-id="<?=$total_service_teknisi?>">
+											<?=$total_service_teknisi?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">
@@ -54,28 +54,27 @@ $status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
 				</div>
 			</div>
 
-
 		</div>
 	</div>
 
 	<ul class="nav nav-tabs mt-8">
 		<li class="nav-item">
-			<a class="nav-link <?= ($status_day_off == 3) ? 'active text-info' : ' text-dark' ?>"
-			   href="<?=base_url('absence/dayoff/su_day_off_page?status_day_off=3&is=1')?>">Pending</a>
+			<a class="nav-link <?= ($status_service_teknisi == 3) ? 'active text-info' : ' text-dark' ?>"
+			   href="<?=base_url('admin/service_teknisi/service_teknisi_page?status_service_teknisi=3&is=3')?>">Pending</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_day_off == 1) ? 'active text-info' : 'text-dark' ?>"
-			   href="<?=base_url('absence/dayoff/su_day_off_page?status_day_off=1&is=1')?>">Disapproval</a>
+			<a class="nav-link  <?= ($status_service_teknisi == 1) ? 'active text-info' : 'text-dark' ?>"
+			   href="<?=base_url('admin/service_teknisi/service_teknisi_page?status_service_teknisi=1&is=3')?>">Disapproval</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_day_off == 2) ? 'active text-info' : ' text-dark' ?>"
-			   href="<?=base_url('absence/dayoff/su_day_off_page?status_day_off=2&is=1')?>">Approval</a>
+			<a class="nav-link  <?= ($status_service_teknisi == 2) ? 'active text-info' : ' text-dark' ?>"
+			   href="<?=base_url('admin/service_teknisi/service_teknisi_page?status_service_teknisi=2&is=3')?>">Approval</a>
 		</li>
 	</ul>
 
 	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
 		<i class="bi bi-plus-circle"></i>
-		Add Day Off
+		Add Record
 	</button>
 
 	<?php $this->load->view($view_data);?>
@@ -86,7 +85,7 @@ $status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Day Off</h3>
+					<h3 class="modal-title">Service Record</h3>
 					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
 							<span class="menu-icon">
 								<span class="svg-icon svg-icon-2">
@@ -97,29 +96,33 @@ $status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/dayoff/su_add_day_off') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/service_teknisi/add_service_teknisi') ?>" enctype="multipart/form-data">
+						<input type="hidden" value="<?= $user['email']; ?>" name="id_employee" autocomplete="off" class="form-control bg-transparent" />
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Karyawan</span>
+							<span>Tanggal Service</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="id_employee" id="id_employee">
-								<option selected>-pilih karyawan-</option>
-								<?php foreach($employees as $emp):?>
-									<option value="<?=$emp['id_employee'];?>"><?=$emp['name'];?></option>
-								<?php endforeach;?>
+							<input type="date" id="tanggal_service" value="<?= date("Y-m-d") ?>" name="tanggal_service" autocomplete="off" class="form-control bg-transparent" />
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Jenis Service</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="type_service" id="type_service">
+								<option selected>-pilih jenis service-</option>
+								<option value="Ganti baterai">Ganti baterai</option>
+								<option value="Mati total">Mati total</option>
+								<option value="Ganti LCD">Ganti LCD</option>
+								<option value="Backdoor">Backdoor</option>
+								<option value="Touchscreen">Touchscreen</option>
+								<option value="Lainnya">Lainnya</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Tanggal Input</span>
+							<span>Pendapatan</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="date" value="<?= date('Y-m-d') ?>" name="input_at" autocomplete="off" class="form-control bg-transparent" readonly/>
-						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Tanggal Libur</span>
-						</div>
-						<div class="fv-row mb-8">
-							<input type="date" id="tgl_day_off" value="<?= date("Y-m-d") ?>" name="tgl_day_off" autocomplete="off" class="form-control bg-transparent" />
+							<input type="number" id="pendapatan_service" name="pendapatan_service" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
@@ -131,7 +134,7 @@ $status_day_off = isset($_GET['status_day_off']) ? $_GET['status_day_off'] : 3;
 						<div class="d-grid mb-10">
 							<button type="submit" id="submit_product" class="btn btn-primary">
 									<span class="indicator-label">
-										Ajukan Libur
+										Add Service Record
 									</span>
 								<span class="indicator-progress">
 										Please wait...

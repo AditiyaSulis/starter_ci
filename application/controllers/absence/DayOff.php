@@ -9,6 +9,7 @@ class DayOff extends MY_Controller{
 		$this->load->model('m_Day_off');
 		$this->load->model('m_Employees');
 		$this->load->model('m_Schedule');
+		$this->load->model('m_Products');
 
 	}
 
@@ -23,6 +24,7 @@ class DayOff extends MY_Controller{
 		$data['menu'] = '';
 
 		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['total_dayoff'] = $this->m_Day_off->totalDayOffByEmployeeId_get($id['id_employee']);
 		$data['total_dayoff_this_month'] = $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($id['id_employee']);
@@ -48,12 +50,15 @@ class DayOff extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Day Off';
 		$data['menu'] = 'Data';
 
-		$data['employee'] = '';
+		$data['products'] = $this->m_Products->findAll_get();
+		$data['employee'] = 'false';
 		$data['employees'] = $this->m_Employees->findAll_get();
+
+		$data['this_month'] = $this->m_Day_off->totalDayOffThisMonth_get();
+		$data['this_year'] = $this->m_Day_off->totalDayOff_get();
 
 		$data['view_data'] = 'core/dayoff/data_day_off';
 		$data['view_components'] = 'core/dayoff/data_day_off_components';
-
 
 		if($data['user']) {
 			$this->load->view('templates/index' ,$data);

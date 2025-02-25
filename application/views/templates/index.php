@@ -337,19 +337,7 @@
 								</a>
 							</div>
 						</div>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Overtime' ? "active": ""?>" href="<?=base_url('absence/overtime/overtime_page?status_overtime=3&is=3')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-clock"></i>
-                                        </span>
-                                    </span>
-									<span class="menu-title">Overtime</span>
-								</a>
-							</div>
-						</div>
+
 						<?php endif;?>
 
 						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
@@ -384,14 +372,6 @@
 													<span class="bullet bullet-dot"></span>
 												</span>
 											<span class="menu-title">Leave</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/overtime/su_overtime_page?status_overtime=3&is=1')?>" class="menu-link <?= $title == 'Data Overtime' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Overtime</span>
 										</a>
 									</div>
 									<div class="menu-item">
@@ -434,19 +414,18 @@
 											<span class="menu-title">Attendance</span>
 										</a>
 									</div>
-
 								</div>
 							</div>
 						</div>
 						<?php endif;?>
 
-						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
 									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
 								</div>
 							</div>
-
+						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
@@ -547,7 +526,64 @@
 									</a>
 								</div>
 							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Technician Service Record' ? "active": ""?>" href="<?=base_url('admin/service_teknisi/su_service_teknisi_page?status_service_teknisi=3&is=1')?>">
+								<span class="menu-icon">
+									<span class="svg-icon svg-icon-2">
+										<i class="bi bi-motherboard"></i>
+									</span>
+								</span>
+										<span class="menu-title">Technician Service Record</span>
+									</a>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Overtime' ? "active": ""?>" href="<?=base_url('absence/overtime/su_overtime_page?status_overtime=3&is=1')?>">
+											<span class="menu-icon">
+												<span class="svg-icon svg-icon-2">
+													<i class="bi bi-clock"></i>
+												</span>
+											</span>
+										<span class="menu-title">Overtime</span>
+									</a>
+								</div>
+							</div>
+						<?php endif;?>
+						<?php if($user['role'] == 3): ?>
+							<!-- EMPLOYEE-->
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Technician Service Record' ? "active": ""?>" href="<?=base_url('admin/service_teknisi/service_teknisi_page?status_service_teknisi=3&is=3')?>">
+								<span class="menu-icon">
+									<span class="svg-icon svg-icon-2">
+										<i class="bi bi-motherboard"></i>
+									</span>
+								</span>
+										<span class="menu-title">Technician Service Record</span>
+									</a>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Overtime' ? "active": ""?>" href="<?=base_url('absence/overtime/overtime_page?status_overtime=3&is=3')?>">
+											<span class="menu-icon">
+												<span class="svg-icon svg-icon-2">
+													<i class="bi bi-clock"></i>
+												</span>
+											</span>
+										<span class="menu-title">Overtime</span>
+									</a>
+								</div>
+							</div>
+						<?php endif;?>
 
+						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
 
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
@@ -568,6 +604,7 @@
 									</a>
 								</div>
 							</div>
+
 						<?php endif;?>
 
                     </div>

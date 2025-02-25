@@ -10,6 +10,7 @@ class Employee extends MY_Controller{
         $this->load->model('m_Division');
         $this->load->model('m_Bank_account');
         $this->load->model('m_Emergency_contact');
+        $this->load->model('m_Log_contract_extension');
 
     }
 
@@ -123,6 +124,7 @@ class Employee extends MY_Controller{
         echo json_encode($response);
     }
 
+
 	public function add_all_data_employee(){
 		$this->_ONLY_SU();
 		$this->_isAjax();
@@ -188,6 +190,12 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('address_contact', 'address_contact', 'required', [
 			'required' => 'Address harus diisi',
 		]);
+		$this->form_validation->set_rules('type_employee', 'type_employee', 'required', [
+			'required' => 'Type karyawan harus diisi',
+		]);
+		$this->form_validation->set_rules('rewrite_password', 'rewrite_password', 'required', [
+			'required' => 'Ketik Ulang password harus diisi!',
+		]);
 
 		if ($this->form_validation->run() == FALSE) {
 			$response = [
@@ -200,6 +208,16 @@ class Employee extends MY_Controller{
 			echo json_encode($response);
 			return;
 		}
+		if ($this->input->post('password', true) !== $this->input->post('rewrite_password', true)) {
+			$response = [
+				'status' => false,
+				'message' => 'Password tidak sama',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$contract_expired = $this->input->post('type_employee', true) == 1 || $this->input->post('type_employee', true) == 2 ? $this->input->post('contract_expired', true) : null;
 
 		$lb = new Opensslencryptdecrypt();
 		$encrypt =$lb->encrypt($this->input->post('password', true));
@@ -216,6 +234,8 @@ class Employee extends MY_Controller{
 			'id_position' => $this->input->post('id_position', true),
 			'id_division' => $this->input->post('id_division', true),
 			'uang_makan' => $this->input->post('uang_makan', true),
+			'type_employee' => $this->input->post('type_employee', true),
+			'contract_expired' => $contract_expired,
 			'basic_salary' => $this->input->post('basic_salary', true),
 			'bonus' => $this->input->post('bonus', true),
 		];
@@ -242,6 +262,7 @@ class Employee extends MY_Controller{
 		if ($employee) {
 			$response = [
 				'status' => true,
+				'type' =>  $this->input->post('type_employee', true),
 				'message' => 'Employee berhasil ditambahkan',
 			];
 		} else {
@@ -254,6 +275,7 @@ class Employee extends MY_Controller{
 		echo json_encode($response);
 
 	}
+
 
     public function update() 
     {
@@ -401,6 +423,25 @@ class Employee extends MY_Controller{
         $no = $this->input->post('start');  
     
         foreach($list as $item) {
+
+			$type = '';
+			if ($item['type_employee'] == 1) {
+				$type = 'Kontrak';
+			} else if ($item['type_employee'] == 2) {
+				$type = 'Magang';
+			} else {
+				$type = 'Permanent';
+			}
+
+			$contract = $item['contract_expired'] == null ? '-' : '<button 
+                            class="btn btn-warning btn-sm rounded-pill btn-ec" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#contractModal"
+                            data-id_employees="'.htmlspecialchars($item['id_employee']).'"
+                            data-old_contract="'.htmlspecialchars($item['contract_expired']).'">
+                            '.date('d M Y', strtotime($item['contract_expired'])).'
+                           </button>';
+
             $action = ' <a href="javascript:void(0)" onclick="editEmployeeBtn(this)" 
                             class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-emp"  
                             style="width: 70px"
@@ -438,7 +479,9 @@ class Employee extends MY_Controller{
                             data-id_employees="'.htmlspecialchars($item['id_employee']).'">
                             <i class="bi bi-people"></i>
                            </button>';
-            
+
+
+
             $row = [];
             $row[] = ++$no;  
             $row[] = $item['name_product']; 
@@ -450,7 +493,9 @@ class Employee extends MY_Controller{
             $row[] = date('d M Y', strtotime($item['date_of_birth']));  
             $row[] = $item['name_division'];  
             $row[] = $item['name_position'];  
-            $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');  
+            $row[] = $type;
+            $row[] = $contract;
+            $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');
             $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['bonus'], 0 , ',', '.');  
             $row[] = $bank_info;  
@@ -695,6 +740,85 @@ class Employee extends MY_Controller{
         echo json_encode($response);
 
     }
+
+
+    //------------ RENEW CONTRACT INFO
+    public function contract_info() 
+    {
+   
+        $id = $this->input->post('id_employees');
+
+
+        if (!$id) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'ID tidak valid.',
+            ]);
+            return;
+        }
+
+        $contractList = $this->m_Log_contract_extension->findByEmployeeId_get($id);
+
+        
+        echo json_encode([
+            'status' => true,
+            'contract' => $contractList,
+        ]);
+    }
+
+	public function add_contract()
+	{
+		$this->_isAjax();
+		$this->_ONLY_SU();
+
+		$this->form_validation->set_rules('new_contract', 'new_contract', 'required', [
+			'required' => 'Kontrak baru harus diisi',
+		]);
+
+		$this->form_validation->set_rules('description', 'description', 'required', [
+			'required' => 'Description harus diisi',
+		]);
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$id_employee = $this->input->post('id_employee', true);
+
+		$data = [
+			'id_employee' => $this->input->post('id_employee', true),
+			'old_contract' => $this->input->post('old_contract', true),
+			'new_contract' => $this->input->post('new_contract', true),
+			'description' => $this->input->post('description', true),
+		];
+
+		$renewContract = $this->m_Employees->renewContract_post($id_employee, $data['new_contract']);
+
+		if ($renewContract) {
+			$this->m_Log_contract_extension->create_post($data);
+			$response = [
+				'status' => true,
+				'message' => 'Perpanjangan kontrak berhasil dibuat',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Perpanjangan kontrak gagal dibuat',
+			];
+		}
+
+		echo json_encode($response);
+	}
+
 
 
 }

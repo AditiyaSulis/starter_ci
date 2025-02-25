@@ -62,11 +62,13 @@ class m_Overtime extends CI_Model
 			return false;
 		}
 	}
+
 	
 	public function create_batch_post($data)
 	{
 		return $this->db->insert_batch('overtime', $data);
 	}
+
 
 	private function _filterDATE($type)
 	{
@@ -114,18 +116,20 @@ class m_Overtime extends CI_Model
 		}
 	}
 
+
 	public function getOvertimeDataCore_get()
 	{
 
 		$option = $this->input->post('option', true);
 		$status_overtime = $this->input->post('status_overtime', true);
 		$id = $this->input->post('employee', true);
+		$product = $this->input->post('product', true);
 
 
 		if (!empty($status_overtime)) {
 			$this->db->select('overtime.id_overtime, overtime.id_employee, overtime.tanggal, overtime.input_at, overtime.pay, overtime.time_spend, overtime.start, overtime.description, overtime.end, overtime.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
 			$this->db->where('overtime.status', $status_overtime);
-			if($id != '') {
+			if($id != 'false') {
 				$this->db->where('overtime.id_employee', $id);
 			}
 			$this->db->from('overtime');
@@ -134,6 +138,9 @@ class m_Overtime extends CI_Model
 			$this->db->join('products', 'products.id_product = employee.id_product', 'left');
 			if (!empty($option)) {
 				$this->_filterDATE($option);
+			}
+			if(!empty($product) && $product != 'all'){
+				$this->db->where('employee.id_product', $product);
 			}
 
 
@@ -164,6 +171,7 @@ class m_Overtime extends CI_Model
 
 	}
 
+
 	public function get_datatables()
 	{
 		$this->getOvertimeDataCore_get();
@@ -174,6 +182,7 @@ class m_Overtime extends CI_Model
 		return $query->result_array();
 	}
 
+
 	public function count_filtered()
 	{
 		$this->getOvertimeDataCore_get();
@@ -181,11 +190,13 @@ class m_Overtime extends CI_Model
 		return $query->num_rows();
 	}
 
+
 	public function count_all()
 	{
 		$this->db->from('overtime');
 		return $this->db->count_all_results();
 	}
+
 
 	public function setStatus_post($id, $status, $pay)
 	{
@@ -197,6 +208,7 @@ class m_Overtime extends CI_Model
 		return true;
 
 	}
+
 
 	public function totalOvertimeLastMonthToNowByEmployeeId_get($id, $tanggal)
 	{
@@ -212,5 +224,31 @@ class m_Overtime extends CI_Model
 		return $query->total_overtime ?? 0;
 	}
 
+
+	public function totalOvertime_get()
+	{
+		$curentDate = date('Y');
+
+		$this->db->select_sum('time_spend', 'total_overtime');
+		$this->db->where('status', 2);
+		$this->db->where('YEAR(tanggal)', $curentDate);
+		$query = $this->db->get('overtime')->row();
+
+		return $query->total_overtime ?? 0;
+	}
+
+
+	public function totalOvertimeThisMonth_get()
+	{
+		$curentDate = date('m');
+
+		$this->db->select_sum('time_spend', 'total_overtime');
+		$this->db->where('status', 2);
+		$this->db->where('MONTH(tanggal)', $curentDate);
+		$query = $this->db->get('overtime')->row();
+
+		return $query->total_overtime ?? 0;
+	}
+	
 
 }

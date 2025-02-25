@@ -35,70 +35,81 @@
 					<div class="col-1 col-md-1"><span>Position </span></div>
 					<div class="col-5 col-md-5"><span> : </span><span id="position_employee" class="ms-4"></div>
 				</div>
-				<h6 class="mt-10">Potongan : </h6>
-				<div class="table-responsive">
-					<table id="table" class="table table-bordered" style="width:100%">
-						<thead class="bg-light-primary">
-						<tr>
-							<th>Izin</th>
-							<th>Potongan Izin</th>
-							<th>Absen</th>
-							<th>Potongan Absen</th>
-							<th>Potongan Kasbon</th>
-							<th>Total Pot</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td id="izin_pc">
-							</td>
-							<td id="pot_izin">
-							</td>
-							<td id="absen_pc">
-							</td>
-							<td id="pot_absen">
-							</td>
-							<td id="pot_kasbon">
-							</td>
-							<td id="total_potongan">
-							</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="mt-12">
-					<h6>Gaji selama 1 bulan : </h6>
-					<table id="table2" class="table table-bordered" style="width:100%">
-						<thead class="bg-light-primary">
-						<tr>
-							<th>Gaji Pokok</th>
-							<th>Uang Makan</th>
-							<th>Lembur</th>
-							<th>Bonus</th>
-							<th>Total</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td id="gaji_pokok">
-							</td>
-							<td id="uang_makan">
-							</td>
-							<td id="lembur">
-							</td>
-							<td id="bonus">
-							</td>
-							<td id="total">
-							</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<span id="total_gaji"></span> - <span id="total_potongan_gaji"></span> = - <span id="gaji_bersih"></span>
+
+				<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
+					<div class="row">
+						<div class="col-md-6 col-6">
+							<h3>Penghasilan</h3>
+							<div class="row mb-1">
+								<div class="col-3 col-md-3"><span>Gaji Pokok </span></div>
+								<div class="col-4 col-md-4"><span> = </span><span id="gaji_pokok" class="ms-4"></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-3 col-md-3"><span>Uang Makan</span></div>
+								<div class="col-4 col-md-4"><span> = </span><span id="uang_makan" class="ms-4"></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-3 col-md-3"><span>Lembur</span></div>
+								<div class="col-4 col-md-4"><span> = </span><span id="lembur" class="ms-4"></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-3 col-md-3"><span>Bonus</span></div>
+								<div class="col-4 col-md-4"><span> = </span><span id="bonus" class="ms-4"></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-3 col-md-3"><span>Total Gaji</span></div>
+								<div class="col-4 col-md-4"><span> = </span><span id="total_gaji" class="ms-4"></div>
+							</div>
+						</div>
+						<div class="col-md-6 col-6">
+							<h2>Potongan</h2>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Potongan Izin</span></div>
+								<div class="col-5 col-md-5"><span> = </span><span id="total_pot_izin" class="ms-4 fw-bolder"> </span>(<span id="pot_izin"> </span> x <span id="izin_pc"></span>)</div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Potongan Tidak Hadir</span></div>
+								<div class="col-5 col-md-5"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Potongan Kasbon</span></div>
+								<div class="col-5 col-md-5"><span> = </span><span id="pot_kasbon" class="ms-4 fw-bolder"> </span></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Total Potongan</span></div>
+								<div class="col-5 col-md-5"><span> = </span><span id="total_potongan" class="ms-4"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="table-responsive mt-5">
+						<table id="table" class="table table-bordered table-striped text-center align-middle table-success" style="width:100%">
+							<thead class="bg-light-primary">
+								<tr>
+									<th>Gaji Bersih</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										Total Gaji - Total Potongan = Gaji Bersih
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<span id="rms_total_gaji"></span> - <span id="rms_potongan_gaji"></span> = <span id="gaji_bersih"></span>
+									</td>
+								</tr>
+								<tr>
+									<td id="gaji_bersih_anda" class="fw-bolder">
+
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -111,44 +122,54 @@
 	const exampleModal = document.getElementById('rincianModal');
 	exampleModal.addEventListener('show.bs.modal', function (event) {
 		const button = event.relatedTarget;
+
 		const id = button.getAttribute('data-id-payroll-component');
-		const izin = button.getAttribute('data-total-izin');
-		const cuti = button.getAttribute('data-total-cuti');
-		const absen = button.getAttribute('data-total-absen');
-		const lembur = button.getAttribute('data-total-overtime');
-		const dayoff = button.getAttribute('data-total-dayoff');
-		const gaji = button.getAttribute('data-basic-salary');
-		const uang_makan = button.getAttribute('data-uang-makan');
-		const bonus = button.getAttribute('data-bonus');
+		const izin = parseFloat(button.getAttribute('data-total-izin')) || 0;
+		const cuti = parseFloat(button.getAttribute('data-total-cuti')) || 0;
+		const absen = parseFloat(button.getAttribute('data-total-absent')) || 0;
+		const lembur = parseFloat(button.getAttribute('data-total-overtime')) || 0;
+		const dayoff = parseFloat(button.getAttribute('data-total-dayoff')) || 0;
+		const gaji = parseFloat(button.getAttribute('data-basic-salary')) || 0;
+		const uang_makan = parseFloat(button.getAttribute('data-uang-makan')) || 0;
+		const bonus = parseFloat(button.getAttribute('data-bonus')) || 0;
+		const potongan_absen = parseFloat(button.getAttribute('data-potongan-absen')) || 0;
+		const potongan_izin = parseFloat(button.getAttribute('data-potongan-izin')) || 0;
+		const absen_hari = parseFloat(button.getAttribute('data-absen-hari')) || 0;
+		const izin_hari = parseFloat(button.getAttribute('data-izin-hari')) || 0;
+		const total_potongan = parseFloat(button.getAttribute('data-total-potongan')) || 0;
 		const nip = button.getAttribute('data-nip');
 		const name = button.getAttribute('data-name');
 		const product = button.getAttribute('data-product');
 		const divisi = button.getAttribute('data-divisi');
 		const position = button.getAttribute('data-position');
+		const piutang = button.getAttribute('data-piutang');
 		const tanggal_gajian = button.getAttribute('data-tanggal-gajian');
-
-
+		const total = button.getAttribute('data-gaji-bersih');
+		const gaji_kotor = gaji+uang_makan+lembur+bonus;
 		console.log("ID:", id);
 
-		// Format angka menjadi Rupiah
+		// Fungsi format Rupiah
 		function formatToRupiah(number) {
 			return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
 		}
 
-		// Format tanggal menjadi DD-MM-YYYY
+		// Fungsi format tanggal
 		function formatDate(dateString) {
+			if (!dateString) return '-';
 			const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
 			return new Date(dateString).toLocaleDateString('id-ID', options);
 		}
 
+		// Masukkan data ke dalam modal
 		$('#izin_pc').text(izin);
 		$('#absen_pc').text(absen);
 		$('#gaji_pokok').text(formatToRupiah(gaji));
 		$('#uang_makan').text(formatToRupiah(uang_makan));
 		$('#bonus').text(formatToRupiah(bonus));
 		$('#lembur').text(formatToRupiah(lembur));
-		$('#pot_absen').text(formatToRupiah(pot_absen));
-		$('#pot_izin').text(formatToRupiah(pot_izin));
+		$('#pot_absen').text(formatToRupiah(absen_hari));
+		$('#pot_izin').text(formatToRupiah(izin_hari));
+		$('#total_potongan').text(formatToRupiah(total_potongan));
 
 		$('#nip_employee').text(nip);
 		$('#name_employee').text(name);
@@ -157,12 +178,19 @@
 		$('#division_employee').text(divisi);
 		$('#position_employee').text(position);
 		$('#tanggal_gajian').text(formatDate(tanggal_gajian));
+		$('#total_gaji').text(formatToRupiah(gaji_kotor));
+		$('#pot_kasbon').text(formatToRupiah(piutang));
+		$('#total_pot_izin').text(formatToRupiah(potongan_izin));
+		$('#total_pot_absen').text(formatToRupiah(potongan_absen));
+		$('#rms_total_gaji').text(formatToRupiah(gaji_kotor));
+		$('#rms_potongan_gaji').text(formatToRupiah(total_potongan));
+		$('#gaji_bersih').text(formatToRupiah(total));
+		$('#gaji_bersih_anda').text(formatToRupiah(total));
 
 		$("#edit_id").val(id);
-
 	});
 
-
+	// Prevent multiple form submissions
 	function preventMultipleSubmit(form) {
 		const submitButton = form.querySelector('button[type="submit"]');
 		if (submitButton) {
@@ -172,10 +200,9 @@
 		return true;
 	}
 
-
-	//------------DELETE
+	// Fungsi Hapus
 	function handleDeletePayrollComponentButton(id) {
-		console.log('id nya : '+id)
+		console.log('ID yang akan dihapus:', id);
 		Swal.fire({
 			title: 'Apakah Anda yakin?',
 			text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -215,11 +242,6 @@
 			}
 		});
 	}
-
-
-
-
-
 
 
 </script>

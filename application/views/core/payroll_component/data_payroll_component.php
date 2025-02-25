@@ -25,6 +25,7 @@
 				<th>Izin</th>
 				<th>Day Off</th>
 				<th>Cuti</th>
+				<th>Absen</th>
 				<th>Lembur</th>
 				<th>Total Gaji</th>
 				<th>Deskripsi</th>

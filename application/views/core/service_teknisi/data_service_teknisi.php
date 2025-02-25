@@ -27,7 +27,7 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	<table id="dayoff_table" class="table table-bordered table-striped" style="width:100%">
+	<table id="service_teknisi_table" class="table table-bordered table-striped" style="width:100%">
 		<thead>
 		<?php $no = 1 ?>
 		<tr>
@@ -36,7 +36,10 @@
 			<th>Nama</th>
 			<th>Produk</th>
 			<th>Divisi</th>
-			<th>Tanggal Libur</th>
+			<th>Jenis Service</th>
+			<th>Pendapatan</th>
+			<th>Upah</th>
+			<th>Tanggal Service</th>
 			<th>Deskripsi</th>
 			<th>Status</th>
 			<th>Action</th>
@@ -65,13 +68,13 @@
 
 	let params = new URLSearchParams(window.location.search);
 	data =  {
-		'status_day_off' :  params.get('status_day_off'),
+		'status_service_teknisi' :  params.get('status_service_teknisi'),
 		'with_alerts' :  params.get('with_alerts'),
 		'is' :  params.get('is'),
 	}
 
 	function callDT() {
-		table = $('#dayoff_table').DataTable({
+		table = $('#service_teknisi_table').DataTable({
 			responsive: {
 				details: {
 					type: 'column',
@@ -81,7 +84,7 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: base_urls + 'core/core_data/data_day_off',
+				url: base_urls + 'core/core_data/data_service_teknisi',
 				type: 'POST',
 				data: function(d) {
 					d.option = $('#filterSelect').val();
@@ -89,7 +92,7 @@
 					d.endDate = $('#endDate').val();
 					d.employee = <?= $employee ?>;
 					d.product = $('#filterProduct').val();
-					d.status_day_off = data.status_day_off;
+					d.status_service_teknisi = data.status_service_teknisi;
 					d.with_alerts = data.with_alerts;
 					d.is = data.is;
 				}

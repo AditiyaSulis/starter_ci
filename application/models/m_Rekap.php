@@ -20,7 +20,7 @@ class m_Rekap extends CI_Model
 		if (!empty($product)) {
 			$this->db->where('employee.id_product', $product);
 		}
-		if (!empty($employee)) {
+		if ($employee != 'false') {
 			$this->db->where('employee.id_employee', $employee);
 		}
 

@@ -14,18 +14,18 @@
 	#attendance_table thead {
 		background-color: #65c2e4;
 		color: white;
-
+	}
 </style>
 
 
 <div class="mt-6">
 	<div class="row mb-2">
-		<?php if(empty($employee)):?>
 			<div class="col-auto mb-2">
 				<button type="button" class="btn btn-primary btn-sm  rounded-pill" data-bs-toggle="modal" data-bs-target="#customDateModal">
-					Custome Date
+					Custom Date
 				</button>
 			</div>
+		<?php if($employee == 'false'):?>
 			<div class="col-2 col-md-2 mb-3">
 				<select id="filterProduct" class="form-select form-select-sm">
 					<option value="" selected>All Product</option>
@@ -100,21 +100,6 @@
 	let employee = '<?= $employee;?>';
 	const base_urls = $('meta[name="base_url"]').attr('content');
 
-	$(document).ready(function(){
-		let params = new URLSearchParams(window.location.search);
-		data = Object.fromEntries(params.entries());
-	});
-
-
-	let params = new URLSearchParams(window.location.search);
-	data =  {
-		'startDate' :  startDate,
-		'endDate' :  endDate,
-		'employee' : employee,
-		'product' : product,
-	}
-
-
 	function formatDate(dateStr) {
 		if (!dateStr) return '';
 		let date = new Date(dateStr);
@@ -134,7 +119,7 @@
 					d.startDate = $('#startDate').val();
 					d.endDate = $('#endDate').val();
 					d.product = $('#filterProduct').val();
-					d.employee = data.employee;
+					d.employee = <?= $employee?>;
 				}
 			},
 			dom: '<"d-flex justify-content-between mb-3"<"length-menu"l><"search-box"f>>rtip',

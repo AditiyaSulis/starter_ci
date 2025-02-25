@@ -18,8 +18,8 @@ $status_leave = isset($_GET['status_leave']) ? $_GET['status_leave'] : 3;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="S">
-												3
+											<span class="text-success" data-category-id="<?=$this_month?>">
+												<?=$this_month?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">
@@ -40,8 +40,8 @@ $status_leave = isset($_GET['status_leave']) ? $_GET['status_leave'] : 3;
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id=""">
-
+											<span class="text-success" data-category-id="<?=$this_year?>">
+												<?=$this_year?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">

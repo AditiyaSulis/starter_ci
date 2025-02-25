@@ -9,8 +9,10 @@ class Leave extends MY_Controller{
 		$this->load->model('m_Leave');
 		$this->load->model('m_Employees');
 		$this->load->model('m_Schedule');
+		$this->load->model('m_Products');
 
 	}
+
 
 	public function leave_page()
 	{
@@ -23,6 +25,7 @@ class Leave extends MY_Controller{
 		$data['menu'] = '';
 
 		$email = $data['user']['email'];
+		$data['products'] = $this->m_Products->findAll_get();
 		$emp = $this->m_Employees->findByEmail_get($email);
 		$data['employee'] = $emp['id_employee'];
 		$data['total_cuti'] = $this->m_Leave->totalLeaveByEmployeeId_get($emp['id_employee']);
@@ -38,6 +41,7 @@ class Leave extends MY_Controller{
 		}
 	}
 
+
 	public function su_leave_page()
 	{
 		$this->_ONLYSELECTED([1,2]);
@@ -48,9 +52,12 @@ class Leave extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Leave';
 		$data['menu'] = 'Data';
 
-		$data['employee'] = '';
+		$data['products'] = $this->m_Products->findAll_get();
+		$data['employee'] = 'false';
 		$data['employees'] = $this->m_Employees->findAll_get();
 
+		$data['this_month'] = $this->m_Leave->totalLeaveThisMonth_get();
+		$data['this_year'] = $this->m_Leave->totalLeave_get();
 
 		$data['view_data'] = 'core/leave/data_leave';
 		$data['view_components'] = 'core/leave/data_leave_components';
@@ -62,6 +69,7 @@ class Leave extends MY_Controller{
 			redirect('fetch/login');
 		}
 	}
+
 
 	public function add_Leave(){
 		$this->_ONLYSELECTED([1,3]);
@@ -187,6 +195,7 @@ class Leave extends MY_Controller{
 
 		echo json_encode($response);
 	}
+
 
 	public function su_add_Leave(){
 		$this->_ONLY_SU();
@@ -325,6 +334,7 @@ class Leave extends MY_Controller{
 		echo json_encode($response);
 	}
 
+
 	public function set_status()
 	{
 		$this->_ONLY_SU();
@@ -389,6 +399,7 @@ class Leave extends MY_Controller{
 
 
 	}
+
 
 	public function delete()
 	{

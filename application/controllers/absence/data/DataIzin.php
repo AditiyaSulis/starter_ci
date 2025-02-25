@@ -9,7 +9,7 @@ class DataIzin extends MY_Controller{
 		$this->load->model('m_Izin');
 		$this->load->model('m_Employees');
 		$this->load->model('m_Schedule');
-
+		$this->load->model('m_Products');
 	}
 
 	public function data_izin_page()
@@ -23,9 +23,12 @@ class DataIzin extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Izin';
 		$data['menu'] = 'Data';
 
-		$data['employee'] = '';
+		$data['products'] = $this->m_Products->findAll_get();
+		$data['employee'] = 'false';
 		$data['employees'] = $this->m_Employees->findAll_get();
 
+		$data['this_month'] = $this->m_Izin->totalIzinThisMonthByEmployeeId_get(null);
+		$data['this_year'] = $this->m_Izin->totalIzinByEmployeeId_get(null);
 
 		$data['view_data'] = 'core/izin/data_izin';
 		$data['view_components'] = 'core/izin/data_izin_components';
@@ -49,6 +52,7 @@ class DataIzin extends MY_Controller{
 		$data['menu'] = '';
 
 		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['employees'] = $this->m_Employees->findAll_get();
 		$data['total_izin'] = $this->m_Izin->totalIzinByEmployeeId_get($id['id_employee']);
@@ -68,7 +72,7 @@ class DataIzin extends MY_Controller{
 
 	public function add_izin()
 	{
-		$this->_ONLYSELECTED([1,3]);
+		$this->_ONLYSELECTED([1,2,3]);
 		$this->_isAjax();
 		$this->form_validation->set_rules('alasan_izin', 'alasan_izin', 'required', [
 			'required' => 'Alasan Izin harus diisi',
@@ -109,7 +113,7 @@ class DataIzin extends MY_Controller{
 		}
 
 
-		if($alasan_izin == 2) {
+		if (isset($_FILES['bukti_surat_sakit']) && $_FILES['bukti_surat_sakit']['error'] != 4) {
 			$this->load->helper('image_helper');
 
 			$upload_path = 'bukti/compressed';

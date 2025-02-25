@@ -18,6 +18,7 @@ class Core_data extends MY_Controller{
         $this->load->model('m_Schedule');
         $this->load->model('m_Rekap');
         $this->load->model('m_Attendance');
+        $this->load->model('m_Service_teknisi');
     }
 
 	public function data_piutang()
@@ -124,6 +125,7 @@ class Core_data extends MY_Controller{
 
 		echo json_encode($output);
 	}
+
 
 	public function data_purchases()
 	{
@@ -232,6 +234,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_izin()
 	{
 		$option = $this->input->post('option');
@@ -246,7 +249,7 @@ class Core_data extends MY_Controller{
 		$no = $this->input->post('start');
 
 		foreach($list as $item) {
-			$action = $employee == '' ?
+			$action = $employee == 'false' ?
 				     '     
                         <a href="javascript:void(0)" onclick="updateBukti(this)" class="btn btn-success btn-sm rounded-pill btn-stts mb-2" style="width : 90px"
 								data-id_izin="'. $item['id_izin'].'"
@@ -265,7 +268,7 @@ class Core_data extends MY_Controller{
 					</a>
 					';
 
-			if($item['status'] == 1 && $employee == ''){
+			if($item['status'] == 1 && $employee == 'false'){
 				$status =
 						  ' 	
 							<td>
@@ -279,7 +282,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 && $employee == ''){
+			else if($item['status'] == 2 && $employee == 'false'){
 				$status =  '
                              <td>
 							   <a href="javascript:void(0)" onclick="setStatusIzin(this)" class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -292,7 +295,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 && $employee == '') {
+			else if ($item['status'] == 3 && $employee == 'false') {
 				$status =  '
                              <td>
 							   <a a href="javascript:void(0)" onclick="setStatusIzin(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -305,7 +308,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if($item['status'] == 1 && $employee != ''){
+			else if($item['status'] == 1 && $employee != 'false'){
 				$status =
 					' 	
 							<td>
@@ -315,7 +318,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 && $employee != ''){
+			else if($item['status'] == 2 && $employee != 'false'){
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px" disabled >
@@ -324,7 +327,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 && $employee != '') {
+			else if ($item['status'] == 3 && $employee != 'false') {
 				$status =  '
                              <td>
 							   <button  class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled >
@@ -348,7 +351,8 @@ class Core_data extends MY_Controller{
 			$row[] = $item['name'];
 			$row[] = $item['name_product'];
 			$row[] = $item['name_division'];
-			$row[] = date('d M Y', strtotime($item['tanggal_izin']));;
+			$row[] = date('d M Y', strtotime($item['tanggal_izin']));
+			$row[] = $item['alasan_izin'];
 			$row[] = $bukti;
 			$row[] = $status;
 			$row[] = $item['description'];
@@ -369,6 +373,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_overtime()
 	{
 		$option = $this->input->post('option');
@@ -379,6 +384,8 @@ class Core_data extends MY_Controller{
 
 
 		$list = $this->m_Overtime->get_datatables();
+
+		$status ='';
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -392,7 +399,7 @@ class Core_data extends MY_Controller{
                      ':
 					'';
 
-			if($item['status'] == 1 && $is !=3 && $employee == ''){
+			if($item['status'] == 1 && $is !=3 && $employee == 'false'){
 				$status =
 					' 	
 							<td>
@@ -404,7 +411,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 && $is !=3 && $employee == ''){
+			else if($item['status'] == 2 && $is !=3 && $employee == 'false'){
 				$status =  '
                              <td>
 							   <a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -415,7 +422,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 && $is !=3 && $employee == '') {
+			else if ($item['status'] == 3 && $is !=3 && $employee == 'false') {
 				$status =  '
                              <td>
 							   <a a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -426,7 +433,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if($item['status'] == 1 && $is ==3 && $employee != ''){
+			else if($item['status'] == 1 && $is ==3 && $employee != 'false'){
 				$status =
 					' 	
 							<td>
@@ -436,7 +443,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 &&  $is ==3 && $employee != ''){
+			else if($item['status'] == 2 &&  $is ==3 && $employee != 'false'){
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
@@ -445,7 +452,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 &&  $is ==3 && $employee != '') {
+			else if ($item['status'] == 3 &&  $is ==3 && $employee != 'false') {
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
@@ -487,6 +494,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_leave()
 	{
 		$option = $this->input->post('option');
@@ -495,7 +503,7 @@ class Core_data extends MY_Controller{
 		$is = $this->input->post('is');
 		$employee = $this->input->post('employee');
 
-
+		$status = '';
 
 		$list = $this->m_Leave->get_datatables();
 
@@ -512,7 +520,7 @@ class Core_data extends MY_Controller{
 					'-';
 
 			$endDay = $item['end_day'] == null ? '-' :  date('d M Y', strtotime($item['end_day']));
-			if($item['status'] == 1 && $is !=3 && $employee == ''){
+			if($item['status'] == 1 && $is !=3 && $employee == 'false'){
 				$status =
 					' 	
 							<td>
@@ -528,7 +536,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 && $is !=3 && $employee == ''){
+			else if($item['status'] == 2 && $is !=3 && $employee == 'false'){
 				$status =  '
                              <td>
 							   <a href="javascript:void(0)" onclick="setStatusLeave(this)" class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -543,7 +551,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 && $is !=3 && $employee == '') {
+			else if ($item['status'] == 3 && $is !=3 && $employee == 'false') {
 				$status =  '
                              <td>
 							   <a a href="javascript:void(0)" onclick="setStatusLeave(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -558,7 +566,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if($item['status'] == 1 && $is ==3 && $employee != ''){
+			else if($item['status'] == 1 && $is ==3 && $employee != 'false'){
 				$status =
 						' 	
 							<td>
@@ -568,7 +576,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 && $is ==3 && $employee != ''){
+			else if($item['status'] == 2 && $is ==3 && $employee != 'false'){
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
@@ -577,7 +585,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 && $is ==3 && $employee != '') {
+			else if ($item['status'] == 3 && $is ==3 && $employee != 'false') {
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
@@ -618,6 +626,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_day_off()
 	{
 		$option = $this->input->post('option');
@@ -627,6 +636,7 @@ class Core_data extends MY_Controller{
 		$id = $this->input->post('employee');
 
 		$list = $this->m_Day_off->get_datatables();
+		$status  = '';
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -641,7 +651,7 @@ class Core_data extends MY_Controller{
 					'-';
 
 
-			if($item['status'] == 1 && $id == '' && $is !=3){
+			if($item['status'] == 1 && $id == 'false' && $is !=3){
 				$status =
 					' 	
 							<td>
@@ -655,7 +665,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 &&  $id == ''  && $is !=3){
+			else if($item['status'] == 2 &&  $id == 'false'  && $is !=3){
 				$status =  '
                              <td>
 							   <a href="javascript:void(0)" onclick="setStatusDayoff(this)" class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -668,7 +678,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 &&  $id == ''  && $is !=3) {
+			else if ($item['status'] == 3 &&  $id == 'false'  && $is !=3) {
 				$status =  '
                              <td>
 							   <a a href="javascript:void(0)" onclick="setStatusDayoff(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
@@ -681,7 +691,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if($item['status'] == 1 &&  $id != ''  && $is ==3){
+			else if($item['status'] == 1 &&  $id != 'false'  && $is ==3){
 				$status =
 					' 	
 							<td>
@@ -691,7 +701,7 @@ class Core_data extends MY_Controller{
 							</td>
 						  ';
 			}
-			else if($item['status'] == 2 && $id != '' && $is ==3){
+			else if($item['status'] == 2 && $id != 'false' && $is ==3){
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px">
@@ -700,7 +710,7 @@ class Core_data extends MY_Controller{
 							</td>
                            ';
 			}
-			else if ($item['status'] == 3 && $id != '' && $is ==3) {
+			else if ($item['status'] == 3 && $id != 'false' && $is ==3) {
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
@@ -737,6 +747,7 @@ class Core_data extends MY_Controller{
 
 		echo json_encode($output);
 	}
+
 
 	public function data_holyday()
 	{
@@ -785,6 +796,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_schedule()
 	{
 		$option = $this->input->post('option');
@@ -829,6 +841,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_payroll()
 	{
 		$option = $this->input->post('option');
@@ -862,8 +875,8 @@ class Core_data extends MY_Controller{
 			$row[] = ++$no;
 			$row[] = date('d M Y', strtotime($item['input_at']));
 			$row[] = $item['code_payroll'];
-			$row[] = $item['total_salary'];
-			$row[] = $item['total_employee'];
+		//			$row[] = $item['total_salary'];
+		//			$row[] = $item['total_employee'];	
 			$row[] = date('d M Y', strtotime($item['tanggal_gajian']));
 			$row[] = $action;
 			$data[] = $row;
@@ -882,6 +895,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_payroll_component()
 	{
 		$payroll = $this->input->post('payroll', true);
@@ -899,6 +913,7 @@ class Core_data extends MY_Controller{
                             data-id="'.htmlspecialchars($item['id_payroll_component']).'"
                             data-total-izin="'.htmlspecialchars($item['total_izin']).'"
                             data-total-cuti="'.htmlspecialchars($item['total_cuti']).'"
+                            data-total-absent="'.htmlspecialchars($item['total_absen']).'"
                             data-total-lembur="'.htmlspecialchars($item['total_overtime']).'"
                             data-basic-salary="'.htmlspecialchars($item['basic_salary']).'"
                             data-total-dayoff="'.htmlspecialchars($item['total_dayoff']).'"
@@ -909,6 +924,13 @@ class Core_data extends MY_Controller{
                             data-divisi="'.htmlspecialchars($item['name_division']).'"
                             data-position="'.htmlspecialchars($item['name_position']).'"
                             data-tanggal-gajian="'.htmlspecialchars($item['tanggal_gajian']).'"
+                            data-potongan-absen="'.htmlspecialchars($item['potongan_absen']).'"
+                            data-potongan-izin="'.htmlspecialchars($item['potongan_izin']).'"
+                            data-absen-hari="'.htmlspecialchars($item['absen_hari']).'"
+                            data-izin-hari="'.htmlspecialchars($item['izin_hari']).'"
+                            data-total-potongan="'.htmlspecialchars($item['total_potongan']).'"
+                            data-gaji-bersih="'.htmlspecialchars($item['total']).'"
+                            data-piutang="'.htmlspecialchars($item['piutang']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -928,6 +950,7 @@ class Core_data extends MY_Controller{
 			$row[] = $item['total_izin'];
 			$row[] = $item['total_dayoff'];
 			$row[] = $item['total_cuti'];
+			$row[] = $item['total_absen'];
 			$row[] = $item['total_overtime'] . ' Jam';
 			$row[] = $item['total'];
 			$row[] = $item['description'];
@@ -945,53 +968,13 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function data_attendance()
 	{
 		$startDate = $this->input->post('startDate', true);
 		$endDate = $this->input->post('endDate', true);
-		$employee = $this->input->post('employee', true);
-
-		if(!empty($employee)){
-			$data = [];
-			$no = $this->input->post('start');
-			$list = $this->m_Employees->get_datatables(null);
-
-			foreach ($list as $item) {
-
-				$totalAbsent = $this->m_Schedule->totalAttendance($employee, $item['date_in'], date('Y-m-d'));
-				$totalDayOff = $this->m_Day_off->totalAttendance($employee, $item['date_in'], date('Y-m-d'));
-				$totalIzin = $this->m_Izin->totalAttendance($employee, $item['date_in'], date('Y-m-d'));
-				$totalCuti = $this->m_Leave->totalAttendance($employee, $item['date_in'], date('Y-m-d'));
 
 
-				$row = [];
-				$row[] = $no++;
-				$row[] = $item['name'];
-				$row[] = $item['name_product'];
-				$row[] = $item['name_division'];
-				$row[] = $totalAbsent;
-				$row[] = $totalDayOff;
-				$row[] = $totalIzin;
-				$row[] = $totalCuti;
-				$data[] = $row;
-
-			}
-			$output = [
-				"draw" => @$_POST['draw'],
-				"recordsTotal" => $this->m_Employees->count_all(),
-				"recordsFiltered" => $this->m_Employees->count_filtered(),
-				"startDate" => $startDate,
-				"endDate" => $endDate,
-				"data" => $data,
-			];
-
-			echo json_encode($output);
-			return;
-
-		}
-
-
-		if(empty($employee)) {
 			$list = $this->m_Rekap->get_datatables();
 
 			$data = [];
@@ -1035,8 +1018,9 @@ class Core_data extends MY_Controller{
 			];
 
 			echo json_encode($output);
-		}
+
 	}
+
 
 	public function data_log_attendance()
 	{
@@ -1071,6 +1055,135 @@ class Core_data extends MY_Controller{
 
 		echo json_encode($output);
 
+	}
+
+	public function data_service_teknisi()
+	{
+		$option = $this->input->post('option');
+		$startDate = $this->input->post('startDate');
+		$endDate = $this->input->post('endDate');
+		$is = $this->input->post('is');
+		$id = $this->input->post('employee');
+
+		$list = $this->m_Service_teknisi->get_datatables();
+		$status  = '';
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach($list as $item) {
+			$action = $is == 1 || $is == 2 ?
+				'   
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-service_teknisi" onclick="handleDeleteServiceTeknisiButton('.htmlspecialchars($item['id_service_teknisi']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                     ':
+				'-';
+
+
+			if($item['status'] == 1 && $id == 'false' && $is !=3){
+				$status =
+					' 	
+							<td>
+							   <a href="javascript:void(0)" onclick="setStatusServiceTeknisi(this)" class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px"
+								data-id_service_teknisi="'. $item['id_service_teknisi'].'"
+								data-id_employee="'. $item['id_employee'].'"
+								data-total_service="'. $item['total_service'].'"
+								data-tgl_service_teknisi="'. $item['tanggal_service'].'"
+								data-status="'. $item['status'].'">
+									<i class="ti ti-check"></i> Disapproval
+								</a>
+							</td>
+						  ';
+			}
+			else if($item['status'] == 2 &&  $id == 'false'  && $is !=3){
+				$status =  '
+                             <td>
+							   <a href="javascript:void(0)" onclick="setStatusServiceTeknisi(this)" class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px"
+								data-id_service_teknisi="'. $item['id_service_teknisi'].'"
+								data-id_employee="'. $item['id_employee'].'"
+								data-total_service="'. $item['total_service'].'"
+								data-tgl_service_teknisi="'. $item['tanggal_service'].'"
+								data-status="'. $item['status'].'">
+									<i class="ti ti-check"></i> Approval
+								</a>
+							</td>
+                           ';
+			}
+			else if ($item['status'] == 3 &&  $id == 'false'  && $is !=3) {
+				$status =  '
+                             <td>
+							   <a a href="javascript:void(0)" onclick="setStatusServiceTeknisi(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
+								data-id_service_teknisi="'. $item['id_service_teknisi'].'"
+								data-total_service="'. $item['total_service'].'"
+
+								data-id_employee="'. $item['id_employee'].'"
+								data-tgl_service_teknisi="'. $item['tanggal_service'].'"
+								data-status="'. $item['status'].'">
+									<i class="ti ti-check"></i> Pending
+								</a>
+							</td>
+                           ';
+			}
+			else if($item['status'] == 1 &&  $id != 'false'  && $is ==3){
+				$status =
+					' 	
+							<td>
+							   <button class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px" disabled="">
+									<i class="ti ti-check"></i> Disapproval
+								</button>
+							</td>
+						  ';
+			}
+			else if($item['status'] == 2 && $id != 'false' && $is ==3){
+				$status =  '
+                             <td>
+							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px">
+									<i class="ti ti-check"></i> Approval
+								</button>
+							</td>
+                           ';
+			}
+			else if ($item['status'] == 3 && $id != 'false' && $is ==3) {
+				$status =  '
+                             <td>
+							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
+									<i class="ti ti-check"></i> Pending
+								</button>
+							</td>
+                           ';
+			}
+
+
+			$upah = $item['total_service'] == null ? 0 : $item['total_service'];
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = date('d M Y', strtotime($item['input_at']));
+			$row[] = $item['name'];
+			$row[] = $item['name_product'];
+			$row[] = $item['name_division'];
+			$row[] = $item['type_service'];
+			$row[] = 'Rp.'. number_format($item['pendapatan_service'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($upah , 0 , ',', '.');
+			$row[] = date('d M Y', strtotime($item['tanggal_service']));
+			$row[] = $item['description'];
+			$row[] = $status;
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => $this->m_Service_teknisi->count_all(),
+			"recordsFiltered" => $this->m_Service_teknisi->count_filtered(),
+			"option" => $option,
+			"startDate" => $startDate,
+			"endDate" => $endDate,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
 	}
 
 }

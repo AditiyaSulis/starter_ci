@@ -1,5 +1,5 @@
 <!-- Modal STATUS -->
-<div class="modal fade" tabindex="-1" id="setStatusDayoffModal">
+<div class="modal fade" tabindex="-1" id="setStatusServiceTeknisiModal">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -17,10 +17,8 @@
 			</div>
 
 			<div class="modal-body">
-				<form class="form w-100" id="setStatusDayoffForm" enctype="multipart/form-data">
-					<input type="hidden" id="id_day_off" name="id_day_off">
-					<input type="hidden" id="tgl_day_off_status" name="tgl_day_off">
-					<input type="hidden" id="id_employee_status" name="id_employee">
+				<form class="form w-100" id="setStatusServiceTeknisiForm" enctype="multipart/form-data">
+					<input type="hidden" id="id_service_teknisi" name="id_service_teknisi">
 					<div class="fv-row mb-8">
 						<select class="form-select" aria-label="Default select example" id="status" name="status">
 							<option value="1">Dissaprove</option>
@@ -28,6 +26,13 @@
 							<option value="3">Pending</option>
 						</select>
 					</div>
+					<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+						<span>Upah</span>
+					</div>
+					<div class="fv-row mb-8">
+						<input type="number" id="pay" name="total_service" class="form-control bg-transparent" />
+					</div>
+
 					<div class="d-grid mb-10">
 						<button type="submit" id="submit_product" class="btn btn-primary">
                                             <span class="indicator-label">
@@ -103,7 +108,7 @@
 	});
 
 	//------------DELETE
-	function handleDeleteDayoffButton(id) {
+	function handleDeleteServiceTeknisiButton(id) {
 		console.log('id nya : '+id)
 		Swal.fire({
 			title: 'Apakah Anda yakin?',
@@ -118,7 +123,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'absence/dayoff/delete',
+					url: base_url + 'admin/service_teknisi/delete',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {
@@ -146,24 +151,23 @@
 	}
 
 	//------------SET STATUS
-	function setStatusDayoff(element) {
+	function setStatusServiceTeknisi(element) {
 		let $element = $(element);
 
-		$("#id_day_off").val($element.data('id_day_off'));
-		$("#tgl_day_off_status").val($element.data('tgl_day_off'));
+		$("#id_service_teknisi").val($element.data('id_service_teknisi'));
 		$("#status").val($element.data('status'));
-		$("#id_employee_status").val($element.data('id_employee'));
+		$("#pay").val($element.data('total_service'));
 
 
-		$("#setStatusDayoffModal").modal("show");
+		$("#setStatusServiceTeknisiModal").modal("show");
 	}
 	$(document).ready(function() {
 		const base_url = $('meta[name="base_url"]').attr('content');
 
-		$("#setStatusDayoffForm").on("submit", function(e) {
+		$("#setStatusServiceTeknisiForm").on("submit", function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: base_url + "absence/dayoff/set_status",
+				url: base_url + "admin/service_teknisi/set_status",
 				type: "POST",
 				data: $(this).serialize(),
 				dataType: "json",
@@ -194,7 +198,6 @@
 			});
 		});
 	});
-
 
 
 

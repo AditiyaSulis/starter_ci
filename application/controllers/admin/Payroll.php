@@ -7,9 +7,19 @@ class Payroll extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Overtime');
+		$this->load->model('m_Payroll');
+		$this->load->model('m_Payroll_component');
 		$this->load->model('m_Employees');
 		$this->load->model('m_Division');
 		$this->load->model('m_Products');
+		$this->load->model('m_Leave');
+		$this->load->model('m_Izin');
+		$this->load->model('m_Day_off');
+		$this->load->model('m_Schedule');
+		$this->load->model('m_Finance_records');
+		$this->load->model('m_Service_teknisi');
+		$this->load->model('m_Piutang');
+		$this->load->model('m_Purchase_piutang');
 	}
 
 	public function payroll_page()
@@ -38,6 +48,222 @@ class Payroll extends MY_Controller{
 		}
 	}
 
+	public function option_employee()
+	{
+		$idProduct = $this->input->post('id_product', true);
+		$idDivision = $this->input->post('id_division', true);
+
+		$employee = $this->m_Employees->findByProductNDivisionId_get($idProduct, $idDivision);
+
+		if(empty($employee)){
+			echo json_encode([
+				'status' => false,
+				'message' =>  'Data tidak ditemukan'
+			]);
+			return false;
+		}
+
+		$response = [
+			'status' => true,
+			'data' => $employee
+		];
+
+		echo json_encode($response);
+
+	}
+
+	public function add_batch_payroll()
+	{
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('input_at', 'input_at', 'required', [
+			'required' => 'Tanggal input harus diisi',
+		]);
+		$this->form_validation->set_rules('tanggal_gajian', 'tanggal_gajian', 'required', [
+			'required' => 'Tanggal gajian harus diisi',
+		]);
+		$this->form_validation->set_rules('id_product', 'id_product', 'required', [
+			'required' => 'Product harus diisi',
+		]);
+		$this->form_validation->set_rules('id_division', 'id_division', 'required', [
+			'required' => 'Division harus diisi',
+		]);
+		$this->form_validation->set_rules('description', 'description', 'required', [
+			'required' => 'Deskripsi harus diisi',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			echo json_encode([
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			]);
+			return;
+		}
+
+
+		$employees = $this->input->post('id_employee', true);
+		if (empty($employees)) {
+			echo json_encode([
+				'status' => false,
+				'message' => 'Harap pilih minimal satu karyawan',
+			]);
+			return;
+		}
+
+
+		$this->db->trans_start();
+
+		$dataPayroll = [
+			'code_payroll' => $this->input->post('code_payroll', true),
+			'input_at' => $this->input->post('input_at', true),
+		];
+		$idPayroll = $this->m_Payroll->create_post($dataPayroll);
+
+		if (!$idPayroll) {
+			$this->db->trans_rollback();
+			echo json_encode([
+				'status' => false,
+				'message' => 'Gagal membuat payroll.',
+			]);
+			return;
+		}
+
+		$dataBatch = [];
+		$dataFinanceRecord = [];
+
+		foreach ($employees as $employeeId) {
+			$totalGaji = 0;
+			$izinPerhari = 0;
+			$absenPerhari = 0;
+			$totalPotIzin = 0;
+			$totalPotAbsen = 0;
+			$totalPotongan = 0;
+			$potIzin = 0;
+			$potPiutang = 0;
+
+			$totalCuti = $this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+			$totalIzin = $this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+			$totalDayoff = $this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+			$totalOvertime = $this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+			$totalAbsent = $this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+			$employee = $this->m_Employees->findByIdJoin_get($employeeId);
+			
+			$izinPerhari = round($employee['uang_makan'] / 27);
+			$absenPerhari = round($employee['basic_salary'] / 27);
+			$totalPotAbsen = $absenPerhari * $totalAbsent;
+			$totalPotIzin = $izinPerhari * $totalIzin;
+
+
+			if ($this->input->post('piutang', true) == 1) {
+				$thisMonth = date('m' , strtotime($this->input->post('tanggal_gajian', true)));
+				$thisYear = date('Y', strtotime($this->input->post('tanggal_gajian', true)));
+
+				$piutang = $this->m_Piutang->findPiutangThisMonthByEmployeeId_get($employeeId, $thisMonth, $thisYear);
+				if ($piutang) {
+					$changeStatus = $piutang['remaining_piutang'] - $piutang['angsuran'];
+
+					if($changeStatus == 0 || $changeStatus < 1 ) {
+						$this->m_Piutang->setStatus_post($piutang['id_piutang'], 1);
+					}
+					$this->m_Piutang->updateRemaining_post($piutang['id_piutang'], $changeStatus);
+
+
+					$dataPiutang = [
+						'id_piutang' => $piutang['id_piutang'],
+						'pay_date' =>$this->input->post('tanggal_gajian', true),
+						'pay_amount' => $piutang['angsuran'],
+						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
+					];
+
+					$piutang_payment = $this->m_Purchase_piutang->create_post($dataPiutang);
+
+					$potPiutang = $piutang['angsuran'];
+				}
+			}
+
+			$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang;
+
+			if ($employee['code_division'] == 'TKS') {
+				$totalPendapatan = $this->m_Service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
+				$totalGaji = $totalPendapatan + $employee['uang_makan']+ $employee['bonus'] + $totalOvertime - $totalPotongan;
+			} else {
+				$totalGaji = $employee['basic_salary'] + $employee['uang_makan'] + $employee['bonus'] + $totalOvertime - $totalPotongan;
+			}
+
+			if ($this->input->post('finance_record') == 1) {
+				$dataFinanceRecord[] = [
+					'record_date' => $this->input->post('tanggal_gajian', true),
+					'product_id' => $employee['id_product'],
+					'amount' => $totalGaji,
+					'id_code' => 22,
+					'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
+				];
+			}
+
+
+
+			$dataBatch[] = [
+				'id_employee' => $employeeId,
+				'id_payroll' => $idPayroll,
+				'bonus' => $employee['bonus'],
+				'tanggal_gajian' => $this->input->post('tanggal_gajian', true),
+				'description' => $this->input->post('description', true),
+				'total_izin' => $totalIzin,
+				'total_cuti' => $totalCuti,
+				'total_absen' => $totalAbsent,
+				'total_overtime' => $totalOvertime,
+				'total_dayoff' => $totalDayoff,
+				'piutang' => $potPiutang,
+				'total' => $totalGaji,
+				'potongan_absen' => $totalPotAbsen,
+				'potongan_izin' => $totalPotIzin,
+				'absen_hari' => $absenPerhari,
+				'izin_hari' => $izinPerhari,
+				'total_potongan' => $totalPotongan,
+			];
+		}
+
+		$insertPayroll = $this->m_Payroll_component->create_batch_post($dataBatch);
+
+		if (!$insertPayroll) {
+			$this->db->trans_rollback();
+			echo json_encode([
+				'status' => false,
+				'message' => 'Gagal menambahkan payroll.',
+			]);
+			return;
+		}
+
+		if (!empty($dataFinanceRecord)) {
+			$insertFinanceRecord = $this->m_Finance_records->create_batch_post($dataFinanceRecord);
+			if (!$insertFinanceRecord) {
+				$this->db->trans_rollback();
+				echo json_encode([
+					'status' => false,
+					'message' => 'Gagal menambahkan data finance record.',
+				]);
+				return;
+			}
+		}
+
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE) {
+			echo json_encode([
+				'status' => false,
+				'message' => 'Gagal menambahkan payroll.',
+			]);
+		} else {
+			echo json_encode([
+				'status' => true,
+				'message' => 'Payroll berhasil dibuat untuk ' . count($dataBatch) . ' karyawan.',
+			]);
+		}
+	}
 
 	public function detail()
 	{
@@ -80,9 +306,6 @@ class Payroll extends MY_Controller{
 		$this->form_validation->set_rules('id_division', 'id_division', 'required', [
 			'required' => 'Division harus diisi',
 		]);
-//		$this->form_validation->set_rules('id_employee', 'id_employee', 'required', [
-//			'required' => 'Karyawan harus diisi',
-//		]);
 		$this->form_validation->set_rules('description', 'description', 'required', [
 			'required' => 'Deskripsi harus diisi',
 		]);
@@ -130,108 +353,6 @@ class Payroll extends MY_Controller{
 		echo json_encode($response);
 	}
 
-	public function add_batch_payroll()
-	{
-		$this->_ONLY_SU();
-		$this->_isAjax();
-
-		$this->form_validation->set_rules('input_at', 'input_at', 'required', [
-			'required' => 'Tanggal input harus diisi',
-		]);
-		$this->form_validation->set_rules('tanggal_gajian', 'tanggal_gajian', 'required', [
-			'required' => 'Tanggal gajianlembur harus diisi',
-		]);
-		$this->form_validation->set_rules('id_product', 'id_product', 'required', [
-			'required' => 'Product harus diisi',
-		]);
-		$this->form_validation->set_rules('id_division', 'id_division', 'required', [
-			'required' => 'Division harus diisi',
-		]);
-		$this->form_validation->set_rules('description', 'description', 'required', [
-			'required' => 'Deskripsi harus diisi',
-		]);
-
-		if ($this->form_validation->run() == FALSE) {
-			echo json_encode([
-				'status' => false,
-				'message' => validation_errors('<p>', '</p>'),
-				'confirmationbutton' => true,
-				'timer' => 0,
-				'icon' => 'error',
-			]);
-			return;
-		}
-
-
-		$employees = $this->input->post('id_employee', true);
-
-		if (empty($employees)) {
-			echo json_encode([
-				'status' => false,
-				'message' => 'Harap pilih minimal satu karyawan',
-			]);
-			return;
-		}
-
-		$dataPayroll = [
-			'code_payroll' => $this->input->post('code_payroll', true),
-			'input_at' => $this->input->post('input_at', true),
-		];
-
-		$idPayroll = $this->m_Payroll->create_post($dataPayroll);
-		if(!$idPayroll) {
-			echo json_encode([
-				'status' => false,
-				'message' => 'Gagal membuat payroll.',
-			]);
-		}
-
-		$dataBatch = [];
-		foreach ($employees as $employeeId) {
-			$totalCuti =$this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalIzin =$this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalDayoff =$this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalOvertime =$this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalAbsent =$this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$employee = $this->m_Employees->findById_get($employeeId);
-
-			$potIzin=(round($employee['uang_makan']) / 27) * $totalIzin;
-
-			$potAbsen = (round($employee['basic_salary']) / 27) * $totalAbsent;
-
-			$totalGaji = $employee['basic_salary'] + $potIzin  + $this->input->post('bonus', true) - $potAbsen;
-			///menghitung piutang, dll
-
-
-			$dataBatch[] = [
-				'id_employee' => $employeeId,
-				'id_payroll' => $idPayroll,
-				'bonus' => $this->input->post('bonus', true),
-				'tanggal_gajian' => $this->input->post('tanggal_gajian', true),
-				'description' => $this->input->post('description', true),
-				'total_izin' => $totalIzin,
-				'total_cuti' =>$totalCuti,
-				'total_overtime' => $totalOvertime,
-				'total_dayoff' => $totalDayoff,
-				'total' => $this->input->post('total', true),
-			];
-		}
-
-		$insert = $this->m_Payroll->create_batch_post($dataBatch);
-
-		if ($insert) {
-			echo json_encode([
-				'status' => true,
-				'message' => 'Data lembur berhasil dibuat untuk ' . count($dataBatch) . ' karyawan.',
-			]);
-		} else {
-			echo json_encode([
-				'status' => false,
-				'message' => 'Gagal menambahkan data lembur.',
-			]);
-		}
-	}
-
 
 	public function delete()
 	{
@@ -260,3 +381,128 @@ class Payroll extends MY_Controller{
 
 
 }
+
+
+//public function add_batch_payroll()
+	//{
+	//	$this->_ONLY_SU();
+	//	$this->_isAjax();
+	//
+	//	$this->form_validation->set_rules('input_at', 'input_at', 'required', [
+	//		'required' => 'Tanggal input harus diisi',
+	//	]);
+	//	$this->form_validation->set_rules('tanggal_gajian', 'tanggal_gajian', 'required', [
+	//		'required' => 'Tanggal gajian harus diisi',
+	//	]);
+	//	$this->form_validation->set_rules('id_product', 'id_product', 'required', [
+	//		'required' => 'Product harus diisi',
+	//	]);
+	//	$this->form_validation->set_rules('id_division', 'id_division', 'required', [
+	//		'required' => 'Division harus diisi',
+	//	]);
+	//	$this->form_validation->set_rules('description', 'description', 'required', [
+	//		'required' => 'Deskripsi harus diisi',
+	//	]);
+	//
+	//	if ($this->form_validation->run() == FALSE) {
+	//		echo json_encode([
+	//			'status' => false,
+	//			'message' => validation_errors('<p>', '</p>'),
+	//			'confirmationbutton' => true,
+	//			'timer' => 0,
+	//			'icon' => 'error',
+	//		]);
+	//		return;
+	//	}
+	//
+	//
+	//	$employees = $this->input->post('id_employee', true);
+	//
+	//	if (empty($employees)) {
+	//		echo json_encode([
+	//			'status' => false,
+	//			'message' => 'Harap pilih minimal satu karyawan',
+	//		]);
+	//		return;
+	//	}
+	//
+	//	$dataPayroll = [
+	//		'code_payroll' => $this->input->post('code_payroll', true),
+	//		'input_at' => $this->input->post('input_at', true),
+	//	];
+	//
+	//	$idPayroll = $this->m_Payroll->create_post($dataPayroll);
+	//	if(!$idPayroll) {
+	//		echo json_encode([
+	//			'status' => false,
+	//			'message' => 'Gagal membuat payroll.',
+	//		]);
+	//
+	//		return;
+	//	}
+	//
+	//	$dataBatch = [];
+	//	foreach ($employees as $employeeId) {
+	//
+	//		$totalGaji = 0;
+	//
+	//		$totalCuti =$this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$totalIzin =$this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$totalDayoff =$this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$totalOvertime =$this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$totalAbsent =$this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$employee = $this->m_Employees->findById_get($employeeId);
+	//
+	//		$potIzin=(round($employee['uang_makan']) / 26) * $totalIzin;
+	//
+	//		if($employee['code_division'] == 'TKS' )  {
+	//			$totalPendapatan = $this->m_Service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//			$totalGaji = $totalPendapatan + $potIzin  + $employee['bonus'] + $totalOvertime;
+	//		} else {
+	//			$potAbsen = (round($employee['basic_salary']) / 27) * $totalAbsent;
+	//			$totalGaji = $employee['basic_salary'] + $potIzin  + $employee['bonus'] + $totalOvertime - $potAbsen;
+	//		}
+	//
+	//		if($this->input->post('finance_record') == 1 ) {
+	//			$dataFinanceRecord[] = [
+	//				'record_date' => $this->input->post('tanggal_gajian', true),
+	//				'product_id' => $employee['id_product'],
+	//				'amount' => $totalGaji,
+	//				'id_code' => 22,
+	//				'description' => $this->input->post('tanggal_gajian', true)."-".$this->input->post('description', true)."-".$this->input->post('code_payroll', true),
+	//			];
+	//
+	//			//	$record = $this->m_Finance_records->create_post($dataFinanceRecord);
+	//		}
+	//
+	//		$dataBatch[] = [
+	//			'id_employee' => $employeeId,
+	//			'id_payroll' => $idPayroll,
+	//			'bonus' =>  $employee['bonus'],
+	//			'tanggal_gajian' => $this->input->post('tanggal_gajian', true),
+	//			'description' => $this->input->post('description', true),
+	//			'total_izin' => $totalIzin,
+	//			'total_cuti' =>$totalCuti,
+	//			'total_absen' => $totalAbsent,
+	//			'total_overtime' => $totalOvertime,
+	//			'total_dayoff' => $totalDayoff,
+	//			'total' => $totalGaji,
+	//		];
+	//	}
+	//
+	//	$insert = $this->m_Payroll->create_batch_post($dataBatch);
+	//
+	//
+	//	if ($insert) {
+	//		$insertFinanceRecord = $this->m_Finance_record->create_batch_post($dataFinanceRecord);
+	//		echo json_encode([
+	//			'status' => true,
+	//			'message' => 'Payroll berhasil dibuat untuk ' . count($dataBatch) . ' karyawan.',
+	//		]);
+	//	} else {
+	//		echo json_encode([
+	//			'status' => false,
+	//			'message' => 'Gagal menambahkan payroll.',
+	//		]);
+	//	}
+//}

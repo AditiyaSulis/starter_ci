@@ -21,8 +21,8 @@
 			<th>No</th>
 			<th>Tanggal Input</th>
 			<th>Kode</th>
-			<th>Total Gaji</th>
-			<th>Total Karyawan</th>
+			<!-- <th>Total Gaji</th>-->
+			<!-- <th>Total Karyawan</th>-->
 			<th>Tanggal Gajian</th>
 			<th>Action</th>
 		</tr>

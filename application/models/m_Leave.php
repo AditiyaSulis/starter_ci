@@ -131,12 +131,13 @@ class m_Leave extends CI_Model
 		$option = $this->input->post('option', true);
 		$status_leave = $this->input->post('status_leave', true);
 		$id = $this->input->post('employee', true);
+		$product = $this->input->post('product', true);
 
 
 		if (!empty($status_leave)) {
 			$this->db->select('cuti.id_cuti, cuti.id_employee, cuti.total_days, cuti.input_at, cuti.start_day, cuti.description, cuti.end_day, cuti.type, cuti.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
 			$this->db->where('cuti.status', $status_leave);
-			if($id != '') {
+			if($id != 'false') {
 				$this->db->where('cuti.id_employee', $id);
 			}
 			$this->db->from('cuti');
@@ -146,6 +147,10 @@ class m_Leave extends CI_Model
 			if (!empty($option)) {
 				$this->_filterDATE($option);
 			}
+			if(!empty($product) && $product != 'all'){
+				$this->db->where('employee.id_product', $product);
+			}
+
 
 			$i = 0;
 			foreach ($this->column_search as $item) {
@@ -272,6 +277,40 @@ class m_Leave extends CI_Model
 
 		return $this->db->count_all_results('cuti');
 	}
+
+	public function totalLeave_get()
+	{
+		$currentYear = date('Y');
+
+		$count = $this->db
+			->where('status', 2)
+			->where('YEAR(start_day)', $currentYear)
+			->count_all_results('cuti');
+		$count2 = $this->db
+			->where('status', 2)
+			->where('YEAR(end_day)', $currentYear)
+			->count_all_results('cuti');
+
+		return $count + $count2;
+	}
+
+
+	public function totalLeaveThisMonth_get()
+	{
+		$currentMonth = date('m');
+
+		$count = $this->db
+			->where('status', 2)
+			->where('MONTH(start_day)', $currentMonth)
+			->count_all_results('cuti');
+		$count2 = $this->db
+			->where('status', 2)
+			->where('MONTH(end_day)', $currentMonth)
+			->count_all_results('cuti');
+
+		return $count + $count2;
+	}
+
 
 
 }

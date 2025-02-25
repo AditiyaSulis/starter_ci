@@ -5,8 +5,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class m_Payroll_component extends CI_Model
 {
 
-	private $column_search = array('payroll_component.id_payroll_component','payroll_component.id_employee', 'payroll_component.id_payroll','payroll_component.total', 'payroll_component.total_izin', 'payroll_component.total_cuti', 'payroll_component.total_overtime', 'payroll_component.total_dayoff', 'payroll_component.piutang', 'payroll_component.bonus','payroll_component.tanggal_gajian', 'payroll_component.description', 'employee.name', 'employee.id_product', 'employee.id_division', 'employee.basic_salary', 'employee.bonus', 'employee.uang_makan', 'product.name_product', 'division.name_division');
-	private $column_order = array('payroll_component.id_payroll_component','payroll_component.id_employee', 'payroll_componnent.id_payroll', 'payroll_component.total', 'payroll_component.bonus','payroll_component.tanggal_gajian',  'payroll_component.total_izin', 'payroll_component.total_cuti', 'payroll_component.total_overtime','payroll_component.piutang', 'payroll_component.total_dayoff', 'payroll_component.description', 'employee.name', 'employee.id_product', 'employee.id_division', 'employee.basic_salary', 'employee.bonus', 'employee.uang_makan', 'product.name_product', 'division.name_division');
+	private $column_search = array('payroll_component.id_payroll_component','payroll_component.id_employee', 'payroll_component.total_absen', 'payroll_component.id_payroll','payroll_component.total', 'payroll_component.total_izin', 'payroll_component.total_cuti', 'payroll_component.total_overtime', 'payroll_component.total_dayoff', 'payroll_component.piutang', 'payroll_component.bonus','payroll_component.tanggal_gajian', 'payroll_component.potongan_absen',  'payroll_component.potongan_izin', 'payroll_component.absen_hari', 'payroll_component.izin_hari',  'payroll_component.total_potongan' ,'payroll_component.description',  'payroll_component.gaji_bersih', 'employee.name', 'employee.id_product', 'employee.id_division', 'employee.basic_salary', 'employee.nip', 'employee.bonus', 'employee.uang_makan', 'products.name_product', 'division.name_division');
+	private $column_order = array('payroll_component.id_payroll_component','payroll_component.id_employee', 'payroll_component.total_absen', 'payroll_component.id_payroll','payroll_component.total', 'payroll_component.total_izin', 'payroll_component.total_cuti', 'payroll_component.total_overtime', 'payroll_component.total_dayoff', 'payroll_component.piutang', 'payroll_component.bonus','payroll_component.tanggal_gajian', 'payroll_component.potongan_absen',  'payroll_component.potongan_izin', 'payroll_component.absen_hari', 'payroll_component.izin_hari',  'payroll_component.total_potongan' ,'payroll_component.description', 'payroll_component.gaji_bersih', 'employee.name', 'employee.id_product', 'employee.id_division', 'employee.basic_salary', 'employee.nip', 'employee.bonus', 'employee.uang_makan', 'products.name_product', 'division.name_division');
 	private $order = array('payroll_component.tanggal_gajian' => 'asc');
 
 	public function findAll_get()
@@ -20,9 +20,10 @@ class m_Payroll_component extends CI_Model
 		return $this->db->get_where('payroll_component', ['id_payroll_component' => $id])->row_array();
 	}
 
+
 	public function findAllWithJoin_get()
 	{
-		$this->db->select('payroll_component.id_payroll_component','payroll_component.id_employee', 'payroll_component.id_payroll', 'payroll_component.total',  'payroll_component.total_izin', 'payroll_component.total_cuti', 'payroll_component.total_overtime','payroll_component.piutang', 'payroll_component.total_dayoff', 'payroll_component.bonus','payroll_component.tanggal_gajian', 'payroll_component.description', 'employee.name', 'employee.id_product', 'employee.id_division', 'employee.basic_salary', 'employee.bonus', 'employee.uang_makan', 'product.name_product', 'division.name_division');
+		$this->db->select('payroll_component.id_payroll_component, payroll_component.id_employee, payroll_component.total_absen, payroll_component.id_payroll, payroll_component.total, payroll_component.total_izin, payroll_component.total_cuti, payroll_component.total_overtime, payroll_component.total_dayoff, payroll_component.piutang, payroll_component.bonus,payroll_component.tanggal_gajian, payroll_component.potongan_absen,  payroll_component.potongan_izin, payroll_component.absen_hari, payroll_component.izin_hari,  payroll_component.total_potongan, payroll_component.description, payroll_component.gaji_bersih, employee.name, employee.id_product, employee.id_division, employee.basic_salary,  employee.nip, employee.bonus, employee.uang_makan, products.name_product, division.name_division');
 		$this->db->from('payroll_component');
 		$this->db->join('employee', 'employee.id_employee = payroll_component.id_employee', 'left');
 		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
@@ -98,13 +99,14 @@ class m_Payroll_component extends CI_Model
 		}
 	}
 
+
 	public function getPayrollComponentDataCore_get()
 	{
 
 		$product = $this->input->post('product', true);
 		$payroll = $this->input->post('payroll',true);
 
-		$this->db->select('payroll_component.id_payroll_component,payroll_component.id_employee, payroll_component.total, payroll_component.total_izin, payroll_component.total_cuti, payroll_component.total_overtime, payroll_component.total_dayoff, payroll_component.piutang, payroll_component.bonus,payroll_component.tanggal_gajian, payroll_component.description, employee.name, employee.id_product, employee.id_division, employee.nip, employee.id_position , position.name_position, employee.basic_salary, employee.bonus, employee.uang_makan, payroll_component.id_payroll, products.name_product, division.name_division');
+		$this->db->select('payroll_component.id_payroll_component, payroll_component.id_employee, payroll_component.total_absen, payroll_component.id_payroll, payroll_component.total, payroll_component.total_izin, payroll_component.total_cuti, payroll_component.total_overtime, payroll_component.total_dayoff, payroll_component.piutang, payroll_component.bonus,payroll_component.tanggal_gajian, payroll_component.potongan_absen,  payroll_component.potongan_izin, payroll_component.absen_hari, payroll_component.izin_hari,  payroll_component.total_potongan, payroll_component.description,  payroll_component.gaji_bersih, employee.name, employee.id_product, employee.id_division, employee.basic_salary, employee.nip,  employee.bonus, employee.uang_makan, products.name_product, division.name_division, position.name_position');
 		if (!empty($payroll) ) {
 			$this->db->where('payroll_component.id_payroll', $payroll);
 		}
@@ -143,6 +145,7 @@ class m_Payroll_component extends CI_Model
 
 	}
 
+
 	public function get_datatables()
 	{
 		$this->getPayrollComponentDataCore_get();
@@ -152,6 +155,7 @@ class m_Payroll_component extends CI_Model
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
 
 	public function count_filtered()
 	{
@@ -165,6 +169,7 @@ class m_Payroll_component extends CI_Model
 		$this->db->from('payroll_component');
 		return $this->db->count_all_results();
 	}
+
 
 	public function create_batch_post($data)
 	{
