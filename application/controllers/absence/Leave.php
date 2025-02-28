@@ -152,7 +152,7 @@ class Leave extends MY_Controller{
 			return;
 		}
 
-		$totalLeavesThisMonth = $this->m_Leave->totalLeavesThisMonthByEmployeeId_get($emp['id_employee']);
+		$totalLeavesThisMonth = $this->m_Leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
 		if($totalLeavesThisMonth > 2 ) {
 			$response = [
 				'status' => false,

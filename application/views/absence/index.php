@@ -178,19 +178,19 @@ if($schedule) {
 		});
 
 		//BUKTI FORM
-		document.addEventListener('DOMContentLoaded', function () {
-			const alasanIzinSelect = document.getElementById('alasan_izin');
-			const additionalForm = document.getElementById('bukti-form');
-
-
-			alasanIzinSelect.addEventListener('change', function () {
-				if (this.value === '2') {
-					additionalForm.style.display = 'block';
-				} else {
-					additionalForm.style.display = 'none';
-				}
-			});
-		});
+		// document.addEventListener('DOMContentLoaded', function () {
+		// 	const alasanIzinSelect = document.getElementById('alasan_izin');
+		// 	const additionalForm = document.getElementById('bukti-form');
+		//
+		//
+		// 	alasanIzinSelect.addEventListener('change', function () {
+		// 		if (this.value === '2') {
+		// 			additionalForm.style.display = 'block';
+		// 		} else {
+		// 			additionalForm.style.display = 'none';
+		// 		}
+		// 	});
+		// });
 
 		navigator.geolocation.getCurrentPosition(position => {
 			document.getElementById('latitude').value = position.coords.latitude;
