@@ -15,8 +15,12 @@ pw : dito
 ---------------------------------------
 
 CV.Multi Graha Radhika
+
 email : pika@gmail.com
 pw : pika
+
+email : alex@gmail.com
+pw : alex
 
 email : zilong@gmail.com
 pw : zilong
