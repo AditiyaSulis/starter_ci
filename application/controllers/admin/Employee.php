@@ -4,7 +4,7 @@ class Employee extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Employees');
+        $this->load->model('M_employees');
         $this->load->model('m_Products');
         $this->load->model('m_Position');
         $this->load->model('m_Division');
@@ -27,7 +27,7 @@ class Employee extends MY_Controller{
         $data['breadcrumb'] = 'Employee';
         $data['menu'] = '';
 
-        $data['employees'] = $this->m_Employees->findAllJoin_get();
+        $data['employees'] = $this->M_employees->findAllJoin_get();
         $data['division'] = $this->m_Division->findAll_get();
         $data['position'] = $this->m_Position->findAll_get();
         $data['products'] = $this->m_Products->findAll_get();
@@ -109,7 +109,7 @@ class Employee extends MY_Controller{
           
         ];
 
-        $employee = $this->m_Employees->create_post($data);
+        $employee = $this->M_employees->create_post($data);
 
         if ($employee) {
             $response = [
@@ -315,7 +315,7 @@ class Employee extends MY_Controller{
 			'spesifik_domisili' => $this->input->post('spesifik_domisili', true),
 		];
 
-		$employee = $this->m_Employees->create_allDataEmployees($emp, $account, $bank, $ec, $address, $domisili);
+		$employee = $this->M_employees->create_allDataEmployees($emp, $account, $bank, $ec, $address, $domisili);
 
 		if ($employee) {
 			$response = [
@@ -449,7 +449,7 @@ class Employee extends MY_Controller{
         $this->_isAjax();
         $id = $this->input->post('id_employee', true);
 
-        $emp = $this->m_Employees->findById_get($id);
+        $emp = $this->M_employees->findById_get($id);
         $oldNip = $emp['nip'];
 
         $this->form_validation->set_rules('gender', 'Gender', 'required', [
@@ -503,7 +503,7 @@ class Employee extends MY_Controller{
         $newNip = $this->input->post('nip',true);
 
         if($oldNip != $newNip){
-            $nipExist = $this->m_Employees->findByNip_get($newNip);
+            $nipExist = $this->M_employees->findByNip_get($newNip);
             if($nipExist){
                 $response = [
                     'status' => false,
@@ -531,7 +531,7 @@ class Employee extends MY_Controller{
             'bonus' => $this->input->post('bonus', true),
         ];
 
-        $employee = $this->m_Employees->update_post($id, $data);
+        $employee = $this->M_employees->update_post($id, $data);
 
         if ($employee) {
             $response = [
@@ -560,7 +560,7 @@ class Employee extends MY_Controller{
         $id = $this->input->post('id');
 
 
-        if($this->m_Employees->delete($id) && $this->m_Bank_account->deleteByEmployeeId_get($id) && $this->m_Emergency_contact->deleteByEmployeeId_get($id)){
+        if($this->M_employees->delete($id) && $this->m_Bank_account->deleteByEmployeeId_get($id) && $this->m_Emergency_contact->deleteByEmployeeId_get($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data karyawan berhasil dihapus',
@@ -582,7 +582,7 @@ class Employee extends MY_Controller{
     {
         $product = $this->input->post('product'); 
     
-        $list = $this->m_Employees->get_datatables($product);
+        $list = $this->M_employees->get_datatables($product);
         
         $data = [];
         $no = $this->input->post('start');  
@@ -693,8 +693,8 @@ class Employee extends MY_Controller{
     
         $output = [
             "draw" =>@$_POST['draw'],
-            "recordsTotal" => $this->m_Employees->count_all(),
-            "recordsFiltered" => $this->m_Employees->count_filtered($product),
+            "recordsTotal" => $this->M_employees->count_all(),
+            "recordsFiltered" => $this->M_employees->count_filtered($product),
             "data" => $data,
         ];
     
@@ -814,7 +814,7 @@ class Employee extends MY_Controller{
             return;
         }
 
-        $data = $this->m_Employees->findById_get($id_employee); // Replace with your model logic
+        $data = $this->M_employees->findById_get($id_employee); // Replace with your model logic
         echo json_encode(['status' => true, 'data' => $data]);
     }
 
@@ -988,7 +988,7 @@ class Employee extends MY_Controller{
 			'description' => $this->input->post('description', true),
 		];
 
-		$renewContract = $this->m_Employees->renewContract_post($id_employee, $data['new_contract']);
+		$renewContract = $this->M_employees->renewContract_post($id_employee, $data['new_contract']);
 
 		if ($renewContract) {
 			$this->m_Log_contract_extension->create_post($data);

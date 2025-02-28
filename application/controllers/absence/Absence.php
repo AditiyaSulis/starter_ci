@@ -6,7 +6,7 @@ class Absence extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Schedule');
 		$this->load->model('m_Attendance');
 		$this->load->model('m_Products');
@@ -24,7 +24,7 @@ class Absence extends MY_Controller{
         $data['breadcrumb'] = 'Absence';
         $data['menu'] = '';
 
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['employee'] = $id['id_employee'];
 
 		$today = date('Y-m-d');
@@ -88,7 +88,7 @@ class Absence extends MY_Controller{
 		$latitude = $this->input->post('latitude', true);
 		$longitude = $this->input->post('longitude', true);
 
-		$employee = $this->m_Employees->findById_get($idEmployee);
+		$employee = $this->M_employees->findById_get($idEmployee);
 		$product  =$this->m_Products->findById_get($employee['id_product']);
 		$location = $this->m_Location->get_location($product['id_location']);
 

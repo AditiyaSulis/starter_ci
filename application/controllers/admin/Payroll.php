@@ -9,7 +9,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('m_Overtime');
 		$this->load->model('m_Payroll');
 		$this->load->model('m_Payroll_component');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Division');
 		$this->load->model('m_Products');
 		$this->load->model('m_Leave');
@@ -54,7 +54,7 @@ class Payroll extends MY_Controller{
 		$idProduct = $this->input->post('id_product', true);
 		$idDivision = $this->input->post('id_division', true);
 
-		$employee = $this->m_Employees->findByProductNDivisionId_get($idProduct, $idDivision);
+		$employee = $this->M_employees->findByProductNDivisionId_get($idProduct, $idDivision);
 
 		if(empty($employee)){
 			echo json_encode([
@@ -157,7 +157,7 @@ class Payroll extends MY_Controller{
 			$totalOvertime = $this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalAbsent = $this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalHolyday = $this->m_Holyday->totalHolydayLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
-			$employee = $this->m_Employees->findByIdJoin_get($employeeId);
+			$employee = $this->M_employees->findByIdJoin_get($employeeId);
 			
 			$izinPerhari = round($employee['uang_makan'] / 24);
 			$absenPerhari = round($employee['basic_salary'] / 27);
@@ -291,7 +291,7 @@ class Payroll extends MY_Controller{
 		$idProduct = $this->input->post('id_product', true);
 		$idDivision = $this->input->post('id_division', true);
 
-		$employee = $this->m_Employees->findByProductNDivisionId_get($idProduct, $idDivision);
+		$employee = $this->M_employees->findByProductNDivisionId_get($idProduct, $idDivision);
 
 		if(empty($employee)){
 			echo json_encode([
@@ -345,7 +345,7 @@ class Payroll extends MY_Controller{
 		}
 
 		$email = $this->input->post('id_employee');
-		$emp = $this->m_Employees->findByEmail_get($email);
+		$emp = $this->M_employees->findByEmail_get($email);
 
 		$data = [
 			'id_employee' => $emp['id_employee'],
@@ -497,7 +497,7 @@ class Payroll extends MY_Controller{
 	//		$totalDayoff =$this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalOvertime =$this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalAbsent =$this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-	//		$employee = $this->m_Employees->findById_get($employeeId);
+	//		$employee = $this->M_employees->findById_get($employeeId);
 	//
 	//		$potIzin=(round($employee['uang_makan']) / 26) * $totalIzin;
 	//

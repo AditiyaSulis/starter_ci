@@ -7,7 +7,7 @@ class DayOff extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Day_off');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Schedule');
 		$this->load->model('m_Products');
 
@@ -23,7 +23,7 @@ class DayOff extends MY_Controller{
 		$data['breadcrumb'] = 'Day Off';
 		$data['menu'] = '';
 
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['total_dayoff'] = $this->m_Day_off->totalDayOffByEmployeeId_get($id['id_employee']);
@@ -52,7 +52,7 @@ class DayOff extends MY_Controller{
 
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = 'false';
-		$data['employees'] = $this->m_Employees->findAll_get();
+		$data['employees'] = $this->M_employees->findAll_get();
 
 		$data['this_month'] = $this->m_Day_off->totalDayOffThisMonth_get();
 		$data['this_year'] = $this->m_Day_off->totalDayOff_get();
@@ -95,7 +95,7 @@ class DayOff extends MY_Controller{
 		}
 
 		$email = $this->input->post('id_employee');
-		$emp = $this->m_Employees->findByEmail_get($email);
+		$emp = $this->M_employees->findByEmail_get($email);
 
 		$data = [
 			'id_employee' => $emp['id_employee'],
@@ -148,7 +148,7 @@ class DayOff extends MY_Controller{
 		}
 
 		$email = $this->input->post('id_employee');
-		$emp = $this->m_Employees->findById_get($email);
+		$emp = $this->M_employees->findById_get($email);
 
 		$data = [
 			'id_employee' => $emp['id_employee'],

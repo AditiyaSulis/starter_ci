@@ -6,7 +6,7 @@ class Dashboard extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Employees');
+        $this->load->model('M_employees');
         $this->load->model('m_Products');
         $this->load->model('m_Finance_records');
         $this->load->model('m_Piutang');
@@ -19,11 +19,11 @@ class Dashboard extends MY_Controller{
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
 
-        $data['allUsers'] = $this->->totalUsers_get();
+        $data['allUsers'] = $this->M_admin->totalUsers_get();
         $data['allSuperUsers'] = $this->M_admin->totalSuperUsers_get();
         $data['allAdmins']= $this->M_admin->totalAdmins_get();
         $data['allProducts']= $this->m_Products->totalProducts_get();
-        $data['allEmployees']= $this->m_Employees->totalEmployees_get();
+        $data['allEmployees']= $this->M_employees->totalEmployees_get();
         $data['allRecords']= $this->m_Finance_records->totalFinanceRecords_get();
 
         $data['totalJatuhTempo']= $this->m_Piutang->totalJatuhTempo_get();

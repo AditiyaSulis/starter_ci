@@ -10,7 +10,7 @@ class Employee_api extends RestController{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Employees');
+        $this->load->model('M_employees');
         validate_header();
 
     }
@@ -19,7 +19,7 @@ class Employee_api extends RestController{
     public function getAll_get()
     {
 
-        $employees = $this->m_Employees->findAllJoin_get();
+        $employees = $this->M_employees->findAllJoin_get();
 
         if($employees){
             $this->response([

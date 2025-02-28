@@ -4,7 +4,7 @@ class Core_data extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Employees');
+        $this->load->model('M_employees');
         $this->load->model('m_Piutang');
         $this->load->model('m_Purchases');
         $this->load->model('m_Purchase_piutang');

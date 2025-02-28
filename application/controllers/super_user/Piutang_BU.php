@@ -4,7 +4,7 @@ class Piutang_BU extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Employees');
+        $this->load->model('M_employees');
         $this->load->model('m_Piutang');
         $this->load->model('m_Purchase_piutang');
     }
@@ -20,7 +20,7 @@ class Piutang_BU extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
-        $data['employee'] = $this->m_Employees->findAll_get();
+        $data['employee'] = $this->M_employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoin_get();
 
 
@@ -69,7 +69,7 @@ class Piutang_BU extends MY_Controller{
         }
 
         $id_emp = $this->input->post('id_employee', true);
-        $emp = $this->m_Employees->findById_get($id_emp);
+        $emp = $this->M_employees->findById_get($id_emp);
         $amount_piutang = $this->input->post('amount_piutang',true);
 
         $total_unpaid = $this->m_Piutang->getTotalAmountPiutang_get($id_emp) + $amount_piutang;
@@ -428,7 +428,7 @@ class Piutang_BU extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
-        $data['employee'] = $this->m_Employees->findAll_get();
+        $data['employee'] = $this->M_employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoin_get();
 
 
@@ -606,7 +606,7 @@ class Piutang_BU extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
-        $data['employee'] = $this->m_Employees->findAll_get();
+        $data['employee'] = $this->M_employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoinV2_get();
 
 
@@ -969,7 +969,7 @@ class Piutang_BU extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
-        $data['employee'] = $this->m_Employees->findAll_get();
+        $data['employee'] = $this->M_employees->findAll_get();
         $data['piutang'] = $this->m_Piutang->findAllJoinV2_get();
 
 

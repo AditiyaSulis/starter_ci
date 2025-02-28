@@ -8,7 +8,7 @@ class Payroll_component extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model('m_Overtime');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Division');
 		$this->load->model('m_Products');
 	}

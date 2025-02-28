@@ -7,7 +7,7 @@ class DataIzin extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Izin');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Schedule');
 		$this->load->model('m_Products');
 	}
@@ -25,7 +25,7 @@ class DataIzin extends MY_Controller{
 
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = 'false';
-		$data['employees'] = $this->m_Employees->findAll_get();
+		$data['employees'] = $this->M_employees->findAll_get();
 
 		$data['this_month'] = $this->m_Izin->totalIzinThisMonthByEmployeeId_get(null);
 		$data['this_year'] = $this->m_Izin->totalIzinByEmployeeId_get(null);
@@ -51,10 +51,10 @@ class DataIzin extends MY_Controller{
 		$data['breadcrumb'] = 'Izin';
 		$data['menu'] = '';
 
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
-		$data['employees'] = $this->m_Employees->findAll_get();
+		$data['employees'] = $this->M_employees->findAll_get();
 		$data['total_izin'] = $this->m_Izin->totalIzinByEmployeeId_get($id['id_employee']);
 		$data['total_izin_this_month'] = $this->m_Izin->totalIzinThisMonthByEmployeeId_get($id['id_employee']);
 
@@ -101,7 +101,7 @@ class DataIzin extends MY_Controller{
 		$surat_sakit = '-';
 		$alasan_izin = $this->input->post('alasan_izin');
 		$email = $this->input->post('id_employee');
-		$id = $this->m_Employees->findByEmail_get($email);
+		$id = $this->M_employees->findByEmail_get($email);
 
 		if(!$id) {
 			$response = [

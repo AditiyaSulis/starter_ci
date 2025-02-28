@@ -7,7 +7,7 @@ class Schedule extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Schedule');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Workshift');
 		$this->load->model('m_Products');
 		$this->load->model('m_Division');
@@ -101,7 +101,7 @@ class Schedule extends MY_Controller{
 		$idProduct = $this->input->post('id_product', true);
 		$idDivision = $this->input->post('id_division', true);
 
-		$employee = $this->m_Employees->findByProductNDivisionId_get($idProduct, $idDivision);
+		$employee = $this->M_employees->findByProductNDivisionId_get($idProduct, $idDivision);
 
 		if(empty($employee)){
 			echo json_encode([
@@ -132,7 +132,7 @@ class Schedule extends MY_Controller{
 		$data['menu'] = 'Data';
 
 
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$idEmployee = $id['id_employee'];
 
 		$year = $year ?? date('Y');
@@ -217,7 +217,7 @@ class Schedule extends MY_Controller{
 	public function load_calendar($year = NULL, $month = NULL)
 	{
 		$data = $this->_basicData();
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$idEmployee = $id['id_employee'];
 
 		$year = $year ?? date('Y');
@@ -364,7 +364,7 @@ class Schedule extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Schedule';
 		$data['menu'] = 'Data';
 
-		$data['employees'] = $this->m_Employees->findAll_get();
+		$data['employees'] = $this->M_employees->findAll_get();
 		$data['workshifts'] = $this->m_Workshift->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
 		$data['products'] = $this->m_Products->findAll_get();
@@ -384,7 +384,7 @@ class Schedule extends MY_Controller{
 	{
 		$product = $this->input->post('product');
 
-		$list = $this->m_Employees->get_datatables($product);
+		$list = $this->M_employees->get_datatables($product);
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -419,8 +419,8 @@ class Schedule extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Employees->count_all(),
-			"recordsFiltered" => $this->m_Employees->count_filtered($product),
+			"recordsTotal" => $this->M_employees->count_all(),
+			"recordsFiltered" => $this->M_employees->count_filtered($product),
 			"data" => $data,
 		];
 

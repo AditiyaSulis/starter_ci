@@ -8,7 +8,7 @@ class Division extends MY_Controller{
         parent::__construct();
 
         $this->load->model('m_Division');
-        $this->load->model('m_Employees');
+        $this->load->model('M_employees');
     }
 
 
@@ -170,7 +170,7 @@ class Division extends MY_Controller{
         $id = $this->input->post('id_division');
         log_message('debug', 'Delete Division ID: ' . $id);
     
-        if ($this->m_Employees->findByDivisionId_get($id)) {
+        if ($this->M_employees->findByDivisionId_get($id)) {
             $response = [
                 'status' => false,
                 'message' => 'Code ini tidak bisa dihapus karena memiliki relasi dengan tabel lain'

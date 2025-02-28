@@ -7,7 +7,7 @@ class Overtime extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Overtime');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Division');
 		$this->load->model('m_Products');
 	}
@@ -22,7 +22,7 @@ class Overtime extends MY_Controller{
 		$data['breadcrumb'] = 'Overtime';
 		$data['menu'] = '';
 
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['view_data'] = 'core/overtime/data_overtime';
@@ -49,7 +49,7 @@ class Overtime extends MY_Controller{
 
 		$data['employee'] = 'false';
 
-		$data['employees'] = $this->m_Employees->findAll_get();
+		$data['employees'] = $this->M_employees->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
 		$data['products'] = $this->m_Products->findAll_get();
 
@@ -74,7 +74,7 @@ class Overtime extends MY_Controller{
 		$idProduct = $this->input->post('id_product', true);
 		$idDivision = $this->input->post('id_division', true);
 
-		$employee = $this->m_Employees->findByProductNDivisionId_get($idProduct, $idDivision);
+		$employee = $this->M_employees->findByProductNDivisionId_get($idProduct, $idDivision);
 
 		if(empty($employee)){
 			echo json_encode([
@@ -130,7 +130,7 @@ class Overtime extends MY_Controller{
 		}
 
 		$email = $this->input->post('id_employee');
-		$emp = $this->m_Employees->findByEmail_get($email);
+		$emp = $this->M_employees->findByEmail_get($email);
 
 		$data = [
 			'id_employee' => $emp['id_employee'],
@@ -197,7 +197,7 @@ class Overtime extends MY_Controller{
 		}
 
 		$email = $this->input->post('id_employee');
-		$emp = $this->m_Employees->findById_get($email);
+		$emp = $this->M_employees->findById_get($email);
 
 		$data = [
 			'id_employee' => $emp['id_employee'],

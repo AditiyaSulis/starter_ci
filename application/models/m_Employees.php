@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class m_Employees extends CI_Model {
+class M_employees extends CI_Model {
     private $column_search = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.type_employee' , 'employee.contract_expired' ,'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
 	private $column_order = array('products.name_product', 'employee.date_in', 'employee.nip', 'employee.name', 'employee.type_employee' , 'employee.contract_expired' , 'employee.gender', 'employee.place_of_birth', 'employee.date_of_birth' , 'employee.basic_salary', ' division.name_division', 'employee.uang_makan', 'employee.bonus',' position.name_position');
 	private $order = array('employee.date_in' => 'asc');

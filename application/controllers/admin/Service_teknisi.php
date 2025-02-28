@@ -7,7 +7,7 @@ class Service_teknisi extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Service_teknisi');
-		$this->load->model('m_Employees');
+		$this->load->model('M_employees');
 		$this->load->model('m_Schedule');
 		$this->load->model('m_Products');
 		$this->load->model('m_Division');
@@ -24,7 +24,7 @@ class Service_teknisi extends MY_Controller{
 		$data['breadcrumb'] = 'Technician Service Record';
 		$data['menu'] = '';
 
-		$id = $this->m_Employees->findByEmail_get($data['user']['email']);
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['total_service_teknisi'] = $this->m_Service_teknisi->totalServiceTeknisiByEmployeeId_get($id['id_employee']);
@@ -53,7 +53,7 @@ class Service_teknisi extends MY_Controller{
 
 		$data['products'] = $this->m_Products->findAll_get();
 		$data['employee'] = 'false';
-		$data['employees'] = $this->m_Employees->findAllTechnician_get();
+		$data['employees'] = $this->M_employees->findAllTechnician_get();
 
 		$data['this_month'] = $this->m_Service_teknisi->totalServiceTeknisiThisMonth_get();
 		$data['this_year'] = $this->m_Service_teknisi->totalServiceTeknisi_get();
@@ -100,7 +100,7 @@ class Service_teknisi extends MY_Controller{
 
 
 		$email = $this->input->post('id_employee');
-		$emp = $this->m_Employees->findByEmail_get($email);
+		$emp = $this->M_employees->findByEmail_get($email);
 
 		$data = [
 			'id_employee' => $emp['id_employee'],
@@ -135,9 +135,9 @@ class Service_teknisi extends MY_Controller{
 		$idProduct = $this->input->post('id_product', true);
 
 		if (empty($idProduct)) {
-			$employees = $this->m_Employees->findAllTechnician_get();
+			$employees = $this->M_employees->findAllTechnician_get();
 		} else {
-			$employees = $this->m_Employees->findByProductNTechnicianId_get($idProduct);
+			$employees = $this->M_employees->findByProductNTechnicianId_get($idProduct);
 		}
 
 		echo json_encode([
