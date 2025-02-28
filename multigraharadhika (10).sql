@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2025 at 09:00 AM
+-- Generation Time: Feb 28, 2025 at 09:48 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -155,10 +155,10 @@ INSERT INTO `admin` (`id`, `created_at`, `name`, `email`, `password`, `role`, `s
 (9, '2025-01-20 14:56:04', 'Aditia', 'aditia@gmail.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 2, 1, '2025-01-20 15:57:34', '2025-01-20 15:57:34', '127.0.0.1', ''),
 (10, '2025-01-20 15:09:09', 'sssUser', '222sa@superuser.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 1, 1, '2025-01-20 15:52:58', '2025-01-20 15:52:58', '127.0.0.1', ''),
 (11, '2025-01-20 15:09:27', 'Aditia', 'aditiasss@gmail.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 2, 1, '2025-01-20 15:48:16', '2025-01-20 15:48:16', '127.0.0.1', ''),
-(12, '2025-02-05 15:17:28', 'Rita Rika ', 'rita@email.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-26 13:27:19', '2025-02-26 13:27:19', '127.0.0.1', '0c921eca68e0b0cb88bd3c03a4c8fd47.jpg'),
+(12, '2025-02-05 15:17:28', 'Rita Rika ', 'rita@email.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-28 15:28:54', '2025-02-28 15:28:54', '127.0.0.1', '0c921eca68e0b0cb88bd3c03a4c8fd47.jpg'),
 (13, '2025-02-12 10:25:58', 'agus', 'agus@gmail.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-25 15:31:49', '2025-02-25 15:31:49', '127.0.0.1', ''),
 (14, '2025-02-14 14:51:26', 'Luna', 'luna@gmail.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-14 15:55:03', '2025-02-14 15:55:03', '127.0.0.1', ''),
-(15, '2025-02-15 08:28:48', 'Alex', 'alex@email.com', 'di9lNWwxR0JNYlk0TXRjUkRnNUFuUT09', 3, 1, '2025-02-25 15:33:38', '2025-02-25 15:33:38', '127.0.0.1', ''),
+(15, '2025-02-15 08:28:48', 'Alex', 'alex@gmail.com', 'di9lNWwxR0JNYlk0TXRjUkRnNUFuUT09', 3, 1, '2025-02-28 15:47:38', '2025-02-25 15:33:38', '127.0.0.1', ''),
 (16, '2025-02-15 08:31:22', 'Zilong', 'zilong@gmail.com', 'TjJ4RGw4azRWNkhxZk5kb2c0b3ZSQT09', 3, 1, '2025-02-28 11:31:13', '2025-02-28 11:31:13', '127.0.0.1', ''),
 (17, '2025-02-15 08:35:58', 'Pika', 'pika@gmail.com', 'SVFXY0VKV203TTlmNCtZc0NMWlJTUT09', 3, 1, '2025-02-28 11:38:35', '2025-02-28 11:38:35', '127.0.0.1', ''),
 (18, '2025-02-15 08:42:32', 'Zuki', 'zuki@gmail.com', 'cUtPSlNrc3VtZUZRZE9vS0xqVnZoUT09', 3, 1, '2025-02-28 11:24:39', '2025-02-28 11:24:39', '127.0.0.1', ''),
@@ -169,7 +169,7 @@ INSERT INTO `admin` (`id`, `created_at`, `name`, `email`, `password`, `role`, `s
 (23, '2025-02-24 10:15:17', 'Arga', 'arga@gmail.com', 'ZitRNXp1bnBaZGFlVDlDTzFLZ3RtUT09', 3, 1, '2025-02-24 10:15:17', NULL, NULL, ''),
 (24, '2025-02-24 10:16:54', 'Gara', 'gara@gmail.com', 'ajl5bHFKazlXT3JTZzJmbjZ2UDRqdz09', 3, 1, '2025-02-24 10:16:54', NULL, NULL, ''),
 (25, '2025-02-24 10:21:22', 'Pawa', 'pawa@gmail.com', 'aEhxYnBteFhWTVRibTZMYXRWZGxhUT09', 3, 1, '2025-02-24 10:21:22', NULL, NULL, ''),
-(27, '2025-02-26 16:53:36', 'Sumiyati', 'sumiyati@gmail.com', 'Rm80a01yc0xZVXgraDhLRy92aHZQQT09', 3, 1, '2025-02-26 16:53:36', NULL, NULL, ''),
+(27, '2025-02-26 16:53:36', 'Sumiyati', 'sumiyati@gmail.com', 'Rm80a01yc0xZVXgraDhLRy92aHZQQT09', 3, 1, '2025-02-28 15:19:30', '2025-02-28 15:19:30', '127.0.0.1', ''),
 (28, '2025-02-27 12:00:37', 'Titis', 'titis@gmail.com', 'SjdzNFI3U1AzUlV1c1ArZ2JtNUR4QT09', 3, 1, '2025-02-27 12:00:37', NULL, NULL, ''),
 (29, '2025-02-27 13:08:59', 'Titis', 'tatas@gmail.com', 'enRmd1lJaCtkQ1REdVJxdlVnNHN3Zz09', 3, 1, '2025-02-28 11:18:57', '2025-02-28 11:18:57', '127.0.0.1', '');
 
@@ -189,6 +189,13 @@ CREATE TABLE `attendance` (
   `location_latitude` varchar(70) NOT NULL,
   `location_longitude` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `attendance`
+--
+
+INSERT INTO `attendance` (`id_attendance`, `id_schedule`, `id_employee`, `jam_masuk`, `tanggal_masuk`, `status`, `location_latitude`, `location_longitude`) VALUES
+(17, 1196, 41, '15:14:25', '2025-02-28', 2, '-6.530835002583787', '107.47380635324386');
 
 -- --------------------------------------------------------
 
@@ -293,7 +300,8 @@ CREATE TABLE `cuti` (
 
 INSERT INTO `cuti` (`id_cuti`, `id_employee`, `total_days`, `start_day`, `end_day`, `type`, `description`, `status`, `input_at`) VALUES
 (24, 41, 1, '2025-02-20', NULL, 1, 'test', 2, '2025-02-20'),
-(25, 38, 2, '2025-02-20', '2025-02-21', 2, 'test', 2, '2025-02-20');
+(25, 38, 2, '2025-02-20', '2025-02-21', 2, 'test', 2, '2025-02-20'),
+(26, 41, 2, '2025-03-13', '2025-03-14', 2, 'trsss', 3, '2025-02-28');
 
 -- --------------------------------------------------------
 
@@ -317,7 +325,8 @@ CREATE TABLE `day_off` (
 INSERT INTO `day_off` (`id_day_off`, `id_employee`, `tgl_day_off`, `input_at`, `description`, `status`) VALUES
 (9, 38, '2025-02-22', '2025-02-17', 'test', 2),
 (10, 30, '2025-02-27', '2025-02-21', 'test', 2),
-(11, 39, '2025-02-27', '2025-02-25', 'TESDT', 2);
+(11, 39, '2025-02-27', '2025-02-25', 'TESDT', 2),
+(12, 41, '2025-03-01', '2025-02-28', 'test', 3);
 
 -- --------------------------------------------------------
 
@@ -440,7 +449,7 @@ INSERT INTO `employee` (`id_employee`, `id_division`, `id_position`, `id_product
 (27, 1, 1, 48, 'agus@gmail.com', '0', '2022-12-01', '1212121213', 'Agus', 'L', 'Indramayu', '2001-12-01', 1, '4800000.00', '480000.00', '0.00', 1, NULL),
 (30, 3, 2, 52, 'luna@gmail.com', '0', '2025-02-05', '11111222', 'Luna', 'P', 'Tangerang', '2012-12-01', 1, '3000000.00', '22222.00', '0.00', 1, NULL),
 (38, 3, 2, 44, 'rita@email.com', '0', '2022-12-01', '10519199', 'Rita Rika ', 'L', '1212121', '2000-12-01', 1, '11000000.00', '480000.00', '0.00', 1, NULL),
-(39, 1, 4, 45, 'alex@email.com', '0', '2024-01-17', '1051919991', 'Alex', 'L', 'Priuk', '2001-05-15', 1, '7000000.00', '480000.00', '0.00', 1, NULL),
+(39, 1, 4, 45, 'alex@gmail.com', '0', '2024-01-17', '1051919991', 'Alex', 'L', 'Priuk', '2001-05-15', 1, '7000000.00', '480000.00', '0.00', 1, NULL),
 (40, 3, 2, 45, 'zilong@gmail.com', '0', '2021-12-22', '12121212121', 'Zilong', 'L', 'London', '1999-12-01', 1, '4500000.00', '480000.00', '0.00', 1, NULL),
 (41, 5, 1, 45, 'pika@gmail.com', '0', '2020-12-22', '1958238288', 'Pika', 'P', 'Campaka', '2002-02-22', 1, '3000000.00', '480000.00', '0.00', 1, NULL),
 (42, 1, 2, 44, 'zuki@gmail.com', '0', '2023-12-02', '121212121', 'Zuki', 'L', 'Purwakarta', '2001-12-12', 1, '4000000.00', '480000.00', '0.00', 1, NULL),
@@ -570,9 +579,14 @@ CREATE TABLE `izin` (
 --
 
 INSERT INTO `izin` (`id_izin`, `id_employee`, `alasan_izin`, `input_at`, `tanggal_izin`, `bukti_surat_sakit`, `status`, `description`) VALUES
-(11, 40, '1', '2025-02-15 00:00:00', '2025-02-15', '-', 2, 'test'),
+(11, 40, '1', '2025-02-15 00:00:00', '2025-02-15', 'e38013bb278e6ba3fc3679b561b990f0.png', 2, 'test'),
 (12, 39, '1', '2025-02-22 00:00:00', '2025-02-22', '-', 2, 'test'),
-(13, 39, 'Izin Menghadiri Acara Keagamaan', '2025-02-22 00:00:00', '2025-02-23', '8cc08230537e020eec9caa84a99c5b66.jpeg', 3, 'test');
+(13, 39, 'Izin Menghadiri Acara Keagamaan', '2025-02-22 00:00:00', '2025-02-23', '8cc08230537e020eec9caa84a99c5b66.jpeg', 2, 'test'),
+(14, 41, 'Izin Menghadiri Acara Keagamaan', '2025-02-28 00:00:00', '2025-03-01', '-', 3, 'test'),
+(15, 41, 'Keperluan Mendesak Lainnya', '2025-02-28 00:00:00', '2025-02-08', '-', 3, 'test'),
+(16, 41, 'Izin Keluarga Melahirkan', '2025-02-28 00:00:00', '2025-02-01', '-', 3, 'test'),
+(17, 41, 'Izin Menghadiri Acara Keagamaan', '2025-02-28 00:00:00', '2025-02-28', 'fd78606cdb37fc376ee25ea8bc4da393.jpeg', 3, 'test'),
+(18, 41, 'Izin Menghadiri Acara Keagamaan', '2025-02-28 00:00:00', '2025-03-08', '-', 3, 'tesdt');
 
 -- --------------------------------------------------------
 
@@ -1004,7 +1018,7 @@ INSERT INTO `schedule` (`id_schedule`, `id_workshift`, `id_employee`, `status`, 
 (1193, 3, 39, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
 (1194, 3, 40, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
 (1195, 3, 40, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
-(1196, 3, 41, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1196, 3, 41, 6, '2025-02-28', '2025-03-01', '2025-02-28'),
 (1197, 3, 41, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
 (1198, 3, 51, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
 (1199, 3, 51, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
@@ -1360,7 +1374,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id_attendance` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_attendance` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `bank_account`
@@ -1384,13 +1398,13 @@ ALTER TABLE `company_profile`
 -- AUTO_INCREMENT for table `cuti`
 --
 ALTER TABLE `cuti`
-  MODIFY `id_cuti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_cuti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `day_off`
 --
 ALTER TABLE `day_off`
-  MODIFY `id_day_off` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_day_off` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `division`
@@ -1432,7 +1446,7 @@ ALTER TABLE `holyday`
 -- AUTO_INCREMENT for table `izin`
 --
 ALTER TABLE `izin`
-  MODIFY `id_izin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_izin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `location`
