@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2025 at 08:00 AM
+-- Generation Time: Feb 28, 2025 at 09:00 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -509,7 +509,15 @@ INSERT INTO `finance_records` (`id_record`, `created_at`, `record_date`, `produc
 (96, '2025-02-27 16:24:00', '2025-03-31 00:00:00', 46, '3400000.00', 22, '2025-03-31-TERES-12121', '2025-02-27 16:24:00'),
 (97, '2025-02-27 16:24:00', '2025-03-31 00:00:00', 46, '3816668.00', 22, '2025-03-31-TERES-12121', '2025-02-27 16:24:00'),
 (98, '2025-02-27 16:57:50', '2025-03-31 00:00:00', 46, '3440000.00', 22, '2025-03-31-test-dscsadas', '2025-02-27 16:57:50'),
-(99, '2025-02-27 16:57:50', '2025-03-31 00:00:00', 46, '3848334.00', 22, '2025-03-31-test-dscsadas', '2025-02-27 16:57:50');
+(99, '2025-02-27 16:57:50', '2025-03-31 00:00:00', 46, '3848334.00', 22, '2025-03-31-test-dscsadas', '2025-02-27 16:57:50'),
+(100, '2025-02-28 14:19:24', '2025-02-28 14:19:00', 45, '1111111.00', 16, 'test', '2025-02-28 14:19:24'),
+(101, '2025-02-28 14:21:37', '2025-02-28 14:19:00', 45, '2323232.00', 46, 'test', '2025-02-28 14:21:37'),
+(102, '2025-02-28 14:37:44', '2025-03-31 00:00:00', 45, '7480000.00', 22, '2025-03-31-testt-test', '2025-02-28 14:37:44'),
+(103, '2025-02-28 14:45:13', '2025-02-28 00:00:00', 45, '3480000.00', 22, '2025-02-28-23232323-testttttt', '2025-02-28 14:45:13'),
+(104, '2025-02-28 14:47:55', '2025-02-28 00:00:00', 52, '3122222.00', 22, '2025-02-28-testt-12323211', '2025-02-28 14:47:55'),
+(105, '2025-02-28 14:47:55', '2025-02-28 00:00:00', 52, '3290000.00', 22, '2025-02-28-testt-12323211', '2025-02-28 14:47:55'),
+(106, '2025-02-28 14:53:20', '2025-02-28 00:00:00', 52, '3122222.00', 22, '2025-02-28-test-ttessst', '2025-02-28 14:53:20'),
+(107, '2025-02-28 14:53:20', '2025-02-28 00:00:00', 52, '3290000.00', 22, '2025-02-28-test-ttessst', '2025-02-28 14:53:20');
 
 -- --------------------------------------------------------
 
@@ -634,7 +642,8 @@ CREATE TABLE `overtime` (
 --
 
 INSERT INTO `overtime` (`id_overtime`, `id_employee`, `tanggal`, `input_at`, `time_spend`, `start`, `end`, `description`, `status`, `pay`) VALUES
-(12, 42, '2025-02-22', '2025-02-15', '1.00', '18:00:00', '19:00:00', 'test', 2, '100000.00');
+(13, 30, '2025-02-28', '2025-02-28', '1.00', '18:00:00', '19:00:00', 'test', 2, '100000.00'),
+(14, 43, '2025-02-28', '2025-02-28', '1.00', '18:00:00', '19:00:00', 'test', 2, '100000.00');
 
 -- --------------------------------------------------------
 
@@ -658,10 +667,12 @@ CREATE TABLE `payroll` (
 --
 
 INSERT INTO `payroll` (`id_payroll`, `code_payroll`, `total_salary`, `total_employee`, `input_at`, `include_piutang`, `include_finance_record`, `include_holiday`) VALUES
-(45, 'test', NULL, NULL, '2025-02-27', 1, 1, 1),
-(46, '131212', NULL, NULL, '2025-02-27', 1, 1, 1),
-(49, '12121', NULL, NULL, '2025-02-27', 1, 1, 1),
-(50, 'dscsadas', NULL, NULL, '2025-02-27', 1, 1, 1);
+(50, 'dscsadas', NULL, NULL, '2025-02-27', 1, 1, 1),
+(51, 'test', NULL, NULL, '2025-02-28', 1, 1, 1),
+(52, 'TESTT', NULL, NULL, '2025-02-28', 1, 2, 1),
+(53, 'testttttt', NULL, NULL, '2025-02-28', 2, 1, 1),
+(55, '12323211', NULL, NULL, '2025-02-28', 1, 1, 1),
+(57, 'ttessst', NULL, NULL, '2025-02-28', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -699,14 +710,15 @@ CREATE TABLE `payroll_component` (
 --
 
 INSERT INTO `payroll_component` (`id_payroll_component`, `id_employee`, `id_payroll`, `bonus`, `tanggal_gajian`, `periode_gajian`, `description`, `total_izin`, `total`, `total_cuti`, `total_overtime`, `total_dayoff`, `piutang`, `total_absen`, `potongan_absen`, `potongan_izin`, `absen_hari`, `izin_hari`, `libur_nasional_hari`, `total_libur_nasional`, `potongan_libur_nasional`, `total_potongan`) VALUES
-(51, 52, 45, '0', '2025-03-31', '0000-00-00', 'test', 0, '3480000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '0', 0, '0', '0'),
-(52, 53, 45, '0', '2025-03-31', '0000-00-00', 'test', 0, '3880000', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '0', 0, '0', '0'),
-(53, 52, 46, '0', '2025-03-31', '0000-00-00', 'tessss', 0, '3480000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '0', 0, '0', '0'),
-(54, 53, 46, '0', '2025-03-31', '0000-00-00', 'tessss', 0, '3880000', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '0', 0, '0', '0'),
-(55, 52, 49, '0', '2025-03-31', '2025-02-27', 'TERES', 0, '3400000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '0', 4, '80000', '80000'),
-(56, 53, 49, '0', '2025-03-31', '2025-02-27', 'TERES', 0, '3816668', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '0', 4, '63332', '63332'),
 (57, 52, 50, '0', '2025-03-31', '2025-03-01', 'test', 0, '3440000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '20000', 2, '40000', '40000'),
-(58, 53, 50, '0', '2025-03-31', '2025-03-01', 'test', 0, '3848334', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '15833', 2, '31666', '31666');
+(58, 53, 50, '0', '2025-03-31', '2025-03-01', 'test', 0, '3848334', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '15833', 2, '31666', '31666'),
+(59, 39, 51, '0', '2025-03-31', '2025-02-28', 'testt', 0, '7480000', 0, '0', 0, '0', 0, '0', '0', '259259', '20000', '20000', 0, '0', '0'),
+(60, 40, 52, '0', '2025-03-31', '2025-02-28', 'TESSSST', 0, '4980000', 0, '0', 0, '0', 0, '0', '0', '166667', '20000', '20000', 0, '0', '0'),
+(61, 41, 53, '0', '2025-02-28', '2025-02-01', '23232323', 0, '3480000', 1, '0', 0, '0', 0, '0', '0', '111111', '20000', '20000', 0, '0', '0'),
+(62, 30, 55, '0', '2025-02-28', '2025-02-01', 'testt', 0, '3122222', 0, '100000', 1, '0', 0, '0', '0', '111111', '926', '926', 0, '0', '0'),
+(63, 43, 55, '0', '2025-02-28', '2025-02-01', 'testt', 0, '3290000', 0, '100000', 0, '0', 0, '0', '0', '111111', '7917', '7917', 0, '0', '0'),
+(64, 30, 57, '0', '2025-02-28', '2025-02-01', 'test', 0, '3122222', 0, '100000', 1, '0', 0, '0', '0', '111111', '926', '926', 0, '0', '0'),
+(65, 43, 57, '0', '2025-02-28', '2025-02-01', 'test', 0, '3290000', 0, '100000', 0, '0', 0, '0', '0', '111111', '7917', '7917', 0, '0', '0');
 
 -- --------------------------------------------------------
 
@@ -740,7 +752,8 @@ INSERT INTO `piutang` (`id_piutang`, `id_employee`, `type_piutang`, `tenor_piuta
 (62, 27, 1, 4, '10000.00', '2025-06-25', '5000.00', 2, 0, 'test', '2025-02-25', 3, '2500', 25),
 (63, 43, 1, 2, '100000.00', '2025-04-03', '50000.00', 2, 0, 'test', '2025-01-25', 3, '50000', 3),
 (64, 44, 1, 2, '10000.00', '2025-03-26', '10000.00', 2, 0, 'test', '2025-01-25', 3, '5000', 26),
-(65, 30, 1, 2, '20000.00', '2025-03-26', '10000.00', 2, 0, 'test', '2025-01-25', 3, '10000', 26);
+(65, 30, 1, 2, '20000.00', '2025-03-26', '10000.00', 2, 0, 'test', '2025-01-25', 3, '10000', 26),
+(66, 40, 1, 2, '10000.00', '2025-04-29', '0.00', 1, 0, 'test', '2025-02-28', 3, '5000', 20);
 
 -- --------------------------------------------------------
 
@@ -805,7 +818,8 @@ INSERT INTO `products` (`id_product`, `id_location`, `name_product`, `descriptio
 (45, 1, 'CV.Multi Graha Radhika', 'Center', '4c6b65e753c369905c7ca9ac963af9b0.png', '', 1, 1),
 (46, 1, 'PT Mencari Cinta Sejati', 'Dummy', 'faca02c6699118518c4d8aa38dd182e9.png', 'http://localhost/starter_ci/admin/product/product_page', 1, 1),
 (48, 1, 'Gadget Shop Karawang', 'Karawang', 'adeacff83d2b31fee87dd30eb4b72568.png', 'http://localhost/phpmyadmin/sql.php?server=1&db=multigraharadhika&table=products&pos=0', 1, 1),
-(52, 2, 'Gadget Care Subang', 'Subang', 'd5bebf1e289bfa9ce66420060a0982c9.jpg', '', 1, 1);
+(52, 2, 'Gadget Care Subang', 'Subang', 'd5bebf1e289bfa9ce66420060a0982c9.jpg', '', 1, 1),
+(53, 0, 'tos', 'test', 'f30a3fab6edcd19d9731d99341121e17.jpg', 'adasda.com', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -837,7 +851,9 @@ INSERT INTO `purchases` (`id_purchases`, `id_supplier`, `created_at`, `input_at`
 (25, 5, '2025-02-01 09:26:39', '2025-02-01', '10000.00', '2100.00', '7900.00', '0.00', 1, 'test', 2, '2025-02-20'),
 (26, 5, '2025-02-01 09:27:06', '2025-02-01', '100000.00', '2000.00', '98000.00', '90991.00', 0, 'test', 2, '2025-02-01'),
 (27, 5, '2025-02-04 10:23:38', '2025-02-04', '109000.00', '20000.00', '89000.00', '79000.00', 0, 'test', 2, '2025-12-02'),
-(29, 5, '2025-02-04 13:41:24', '2025-02-04', '100000.00', '10000.00', '90000.00', '90000.00', 0, 'test', 2, '2025-02-04');
+(29, 5, '2025-02-04 13:41:24', '2025-02-04', '100000.00', '10000.00', '90000.00', '90000.00', 0, 'test', 2, '2025-02-04'),
+(30, 6, '2025-02-28 14:32:39', '2025-02-28', '1212222.00', '1000.00', '1211222.00', '0.00', 1, 'test', 2, '2025-03-31'),
+(31, 6, '2025-02-28 14:34:27', '2025-02-28', '100000.00', '10000.00', '90000.00', '0.00', 1, 'test', 1, '2025-03-15');
 
 -- --------------------------------------------------------
 
@@ -865,7 +881,9 @@ INSERT INTO `purchase_payments` (`id_payment`, `id_purchases`, `created_at`, `pa
 (62, 25, '2025-02-01 13:49:01', '2025-02-01', '7900.00', 'TEST '),
 (63, 22, '2025-02-04 09:43:51', '2025-02-04', '9000.00', 'test '),
 (64, 27, '2025-02-04 10:26:48', '2025-02-04', '10000.00', 'test '),
-(66, 22, '2025-02-20 16:40:48', '2025-02-20', '80000.00', ' tges');
+(66, 22, '2025-02-20 16:40:48', '2025-02-20', '80000.00', ' tges'),
+(67, 30, '2025-02-28 14:33:02', '2025-02-28', '10000.00', ' test'),
+(68, 30, '2025-02-28 14:33:13', '2025-02-28', '1201222.00', ' test');
 
 --
 -- Triggers `purchase_payments`
@@ -957,7 +975,9 @@ INSERT INTO `purchase_piutang` (`id_purchase_piutang`, `id_piutang`, `pay_amount
 (47, 62, '2500.00', ' test', '2025-03-19'),
 (48, 65, '10000.00', '2025-02-25-testjan-Test111', '2025-02-25'),
 (49, 63, '50000.00', '2025-02-25-testjan-Test111', '2025-02-25'),
-(50, 62, '2500.00', '2025-02-27-TEST-RRRR', '2025-02-27');
+(50, 62, '2500.00', '2025-02-27-TEST-RRRR', '2025-02-27'),
+(51, 66, '5000.00', ' test', '2025-02-28'),
+(52, 66, '5000.00', ' 5000', '2025-02-28');
 
 -- --------------------------------------------------------
 
@@ -1041,7 +1061,8 @@ CREATE TABLE `supplier` (
 
 INSERT INTO `supplier` (`id_supplier`, `date_created`, `name_supplier`, `contact_info`, `status_supplier`, `updated_at`) VALUES
 (3, '2025-01-10 10:44:10', 'Sinar Abadi', '08111234322', 0, '2025-01-16 10:04:47'),
-(5, '2025-01-14 15:36:17', 'PT Sadbor', '0812121212', 1, '2025-01-21 10:38:19');
+(5, '2025-01-14 15:36:17', 'PT Sadbor', '0812121212', 1, '2025-01-21 10:38:19'),
+(6, '2025-02-28 14:31:43', 'PT.Timah', '0827772224', 1, '2025-02-28 14:32:08');
 
 -- --------------------------------------------------------
 
@@ -1321,7 +1342,7 @@ ALTER TABLE `workshift`
 -- AUTO_INCREMENT for table `account_code`
 --
 ALTER TABLE `account_code`
-  MODIFY `id_code` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id_code` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `address`
@@ -1399,7 +1420,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `finance_records`
 --
 ALTER TABLE `finance_records`
-  MODIFY `id_record` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id_record` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `holyday`
@@ -1429,25 +1450,25 @@ ALTER TABLE `log_contract_extension`
 -- AUTO_INCREMENT for table `overtime`
 --
 ALTER TABLE `overtime`
-  MODIFY `id_overtime` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_overtime` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `payroll`
 --
 ALTER TABLE `payroll`
-  MODIFY `id_payroll` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_payroll` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `payroll_component`
 --
 ALTER TABLE `payroll_component`
-  MODIFY `id_payroll_component` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id_payroll_component` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `piutang`
 --
 ALTER TABLE `piutang`
-  MODIFY `id_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `position`
@@ -1465,25 +1486,25 @@ ALTER TABLE `potongan`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id_product` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_product` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id_purchases` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_purchases` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `purchase_payments`
 --
 ALTER TABLE `purchase_payments`
-  MODIFY `id_payment` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id_payment` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `purchase_piutang`
 --
 ALTER TABLE `purchase_piutang`
-  MODIFY `id_purchase_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_purchase_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `schedule`
@@ -1501,7 +1522,7 @@ ALTER TABLE `service_teknisi`
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_supplier` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `type_izin`

@@ -161,7 +161,7 @@
 		const izin = parseFloat(button.getAttribute('data-total-izin')) || 0;
 		const cuti = parseFloat(button.getAttribute('data-total-cuti')) || 0;
 		const absen = parseFloat(button.getAttribute('data-total-absent')) || 0;
-		const lembur = parseFloat(button.getAttribute('data-total-overtime')) || 0;
+		const lembur = parseFloat(button.getAttribute('data-total-lembur')) || 0;
 		const dayoff = parseFloat(button.getAttribute('data-total-dayoff')) || 0;
 		const gaji = parseFloat(button.getAttribute('data-basic-salary')) || 0;
 		const uang_makan = parseFloat(button.getAttribute('data-uang-makan')) || 0;

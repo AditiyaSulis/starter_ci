@@ -97,13 +97,13 @@ class m_Finance_records extends CI_Model {
                 $this->db->where('F.record_date <=', date('Y-m-d', strtotime('sunday last week')));
                 break;
 			case 'this_month':
-				$this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
+				$this->db->where('DATE(F.record_date) BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
 				break;
 			case 'last_month':
 				$this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
 				break;
 			case 'this_year':
-				$this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
+				$this->db->where('DATE(F.record_date) BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
 				break;
 			case 'last_year':
 				$this->db->where('F.record_date BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-01-01") AND DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-12-31")');
@@ -111,7 +111,7 @@ class m_Finance_records extends CI_Model {
 			case 'custom':
 				$startDate = $this->input->post('startDate', true);
 				$endDate = $this->input->post('endDate', true);
-				$this->db->where('F.record_date BETWEEN "' . $startDate . '" and "' . $endDate . '"');
+				$this->db->where('DATE(F.record_date) BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
 				break;
 			default:
 				break;

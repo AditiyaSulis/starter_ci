@@ -186,9 +186,9 @@ class Payroll extends MY_Controller{
 						'id_piutang' => $piutang['id_piutang'],
 						'pay_date' =>$this->input->post('tanggal_gajian', true),
 						'pay_amount' => $piutang['angsuran'],
-						'include_piutang' => $this->input->post('piutang', true),
-						'include_finance_record' => $this->input->post('finance_record', true),
-						'include_holiday' => $this->input->post('holyday', true),
+						//						'include_piutang' => $this->input->post('piutang', true),
+						//						'include_finance_record' => $this->input->post('finance_record', true),
+						//						'include_holiday' => $this->input->post('holyday', true),
 						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
 					];
 

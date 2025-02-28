@@ -103,12 +103,14 @@
                             <input type="date" class="form-control" name="date_in" required />
                         </div>
 						<div class="mb-3">
-							<label for="email" class="form-label">Email</label>
-							<input type="email" class="form-control" name="email" required />
-						</div>
-						<div class="mb-3">
 							<label for="email" class="form-label">No.HP</label>
 							<input type="number" class="form-control" name="no_hp" required />
+						</div>
+						<hr  class="mt-6" style="width : 100%;">
+						<h5>User Account</h5>
+						<div class="mb-3 mt-6">
+							<label for="email" class="form-label">Email</label>
+							<input type="email" class="form-control" name="email" required />
 						</div>
 						<div class="mb-3">
 							<label for="password" class="form-label">Password</label>
@@ -118,6 +120,7 @@
 							<label for="password" class="form-label">Ketik Ulang Password</label>
 							<input type="password" class="form-control" name="rewrite_password" required />
 						</div>
+						<hr  class="mb-6" style="width : 100%;">
                         <div class="mb-3">
                             <label for="nip" class="form-label">NIP</label>
                             <input type="number" class="form-control" name="nip" required />
