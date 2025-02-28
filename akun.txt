@@ -1,3 +1,9 @@
+Superuser 
+
+superuser@superuser.com	
+superuser
+--------------------------------------
+
 Gadget Care Subang 
 email : dita@gmail.com
 pw : dita
@@ -26,8 +32,6 @@ email : zilong@gmail.com
 pw : zilong
 
 
---------------------------------------
-Superuser 
+---------------------------------------
 
-superuser@superuser.com	
-superuser
+akun produk lainnya memiliki pola email dan pw yang sama dengan nama 

@@ -5,7 +5,7 @@
     <base href="">
     <meta charset="utf-8" />
     <meta name="base_url" content="<?= base_url(); ?>">
-    <title><?= $title?> - LPKS Borneo Flasher</title>
+    <title><?= $title?> - Administration System</title>
     <meta name="description" content="LPKS Borneo Flasher" />
     <meta name="keywords" content="LPKS Borneo Flasher" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -278,7 +278,7 @@
 								<a class="menu-link <?= $title == 'Absence' ? "active": ""?>" href="<?=base_url('absence/absence/absence_page')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-calendar-week"></i>
+                                            <i class="bi bi-calendar-check"></i>
                                         </span>
                                     </span>
 									<span class="menu-title">Attendance</span>
