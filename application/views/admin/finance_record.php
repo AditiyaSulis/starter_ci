@@ -128,7 +128,7 @@
 
     <div class="table-responsive mt-4">
         <table id="finances_table" class="table table-bordered table-striped w-100">
-            <thead>
+            <thead class="table-primary">
                 <tr>
                     <th class="no-print">Created At</th>
                     <th>Record Date</th>

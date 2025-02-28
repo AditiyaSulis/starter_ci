@@ -5,8 +5,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class m_Payroll extends CI_Model
 {
 
-	private $column_search = array('payroll.id_payroll','payroll.code_payroll', 'payroll.input_at','payroll.total_salary', 'payroll.code_payroll', 'payroll.total_employee', 'payroll_component.id_payroll', 'payroll_component.tanggal_gajian');
-	private $column_order = array('payroll.id_payroll','payroll.code_payroll', 'payroll.input_at','payroll.total_salary', 'payroll.code_payroll', 'payroll.total_employee', 'payroll_component.id_payroll', 'payroll_component.tanggal_gajian');
+	private $column_search = array('payroll.id_payroll','payroll.code_payroll', 'payroll.input_at','payroll.total_salary', 'payroll.code_payroll', 'payroll.total_employee', 'payroll.include_piutang', 'payroll.include_finance_record','payroll.include_holiday', 'payroll_component.id_payroll', 'payroll_component.tanggal_gajian', );
+	private $column_order = array('payroll.id_payroll','payroll.code_payroll', 'payroll.input_at','payroll.total_salary', 'payroll.code_payroll', 'payroll.total_employee', 'payroll.include_piutang', 'payroll.include_finance_record','payroll.include_holiday', 'payroll_component.id_payroll', 'payroll_component.tanggal_gajian');
 	private $order = array('payroll.input_at' => 'asc');
 
 	public function findAll_get()
@@ -100,9 +100,10 @@ class m_Payroll extends CI_Model
 
 		$option = $this->input->post('option', true);
 
-		$this->db->select('payroll.id_payroll, payroll.code_payroll, payroll.input_at, payroll.total_salary, payroll.code_payroll, payroll.total_employee,payroll_component.id_payroll, payroll_component.tanggal_gajian');
+		$this->db->select('payroll.id_payroll, payroll.code_payroll, payroll.input_at, payroll.total_salary, payroll.include_piutang, payroll.include_finance_record,payroll.include_holiday,  payroll.total_employee, MAX(payroll_component.tanggal_gajian) AS tanggal_gajian');
 		$this->db->from('payroll');
 		$this->db->join('payroll_component', 'payroll_component.id_payroll = payroll.id_payroll', 'left');
+		$this->db->group_by('payroll.id_payroll');
 		if (!empty($option)) {
 			$this->_filterDATE($option);
 		}
@@ -147,6 +148,7 @@ class m_Payroll extends CI_Model
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+
 
 	public function count_all()
 	{

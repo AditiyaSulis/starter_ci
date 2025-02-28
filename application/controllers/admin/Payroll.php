@@ -20,7 +20,9 @@ class Payroll extends MY_Controller{
 		$this->load->model('m_Service_teknisi');
 		$this->load->model('m_Piutang');
 		$this->load->model('m_Purchase_piutang');
+		$this->load->model('m_Holyday');
 	}
+
 
 	public function payroll_page()
 	{
@@ -37,8 +39,6 @@ class Payroll extends MY_Controller{
 
 		$data['view_data'] = 'core/payroll/data_payroll';
 		$data['view_components'] = 'core/payroll/data_payroll_component';
-		$data['view_pc'] = 'core/payroll_component/data_payroll_component';
-		$data['view_pc_component'] = 'core/payroll_component/data_payroll_component_components';
 
 		if($data['user']) {
 			$this->load->view('templates/index' ,$data);
@@ -47,6 +47,7 @@ class Payroll extends MY_Controller{
 			redirect('fetch/login');
 		}
 	}
+
 
 	public function option_employee()
 	{
@@ -72,6 +73,7 @@ class Payroll extends MY_Controller{
 
 	}
 
+
 	public function add_batch_payroll()
 	{
 		$this->_ONLY_SU();
@@ -83,6 +85,9 @@ class Payroll extends MY_Controller{
 		$this->form_validation->set_rules('tanggal_gajian', 'tanggal_gajian', 'required', [
 			'required' => 'Tanggal gajian harus diisi',
 		]);
+		$this->form_validation->set_rules('periode_gajian', 'periode_mulai', 'required', [
+			'required' => 'Periode mulai gajian harus diisi',
+		]);
 		$this->form_validation->set_rules('id_product', 'id_product', 'required', [
 			'required' => 'Product harus diisi',
 		]);
@@ -91,6 +96,9 @@ class Payroll extends MY_Controller{
 		]);
 		$this->form_validation->set_rules('description', 'description', 'required', [
 			'required' => 'Deskripsi harus diisi',
+		]);
+		$this->form_validation->set_rules('holyday', 'holyday', 'required', [
+			'required' => 'holyday harus diisi',
 		]);
 
 		if ($this->form_validation->run() == FALSE) {
@@ -120,6 +128,9 @@ class Payroll extends MY_Controller{
 		$dataPayroll = [
 			'code_payroll' => $this->input->post('code_payroll', true),
 			'input_at' => $this->input->post('input_at', true),
+			'include_piutang' => $this->input->post('piutang', true),
+			'include_finance_record' => $this->input->post('finance_record', true),
+			'include_holiday' => $this->input->post('holyday', true),
 		];
 		$idPayroll = $this->m_Payroll->create_post($dataPayroll);
 
@@ -136,26 +147,26 @@ class Payroll extends MY_Controller{
 		$dataFinanceRecord = [];
 
 		foreach ($employees as $employeeId) {
-			$totalGaji = 0;
-			$izinPerhari = 0;
-			$absenPerhari = 0;
-			$totalPotIzin = 0;
-			$totalPotAbsen = 0;
-			$totalPotongan = 0;
-			$potIzin = 0;
-			$potPiutang = 0;
 
-			$totalCuti = $this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalIzin = $this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalDayoff = $this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalOvertime = $this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-			$totalAbsent = $this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+			$potPiutang = 0;
+			$totalPotHolyday = 0;
+
+			$totalCuti = $this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalIzin = $this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalDayoff = $this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalOvertime = $this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalAbsent = $this->m_Schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalHolyday = $this->m_Holyday->totalHolydayLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$employee = $this->m_Employees->findByIdJoin_get($employeeId);
 			
-			$izinPerhari = round($employee['uang_makan'] / 27);
+			$izinPerhari = round($employee['uang_makan'] / 24);
 			$absenPerhari = round($employee['basic_salary'] / 27);
 			$totalPotAbsen = $absenPerhari * $totalAbsent;
 			$totalPotIzin = $izinPerhari * $totalIzin;
+
+			if($this->input->post('holyday', true) == 1) {
+				$totalPotHolyday = $izinPerhari * $totalHolyday;
+			}
 
 
 			if ($this->input->post('piutang', true) == 1) {
@@ -171,11 +182,13 @@ class Payroll extends MY_Controller{
 					}
 					$this->m_Piutang->updateRemaining_post($piutang['id_piutang'], $changeStatus);
 
-
 					$dataPiutang = [
 						'id_piutang' => $piutang['id_piutang'],
 						'pay_date' =>$this->input->post('tanggal_gajian', true),
 						'pay_amount' => $piutang['angsuran'],
+						'include_piutang' => $this->input->post('piutang', true),
+						'include_finance_record' => $this->input->post('finance_record', true),
+						'include_holiday' => $this->input->post('holyday', true),
 						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
 					];
 
@@ -185,14 +198,18 @@ class Payroll extends MY_Controller{
 				}
 			}
 
-			$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang;
+			$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang + $totalPotHolyday;
 
-			if ($employee['code_division'] == 'TKS') {
-				$totalPendapatan = $this->m_Service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
-				$totalGaji = $totalPendapatan + $employee['uang_makan']+ $employee['bonus'] + $totalOvertime - $totalPotongan;
-			} else {
-				$totalGaji = $employee['basic_salary'] + $employee['uang_makan'] + $employee['bonus'] + $totalOvertime - $totalPotongan;
-			}
+			// Fitur Teknisi gaji
+			//if ($employee['code_division'] == 'TKS') {
+			//	$totalPendapatan = $this->m_Service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
+			// 	$totalGaji = $totalPendapatan + $employee['uang_makan']+ $employee['bonus'] + $totalOvertime - $totalPotongan;
+			//} else {
+			//	$totalGaji = $employee['basic_salary'] + $employee['uang_makan'] + $employee['bonus'] + $totalOvertime - $totalPotongan;
+			//}
+
+			//hapus ini jika mengaktifkan gaji teknisi
+			$totalGaji = $employee['basic_salary'] + $employee['uang_makan'] + $employee['bonus'] + $totalOvertime - $totalPotongan;
 
 			if ($this->input->post('finance_record') == 1) {
 				$dataFinanceRecord[] = [
@@ -205,24 +222,27 @@ class Payroll extends MY_Controller{
 			}
 
 
-
 			$dataBatch[] = [
 				'id_employee' => $employeeId,
 				'id_payroll' => $idPayroll,
 				'bonus' => $employee['bonus'],
 				'tanggal_gajian' => $this->input->post('tanggal_gajian', true),
+				'periode_gajian' =>$this->input->post('periode_gajian', true),
 				'description' => $this->input->post('description', true),
 				'total_izin' => $totalIzin,
 				'total_cuti' => $totalCuti,
 				'total_absen' => $totalAbsent,
 				'total_overtime' => $totalOvertime,
 				'total_dayoff' => $totalDayoff,
+				'total_libur_nasional' => $totalHolyday,
 				'piutang' => $potPiutang,
 				'total' => $totalGaji,
+				'potongan_libur_nasional' => $totalPotHolyday,
 				'potongan_absen' => $totalPotAbsen,
 				'potongan_izin' => $totalPotIzin,
 				'absen_hari' => $absenPerhari,
 				'izin_hari' => $izinPerhari,
+				'libur_nasional_hari' => $izinPerhari,
 				'total_potongan' => $totalPotongan,
 			];
 		}
@@ -265,6 +285,7 @@ class Payroll extends MY_Controller{
 		}
 	}
 
+
 	public function detail()
 	{
 		$idProduct = $this->input->post('id_product', true);
@@ -288,6 +309,7 @@ class Payroll extends MY_Controller{
 		echo json_encode($response);
 
 	}
+
 
 	public function add_payroll()
 	{
@@ -378,6 +400,30 @@ class Payroll extends MY_Controller{
 
 	}
 
+
+	public function detail_payroll(){
+		$this->_ONLYSELECTED([1,2]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Payroll';
+		$data['view_name'] = 'admin/detail_payroll';
+		$data['breadcrumb'] = 'Detail Payroll';
+		$data['menu'] = '';
+
+		$data['products'] = $this->m_Products->findAll_get();
+		$data['divisions'] = $this->m_Division->findAll_get();
+
+		$data['view_data'] = 'core/payroll_component/data_payroll_component';
+		$data['view_components'] = 'core/payroll_component/data_payroll_component_components';
+
+
+		if($data['user']) {
+			$this->load->view('templates/index' ,$data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('fetch/login');
+		}
+	}
 
 
 }

@@ -1,3 +1,25 @@
+<style>
+
+	#log_attendance_table {
+		width: 100% !important;
+	}
+
+
+	#log_attendance_table thead th,
+	#log_attendance_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 <div class="mt-6">
 	<div class="row">
 		<div class="col-2 col-md-2 mb-3">
@@ -27,22 +49,24 @@
 		<?php endif; ?>
 	</div>
 
-	<table id="log_attendance_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<tr>
-			<th>No</th>
-			<th>Nama</th>
-			<th>Product</th>
-			<th>Shift</th>
-			<th>Clock In</th>
-			<th>Absen Dilakukan</th>
-			<th>Tanggal Absen</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="log_attendance_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<tr>
+				<th>No</th>
+				<th>Nama</th>
+				<th>Product</th>
+				<th>Shift</th>
+				<th>Clock In</th>
+				<th>Absen Dilakukan</th>
+				<th>Tanggal Absen</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <!-- Modal  Custom Date -->
@@ -119,6 +143,9 @@
 					d.employee = <?= $employee?>;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

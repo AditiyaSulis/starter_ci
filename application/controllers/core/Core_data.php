@@ -853,30 +853,33 @@ class Core_data extends MY_Controller{
 		$data = [];
 		$no = $this->input->post('start');
 
+
 		foreach($list as $item) {
 			$action =
 					'   
-                      <button 
-						class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" 
-						style="width : 70px"
-						data-bs-toggle="modal" 
-						data-bs-target="#detailModal"
-						data-id-payroll="'. htmlspecialchars($item['id_payroll']) .'"
-						data-code-payroll="'. htmlspecialchars($item['code_payroll']) .'">
-						DETAIL
-					  </button>
-                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll" onclick="handleDeletePayrollButton('.htmlspecialchars($item['id_payroll']).')" style="width : 70px">
-                            DELETE
-                        </button>
+                      <a href="'. base_url('admin/payroll/detail_payroll?payroll='.$item['id_payroll']) .'" 
+						   class="btn btn-warning btn-sm rounded-pill mb-1" 
+						   style="width: 100px;">
+						   DETAIL
+						</a>
+                         <button class="btn  gradient-btn-delete btn-sm rounded-pill" 
+								onclick="handleDeletePayrollButton('. htmlspecialchars($item['id_payroll']) .')" 
+								style="width: 100px;">
+							DELETE
+						</button>
                      ';
 
+			$piutang = $item['include_piutang'] == 1 ? 'Yes' : 'No';
+			$finance_record = $item['include_finance_record'] == 1 ? 'Yes' : 'No';
+			$holiday = $item['include_holiday'] == 1 ? 'Yes' : 'No';
 
 			$row = [];
 			$row[] = ++$no;
 			$row[] = date('d M Y', strtotime($item['input_at']));
 			$row[] = $item['code_payroll'];
-		//			$row[] = $item['total_salary'];
-		//			$row[] = $item['total_employee'];	
+			$row[] = $piutang;
+			$row[] = $finance_record;
+			$row[] = $holiday;
 			$row[] = date('d M Y', strtotime($item['tanggal_gajian']));
 			$row[] = $action;
 			$data[] = $row;
@@ -931,6 +934,10 @@ class Core_data extends MY_Controller{
                             data-total-potongan="'.htmlspecialchars($item['total_potongan']).'"
                             data-gaji-bersih="'.htmlspecialchars($item['total']).'"
                             data-piutang="'.htmlspecialchars($item['piutang']).'"
+                            data-periode-gajian="'.htmlspecialchars($item['periode_gajian']).'"
+                            data-potongan-libur-nasional="'.htmlspecialchars($item['potongan_libur_nasional']).'"
+                            data-total-libur-nasional="'.htmlspecialchars($item['total_libur_nasional']).'"
+                            data-libur-nasional-hari="'.htmlspecialchars($item['libur_nasional_hari']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>

@@ -165,7 +165,12 @@
 </div>
 
 <script>
-    $('#account_code_table').DataTable();
+
+	$('#account_code_table').DataTable({
+		dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+			"tr" +
+			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+	});
 </script>
 
 </main>

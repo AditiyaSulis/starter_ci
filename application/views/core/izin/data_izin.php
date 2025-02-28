@@ -1,3 +1,26 @@
+<style>
+
+	#izin_table {
+		width: 100% !important;
+	}
+
+
+	#izin_table thead th,
+	#izin_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
+
 <div class="mt-6">
 	<div class="col-2 col-md-2 mb-3">
 		<label class="form-label">Tanggal Izin:</label>
@@ -14,27 +37,29 @@
 			<option value="custom">Custom Range</option>
 		</select>
 	</div>
-	<table id="izin_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<?php $no = 1 ?>
-		<tr>
-			<th>No</th>
-			<th>Tanggal Input</th>
-			<th>Nama</th>
-			<th>Produk</th>
-			<th>Divisi</th>
-			<th>Tanggal Izin</th>
-			<th>Alasan</th>
-			<th>Bukti</th>
-			<th>Status</th>
-			<th>Deskripsi</th>
-			<th>Action</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="izin_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<?php $no = 1 ?>
+			<tr>
+				<th>No</th>
+				<th>Tanggal Input</th>
+				<th>Nama</th>
+				<th>Produk</th>
+				<th>Divisi</th>
+				<th>Tanggal Izin</th>
+				<th>Alasan</th>
+				<th>Bukti</th>
+				<th>Status</th>
+				<th>Deskripsi</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 

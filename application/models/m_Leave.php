@@ -1,3 +1,4 @@
+
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -256,13 +257,13 @@ class m_Leave extends CI_Model
 	}
 
 
-	public function totalLeaveLastMonthToNowByEmployeeId_get($id, $tanggal)
+	public function totalLeaveLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
-		$lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
+		
 
 		$this->db->where('id_employee', $id);
 		$this->db->where('status', 2);
-		$this->db->where('(start_day BETWEEN "'.$lastMonthDate.'" AND "'.$tanggal.'" OR end_day BETWEEN "'.$lastMonthDate.'" AND "'.$tanggal.'")');
+		$this->db->where('(start_day BETWEEN "'.$tanggal2.'" AND "'.$tanggal.'" OR end_day BETWEEN "'.$tanggal2.'" AND "'.$tanggal.'")');
 
 		return $this->db->count_all_results('cuti');
 	}

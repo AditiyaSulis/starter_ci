@@ -581,6 +581,25 @@
 									</a>
 								</div>
 							</div>
+
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">PROFILE</span>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Profile' ? "active": ""?>" href="<?=base_url('employee/employee_profile/profile_page')?>">
+											<span class="menu-icon">
+												<span class="svg-icon svg-icon-2">
+													<i class="bi bi-person-badge-fill"></i>
+												</span>
+											</span>
+										<span class="menu-title">Employment Data</span>
+									</a>
+								</div>
+							</div>
 						<?php endif;?>
 
 						<?php if($user['role'] == 1 || $user['role'] == 2): ?>

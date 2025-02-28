@@ -1,3 +1,5 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <!-- Modal Rincian Gaji -->
 <div class="modal fade" id="rincianModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
@@ -11,8 +13,12 @@
 				<div class="d-flex flex-column align-items-center text-center mb-10">
 					<h4 id="name_product"></h4>
 					<div class="d-flex">
-						<h6>Pada tanggal : &nbsp;</h6>
+						<h6>Periode : &nbsp;</h6>
+						<h6 id="periode_gajian"></h6>
+						 <h6> - </h6>
 						<h6 id="tanggal_gajian"></h6>
+
+
 					</div>
 				</div>
 				<div class="row mb-1">
@@ -65,11 +71,15 @@
 							<h2>Potongan</h2>
 							<div class="row mb-1">
 								<div class="col-4 col-md-4"><span>Potongan Izin</span></div>
-								<div class="col-5 col-md-5"><span> = </span><span id="total_pot_izin" class="ms-4 fw-bolder"> </span>(<span id="pot_izin"> </span> x <span id="izin_pc"></span>)</div>
+								<div class="col-6 col-md-6"><span> = </span><span id="total_pot_izin" class="ms-4 fw-bolder"> </span>(<span id="pot_izin"> </span> x <span id="izin_pc"></span>)</div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Potongan Libur Nasional</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="total_pot_libur_nasional" class="ms-4 fw-bolder"> </span>(<span id="pot_libur_nasional"> </span> x <span id="libur_nasional_pc"></span>)</div>
 							</div>
 							<div class="row mb-1">
 								<div class="col-4 col-md-4"><span>Potongan Tidak Hadir</span></div>
-								<div class="col-5 col-md-5"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
+								<div class="col-6 col-md-6"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
 							</div>
 							<div class="row mb-1">
 								<div class="col-4 col-md-4"><span>Potongan Kasbon</span></div>
@@ -111,12 +121,36 @@
 				</div>
 
 			</div>
+			<div class="modal-footer">
+				<button id="downloadPdfBtn" class="btn btn-primary">Download PDF</button>
+			</div>
 		</div>
 	</div>
 </div>
 
 
 <script>
+
+	//Print
+	document.getElementById('downloadPdfBtn').addEventListener('click', function () {
+		const modalBody = document.querySelector('.modal-body');
+
+		html2canvas(modalBody, {
+			scale: 1.5,
+			useCORS: true,
+			backgroundColor: '#ffffff'
+		}).then(canvas => {
+			const imgData = canvas.toDataURL('image/jpeg', 0.7);
+			const { jsPDF } = window.jspdf;
+			const pdf = new jsPDF('p', 'mm', 'a4');
+
+			const imgWidth = 180;
+			const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+			pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight, '', 'FAST');
+			pdf.save('Slip_Gaji.pdf');
+		});
+	});
 
 	// LOG
 	const exampleModal = document.getElementById('rincianModal');
@@ -144,6 +178,10 @@
 		const position = button.getAttribute('data-position');
 		const piutang = button.getAttribute('data-piutang');
 		const tanggal_gajian = button.getAttribute('data-tanggal-gajian');
+		const periode_gajian = button.getAttribute('data-periode-gajian');
+		const libur_nasional_hari = button.getAttribute('data-libur-nasional-hari');
+		const total_libur_nasional = button.getAttribute('data-total-libur-nasional');
+		const potongan_libur_nasional = button.getAttribute('data-potongan-libur-nasional');
 		const total = button.getAttribute('data-gaji-bersih');
 		const gaji_kotor = gaji+uang_makan+lembur+bonus;
 		console.log("ID:", id);
@@ -171,6 +209,10 @@
 		$('#pot_izin').text(formatToRupiah(izin_hari));
 		$('#total_potongan').text(formatToRupiah(total_potongan));
 
+		$('#total_pot_libur_nasional').text(formatToRupiah(potongan_libur_nasional));
+		$('#libur_nasional_pc').text(total_libur_nasional);
+		$('#pot_libur_nasional').text(formatToRupiah(libur_nasional_hari));
+
 		$('#nip_employee').text(nip);
 		$('#name_employee').text(name);
 		$('#product_employee').text(product);
@@ -178,6 +220,7 @@
 		$('#division_employee').text(divisi);
 		$('#position_employee').text(position);
 		$('#tanggal_gajian').text(formatDate(tanggal_gajian));
+		$('#periode_gajian').text(formatDate(periode_gajian));
 		$('#total_gaji').text(formatToRupiah(gaji_kotor));
 		$('#pot_kasbon').text(formatToRupiah(piutang));
 		$('#total_pot_izin').text(formatToRupiah(potongan_izin));

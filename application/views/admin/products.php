@@ -1,3 +1,26 @@
+
+<style>
+
+	#products_table {
+		width: 100% !important;
+	}
+
+
+	#products_table thead th,
+	#products_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 <main>
     <h1>Product</h1>
 
@@ -7,71 +30,73 @@
     </button>
 
     <div class="mt-6">
-        <table id="products_table" class="table table-bordered table-striped" style="width:100%">
-            <thead>
-                <?php $no = 1 ?>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Produk</th>
-                    <th>Deskripsi</th>
-                    <th>Url</th>
-                    <th>Visibility</th>
-                    <th>Logo</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($products as $product): ?>
-                <tr>
-                    <td><?= $no; ?></td>
-                    <td><?= $product['name_product']; ?></td>
-                    <td><?= $product['description']; ?></td>
-                    <td><?php if($product['url']):?>
-                        <a href="<?= $product['url']; ?>">
-                            <button class="btn btn-light btn-sm">
-                                <i class="ti ti-link"></i>
-                            </button>
-                        </a>
-                        <?php else:?> 
+		<div style="overflow-x: auto; width: 100%;">
+			<table id="products_table" class="table table-bordered table-striped" style="width:100%">
+				<thead class="table-primary">
+					<?php $no = 1 ?>
+					<tr>
+						<th>No</th>
+						<th>Nama Produk</th>
+						<th>Deskripsi</th>
+						<th>Url</th>
+						<th>Visibility</th>
+						<th>Logo</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($products as $product): ?>
+					<tr>
+						<td><?= $no; ?></td>
+						<td><?= $product['name_product']; ?></td>
+						<td><?= $product['description']; ?></td>
+						<td><?php if($product['url']):?>
+							<a href="<?= $product['url']; ?>">
+								<button class="btn btn-light btn-sm">
+									<i class="ti ti-link"></i>
+								</button>
+							</a>
+							<?php else:?>
 
-                        <?php endif; ?>
-                    </td>
-                    <td><?php if($product['visibility'] == 1):?>
-                            <button class="btn gradient-btn-active btn-sm rounded-pill btn-visibility" style="width : 90px"
-                            data-id_product="<?= $product['id_product']; ?>" 
-                            data-visibility="<?= $product['visibility']; ?>">
-                                <i class="bi bi-eye-fill"></i> Show
-                            </button>
-                        <?php else:?> 
-                            <button class="btn gradient-btn-inactive btn-sm rounded-pill btn-visibility" style="width : 90px" 
-                            data-id_product="<?= $product['id_product']; ?>" 
-                            data-visibility="<?= $product['visibility']; ?>">
-                                <i class="bi bi-eye-slash-fill"></i> Hide
-                            </button>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <img src="<?= base_url('uploads/products/compressed/' . $product['logo']); ?>" alt="Logo" width="50" style="cursor: pointer;" onclick="showImageModal('<?= base_url('uploads/products/compressed/' . $product['logo']); ?>')">
-                    </td>
-                    <td>
-                        <button 
-                            class="btn gradient-btn-edit btn-sm mb-2 rounded-pill btn-edit" style="width : 70px" 
-                            data-id="<?= $product['id_product']; ?>" 
-                            data-name="<?= $product['name_product']; ?>" 
-                            data-description="<?= $product['description']; ?>" 
-                            data-url="<?= $product['url']; ?>" 
-                            data-logo="<?= $product['logo']; ?>">
-                            EDIT
-                        </button>
-                        <button class="btn gradient-btn-delete mb-2 btn-sm rounded-pill btn-delete-product" data-id_product="<?= $product['id_product']; ?>" style="width : 70px">
-                            DELETE
-                        </button>
-                    </td>
-                </tr>
-                <?php $no++?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+							<?php endif; ?>
+						</td>
+						<td><?php if($product['visibility'] == 1):?>
+								<button class="btn gradient-btn-active btn-sm rounded-pill btn-visibility" style="width : 90px"
+								data-id_product="<?= $product['id_product']; ?>"
+								data-visibility="<?= $product['visibility']; ?>">
+									<i class="bi bi-eye-fill"></i> Show
+								</button>
+							<?php else:?>
+								<button class="btn gradient-btn-inactive btn-sm rounded-pill btn-visibility" style="width : 90px"
+								data-id_product="<?= $product['id_product']; ?>"
+								data-visibility="<?= $product['visibility']; ?>">
+									<i class="bi bi-eye-slash-fill"></i> Hide
+								</button>
+							<?php endif; ?>
+						</td>
+						<td>
+							<img src="<?= base_url('uploads/products/compressed/' . $product['logo']); ?>" alt="Logo" width="50" style="cursor: pointer;" onclick="showImageModal('<?= base_url('uploads/products/compressed/' . $product['logo']); ?>')">
+						</td>
+						<td>
+							<button
+								class="btn gradient-btn-edit btn-sm mb-2 rounded-pill btn-edit" style="width : 70px"
+								data-id="<?= $product['id_product']; ?>"
+								data-name="<?= $product['name_product']; ?>"
+								data-description="<?= $product['description']; ?>"
+								data-url="<?= $product['url']; ?>"
+								data-logo="<?= $product['logo']; ?>">
+								EDIT
+							</button>
+							<button class="btn gradient-btn-delete mb-2 btn-sm rounded-pill btn-delete-product" data-id_product="<?= $product['id_product']; ?>" style="width : 70px">
+								DELETE
+							</button>
+						</td>
+					</tr>
+					<?php $no++?>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
     </div>
 
     <!-- Modal Add Product -->
@@ -236,9 +261,14 @@
     </div>
 
     <script>
-		$('#products_table').DataTable();
+		$('#products_table').DataTable({
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+		});
 
-        function showImageModal(imageSrc) {
+
+		function showImageModal(imageSrc) {
             document.getElementById('modalImage').src = imageSrc;
             document.getElementById('imageModal').style.display = 'flex';
         }

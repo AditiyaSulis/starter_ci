@@ -33,6 +33,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 	.cuti { background-color: #e4df65; }
 	.izin { background-color: #65c2e4; }
 	.absen { background-color: #e87828; }
+	.minggu { background-color: rgba(209, 35, 248, 0.2); }
 	.nothing { background-color: #73736b; }
 </style>
 <main>

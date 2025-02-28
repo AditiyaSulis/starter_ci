@@ -1,3 +1,26 @@
+<style>
+
+	#piutang_table {
+		width: 100% !important;
+	}
+
+
+	#piutang_table thead th,
+	#piutang_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
+
 <div class="row g-3 align-items-center mt-4">
 	<div class="col-12 col-md-auto">
 		<label class="form-label">Type Piutang :</label>
@@ -21,7 +44,7 @@
 <div class="mt-6">
 	<div class="table-responsive">
 		<table id="piutang_table" class="table table-bordered table-striped border-primary w-100" style="width:100%">
-			<thead>
+			<thead class="table-primary">
 			<tr>
 				<th>No</th>
 				<th>Tanggal</th>
@@ -88,6 +111,9 @@
 					d.status_piutang = data.status_piutang;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

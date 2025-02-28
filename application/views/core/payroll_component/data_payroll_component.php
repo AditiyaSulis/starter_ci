@@ -1,3 +1,25 @@
+<style>
+
+	#payroll_component_table {
+		width: 100% !important;
+	}
+
+
+	#payroll_component_table thead th,
+	#payroll_component_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 
 <div class="mt-6">
 	<div class="row">
@@ -13,7 +35,7 @@
 	</div>
 	<div class="table-responsive">
 		<table id="payroll_component_table" class="table table-bordered table-striped" style="width:100%">
-			<thead>
+			<thead class="table-primary">
 			<?php $no = 1 ?>
 			<tr>
 				<th>No</th>
@@ -75,6 +97,9 @@
 					d.payroll = data.payroll;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

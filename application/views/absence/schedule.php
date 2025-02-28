@@ -27,6 +27,7 @@
 	.tanggal_merah { background-color: #d50e0e; }
 	.cuti { background-color: #e4df65; }
 	.izin { background-color: #65c2e4; }
+	.minggu { background-color: rgba(209, 35, 248, 0.2); }
 	.absen { background-color: #e87828; }
 	.nothing { background-color: #73736b; }
 </style>

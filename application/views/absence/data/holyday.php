@@ -105,7 +105,17 @@
 							<div class="mb-4">
 								<input type="text" id="total" name="total" class="form-control bg-transparent" readonly/>
 							</div>
+						</div>
 
+						<div class="mb-2 fw-bolder text-gray-900">
+							<span>Jenis Libur</span>
+						</div>
+						<div class="mb-4">
+							<select class="form-select" name="status_day" >
+								<option selected>- Pilih Type -</option>
+								<option value="1">Libur Nasional</option>
+								<option value="2">Hari Minggu</option>
+							</select>
 						</div>
 
 

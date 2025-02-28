@@ -43,9 +43,11 @@ class Holyday extends MY_Controller{
 		$this->form_validation->set_rules('type_group', 'type_group', 'required', [
 			'required' => 'Type Group harus diisi',
 		]);
+
 		$this->form_validation->set_rules('type_day', 'type_day', 'required', [
 			'required' => 'Type day harus diisi',
 		]);
+
 		$this->form_validation->set_rules('start_day', 'start_day', 'required', [
 			'required' => 'Tanggal Mulai harus diisi',
 		]);
@@ -64,6 +66,8 @@ class Holyday extends MY_Controller{
 			]);
 			return;
 		}
+
+
 
 		$typeGroup = $this->input->post('type_group', true);
 		$typeDay = $this->input->post('type_day', true);
@@ -88,6 +92,8 @@ class Holyday extends MY_Controller{
 		}
 
 
+
+
 		if($typeDay == 1) {
 			foreach ($product as $productId) {
 				foreach ($division as $divisionId) {
@@ -102,6 +108,7 @@ class Holyday extends MY_Controller{
 						'type_group' => $typeGroup,
 						'date' => $this->input->post('start_day', true),
 						'end_day' => $typeDay == 2 ? $this->input->post('end_day', true) : null,
+						'status_day' => $this->input->post('status_day', true),
 					];
 				}
 			}
@@ -109,8 +116,8 @@ class Holyday extends MY_Controller{
 			for($i = 0; $i < $totalDays; $i++) {
 				foreach ($product as $productId) {
 					foreach ($division as $divisionId) {
-						$idProduct = is_array($productId) ? $productId['id_Product'] : $productId;
-						$idDivision = is_array($divisionId) ? $divisionId['id_Division'] : $divisionId;
+						$idProduct = is_array($productId) ? $productId['id_product'] : $productId;
+						$idDivision = is_array($divisionId) ? $divisionId['id_division'] : $divisionId;
 		//						$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true));
 						$dataBatch[] = [
 							'id_product' => is_array($productId) ? $productId['id_product'] : $productId,
@@ -121,8 +128,14 @@ class Holyday extends MY_Controller{
 							'start_day' => $this->input->post('start_day', true),
 							'date' => date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))),
 							'end_day' => $typeDay == 2 ? $this->input->post('end_day', true) : null,
+							'status_day' => $this->input->post('status_day', true)
 						];
-						$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, $dataBatch['date'], 3);
+						if($this->input->post('status_day', true) == 1 ){
+							$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))), 3);
+						} else {
+							$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))), 8);
+						}
+
 					}
 				}
 			}

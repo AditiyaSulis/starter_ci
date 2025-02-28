@@ -269,16 +269,16 @@ class m_Schedule extends CI_Model
 	}
 	
 
-	public function totalAbsentLastMonthToNowByEmployeeId_get($id, $tanggal)
+	public function totalAbsentLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
 		$today = $tanggal;
 
-		$lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
+		// $lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
 
 		$count = $this->db
 			->where('id_employee', $id)
 			->where('status', 7)
-			->where('waktu >=', $lastMonthDate)
+			->where('waktu >=', $tanggal2)
 			->where('waktu <=', $today)
 			->count_all_results('schedule');
 

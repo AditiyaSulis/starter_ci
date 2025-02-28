@@ -1,3 +1,24 @@
+<style>
+
+	#service_teknisi_table {
+		width: 100% !important;
+	}
+
+	#service_teknisi_table thead th,
+	#service_teknisi_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 <div class="mt-6">
 	<div class="row">
 		<div class="col-2 col-md-2 mb-3">
@@ -27,28 +48,30 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	<table id="service_teknisi_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<?php $no = 1 ?>
-		<tr>
-			<th>No</th>
-			<th>Tanggal Input</th>
-			<th>Nama</th>
-			<th>Produk</th>
-			<th>Divisi</th>
-			<th>Jenis Service</th>
-			<th>Pendapatan</th>
-			<th>Upah</th>
-			<th>Tanggal Service</th>
-			<th>Deskripsi</th>
-			<th>Status</th>
-			<th>Action</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="service_teknisi_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<?php $no = 1 ?>
+			<tr>
+				<th>No</th>
+				<th>Tanggal Input</th>
+				<th>Nama</th>
+				<th>Produk</th>
+				<th>Divisi</th>
+				<th>Jenis Service</th>
+				<th>Pendapatan</th>
+				<th>Upah</th>
+				<th>Tanggal Service</th>
+				<th>Deskripsi</th>
+				<th>Status</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>
@@ -97,6 +120,9 @@
 					d.is = data.is;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

@@ -1,3 +1,23 @@
+<style>
+
+	#payroll_table {
+		width: 100% !important;
+	}
+
+
+	#payroll_table thead th,
+	#payroll_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+</style>
+
 <div class="mt-6">
 	<div class="col-2 col-md-2 mb-3">
 		<label class="form-label">Input At:</label>
@@ -14,23 +34,26 @@
 			<option value="custom">Custom Range</option>
 		</select>
 	</div>
-	<table id="payroll_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<?php $no = 1 ?>
-		<tr>
-			<th>No</th>
-			<th>Tanggal Input</th>
-			<th>Kode</th>
-			<!-- <th>Total Gaji</th>-->
-			<!-- <th>Total Karyawan</th>-->
-			<th>Tanggal Gajian</th>
-			<th>Action</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="payroll_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<?php $no = 1 ?>
+			<tr>
+				<th>No</th>
+				<th>Tanggal Input</th>
+				<th>Kode</th>
+				<th>Potong Piutang</th>
+				<th>Insert Finance Record</th>
+				<th>Potong Libur Nasional</th>
+				<th>Tanggal Gajian</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 
@@ -73,6 +96,9 @@
 					d.endDate = data.endDate;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

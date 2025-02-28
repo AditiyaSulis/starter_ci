@@ -1,3 +1,25 @@
+<style>
+
+	#leave_table {
+		width: 100% !important;
+	}
+
+
+	#leave_table thead th,
+	#leave_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 <div class="mt-6">
 	<div class="row">
 		<div class="col-2 col-md-2 mb-3">
@@ -27,28 +49,30 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	<table id="leave_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<?php $no = 1 ?>
-		<tr>
-			<th>No</th>
-			<th>Tanggal Input</th>
-			<th>Nama</th>
-			<th>Produk</th>
-			<th>Divisi</th>
-			<th>Type</th>
-			<th>Total Hari</th>
-			<th>Mulai Cuti</th>
-			<th>Selesai Cuti</th>
-			<th>Deskripsi</th>
-			<th>Status</th>
-			<th>Action</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="leave_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<?php $no = 1 ?>
+			<tr>
+				<th>No</th>
+				<th>Tanggal Input</th>
+				<th>Nama</th>
+				<th>Produk</th>
+				<th>Divisi</th>
+				<th>Type</th>
+				<th>Total Hari</th>
+				<th>Mulai Cuti</th>
+				<th>Selesai Cuti</th>
+				<th>Deskripsi</th>
+				<th>Status</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 

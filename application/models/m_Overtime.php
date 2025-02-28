@@ -210,14 +210,14 @@ class m_Overtime extends CI_Model
 	}
 
 
-	public function totalOvertimeLastMonthToNowByEmployeeId_get($id, $tanggal)
+	public function totalOvertimeLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
-		$lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
+		// $lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
 
 		$this->db->select_sum('pay', 'total_overtime');
 		$this->db->where('id_employee', $id);
 		$this->db->where('status', 2);
-		$this->db->where('tanggal >=', $lastMonthDate);
+		$this->db->where('tanggal >=', $tanggal2);
 		$this->db->where('tanggal <=', $tanggal);
 		$query = $this->db->get('overtime')->row();
 

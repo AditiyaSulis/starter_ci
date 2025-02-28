@@ -252,19 +252,16 @@ class m_Izin extends CI_Model {
 		return $count;
 	}
 
-	public function totalIzinLastMonthToNowWithPictureByEmployeeId_get($id, $tanggal)
+	public function totalIzinLastMonthToNowWithPictureByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
 
 		$today = $tanggal;
-
-
-		$lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
 
 		$count = $this->db
 			->where('id_employee', $id)
 			->where('status', 2)
 			->where('bukti_surat_sakit !=', '-')
-			->where('tanggal_izin >=', $lastMonthDate)
+			->where('tanggal_izin >=', $$tanggal2)
 			->where('tanggal_izin <=', $today)
 			->count_all_results('izin');
 		return $count;

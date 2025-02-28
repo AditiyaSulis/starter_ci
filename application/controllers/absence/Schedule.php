@@ -42,6 +42,7 @@ class Schedule extends MY_Controller{
 					case 5: $event = '<a href="javascript:void(0)" onclick="setStatusSchedule(this)" data-id_schedule="'.$schedules['id_schedule'].'" data-status="'.$schedules['status'].'"><div class="izin">Izin</div></a>'; break;
 					case 6: $event = '<a href="javascript:void(0)" onclick="setStatusSchedule(this)" data-id_schedule="'.$schedules['id_schedule'].'" data-status="'.$schedules['status'].'"><div class="hadir">Hadir</div></a>'; break;
 					case 7: $event = '<a href="javascript:void(0)" onclick="setStatusSchedule(this)" data-id_schedule="'.$schedules['id_schedule'].'" data-status="'.$schedules['status'].'"><div class="absen">Tidak Hadir</div></a>'; break;
+					case 8: $event = '<a href="javascript:void(0)" onclick="setStatusSchedule(this)" data-id_schedule="'.$schedules['id_schedule'].'" data-status="'.$schedules['status'].'"><div class="minggu">Hari Minggu</div></a>'; break;
 					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
 				}
 
@@ -88,7 +89,7 @@ class Schedule extends MY_Controller{
 		$this->load->library('calendar', $prefs);
 		$calendar = $this->calendar->generate($year, $month, $jadwal);
 
-		// Kirim response JSON
+
 		echo json_encode([
 			'status' => true,
 			'calendar' => $calendar
@@ -154,6 +155,7 @@ class Schedule extends MY_Controller{
 					case 5: $event = '<div class="izin">Izin</div>'; break;
 					case 6: $event = '<div class="hadir">Hadir</div>'; break;
 					case 7: $event = '<div class="absen">Tidak Hadir</div>'; break;
+					case 8: $event = '<div class="minggu">Hari Minggu</div>'; break;
 					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
 				}
 
@@ -207,6 +209,7 @@ class Schedule extends MY_Controller{
 			$this->load->view('templates/index', $data);
 		} else {
 			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+
 			redirect('fetch/login');
 		}
 	}
@@ -236,6 +239,7 @@ class Schedule extends MY_Controller{
 					case 5: $event = '<div class="izin">Izin</div>'; break;
 					case 6: $event = '<div class="hadir">Hadir</div>'; break;
 					case 7: $event = '<div class="absen">Absen</div>'; break;
+					case 7: $event = '<div class="minggu">Minggu</div>'; break;
 					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
 				}
 
@@ -307,6 +311,7 @@ class Schedule extends MY_Controller{
 					case 5: $event = '<div class="izin">Izin</div>'; break;
 					case 6: $event = '<div class="hadir">Hadir</div>'; break;
 					case 7: $event = '<div class="absen">Absen</div>'; break;
+					case 8: $event = '<div class="minggu">Minggu</div>'; break;
 					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
 				}
 
@@ -502,7 +507,6 @@ class Schedule extends MY_Controller{
 		}
 
 
-
 		for($i = 0; $i < $totalDays; $i++) {
 			foreach ($employees as $emp) {
 				$tanggal = date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_date', true))));
@@ -511,23 +515,24 @@ class Schedule extends MY_Controller{
 				$isLeave = $this->m_Leave->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isIzin = $this->m_Izin->findByEmployeeIdAtDate_get($emp,$tanggal);
 				$isHolyday = $this->m_Holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
+				$isSunday = $this->m_Holyday->isSunday_get($product, $division, $tanggal);
 
 
 				$status = 1;
 
 				if(!empty($isDayoff)) {
 					$status=2;
-
 				} else if(!empty($isLeave)) {
 					$status=4;
-
 				} else if(!empty($isIzin)) {
 					$status=5;
-
 				} else if(!empty($isHolyday)) {
-					$status=3;
-
+					$status = 3;
+				} else if(!empty($isSunday)) {
+					$status = 8;
 				}
+
+
 
 
 				$dataBatch[] = [

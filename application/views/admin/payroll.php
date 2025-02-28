@@ -72,12 +72,26 @@
 
 							</select>
 						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Tanggal Gajian</span>
+
+						<div class="row">
+							<div class="col-md-5 col-5">
+								<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+									<span>Mulai</span>
+								</div>
+								<div class="fv-row mb-8">
+									<input type="date"  name="periode_gajian" autocomplete="off" class="form-control bg-transparent" />
+								</div>
+							</div>
+							<div class="col-md-5 col-5">
+								<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+									<span>Selesai</span>
+								</div>
+								<div class="fv-row mb-8">
+									<input type="date" value="<?= date('Y-m-d') ?>" name="tanggal_gajian" autocomplete="off" class="form-control bg-transparent" />
+								</div>
+							</div>
 						</div>
-						<div class="fv-row mb-8">
-							<input type="date" value="<?= date('Y-m-d') ?>" name="tanggal_gajian" autocomplete="off" class="form-control bg-transparent" />
-						</div>
+
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
 						</div>
@@ -102,7 +116,15 @@
 								<option value="2">Exclude</option>
 							</select>
 						</div>
-
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Potongan Libur nasional</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="holyday" id="holyday">
+								<option value="1" selected>Include</option>
+								<option value="2">Exclude</option>
+							</select>
+						</div>
 						<div class="d-grid mb-10">
 							<button type="submit" id="submit_product" class="btn btn-primary">
 								<span class="indicator-label">Generate Payroll</span>

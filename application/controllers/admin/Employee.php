@@ -11,6 +11,8 @@ class Employee extends MY_Controller{
         $this->load->model('m_Bank_account');
         $this->load->model('m_Emergency_contact');
         $this->load->model('m_Log_contract_extension');
+        $this->load->model('m_Address');
+        $this->load->model('m_Domisili');
 
     }
 
@@ -196,6 +198,45 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('rewrite_password', 'rewrite_password', 'required', [
 			'required' => 'Ketik Ulang password harus diisi!',
 		]);
+		$this->form_validation->set_rules('kabupaten', 'kabupaten', 'required', [
+			'required' => 'Kabupaten/kota harus diisi!',
+		]);
+		$this->form_validation->set_rules('kecamatan', 'kecamatan', 'required', [
+			'required' => 'Kecamatan harus diisi!',
+		]);
+		$this->form_validation->set_rules('desa', 'desa', 'required', [
+			'required' => 'Desa harus diisi!',
+		]);
+		$this->form_validation->set_rules('blok', 'blok', 'required', [
+			'required' => 'Blok harus diisi!',
+		]);
+		$this->form_validation->set_rules('kode_pos', 'kode_pos', 'required', [
+			'required' => 'Kode pos harus diisi!',
+		]);
+		$this->form_validation->set_rules('spesifik', 'spesifik', 'required', [
+			'required' => 'Spesifik harus diisi!',
+		]);
+		$this->form_validation->set_rules('kabupaten_domisili', 'kabupaten_domisili', 'required', [
+			'required' => 'Kabupaten/kota domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('kecamatan_domisili', 'kecamatan_domisili', 'required', [
+			'required' => 'Kecamatan domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('desa_domisili', 'desa_domisili', 'required', [
+			'required' => 'Desa domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('blok_domisili', 'blok_domisili', 'required', [
+			'required' => 'Blok domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('kode_pos_domisili', 'kode_pos_domisli', 'required', [
+			'required' => 'Kode pos domisili  harus diisi!',
+		]);
+		$this->form_validation->set_rules('spesifik_domisili', 'spesifik_domisili', 'required', [
+			'required' => 'Spesifik Domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('no_hp', 'no_hp', 'required', [
+			'required' => 'Nomer Hp harus diisi!',
+		]);
 
 		if ($this->form_validation->run() == FALSE) {
 			$response = [
@@ -229,6 +270,7 @@ class Employee extends MY_Controller{
 			'name' => $this->input->post('name', true),
 			'gender' => $this->input->post('gender', true),
 			'email' => $this->input->post('email', true),
+			'no_hp' => $this->input->post('no_hp', true),
 			'place_of_birth' => $this->input->post('place_of_birth', true),
 			'date_of_birth' => $this->input->post('date_of_birth', true),
 			'id_position' => $this->input->post('id_position', true),
@@ -256,8 +298,24 @@ class Employee extends MY_Controller{
 			'as_contact' => $this->input->post('as_contact', true),
 			'address_contact' => $this->input->post('address_contact', true),
 		];
+		$address = [
+			'kabupaten' => $this->input->post('kabupaten', true),
+			'kecamatan' => $this->input->post('kecamatan', true),
+			'desa' => $this->input->post('desa', true),
+			'blok' => $this->input->post('blok', true),
+			'kode_pos' => $this->input->post('kode_pos', true),
+			'spesifik' => $this->input->post('spesifik', true),
+		];
+		$domisili = [
+			'kabupaten_domisili' => $this->input->post('kabupaten_domisili', true),
+			'kecamatan_domisili' => $this->input->post('kecamatan_domisili', true),
+			'desa_domisili' => $this->input->post('desa_domisili', true),
+			'blok_domisili' => $this->input->post('blok_domisili', true),
+			'kode_pos_domisili' => $this->input->post('kode_pos_domisili', true),
+			'spesifik_domisili' => $this->input->post('spesifik_domisili', true),
+		];
 
-		$employee = $this->m_Employees->create_allDataEmployees($emp, $account, $bank, $ec);
+		$employee = $this->m_Employees->create_allDataEmployees($emp, $account, $bank, $ec, $address, $domisili);
 
 		if ($employee) {
 			$response = [
@@ -276,6 +334,113 @@ class Employee extends MY_Controller{
 
 	}
 
+	public function edit_address(){
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('kabupaten', 'kabupaten', 'required', [
+			'required' => 'Kabupaten/kota harus diisi!',
+		]);
+		$this->form_validation->set_rules('kecamatan', 'kecamatan', 'required', [
+			'required' => 'Kecamatan harus diisi!',
+		]);
+		$this->form_validation->set_rules('desa', 'desa', 'required', [
+			'required' => 'Desa harus diisi!',
+		]);
+		$this->form_validation->set_rules('blok', 'blok', 'required', [
+			'required' => 'Blok harus diisi!',
+		]);
+		$this->form_validation->set_rules('kode_pos', 'kode_pos', 'required', [
+			'required' => 'Kode pos harus diisi!',
+		]);
+		$this->form_validation->set_rules('spesifik', 'spesifik', 'required', [
+			'required' => 'Spesifik harus diisi!',
+		]);
+		$this->form_validation->set_rules('kabupaten_domisili', 'kabupaten_domisili', 'required', [
+			'required' => 'Kabupaten/kota domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('kecamatan_domisili', 'kecamatan_domisili', 'required', [
+			'required' => 'Kecamatan domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('desa_domisili', 'desa_domisili', 'required', [
+			'required' => 'Desa domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('blok_domisili', 'blok_domisili', 'required', [
+			'required' => 'Blok domisili harus diisi!',
+		]);
+		$this->form_validation->set_rules('kode_pos_domisili', 'kode_pos_domisli', 'required', [
+			'required' => 'Kode pos domisili  harus diisi!',
+		]);
+		$this->form_validation->set_rules('spesifik_domisili', 'spesifik_domisili', 'required', [
+			'required' => 'Spesifik Domisili harus diisi!',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$id = $this->input->post('id_employee');
+
+		$address = [
+			'kabupaten' => $this->input->post('kabupaten', true),
+			'kecamatan' => $this->input->post('kecamatan', true),
+			'desa' => $this->input->post('desa', true),
+			'blok' => $this->input->post('blok', true),
+			'kode_pos' => $this->input->post('kode_pos', true),
+			'spesifik' => $this->input->post('spesifik', true),
+		];
+		$domisili = [
+			'kabupaten_domisili' => $this->input->post('kabupaten_domisili', true),
+			'kecamatan_domisili' => $this->input->post('kecamatan_domisili', true),
+			'desa_domisili' => $this->input->post('desa_domisili', true),
+			'blok_domisili' => $this->input->post('blok_domisili', true),
+			'kode_pos_domisili' => $this->input->post('kode_pos_domisili', true),
+			'spesifik_domisili' => $this->input->post('spesifik_domisili', true),
+		];
+
+		if(!$this->m_Address->findByEmployeeId_get($id) && !$this->m_Domisili->findByEmployeeId_get($id)){
+			$address = ['id_employee' => $id];
+			$domisili = ['id_employee' => $id];
+			if ($this->m_Address->create_post($address) && $this->m_Domisili->create_post($domisili)) {
+				$response = [
+					'status' => true,
+					'message' => 'Data address karyawan berhasil ditambahkan',
+				];
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Data address karyawan gagal ditambahkan',
+				];
+			}
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		if ($this->m_Address->update_post($id, $address) && $this->m_Domisili->update_post($id, $domisili)) {
+			$response = [
+				'status' => true,
+				'message' => 'Data address karyawan berhasil diupdate',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Data address karyawan gagal diupdate',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
 
     public function update() 
     {
@@ -479,6 +644,27 @@ class Employee extends MY_Controller{
                             data-id_employees="'.htmlspecialchars($item['id_employee']).'">
                             <i class="bi bi-people"></i>
                            </button>';
+			$address_info = '<button 
+                            class="btn btn-success btn-sm rounded-pill btn-bank" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#addressShowModal"
+                            data-id_employee="'.htmlspecialchars($item['id_employee']).'"
+                            data-name="'.htmlspecialchars($item['name']).'"
+                            data-product="'.htmlspecialchars($item['name_product']).'"
+                             data-desa="'.htmlspecialchars($item['desa']).'"
+                             data-blok="'.htmlspecialchars($item['blok']).'"
+                             data-kecamatan="'.htmlspecialchars($item['kecamatan']).'"
+                             data-kode_pos="'.htmlspecialchars($item['kode_pos']).'"
+                             data-spesifik="'.htmlspecialchars($item['spesifik']).'"
+                             data-kabupaten="'.htmlspecialchars($item['kabupaten']).'"
+                             data-desa_domisili="'.htmlspecialchars($item['desa_domisili']).'"
+                             data-blok_domisili="'.htmlspecialchars($item['blok_domisili']).'"
+                             data-kecamatan_domisili="'.htmlspecialchars($item['kecamatan_domisili']).'"
+                             data-kode_pos_domisili="'.htmlspecialchars($item['kode_pos_domisili']).'"
+                             data-spesifik_domisili="'.htmlspecialchars($item['spesifik_domisili']).'"
+                             data-kabupaten_domisili="'.htmlspecialchars($item['kabupaten_domisili']).'">
+                            <i class="bi bi-pin-map"></i>
+                           </button>';
 
 
 
@@ -498,8 +684,9 @@ class Employee extends MY_Controller{
             $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');
             $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['bonus'], 0 , ',', '.');  
-            $row[] = $bank_info;  
-            $row[] = $ec_info;  
+            $row[] = $address_info;
+            $row[] = $bank_info;
+            $row[] = $ec_info;
             $row[] = $action;  
             $data[] = $row;
         }

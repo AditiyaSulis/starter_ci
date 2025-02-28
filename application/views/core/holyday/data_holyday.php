@@ -1,3 +1,25 @@
+<style>
+
+	#holyday_table {
+		width: 100% !important;
+	}
+
+
+	#holyday_table thead th,
+	#holyday_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 <div class="mt-6">
 	<div class="row">
 		<div class="col-2 col-md-2 mb-3">
@@ -26,23 +48,25 @@
 		</div>
 	</div>
 
-	<table id="holyday_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<?php $no = 1 ?>
-		<tr>
-			<th>No</th>
-			<th>Kode</th>
-			<th>Product</th>
-			<th>Divisi</th>
-			<th>Type Libur</th>
-			<th>Tanggal Libur</th>
-			<th>Action</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="holyday_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<?php $no = 1 ?>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Product</th>
+				<th>Divisi</th>
+				<th>Type Libur</th>
+				<th>Tanggal Libur</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>

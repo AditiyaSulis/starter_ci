@@ -1,20 +1,3 @@
-<!-- DETAIL-->
-
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-xl">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Detail Payroll</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body" id="modal-content">
-				<?php $this->load->view($view_pc)?><!-- Data akan dimuat di sini -->
-			</div>
-		</div>
-	</div>
-</div>
-
-<?php $this->load->view($view_pc_component) ?>
 
 <!-- Modal  Custom Date -->
 <div id="customDateModal" class="modal" tabindex="-1">
@@ -46,33 +29,7 @@
 
 <script>
 
-	//DETAIL MODAL
-	document.addEventListener('DOMContentLoaded', function () {
-		const detailModal = document.getElementById('detailModal');
 
-		detailModal.addEventListener('show.bs.modal', function (event) {
-			const button = event.relatedTarget;
-			const idPayroll = button.getAttribute('data-id-payroll'); // Ambil ID payroll dari tombol yang diklik
-			const codePayroll = button.getAttribute('data-code-payroll');
-
-			console.log("Payroll ID:", idPayroll);
-			console.log("Payroll Code:", codePayroll);
-
-
-			$.ajax({
-				url: `<?= base_url("core/core_data/data_payroll_component") ?>?payroll=${encodeURIComponent(idPayroll)}`,
-				method: 'GET',
-				dataType: 'json',
-				success: function (response) {
-					console.log("Data diterima:", response);
-					payroll = idPayroll;
-				},
-				error: function (xhr, status, error) {
-					console.error("Error:", status, error);
-				}
-			});
-		});
-	});
 
 	function preventMultipleSubmit(form) {
 		const submitButton = form.querySelector('button[type="submit"]');
@@ -143,3 +100,49 @@
 		});
 	}
 </script>
+
+<!-- DETAIL-->
+<!---->
+<!--<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">-->
+<!--	<div class="modal-dialog modal-xl">-->
+<!--		<div class="modal-content">-->
+<!--			<div class="modal-header">-->
+<!--				<h5 class="modal-title" id="exampleModalLabel">Detail Payroll</h5>-->
+<!--				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--			</div>-->
+<!--			<div class="modal-body" id="modal-content">-->
+<!--				<?php //$this->load->view($view_pc)?>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
+<!---->
+<?php //$this->load->view($view_pc_component) ?>
+
+<!--//DETAIL MODAL-->
+<!--//document.addEventListener('DOMContentLoaded', function () {-->
+<!--//	const detailModal = document.getElementById('detailModal');-->
+<!--//-->
+<!--//	detailModal.addEventListener('show.bs.modal', function (event) {-->
+<!--//		const button = event.relatedTarget;-->
+<!--//		const idPayroll = button.getAttribute('data-id-payroll'); // Ambil ID payroll dari tombol yang diklik-->
+<!--//		const codePayroll = button.getAttribute('data-code-payroll');-->
+<!--//-->
+<!--//		console.log("Payroll ID:", idPayroll);-->
+<!--//		console.log("Payroll Code:", codePayroll);-->
+<!--//-->
+<!--//-->
+<!--//		$.ajax({-->
+<!--//			url: `--><?php ////= base_url("core/core_data/data_payroll_component") ?><!--//?payroll=${encodeURIComponent(idPayroll)}`,-->
+<!--//			method: 'GET',-->
+<!--//			dataType: 'json',-->
+<!--//			success: function (response) {-->
+<!--//				console.log("Data diterima:", response);-->
+<!--//				payroll = idPayroll;-->
+<!--//			},-->
+<!--//			error: function (xhr, status, error) {-->
+<!--//				console.error("Error:", status, error);-->
+<!--//			}-->
+<!--//		});-->
+<!--//	});-->
+<!--//});-->

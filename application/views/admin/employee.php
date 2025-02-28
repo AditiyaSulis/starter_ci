@@ -39,7 +39,6 @@
     </div>
 
 	<div class="mt-6">
-		<div style="overflow-x: auto; width: 100%;">
 			<table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
 				<thead class="table-primary">
 				<tr>
@@ -58,6 +57,7 @@
 					<th>Gaji</th>
 					<th class="px-2">Uang Makan</th>
 					<th class="px-2">Bonus</th>
+					<th>Address</th>
 					<th>Bank</th>
 					<th>EC</th>
 					<th>Action</th>
@@ -67,7 +67,6 @@
 
 				</tbody>
 			</table>
-		</div>
 	</div>
 
 
@@ -77,13 +76,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Employee - Step 1/4</h3>
+                    <h3 class="modal-title">Add Employee - Step 1/5</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                     <div class="progress mb-8">
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <form id="addEmployeeForm">
                         <div class="mb-3">
@@ -95,6 +94,10 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
+						<div class="mb-3">
+							<label for="name" class="form-label">Nama</label>
+							<input type="text" class="form-control" name="name" required />
+						</div>
                         <div class="mb-3">
                             <label for="date_in" class="form-label">Tanggal Masuk</label>
                             <input type="date" class="form-control" name="date_in" required />
@@ -102,6 +105,10 @@
 						<div class="mb-3">
 							<label for="email" class="form-label">Email</label>
 							<input type="email" class="form-control" name="email" required />
+						</div>
+						<div class="mb-3">
+							<label for="email" class="form-label">No.HP</label>
+							<input type="number" class="form-control" name="no_hp" required />
 						</div>
 						<div class="mb-3">
 							<label for="password" class="form-label">Password</label>
@@ -114,10 +121,6 @@
                         <div class="mb-3">
                             <label for="nip" class="form-label">NIP</label>
                             <input type="number" class="form-control" name="nip" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" required />
                         </div>
                         <div class="mb-3">
                             <label for="gender" class="form-label">Jenis Kelamin</label>
@@ -153,12 +156,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Employee - Step 2/4</h3>
+                    <h3 class="modal-title">Add Employee - Step 2/5</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <div class="progress mb-8">
-                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <form id="formAddSalary">
                         <div class="mb-3">
@@ -190,7 +193,7 @@
 						<div class="mb-3" id="type">
 							<label for="position" class="form-label">Type Karyawan</label>
 							<select id="type_employee" class="form-select" name="type_employee" required>
-								<option value="" selected>Pilih Posisi</option>
+								<option value="" selected>-pilih tipe-</option>
 								<option value="1">Kontrak</option>
 								<option value="2">Magang</option>
 								<option value="3">Permanent</option>
@@ -210,24 +213,98 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="backToAddProduct">Back</button>
-<!--                    <button type="button" class="btn btn-success" id="submitEmployee">Add Employee</button>-->
-					<button type="button" class="btn btn-primary" id="nextToAddBankAccount">Next</button>
+					<button type="button" class="btn btn-primary" id="nextToAddAddress">Next</button>
                 </div>
             </div>
         </div>
     </div>
+
+	<!-- Modal Address -->
+	<div class="modal fade" tabindex="-1" id="addAddress" data-bs-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Add Employee - Step 3/5</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="progress mb-8">
+						<div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+					<form id="addAddressForm">
+						<h5>Tempat Asal : </h5>
+						<hr class="mb-3" style="width: 100%">
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">Kabupaten/Kota</label>
+							<input type="text" class="form-control" id="kabupaten" placeholder="Kabupaten" name="kabupaten" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kecamatan</label>
+							<input type="text" class="form-control" id="kecamatan" placeholder="Kecamatan" name="kecamatan" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Desa</label>
+							<input type="text" class="form-control" id="desa" placeholder="Desa" name="desa" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Blok</label>
+							<input type="text" class="form-control" id="blok" placeholder="Blok" name="blok" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kode Pos</label>
+							<input type="text" class="form-control" id="kode_pos" placeholder="Kode pos" name="kode_pos" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Spesifik</label>
+							<textarea  class="form-control" id="spesifik" placeholder="Spesifik" name="spesifik" required> </textarea>
+						</div>
+						<h5 class="mt-8">Domisili : </h5>
+						<hr class="mb-3" style="width: 100%">
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">Kabupaten/Kota</label>
+							<input type="text" class="form-control" id="kabupaten_domisili" placeholder="Kabupaten" name="kabupaten_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kecamatan</label>
+							<input type="text" class="form-control" id="kecamatan_domisili" placeholder="Kecamatan" name="kecamatan_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Desa</label>
+							<input type="text" class="form-control" id="desa_domisili" placeholder="Desa" name="desa_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Blok</label>
+							<input type="text" class="form-control" id="blok_domisili" placeholder="Blok" name="blok_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kode Pos</label>
+							<input type="text" class="form-control" id="kode_pos_domisili" placeholder="Kode pos" name="kode_pos_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Spesifik</label>
+							<textarea  class="form-control" id="spesifik_domisili" placeholder="Spesifik" name="spesifik_domisili" required> </textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="backToAddSalary">Back</button>
+					<button type="button" class="btn btn-primary" id="nextToAddBankAccount">Next</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal Add Bank Account -->
 	<div class="modal fade" tabindex="-1" id="addBank" data-bs-backdrop="static">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Add Employee - Step 3/4</h3>
+					<h3 class="modal-title">Add Employee - Step 4/5</h3>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="progress mb-8">
-						<div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 					<form id="addBankForm">
 						<div class="mb-3">
@@ -247,7 +324,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" id="backToAddSalary">Back</button>
+					<button type="button" class="btn btn-secondary" id="backToAddAddress">Back</button>
 					<button type="button" class="btn btn-primary" id="nextToAddEc">Next</button>
 				</div>
 			</div>
@@ -259,7 +336,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Add Employee - Step 4/4</h3>
+					<h3 class="modal-title">Add Employee - Step 5/5</h3>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -598,6 +675,90 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="addressShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Address</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<span>Nama: <span id="nama_karyawan" class="text-success"></span></span>
+					</div>
+					<div class="mb-3">
+						<span>Product: <span id="product_employee" class="text-success"></span></span>
+					</div>
+					<form id="editAddressForrm">
+						<input type="hidden" id="edit_id_employee" name="id_employee">
+						<h5>Tempat Asal : </h5>
+						<hr class="mb-3" style="width: 100%">
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">Kabupaten/Kota</label>
+							<input type="text" class="form-control" id="edit_kabupaten" placeholder="Kabupaten" name="kabupaten" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kecamatan</label>
+							<input type="text" class="form-control" id="edit_kecamatan" placeholder="Kecamatan" name="kecamatan" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Desa</label>
+							<input type="text" class="form-control" id="edit_desa" placeholder="Desa" name="desa" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Blok</label>
+							<input type="text" class="form-control" id="edit_blok" placeholder="Blok" name="blok" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kode Pos</label>
+							<input type="text" class="form-control" id="edit_kode_pos" placeholder="Kode pos" name="kode_pos" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Spesifik</label>
+							<textarea  class="form-control" id="edit_spesifik" placeholder="Spesifik" name="spesifik" required> </textarea>
+						</div>
+						<h5 class="mt-8">Domisili : </h5>
+						<hr class="mb-3" style="width: 100%">
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">Kabupaten/Kota</label>
+							<input type="text" class="form-control" id="edit_kabupaten_domisili" placeholder="Kabupaten" name="kabupaten_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kecamatan</label>
+							<input type="text" class="form-control" id="edit_kecamatan_domisili" placeholder="Kecamatan" name="kecamatan_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Desa</label>
+							<input type="text" class="form-control" id="edit_desa_domisili" placeholder="Desa" name="desa_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Blok</label>
+							<input type="text" class="form-control" id="edit_blok_domisili" placeholder="Blok" name="blok_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Kode Pos</label>
+							<input type="text" class="form-control" id="edit_kode_pos_domisili" placeholder="Kode pos" name="kode_pos_domisili" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Spesifik</label>
+							<textarea  class="form-control" id="edit_spesifik_domisili" placeholder="Spesifik" name="spesifik_domisili" required> </textarea>
+						</div>
+							<button type="submit" class="btn btn-primary">
+								<span class="indicator-label">
+									Update
+								</span>
+								<span class="indicator-progress">
+									Please wait...
+									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+								</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
     <script>
         const base_url = $('meta[name="base_url"]').attr('content');  
@@ -622,8 +783,10 @@
 						d.product = $('#filter-product').val();
 					}
 				},
+				dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+					"tr" +
+					"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 				columnDefs: [
-
 					{ targets: 0, className: "text-center" },
 					{ targets: [1, 2, 3, 4], responsivePriority: 1 },
 					{ targets: -1, responsivePriority: 2 },
@@ -799,10 +962,6 @@
                 });
             });
 
-
-
-            
-            
         });
 
 
@@ -1052,18 +1211,30 @@
                 $('#addEmployeeModal').modal('show');
             })
 
-
-			$('#nextToAddBankAccount').on('click', function () {
+			$('#nextToAddAddress').on('click', function () {
 				if ($('#formAddSalary')[0].checkValidity()) {
 					$('#addSalary').modal('hide');
-					$('#addBank').modal('show');
+					$('#addAddress').modal('show');
 				} else {
 					$('#formAddSalary')[0].reportValidity();
 				}
 			});
 			$('#backToAddSalary').on('click', function () {
-				$('#addBank').modal('hide');
+				$('#addAddress').modal('hide');
 				$('#addSalary').modal('show');
+			});
+
+			$('#nextToAddBankAccount').on('click', function () {
+				if ($('#addAddressForm')[0].checkValidity()) {
+					$('#addAddress').modal('hide');
+					$('#addBank').modal('show');
+				} else {
+					$('#addAddressForm')[0].reportValidity();
+				}
+			});
+			$('#backToAddAddress').on('click', function () {
+				$('#addBank').modal('hide');
+				$('#addAddress').modal('show');
 			});
 
 			$('#nextToAddEc').on('click', function () {
@@ -1084,14 +1255,15 @@
 				const salaryData = $('#formAddSalary').serializeArray();
 				const bankData = $('#addBankForm').serializeArray();
 				const ecData = $('#addEcForm').serializeArray();
+				const addressData = $('#addAddressForm').serializeArray();
 
 				const formData = {};
 
-				employeeData.concat(salaryData, bankData, ecData).forEach(field => {
+				employeeData.concat(salaryData, bankData, ecData, addressData).forEach(field => {
 					formData[field.name] = field.value;
 				});
 
-				if ($('#addEmployeeForm')[0].checkValidity() && $('#formAddSalary')[0].checkValidity() && $('#addBankForm')[0].checkValidity() && $('#addEcForm')[0].checkValidity()) {
+				if ($('#addEmployeeForm')[0].checkValidity() && $('#formAddSalary')[0].checkValidity() && $('#addAddressForm')[0].checkValidity() && $('#addBankForm')[0].checkValidity() && $('#addEcForm')[0].checkValidity()) {
 					Swal.fire({
 						title: 'Apakah kamu yakin?',
 						text: "Pastikan data yang dimasukan sudah benar",
@@ -1140,6 +1312,7 @@
 				} else {
 					$('#addEmployeeForm')[0].reportValidity();
 					$('#formAddSalary')[0].reportValidity();
+					$('#addAddressForm')[0].reportValidity();
 					$('#addBankForm')[0].reportValidity();
 					$('#addEcForm')[0].reportValidity();
 				}
@@ -1363,6 +1536,101 @@
 
 		});
 
+		// SHOW AND EDIT MODAL
+		const editAddressModal = document.getElementById('addressShowModal');
+		editAddressModal.addEventListener('show.bs.modal', function (event) {
+			// console.log("Related Target:", event.relatedTarget);
+
+			const button = event.relatedTarget;
+			const id = button.getAttribute('data-id_employee');
+			const namaKaryawan = button.getAttribute('data-name');
+			const product = button.getAttribute('data-product');
+
+			const kabupaten = button.getAttribute('data-kabupaten');
+			const kecamatan = button.getAttribute('data-kecamatan');
+			const desa = button.getAttribute('data-desa');
+			const blok = button.getAttribute('data-blok');
+			const kodePos = button.getAttribute('data-kode_pos');
+			const spesifik = button.getAttribute('data-spesifik');
+
+
+			const kabupatenDomisili = button.getAttribute('data-kabupaten_domisili');
+			const kecamatanDomisili = button.getAttribute('data-kecamatan_domisili');
+			const desaDomisili = button.getAttribute('data-desa_domisili');
+			const blokDomisili = button.getAttribute('data-blok_domisili');
+			const kodePosDomisili = button.getAttribute('data-kode_pos_domisili');
+			const spesifikDomisili = button.getAttribute('data-spesifik_domisili');
+
+			console.log("ID:", id);
+
+
+			$('#nama_karyawan').text(namaKaryawan);
+			$('#product_employee').text(product);
+
+
+			$('#edit_kabupaten').val(kabupaten);
+			$('#edit_kecamatan').val(kecamatan);
+			$('#edit_desa').val(desa);
+			$('#edit_blok').val(blok);
+			$('#edit_kode_pos').val(kodePos);
+			$('#edit_spesifik').val(spesifik);
+			$("#edit_id_employee").val(id);
+
+			$('#edit_kabupaten_domisili').val(kabupatenDomisili);
+			$('#edit_kecamatan_domisili').val(kecamatanDomisili);
+			$('#edit_desa_domisili').val(desaDomisili);
+			$('#edit_blok_domisili').val(blokDomisili);
+			$('#edit_kode_pos_domisili').val(kodePosDomisili);
+			$('#edit_spesifik_domisili').val(spesifikDomisili);
+
+			$("#editAddressForrm").on("submit", function (e) {
+				e.preventDefault();
+
+				// const submitButton = $("#editAddressForrm button[type=submit]");
+				// submitButton.prop("disabled", true).text("Processing...");
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Pastikan data yang dimasukan sudah benar",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Update',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+
+
+						$.ajax({
+							url: base_url + "admin/employee/edit_address",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									// submitButton.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								// submitButton.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+
+		});
 
 	</script>
 </main>

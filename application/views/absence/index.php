@@ -26,7 +26,9 @@ if($schedule) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini  adalah jadwal cuti anda.</p>';
 	}else if($schedule['status']== 5) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini anda mengajukan izin.</p>';
-	} else if($schedule['status']== 6) {
+	} else if($schedule['status']== 8) {
+		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini adalah libur hari minggu.</p>';
+	}else if($schedule['status']== 6) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Anda Sudah melakukan absen hari ini pukul : '. date('H:i',strtotime($schedule['jam_masuk'])).' WIB </p>';
 	}
 } else {
@@ -49,13 +51,11 @@ if($schedule) {
 	</ul>
 
 	<div class="row mt-12">
-		<div class="col-md-6 col-6 mb-4 col-sm-12">
+		<div class="col-md-6 mb-4 col-sm-12">
 			<h4>Data Kehadiran Hari Ini</h4>
-			<div class="table-responsive">
 				<?php $this->load->view($view_log_attendance); ?>
-			</div>
 		</div>
-		<div class="col-md-6 col-6 mb-4 col-sm-12">
+		<div class="col-md-6 mb-4 col-sm-12">
 			<div class="card text-center">
 				<div class="card-header d-flex justify-content-center pt-4">
 					<h5 class="card-title">Attendance</h5>

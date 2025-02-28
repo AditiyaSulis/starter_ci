@@ -44,15 +44,23 @@ class m_Holyday extends CI_Model
 	{
 		return $this->db->delete('holyday', ['id_holyday' => $id]);
 	}
+	
 
 	public function findByEmplooyeeId_get($id)
 	{
 		return $this->db->get_where('holyday', ['id_employee' => $id])->result_array();
 	}
 
+
 	public function findByProductNDivisionIdAtDate_get($id, $division, $date)
 	{
-		return $this->db->get_where('holyday', ['id_product' => $id, 'id_division' => $division, 'date' => $date])->result_array();
+		return $this->db->get_where('holyday', ['id_product' => $id, 'id_division' => $division, 'date' => $date, 'status_day' => 1])->result_array();
+	}
+	
+
+	public function isSunday_get($id, $division, $date)
+	{
+		return $this->db->get_where('holyday', ['id_product' => $id, 'id_division' => $division, 'date' => $date, 'status_day' => 2])->result_array();
 	}
 
 
@@ -201,6 +209,19 @@ class m_Holyday extends CI_Model
 		}
 	}
 
+	public function totalHolydayLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
+	{
+		$today = $tanggal;
 
+		$count = $this->db
+			->where('id_employee', $id)
+			->where('status', 3)
+			->where('waktu >=', $tanggal2)
+			->where('waktu <=', $today)
+			->count_all_results('schedule');
 
+		return $count;
 	}
+
+
+}

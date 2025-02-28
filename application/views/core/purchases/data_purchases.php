@@ -1,3 +1,25 @@
+<style>
+
+	#purchases_table {
+		width: 100% !important;
+	}
+
+
+	#purchases_table thead th,
+	#purchases_table tbody td {
+		white-space: nowrap;
+		padding: 5px;
+	}
+
+
+	div.dataTables_scrollHeadInner {
+		width: 100% !important;
+	}
+
+
+
+</style>
+
 <div class="mt-6">
 	<div class="col-2 col-md-2 mb-3">
 		<label class="form-label">Jatuh Tempo:</label>
@@ -14,28 +36,30 @@
 			<option value="custom">Custom Range</option>
 		</select>
 	</div>
-	<table id="purchases_table" class="table table-bordered table-striped" style="width:100%">
-		<thead>
-		<?php $no = 1 ?>
-		<tr>
-			<th>No</th>
-			<th>Tanggal Input</th>
-			<th>Supplier</th>
-			<th>Total</th>
-			<th>Potongan</th>
-			<th>Final</th>
-			<th>Sisa</th>
-			<th>Status</th>
-			<th>Type</th>
-			<th>Jatuh Tempo</th>
-			<th>Deskripsi</th>
-			<th>Action</th>
-		</tr>
-		</thead>
-		<tbody>
+	<div style="overflow-x: auto; width: 100%;">
+		<table id="purchases_table" class="table table-bordered table-striped" style="width:100%">
+			<thead class="table-primary">
+			<?php $no = 1 ?>
+			<tr>
+				<th>No</th>
+				<th>Tanggal Input</th>
+				<th>Supplier</th>
+				<th>Total</th>
+				<th>Potongan</th>
+				<th>Final</th>
+				<th>Sisa</th>
+				<th>Status</th>
+				<th>Type</th>
+				<th>Jatuh Tempo</th>
+				<th>Deskripsi</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>
@@ -81,6 +105,9 @@
 					d.with_alerts = data.with_alerts;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

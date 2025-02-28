@@ -240,18 +240,15 @@ class m_Day_off extends CI_Model
 	}
 
 
-	public function totalDayOffLastMonthToNowByEmployeeId_get($id, $tanggal)
+	public function totalDayOffLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
 
 		$today = $tanggal;
 
-
-		$lastMonthDate = date('Y-m-d', strtotime('-1 month', strtotime($tanggal)));
-
 		$count = $this->db
 			->where('id_employee', $id)
 			->where('status', 2)
-			->where('tgl_day_off >=', $lastMonthDate)
+			->where('tgl_day_off >=', $tanggal2)
 			->where('tgl_day_off <=', $today)
 			->count_all_results('day_off');
 

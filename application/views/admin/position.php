@@ -20,7 +20,7 @@
 
         <div class="table-responsive">
             <table id="position_table" class="table table-bordered table-striped" style="width:100%">
-                <thead>
+                <thead class="table-primary">
                     <?php $no = 1 ?>
                     <tr>
                         <th>No</th>
@@ -155,7 +155,12 @@
 
 
 <script>
-    $('#position_table').DataTable();
+
+	$('#position_table').DataTable({
+		dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+			"tr" +
+			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+	});
 </script>
 
 </main>
