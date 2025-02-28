@@ -14,7 +14,7 @@ class MY_Controller extends CI_Controller
 		//load segala kebutuhan yang sering digunakan
         $this->load->model('M_admin');
 		$id  = $this->session->userdata('user') ;//ambil dari session
-		$current = $this->m_Admin->findById_get($id) ;// query ke table admin mencari berdasarkan id
+		$current = $this->M_admin->findById_get($id) ;// query ke table admin mencari berdasarkan id
 		if (!$current) {
 			$this->session->set_flashdata('forbidden', 'Silahkan login');
             $this->session->unset_userdata('user');

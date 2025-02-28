@@ -19,9 +19,9 @@ class Dashboard extends MY_Controller{
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
 
-        $data['allUsers'] = $this->m_Admin->totalUsers_get();
-        $data['allSuperUsers'] = $this->m_Admin->totalSuperUsers_get();
-        $data['allAdmins']= $this->m_Admin->totalAdmins_get();
+        $data['allUsers'] = $this->->totalUsers_get();
+        $data['allSuperUsers'] = $this->M_admin->totalSuperUsers_get();
+        $data['allAdmins']= $this->M_admin->totalAdmins_get();
         $data['allProducts']= $this->m_Products->totalProducts_get();
         $data['allEmployees']= $this->m_Employees->totalEmployees_get();
         $data['allRecords']= $this->m_Finance_records->totalFinanceRecords_get();

@@ -41,7 +41,7 @@ class Auth extends CI_Controller{
         ];
     
 
-        $infoAccount = $this->m_Admin->findByEmail_get($data['email'], $data['password']);
+        $infoAccount = $this->M_admin->findByEmail_get($data['email'], $data['password']);
         if ($infoAccount) {
             if ($infoAccount['status'] != 1) {
                 $response = [
@@ -52,7 +52,7 @@ class Auth extends CI_Controller{
                 return;
             }
     
-            $this->m_Admin->updateLogin_post($data['email']);
+            $this->M_admin->updateLogin_post($data['email']);
             $this->session->set_userdata('user', $infoAccount['id']);
 
 			$url = $infoAccount['role'] == 1 || $infoAccount['role'] == 2 ? 'admin/dashboard/dashboard_page?with_alerts=1' : 'absence/absence/absence_page';
@@ -167,7 +167,7 @@ class Auth extends CI_Controller{
             'role' => $this->input->post('role', true),
         ];
     
-        if ($this->m_Admin->create_post($data)) {
+        if ($this->M_admin->create_post($data)) {
             echo json_encode([
                 'status' => true,
                 'confirmationbutton' => false,
@@ -200,7 +200,7 @@ class Auth extends CI_Controller{
             return;
         }
 
-        $account = $this->m_Admin->findById_get($id);
+        $account = $this->M_admin->findById_get($id);
         $accountDto = [
             'id' => $account['id'],
             'name' => $account['name'],
@@ -237,7 +237,7 @@ class Auth extends CI_Controller{
             return;
         }
 
-        $account = $this->m_Admin->findById_get($id);
+        $account = $this->M_admin->findById_get($id);
 
         $old_email = $account['email'];
 
@@ -264,7 +264,7 @@ class Auth extends CI_Controller{
         $new_email = $this->input->post('email', true);
 
         if($old_email != $new_email) {
-            $emailExist = $this->m_Admin->findByEmailForEdit_get($new_email);
+            $emailExist = $this->M_admin->findByEmailForEdit_get($new_email);
             if($emailExist){
                 $response = [
                     'status' => false,
@@ -283,7 +283,7 @@ class Auth extends CI_Controller{
                 'email' => $this->input->post('email'),
             ];
     
-            if ($this->m_Admin->update_post($id, $data)) {
+            if ($this->M_admin->update_post($id, $data)) {
                 $response = [
                     'status' => true,
                     'message' => 'Account berhasil diperbarui.'
@@ -298,7 +298,7 @@ class Auth extends CI_Controller{
             return;
         }
 
-        $data_account = $this->m_Admin->findById_get($id);
+        $data_account = $this->M_admin->findById_get($id);
         if ($data_account && !empty($data_account['avatar'])) {
             $old_logo_path = './uploads/avatar/' . $data_account['avatar'];
             if (file_exists($old_logo_path)) {
@@ -333,7 +333,7 @@ class Auth extends CI_Controller{
             
         ];
 
-        $account_updated = $this->m_Admin->update_post($id, $data);
+        $account_updated = $this->M_admin->update_post($id, $data);
 
         if($account_updated) {
             $response = [

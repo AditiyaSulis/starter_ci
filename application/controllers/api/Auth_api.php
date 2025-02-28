@@ -17,7 +17,7 @@ class Auth_api extends RestController{
 
     public function getAll_get()
     {
-        $data = $this->m_Admin->findAll_get();
+        $data = $this->M_admin->findAll_get();
 
         if($data){
             $this->response([
@@ -75,7 +75,7 @@ class Auth_api extends RestController{
 
         // echo 'Pendaftaran berhasil'.PHP_EOL;
     
-        if($this->m_Admin->create_post($data)){
+        if($this->M_admin->create_post($data)){
             if($data['role']== 1){
                 $this->response([
                     'status' => true,
@@ -99,7 +99,7 @@ class Auth_api extends RestController{
     public function update_put($id) 
     {
         // Periksa apakah akun dengan ID tertentu ada
-        $account = $this->m_Admin->findById_get($id);
+        $account = $this->M_admin->findById_get($id);
         
 
         if (!$account) {
@@ -153,7 +153,7 @@ class Auth_api extends RestController{
             'role' => $this->input->post('role', true),
         ];
 
-        $updateResult = $this->m_Admin->update($data, $id);
+        $updateResult = $this->M_admin->update($data, $id);
     
         if ($updateResult) {
             $this->response([
