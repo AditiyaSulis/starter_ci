@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_Admin extends CI_Model {
+class M_admin extends CI_Model {
 
    public function findByEmail_get($email, $password) 
    {

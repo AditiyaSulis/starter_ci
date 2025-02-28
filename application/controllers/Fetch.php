@@ -1,13 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use GuzzleHttp\Client;
 
 class Fetch extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-        $this->load->model('m_Admin');
+        $this->load->model('M_admin');
     }
 
     public function login(){

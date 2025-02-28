@@ -12,7 +12,7 @@ class MY_Controller extends CI_Controller
 	{
 		parent::__construct();
 		//load segala kebutuhan yang sering digunakan
-        $this->load->model('m_Admin');
+        $this->load->model('M_admin');
 		$id  = $this->session->userdata('user') ;//ambil dari session
 		$current = $this->m_Admin->findById_get($id) ;// query ke table admin mencari berdasarkan id
 		if (!$current) {

@@ -10,7 +10,7 @@ class Auth_api extends RestController{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Admin');
+        $this->load->model('M_admin');
         validate_header();
 
     }

@@ -6,7 +6,7 @@ class Auth extends CI_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Admin');
+        $this->load->model('M_admin');
         $this->load->library('upload');
 
     }
