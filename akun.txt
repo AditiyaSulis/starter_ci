@@ -35,3 +35,6 @@ pw : zilong
 ---------------------------------------
 
 akun produk lainnya memiliki pola email dan pw yang sama dengan nama 
+
+
+url login : http://localhost/starter_ci/panel
