@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Schedule extends CI_Model
+class M_schedule extends CI_Model
 {
 
 	private $column_search = array('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.id_employee, employee.name');

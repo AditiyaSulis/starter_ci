@@ -9,7 +9,7 @@ class Holyday extends MY_Controller{
 		$this->load->model('m_Holyday');
 		$this->load->model('m_Products');
 		$this->load->model('m_Division');
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 	}
 
 	public function holyday_page()
@@ -99,7 +99,7 @@ class Holyday extends MY_Controller{
 				foreach ($division as $divisionId) {
 					$idProduct = is_array($productId) ? $productId['id_product'] : $productId;
 					$idDivision = is_array($divisionId) ? $divisionId['id_division'] : $divisionId;
-					$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true), 3);
+					$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true), 3);
 					$dataBatch[] = [
 						'id_product' => is_array($productId) ? $productId['id_product'] : $productId,
 						'id_division' => is_array($divisionId) ? $divisionId['id_division'] : $divisionId,
@@ -118,7 +118,7 @@ class Holyday extends MY_Controller{
 					foreach ($division as $divisionId) {
 						$idProduct = is_array($productId) ? $productId['id_product'] : $productId;
 						$idDivision = is_array($divisionId) ? $divisionId['id_division'] : $divisionId;
-		//						$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true));
+		//						$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true));
 						$dataBatch[] = [
 							'id_product' => is_array($productId) ? $productId['id_product'] : $productId,
 							'id_division' => is_array($divisionId) ? $divisionId['id_division'] : $divisionId,
@@ -131,9 +131,9 @@ class Holyday extends MY_Controller{
 							'status_day' => $this->input->post('status_day', true)
 						];
 						if($this->input->post('status_day', true) == 1 ){
-							$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))), 3);
+							$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))), 3);
 						} else {
-							$this->m_Schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))), 8);
+							$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_day', true)))), 8);
 						}
 
 					}
@@ -164,7 +164,7 @@ class Holyday extends MY_Controller{
 		$data = $this->m_Holyday->findById_get($id);
 
 		if($this->m_Holyday->delete($id)){
-			$this->m_Schedule->setStatusFromHolyday_post($data['id_product'], $data['id_division'], $data['date'], 1);
+			$this->M_schedule->setStatusFromHolyday_post($data['id_product'], $data['id_division'], $data['date'], 1);
 			$response = [
 				'status' => true,
 				'message' => 'Data libur berhasil dihapus',

@@ -8,7 +8,7 @@ class Service_teknisi extends MY_Controller{
 		parent::__construct();
 		$this->load->model('m_Service_teknisi');
 		$this->load->model('M_employees');
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 		$this->load->model('m_Products');
 		$this->load->model('m_Division');
 

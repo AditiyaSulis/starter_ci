@@ -8,7 +8,7 @@ class DayOff extends MY_Controller{
 		parent::__construct();
 		$this->load->model('m_Day_off');
 		$this->load->model('M_employees');
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 		$this->load->model('m_Products');
 
 	}
@@ -161,7 +161,7 @@ class DayOff extends MY_Controller{
 		$overtime = $this->m_Day_off->create_post($data);
 
 		if ($overtime) {
-			$this->m_Schedule->setStatus_post($emp['id_employee'], $this->input->post('tgl_day_off',true), 2);
+			$this->M_schedule->setStatus_post($emp['id_employee'], $this->input->post('tgl_day_off',true), 2);
 			$response = [
 				'status' => true,
 				'message' => 'Data libur berhasil dibuat',
@@ -209,9 +209,9 @@ class DayOff extends MY_Controller{
 		$setstatus = $this->input->post('status', true);
 
 		if($setstatus == 2) {
-			$setStatus1 = $this->m_Schedule->setStatus_post($idEmployee, $tanggal, 2);
+			$setStatus1 = $this->M_schedule->setStatus_post($idEmployee, $tanggal, 2);
 		} else {
-			$setStatus1 = $this->m_Schedule->setStatus_post($idEmployee, $tanggal, 1);
+			$setStatus1 = $this->M_schedule->setStatus_post($idEmployee, $tanggal, 1);
 		}
 
 		if ($this->m_Day_off->setStatus_post($id, $setstatus)) {
@@ -240,7 +240,7 @@ class DayOff extends MY_Controller{
 		$data = $this->m_Day_off->findById_get($id);
 
 		if($this->m_Day_off->delete($id)){
-			$this->m_Schedule->setStatus_post($data['id_employee'], $data['tgl_day_off'], 1);
+			$this->M_schedule->setStatus_post($data['id_employee'], $data['tgl_day_off'], 1);
 			$response = [
 				'status' => true,
 				'message' => 'Data Libur karyawan berhasil dihapus',

@@ -7,7 +7,7 @@ class Absence extends MY_Controller{
     {
         parent::__construct();
 		$this->load->model('M_employees');
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 		$this->load->model('m_Attendance');
 		$this->load->model('m_Products');
 		$this->load->model('m_Location');
@@ -29,7 +29,7 @@ class Absence extends MY_Controller{
 
 		$today = date('Y-m-d');
 
-		$data['schedule'] = $this->m_Schedule->findScheduleToday_get($data['employee'], $today);
+		$data['schedule'] = $this->M_schedule->findScheduleToday_get($data['employee'], $today);
 		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
 
         if($data['user']) { 
@@ -132,7 +132,7 @@ class Absence extends MY_Controller{
 		$attendance = $this->m_Attendance->create_post($dataAtt);
 
 		if ($attendance) {
-			$this->m_Schedule->setStatus_post($idEmployee, $tanggal, '6');
+			$this->M_schedule->setStatus_post($idEmployee, $tanggal, '6');
 			$response = [
 				'status' => true,
 				'sc' => $idSchedule,

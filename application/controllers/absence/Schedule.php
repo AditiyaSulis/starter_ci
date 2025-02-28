@@ -6,7 +6,7 @@ class Schedule extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 		$this->load->model('M_employees');
 		$this->load->model('m_Workshift');
 		$this->load->model('m_Products');
@@ -25,7 +25,7 @@ class Schedule extends MY_Controller{
 		$year = date('Y');
 		$month = date('m');
 
-		$schedule = $this->m_Schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
+		$schedule = $this->M_schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
 
 		$jadwal = [];
 
@@ -138,7 +138,7 @@ class Schedule extends MY_Controller{
 		$year = $year ?? date('Y');
 		$month = $month ?? date('m');
 
-		$schedule = $this->m_Schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
+		$schedule = $this->M_schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
 		$jadwal = [];
 
 
@@ -223,7 +223,7 @@ class Schedule extends MY_Controller{
 		$year = $year ?? date('Y');
 		$month = $month ?? date('m');
 
-		$schedule = $this->m_Schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
+		$schedule = $this->M_schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
 		$jadwal = [];
 
 		if (!empty($schedule)) {
@@ -295,7 +295,7 @@ class Schedule extends MY_Controller{
 		$year = is_numeric($year) ? (int) $year : date('Y');
 		$month = is_numeric($month) ? (int) $month : date('m');
 
-		$schedule = $this->m_Schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
+		$schedule = $this->M_schedule->findByEmployeeIdAndTimeSpecific_get($idEmployee, $year, $month);
 		$jadwal = [];
 
 		if (!empty($schedule)) {
@@ -443,14 +443,14 @@ class Schedule extends MY_Controller{
 			'izin'  => $this->m_Izin->totalIzinThisMonthByEmployeeId_get($idEmployee),
 			'dayoff' => $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($idEmployee),
 			'cuti'   => $this->m_Leave->totalLeaveThisMonthByEmployeeId_get($idEmployee),
-			'absen'   => $this->m_Schedule->totalAbsentThisMonthByEmployeeId_get($idEmployee),
+			'absen'   => $this->M_schedule->totalAbsentThisMonthByEmployeeId_get($idEmployee),
 		];
 
 		$thisYear = [
 			'izin'  => $this->m_Izin->totalIzinByEmployeeId_get($idEmployee),
 			'dayoff' => $this->m_Day_off->totalDayOffByEmployeeId_get($idEmployee),
 			'cuti'   => $this->m_Leave->totalLeaveByEmployeeId_get($idEmployee),
-			'absen'   => $this->m_Schedule->totalAbsentByEmployeeId_get($idEmployee),
+			'absen'   => $this->M_schedule->totalAbsentByEmployeeId_get($idEmployee),
 
 		];
 
@@ -548,7 +548,7 @@ class Schedule extends MY_Controller{
 		}
 
 
-		$schedule = $this->m_Schedule->create_batch_post($dataBatch);
+		$schedule = $this->M_schedule->create_batch_post($dataBatch);
 		echo json_encode([
 			'status' => $schedule ? true : false,
 			'message' => $schedule ? 'Jadwal berhasil dibuat' : 'Jadwal gagal dibuat',

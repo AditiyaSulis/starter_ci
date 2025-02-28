@@ -10,7 +10,7 @@ class Dashboard extends MY_Controller{
         $this->load->model('m_Products');
         $this->load->model('m_Finance_records');
         $this->load->model('m_Piutang');
-        $this->load->model('m_Schedule');
+        $this->load->model('M_schedule');
     }
 
 
@@ -34,7 +34,7 @@ class Dashboard extends MY_Controller{
 		$data['view_data'] = 'core/piutang/data_piutang';
 		$data['view_components'] = 'core/piutang/data_piutang_components';
 
-		$updatedRows = $this->m_Schedule->mark_absent_if_no_checkin();
+		$updatedRows = $this->M_schedule->mark_absent_if_no_checkin();
 
         $data['title'] = 'Admin';
         $data['view_name'] = 'admin/index';

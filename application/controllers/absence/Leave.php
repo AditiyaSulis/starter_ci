@@ -8,7 +8,7 @@ class Leave extends MY_Controller{
 		parent::__construct();
 		$this->load->model('m_Leave');
 		$this->load->model('M_employees');
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 		$this->load->model('m_Products');
 
 	}
@@ -313,10 +313,10 @@ class Leave extends MY_Controller{
 
 		if ($leave) {
 			if($type == 2) {
-				$set1 = $this->m_Schedule->setStatus_post($emp['id_employee'], $this->input->post('start_day',true), 4);
-				$set2 = $this->m_Schedule->setStatus_post($emp['id_employee'], $this->input->post('end_day'), 4);
+				$set1 = $this->M_schedule->setStatus_post($emp['id_employee'], $this->input->post('start_day',true), 4);
+				$set2 = $this->M_schedule->setStatus_post($emp['id_employee'], $this->input->post('end_day'), 4);
 			} else {
-				$set1 = $this->m_Schedule->setStatus_post($emp['id_employee'], $this->input->post('start_day',true), 4);
+				$set1 = $this->M_schedule->setStatus_post($emp['id_employee'], $this->input->post('start_day',true), 4);
 			}
 			$response = [
 				'status' => true,
@@ -368,17 +368,17 @@ class Leave extends MY_Controller{
 
 		if($setstatus == 2) {
 			if($type == 1) {
-				$set1 = $this->m_Schedule->setStatus_post($idEmployee, $start_day, 4);
+				$set1 = $this->M_schedule->setStatus_post($idEmployee, $start_day, 4);
 			} else {
-				$set1 = $this->m_Schedule->setStatus_post($idEmployee, $start_day, 4);
-				$set2 = $this->m_Schedule->setStatus_post($idEmployee, $end_day, 4);
+				$set1 = $this->M_schedule->setStatus_post($idEmployee, $start_day, 4);
+				$set2 = $this->M_schedule->setStatus_post($idEmployee, $end_day, 4);
 			}
 		} else {
 			if($type == 1) {
-				$set1 = $this->m_Schedule->setStatus_post($idEmployee, $start_day, 1);
+				$set1 = $this->M_schedule->setStatus_post($idEmployee, $start_day, 1);
 			} else {
-				$set1 = $this->m_Schedule->setStatus_post($idEmployee, $start_day, 1);
-				$set2 = $this->m_Schedule->setStatus_post($idEmployee, $end_day, 1);
+				$set1 = $this->M_schedule->setStatus_post($idEmployee, $start_day, 1);
+				$set2 = $this->M_schedule->setStatus_post($idEmployee, $end_day, 1);
 			}
 		}
 
@@ -410,9 +410,9 @@ class Leave extends MY_Controller{
 		$data = $this->m_Leave->findById_get($id);
 
 		if($this->m_Leave->delete($id)){
-			$this->m_Schedule->setStatus_post($data['id_employee'], $data['start_day'], 1);
+			$this->M_schedule->setStatus_post($data['id_employee'], $data['start_day'], 1);
 			if($data['end_day'] != null){
-				$this->m_Schedule->setStatus_post($data['id_employee'], $data['end_day'], 1);
+				$this->M_schedule->setStatus_post($data['id_employee'], $data['end_day'], 1);
 			}
 			$response = [
 				'status' => true,

@@ -9,7 +9,7 @@ class Attendance extends MY_Controller{
 		$this->load->model('m_Day_off');
 		$this->load->model('m_Products');
 		$this->load->model('M_employees');
-		$this->load->model('m_Schedule');
+		$this->load->model('M_schedule');
 
 	}
 
