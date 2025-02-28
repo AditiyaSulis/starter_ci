@@ -45,15 +45,18 @@ class m_attendance extends CI_Model
 		return $this->db->delete('attendance', ['id_attendance' => $id]);
 	}
 
+
 	public function findByEmployeeId_get($id)
 	{
 		return $this->db->get_where('attendance', ['id_employee' => $id])->result_array();
 	}
 
+
 	public function findByEmployeeIdAtDate_get($id, $date)
 	{
 		return $this->db->get_where('attendance', ['id_employee' => $id, 'tanggal_masuk' => $date, 'status' => 2])->result_array();
 	}
+
 
 	public function create_post($data)
 	{

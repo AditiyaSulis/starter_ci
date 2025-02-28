@@ -86,4 +86,31 @@ class Attendance extends MY_Controller{
 	}
 
 
+
+	//TEST GEO GPS
+	public function test_geoPHP()
+	{
+		$this->load->library('GeoGPS');
+
+		$wkt = 'POINT(106.816666 -6.200000)'; // Koordinat Jakarta
+		$point = geoPHP::load($wkt, 'wkt');
+
+		echo "Latitude: " . $point->getY() . "<br>";
+		echo "Longitude: " . $point->getX();
+	}
+
+	public function calculate_distance()
+	{
+		$this->load->helper('distance');
+
+		$jakarta_lat = -6.200000;
+		$jakarta_lon = 106.816666;
+		$bandung_lat = -6.917464;
+		$bandung_lon = 107.619122;
+
+		$distance = haversine_distance($jakarta_lat, $jakarta_lon, $bandung_lat, $bandung_lon, "km");
+
+		echo "Jarak antara Jakarta dan Bandung: " . round($distance, 2) . " km";
+	}
+
 }

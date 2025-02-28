@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2025 at 10:57 AM
+-- Generation Time: Feb 28, 2025 at 08:00 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -100,6 +100,34 @@ INSERT INTO `account_code` (`id_code`, `id_kategori`, `code`, `name_code`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `address`
+--
+
+CREATE TABLE `address` (
+  `id_address` int(10) UNSIGNED NOT NULL,
+  `id_employee` int(10) UNSIGNED NOT NULL,
+  `provinsi` varchar(50) NOT NULL,
+  `kabupaten` varchar(50) NOT NULL,
+  `kecamatan` varchar(50) NOT NULL,
+  `desa` varchar(50) NOT NULL,
+  `blok` varchar(50) NOT NULL,
+  `kode_pos` smallint(6) NOT NULL,
+  `spesifik` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `address`
+--
+
+INSERT INTO `address` (`id_address`, `id_employee`, `provinsi`, `kabupaten`, `kecamatan`, `desa`, `blok`, `kode_pos`, `spesifik`) VALUES
+(1, 51, '', 'Indramayu', 'Gabus', 'Kedung', 'Kawolu  RT 06 RW 03', 32767, ' Jalan irigasi Sungai Amazon No.12'),
+(2, 47, '', 'Indramayu', 'Gabus', 'Kedung', 'Kawolu  RT 06 RW 03', 1212, 'test'),
+(3, 52, '', 'Indramayu', 'Gabus', 'Kedung', 'Kawolu  RT 06 RW 03', 32767, ' r5rrr'),
+(4, 53, '', 'Indramayu', 'Gabus', 'Kedung', 'Kawolu  RT 06 RW 03', 32767, ' test');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `admin`
 --
 
@@ -123,17 +151,27 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `created_at`, `name`, `email`, `password`, `role`, `status`, `last_update`, `last_login`, `ip_address`, `avatar`) VALUES
 (7, '2024-12-17 11:32:08', 'Admin', 'admin@admin.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 2, 1, '2025-01-06 11:42:38', '2025-01-06 11:42:38', '127.0.0.1', ''),
-(8, '2024-12-17 11:32:33', 'Super User', 'superuser@superuser.com', 'd1pEeHVad0diUnBTeUpPL0RTNTA3QT09', 1, 1, '2025-02-20 08:02:52', '2025-02-20 08:02:52', '127.0.0.1', '20fa8f15cecb411184ecb29b07b84a83.jpg'),
+(8, '2024-12-17 11:32:33', 'Super User', 'superuser@superuser.com', 'd1pEeHVad0diUnBTeUpPL0RTNTA3QT09', 1, 1, '2025-02-28 11:38:02', '2025-02-28 11:38:02', '127.0.0.1', '20fa8f15cecb411184ecb29b07b84a83.jpg'),
 (9, '2025-01-20 14:56:04', 'Aditia', 'aditia@gmail.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 2, 1, '2025-01-20 15:57:34', '2025-01-20 15:57:34', '127.0.0.1', ''),
 (10, '2025-01-20 15:09:09', 'sssUser', '222sa@superuser.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 1, 1, '2025-01-20 15:52:58', '2025-01-20 15:52:58', '127.0.0.1', ''),
 (11, '2025-01-20 15:09:27', 'Aditia', 'aditiasss@gmail.com', 'WG5lYjlxS2FaZUV2clc0WUYreUJodz09', 2, 1, '2025-01-20 15:48:16', '2025-01-20 15:48:16', '127.0.0.1', ''),
-(12, '2025-02-05 15:17:28', 'Rita Rika ', 'rita@email.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-20 09:19:10', '2025-02-20 09:19:10', '127.0.0.1', '0c921eca68e0b0cb88bd3c03a4c8fd47.jpg'),
-(13, '2025-02-12 10:25:58', 'agus', 'agus@gmail.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-18 08:04:34', '2025-02-18 08:04:34', '127.0.0.1', ''),
+(12, '2025-02-05 15:17:28', 'Rita Rika ', 'rita@email.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-26 13:27:19', '2025-02-26 13:27:19', '127.0.0.1', '0c921eca68e0b0cb88bd3c03a4c8fd47.jpg'),
+(13, '2025-02-12 10:25:58', 'agus', 'agus@gmail.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-25 15:31:49', '2025-02-25 15:31:49', '127.0.0.1', ''),
 (14, '2025-02-14 14:51:26', 'Luna', 'luna@gmail.com', 'bCszR1FkMGkzMzlSSTNDOTYwaFV2QT09', 3, 1, '2025-02-14 15:55:03', '2025-02-14 15:55:03', '127.0.0.1', ''),
-(15, '2025-02-15 08:28:48', 'Alex', 'alex@email.com', 'di9lNWwxR0JNYlk0TXRjUkRnNUFuUT09', 3, 1, '2025-02-15 08:28:48', NULL, NULL, ''),
-(16, '2025-02-15 08:31:22', 'Zilong', 'zilong@gmail.com', 'TjJ4RGw4azRWNkhxZk5kb2c0b3ZSQT09', 3, 1, '2025-02-15 09:24:18', '2025-02-15 09:24:18', '127.0.0.1', ''),
-(17, '2025-02-15 08:35:58', 'Pika', 'pika@gmail.com', 'SVFXY0VKV203TTlmNCtZc0NMWlJTUT09', 3, 1, '2025-02-15 08:35:58', NULL, NULL, ''),
-(18, '2025-02-15 08:42:32', 'Zuki', 'zuki@gmail.com', 'cUtPSlNrc3VtZUZRZE9vS0xqVnZoUT09', 3, 1, '2025-02-18 12:58:44', '2025-02-18 12:58:44', '127.0.0.1', '');
+(15, '2025-02-15 08:28:48', 'Alex', 'alex@email.com', 'di9lNWwxR0JNYlk0TXRjUkRnNUFuUT09', 3, 1, '2025-02-25 15:33:38', '2025-02-25 15:33:38', '127.0.0.1', ''),
+(16, '2025-02-15 08:31:22', 'Zilong', 'zilong@gmail.com', 'TjJ4RGw4azRWNkhxZk5kb2c0b3ZSQT09', 3, 1, '2025-02-28 11:31:13', '2025-02-28 11:31:13', '127.0.0.1', ''),
+(17, '2025-02-15 08:35:58', 'Pika', 'pika@gmail.com', 'SVFXY0VKV203TTlmNCtZc0NMWlJTUT09', 3, 1, '2025-02-28 11:38:35', '2025-02-28 11:38:35', '127.0.0.1', ''),
+(18, '2025-02-15 08:42:32', 'Zuki', 'zuki@gmail.com', 'cUtPSlNrc3VtZUZRZE9vS0xqVnZoUT09', 3, 1, '2025-02-28 11:24:39', '2025-02-28 11:24:39', '127.0.0.1', ''),
+(19, '2025-02-21 16:47:47', 'Dita', 'dita@gmail.com', 'NUxFM2N5UkwwSkhuUVlheVdHdklXQT09', 3, 1, '2025-02-21 16:47:47', NULL, NULL, ''),
+(20, '2025-02-21 16:59:24', 'Dito', 'dito@gmail.com', 'VXZjM2ZpQnQ1OEdRcFZXRDRoQk9tQT09', 3, 1, '2025-02-21 16:59:24', NULL, NULL, ''),
+(21, '2025-02-21 17:01:52', 'Diki', 'diki@gmail.com', 'bU1zOE5ndXdpd0h4OGNCREhraHhiZz09', 3, 1, '2025-02-21 17:01:52', NULL, NULL, ''),
+(22, '2025-02-21 17:04:19', 'Dodi', 'dodi@gmail.com', 'UGxUbzBqVml6OUxnZDY0bGl2V2Jidz09', 3, 1, '2025-02-21 17:04:19', NULL, NULL, ''),
+(23, '2025-02-24 10:15:17', 'Arga', 'arga@gmail.com', 'ZitRNXp1bnBaZGFlVDlDTzFLZ3RtUT09', 3, 1, '2025-02-24 10:15:17', NULL, NULL, ''),
+(24, '2025-02-24 10:16:54', 'Gara', 'gara@gmail.com', 'ajl5bHFKazlXT3JTZzJmbjZ2UDRqdz09', 3, 1, '2025-02-24 10:16:54', NULL, NULL, ''),
+(25, '2025-02-24 10:21:22', 'Pawa', 'pawa@gmail.com', 'aEhxYnBteFhWTVRibTZMYXRWZGxhUT09', 3, 1, '2025-02-24 10:21:22', NULL, NULL, ''),
+(27, '2025-02-26 16:53:36', 'Sumiyati', 'sumiyati@gmail.com', 'Rm80a01yc0xZVXgraDhLRy92aHZQQT09', 3, 1, '2025-02-26 16:53:36', NULL, NULL, ''),
+(28, '2025-02-27 12:00:37', 'Titis', 'titis@gmail.com', 'SjdzNFI3U1AzUlV1c1ArZ2JtNUR4QT09', 3, 1, '2025-02-27 12:00:37', NULL, NULL, ''),
+(29, '2025-02-27 13:08:59', 'Titis', 'tatas@gmail.com', 'enRmd1lJaCtkQ1REdVJxdlVnNHN3Zz09', 3, 1, '2025-02-28 11:18:57', '2025-02-28 11:18:57', '127.0.0.1', '');
 
 -- --------------------------------------------------------
 
@@ -147,20 +185,10 @@ CREATE TABLE `attendance` (
   `id_employee` int(10) UNSIGNED NOT NULL,
   `jam_masuk` time NOT NULL,
   `tanggal_masuk` date NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 3 COMMENT '1 = Tidak Hadir, 2 = Hadir, 3 = Belum Absen'
+  `status` tinyint(1) NOT NULL DEFAULT 3 COMMENT '1 = Tidak Hadir, 2 = Hadir, 3 = Belum Absen',
+  `location_latitude` varchar(70) NOT NULL,
+  `location_longitude` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `attendance`
---
-
-INSERT INTO `attendance` (`id_attendance`, `id_schedule`, `id_employee`, `jam_masuk`, `tanggal_masuk`, `status`) VALUES
-(3, 459, 42, '08:59:17', '2025-02-15', 2),
-(4, 504, 38, '16:40:57', '2025-02-15', 2),
-(5, 461, 42, '09:51:50', '2025-02-17', 2),
-(6, 462, 42, '12:59:00', '2025-02-18', 2),
-(7, 508, 38, '08:18:09', '2025-02-19', 2),
-(8, 509, 38, '09:19:11', '2025-02-20', 2);
 
 -- --------------------------------------------------------
 
@@ -184,7 +212,17 @@ INSERT INTO `bank_account` (`id_bank`, `id_employee`, `bank_number`, `bank_name`
 (9, 39, '107282888', 'BNI', 'Alex'),
 (10, 40, '101281921', 'Mandiri', 'Zilong'),
 (11, 41, '1022231231', 'BSI', 'Pika'),
-(12, 42, '102192919', 'BNI', 'Zuki');
+(12, 42, '102192919', 'BNI', 'Zuki'),
+(13, 43, '021212133', 'BNI', 'Dita'),
+(14, 44, '12121212', 'BNI', 'DitO'),
+(15, 45, '12121212', 'BNI', 'Diki'),
+(16, 46, '12121212', 'BNI', 'Diki'),
+(17, 47, '12121212', 'BNI', 'Diki'),
+(18, 48, '12121212', 'BNI', 'Diki'),
+(19, 49, '12121212', 'BNI', 'Diki'),
+(21, 51, '122241', 'OCBC', 'Sumiyati'),
+(22, 52, '122241', 'OCBC', 'Sumiyati'),
+(23, 53, '122241', 'OCBC', 'Sumiyati');
 
 -- --------------------------------------------------------
 
@@ -229,7 +267,7 @@ CREATE TABLE `company_profile` (
 --
 
 INSERT INTO `company_profile` (`id`, `name`, `address`, `contact`, `email`, `logo`) VALUES
-(1, 'Gadget Shop', 'Munjul', '08122334232', 'gadgetshop@dummy.com', '1');
+(1, 'Gadget Shop', 'Munjul', '08122334232', 'gadgetshop@dummy.com', '98c303fcd51494be7d75db45422a0a13.jpg');
 
 -- --------------------------------------------------------
 
@@ -277,7 +315,9 @@ CREATE TABLE `day_off` (
 --
 
 INSERT INTO `day_off` (`id_day_off`, `id_employee`, `tgl_day_off`, `input_at`, `description`, `status`) VALUES
-(9, 38, '2025-02-22', '2025-02-17', 'test', 2);
+(9, 38, '2025-02-22', '2025-02-17', 'test', 2),
+(10, 30, '2025-02-27', '2025-02-21', 'test', 2),
+(11, 39, '2025-02-27', '2025-02-25', 'TESDT', 2);
 
 -- --------------------------------------------------------
 
@@ -289,7 +329,7 @@ CREATE TABLE `division` (
   `id_division` int(10) UNSIGNED NOT NULL,
   `code_division` varchar(20) NOT NULL,
   `name_division` varchar(100) NOT NULL,
-  `payday` tinyint(4) NOT NULL
+  `payday` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -301,6 +341,34 @@ INSERT INTO `division` (`id_division`, `code_division`, `name_division`, `payday
 (3, 'FIN', 'Finance', 20),
 (4, 'TKS', 'Teknisi', 20),
 (5, 'CRV', 'Creative', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `domisili`
+--
+
+CREATE TABLE `domisili` (
+  `id_domisili` int(10) UNSIGNED NOT NULL,
+  `id_employee` int(10) UNSIGNED NOT NULL,
+  `provinsi_domisili` varchar(50) NOT NULL,
+  `kabupaten_domisili` varchar(50) NOT NULL,
+  `kecamatan_domisili` varchar(50) NOT NULL,
+  `desa_domisili` varchar(50) NOT NULL,
+  `blok_domisili` varchar(50) NOT NULL,
+  `kode_pos_domisili` smallint(6) NOT NULL,
+  `spesifik_domisili` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `domisili`
+--
+
+INSERT INTO `domisili` (`id_domisili`, `id_employee`, `provinsi_domisili`, `kabupaten_domisili`, `kecamatan_domisili`, `desa_domisili`, `blok_domisili`, `kode_pos_domisili`, `spesifik_domisili`) VALUES
+(1, 51, '', 'Purwakarta', 'Purwakarta', 'Gantri tengah', 'Situ bulued', 12002, 'Kosan Purwakarta '),
+(2, 47, '', 'Purwakarta', 'Purwakarta', 'Gantri Tengah', 'Situ bulued', 1212, 'tes'),
+(3, 52, '', 'Purwakarta', 'Purwakarta', 'Gantri', 'Situ bulued', 12002, ' rwewe'),
+(4, 53, '', 'Purwakarta', 'Purwakarta', 'Gantri', 'Situ bulued', 12002, ' test');
 
 -- --------------------------------------------------------
 
@@ -325,7 +393,17 @@ INSERT INTO `emergency_contact` (`id_contact`, `id_employee`, `name_contact`, `n
 (10, 39, 'Rika', '08121212121', 1, 'Priuk'),
 (11, 40, 'Alucard', '0812121212', 1, 'London'),
 (12, 41, 'Anju', '0812123334', 0, 'Campaka'),
-(13, 42, 'Zaka', '0828282828', 0, 'Purwakarta');
+(13, 42, 'Zaka', '0828282828', 0, 'Purwakarta'),
+(14, 43, 'Aditiya Sulistiyani', '02323231231', 1, 'awdwda'),
+(15, 44, 'Aditiya Sulistiyani', '02323231231', 0, 'Indramayu'),
+(16, 45, 'Aditiya Sulistiyani', '02323231231', 0, 'Indramayu'),
+(17, 46, 'Aditiya Sulistiyani', '02323231231', 0, 'Indramayu'),
+(18, 47, 'Aditiya Sulistiyani', '02323231231', 1, 'Indramayu'),
+(19, 48, 'Aditiya Sulistiyani', '02323231231', 0, 'awdwda'),
+(20, 49, 'Aditiya Sulistiyani', '02323231231', 0, 'awdwda'),
+(22, 51, 'Luna', '08223311223', 1, 'Indramayu'),
+(23, 52, 'Luna', '08223311223', 1, 'e2e23e2'),
+(24, 53, 'Luna', '08223311223', 1, 'tes');
 
 -- --------------------------------------------------------
 
@@ -339,6 +417,7 @@ CREATE TABLE `employee` (
   `id_position` int(11) NOT NULL,
   `id_product` smallint(5) UNSIGNED NOT NULL,
   `email` varchar(80) NOT NULL,
+  `no_hp` varchar(50) NOT NULL,
   `date_in` date NOT NULL,
   `nip` varchar(25) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -348,21 +427,33 @@ CREATE TABLE `employee` (
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `basic_salary` decimal(15,2) NOT NULL,
   `uang_makan` decimal(15,2) NOT NULL,
-  `bonus` decimal(15,2) NOT NULL
+  `bonus` decimal(15,2) NOT NULL,
+  `type_employee` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 = Kontrak, 2 = Magang, 3 = Permanen',
+  `contract_expired` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id_employee`, `id_division`, `id_position`, `id_product`, `email`, `date_in`, `nip`, `name`, `gender`, `place_of_birth`, `date_of_birth`, `status`, `basic_salary`, `uang_makan`, `bonus`) VALUES
-(27, 1, 1, 48, 'agus@gmail.com', '2022-12-01', '1212121213', 'Agus', 'L', 'Indramayu', '2001-12-01', 1, '4800000.00', '480000.00', '0.00'),
-(30, 3, 2, 52, 'luna@gmail.com', '2025-02-05', '11111222', 'Luna', 'P', 'Tangerang', '2012-12-01', 1, '3000000.00', '22222.00', '0.00'),
-(38, 3, 2, 44, 'rita@email.com', '2022-12-01', '10519199', 'Rita Rika ', 'L', '1212121', '2000-12-01', 1, '11000000.00', '480000.00', '0.00'),
-(39, 1, 4, 45, 'alex@email.com', '2024-01-17', '1051919991', 'Alex', 'L', 'Priuk', '2001-05-15', 1, '7000000.00', '480000.00', '0.00'),
-(40, 3, 2, 45, 'zilong@gmail.com', '2021-12-22', '12121212121', 'Zilong', 'L', 'London', '1999-12-01', 1, '4500000.00', '480000.00', '0.00'),
-(41, 5, 1, 45, 'pika@gmail.com', '2020-12-22', '1958238288', 'Pika', 'P', 'Campaka', '2002-02-22', 1, '3000000.00', '480000.00', '0.00'),
-(42, 1, 2, 44, 'zuki@gmail.com', '2023-12-02', '121212121', 'Zuki', 'L', 'Purwakarta', '2001-12-12', 1, '4000000.00', '480000.00', '0.00');
+INSERT INTO `employee` (`id_employee`, `id_division`, `id_position`, `id_product`, `email`, `no_hp`, `date_in`, `nip`, `name`, `gender`, `place_of_birth`, `date_of_birth`, `status`, `basic_salary`, `uang_makan`, `bonus`, `type_employee`, `contract_expired`) VALUES
+(27, 1, 1, 48, 'agus@gmail.com', '0', '2022-12-01', '1212121213', 'Agus', 'L', 'Indramayu', '2001-12-01', 1, '4800000.00', '480000.00', '0.00', 1, NULL),
+(30, 3, 2, 52, 'luna@gmail.com', '0', '2025-02-05', '11111222', 'Luna', 'P', 'Tangerang', '2012-12-01', 1, '3000000.00', '22222.00', '0.00', 1, NULL),
+(38, 3, 2, 44, 'rita@email.com', '0', '2022-12-01', '10519199', 'Rita Rika ', 'L', '1212121', '2000-12-01', 1, '11000000.00', '480000.00', '0.00', 1, NULL),
+(39, 1, 4, 45, 'alex@email.com', '0', '2024-01-17', '1051919991', 'Alex', 'L', 'Priuk', '2001-05-15', 1, '7000000.00', '480000.00', '0.00', 1, NULL),
+(40, 3, 2, 45, 'zilong@gmail.com', '0', '2021-12-22', '12121212121', 'Zilong', 'L', 'London', '1999-12-01', 1, '4500000.00', '480000.00', '0.00', 1, NULL),
+(41, 5, 1, 45, 'pika@gmail.com', '0', '2020-12-22', '1958238288', 'Pika', 'P', 'Campaka', '2002-02-22', 1, '3000000.00', '480000.00', '0.00', 1, NULL),
+(42, 1, 2, 44, 'zuki@gmail.com', '0', '2023-12-02', '121212121', 'Zuki', 'L', 'Purwakarta', '2001-12-12', 1, '4000000.00', '480000.00', '0.00', 1, NULL),
+(43, 3, 4, 52, 'dita@gmail.com', '0', '2024-12-14', '12121212', 'Dita', 'P', 'Cikampek', '2000-12-01', 1, '3000000.00', '190000.00', '0.00', 1, NULL),
+(44, 5, 5, 52, 'dito@gmail.com', '0', '2025-02-08', '12121212212', 'Dito', 'L', 'Cikopo', '2002-12-12', 1, '1800000.00', '480000.00', '0.00', 1, NULL),
+(45, 1, 2, 43, 'diki@gmail.com', '0', '2025-02-15', '121212121212', 'Diki', 'L', 'Cikopo', '2001-02-26', 1, '4000000.00', '480000.00', '0.00', 2, '2025-04-30'),
+(46, 1, 1, 48, 'dodi@gmail.com', '0', '2025-02-01', '12121234', 'Dodi', 'L', 'Cikopo', '2000-02-13', 1, '1000000.00', '400000.00', '0.00', 2, '2025-08-23'),
+(47, 4, 1, 48, 'arga@gmail.com', '0', '2025-02-01', '107239984', 'Arga', 'L', 'Indramayu', '1999-12-12', 1, '0.00', '480000.00', '0.00', 1, '2025-04-29'),
+(48, 4, 4, 43, 'gara@gmail.com', '0', '2025-02-20', '108277533', 'Gara', 'L', 'Indramayu', '2002-12-01', 1, '0.00', '0.00', '0.00', 1, '2026-12-01'),
+(49, 4, 1, 48, 'pawa@gmail.com', '0', '2025-02-17', '18092331', 'Pawa', 'L', 'Tangerang', '2000-12-09', 1, '0.00', '0.00', '0.00', 1, '2026-02-12'),
+(51, 1, 1, 52, 'sumiyati@gmail.com', '0812223121', '2025-02-01', '11122112', 'Sumiyati', 'L', 'Indr', '1999-02-14', 1, '3000000.00', '380000.00', '0.00', 1, '2025-09-30'),
+(52, 1, 2, 46, 'titis@gmail.com', '02323231231', '2025-02-01', '121213221', 'Titis', 'P', 'Tangerang', '2000-12-31', 1, '3000000.00', '480000.00', '0.00', 1, '2025-03-31'),
+(53, 1, 4, 46, 'tatas@gmail.com', '02323231231', '2025-02-01', '12122122222', 'Tatas', 'L', 'Tangerang', '2000-02-22', 1, '3500000.00', '380000.00', '0.00', 1, '2025-04-30');
 
 -- --------------------------------------------------------
 
@@ -399,7 +490,26 @@ INSERT INTO `finance_records` (`id_record`, `created_at`, `record_date`, `produc
 (59, '2025-01-13 16:36:12', '2025-01-14 16:36:00', 44, '1000000.00', 34, 'test4', '2025-01-21 10:42:15'),
 (60, '2025-01-20 09:44:48', '2025-01-20 09:44:00', 48, '1000000.00', 1, 'test5', '2025-01-21 10:42:22'),
 (61, '2025-01-21 10:43:57', '2025-01-21 10:43:00', 44, '1000000.00', 52, 'test', '2025-01-21 10:43:57'),
-(62, '2025-02-10 10:29:31', '2025-02-10 10:29:00', 52, '1222121.00', 34, 'test', '2025-02-10 10:29:31');
+(79, '2025-02-27 14:47:09', '2025-03-27 00:00:00', 46, '3480000.00', 22, '2025-03-27-tesst-121212', '2025-02-27 14:47:09'),
+(80, '2025-02-27 14:47:09', '2025-03-27 00:00:00', 46, '3880000.00', 22, '2025-03-27-tesst-121212', '2025-02-27 14:47:09'),
+(81, '2025-02-27 14:56:35', '2025-04-27 00:00:00', 46, '3480000.00', 22, '2025-04-27-tewqerqsdsa-tsssss', '2025-02-27 14:56:35'),
+(82, '2025-02-27 14:56:35', '2025-04-27 00:00:00', 46, '3880000.00', 22, '2025-04-27-tewqerqsdsa-tsssss', '2025-02-27 14:56:35'),
+(83, '2025-02-27 15:00:13', '2025-04-27 00:00:00', 46, '3480000.00', 22, '2025-04-27-test-tesett2', '2025-02-27 15:00:13'),
+(84, '2025-02-27 15:00:13', '2025-04-27 00:00:00', 46, '3880000.00', 22, '2025-04-27-test-tesett2', '2025-02-27 15:00:13'),
+(85, '2025-02-27 15:03:44', '2025-03-27 00:00:00', 46, '3320000.00', 22, '2025-03-27-test-testhol', '2025-02-27 15:03:44'),
+(86, '2025-02-27 15:03:44', '2025-03-27 00:00:00', 46, '3880000.00', 22, '2025-03-27-test-testhol', '2025-02-27 15:03:44'),
+(87, '2025-02-27 15:21:49', '2025-03-31 00:00:00', 45, '7300000.00', 22, '2025-03-31-test-tessst', '2025-02-27 15:21:49'),
+(89, '2025-02-27 15:25:24', '2025-03-31 00:00:00', 46, '3080000.00', 22, '2025-03-31-rwdasw-wetfwqedfawd', '2025-02-27 15:25:24'),
+(90, '2025-02-27 15:25:24', '2025-03-31 00:00:00', 46, '3880000.00', 22, '2025-03-31-rwdasw-wetfwqedfawd', '2025-02-27 15:25:24'),
+(91, '2025-02-27 15:26:00', '2025-03-31 00:00:00', 45, '3380000.00', 22, '2025-03-31-12312321-23eq2wed', '2025-02-27 15:26:00'),
+(92, '2025-02-27 15:38:40', '2025-03-31 00:00:00', 46, '3480000.00', 22, '2025-03-31-test-test', '2025-02-27 15:38:40'),
+(93, '2025-02-27 15:38:40', '2025-03-31 00:00:00', 46, '3880000.00', 22, '2025-03-31-test-test', '2025-02-27 15:38:40'),
+(94, '2025-02-27 15:39:31', '2025-03-31 00:00:00', 46, '3480000.00', 22, '2025-03-31-tessss-131212', '2025-02-27 15:39:31'),
+(95, '2025-02-27 15:39:31', '2025-03-31 00:00:00', 46, '3880000.00', 22, '2025-03-31-tessss-131212', '2025-02-27 15:39:31'),
+(96, '2025-02-27 16:24:00', '2025-03-31 00:00:00', 46, '3400000.00', 22, '2025-03-31-TERES-12121', '2025-02-27 16:24:00'),
+(97, '2025-02-27 16:24:00', '2025-03-31 00:00:00', 46, '3816668.00', 22, '2025-03-31-TERES-12121', '2025-02-27 16:24:00'),
+(98, '2025-02-27 16:57:50', '2025-03-31 00:00:00', 46, '3440000.00', 22, '2025-03-31-test-dscsadas', '2025-02-27 16:57:50'),
+(99, '2025-02-27 16:57:50', '2025-03-31 00:00:00', 46, '3848334.00', 22, '2025-03-31-test-dscsadas', '2025-02-27 16:57:50');
 
 -- --------------------------------------------------------
 
@@ -414,6 +524,7 @@ CREATE TABLE `holyday` (
   `start_day` date DEFAULT NULL,
   `type_group` tinyint(1) NOT NULL COMMENT '1= All Product, 2 = All Division, 3 = All Division & products, 4 = Custom',
   `type_day` tinyint(1) NOT NULL COMMENT '1 = Single Day, 2 = Multiple Days',
+  `status_day` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1 = Libur Nasional, 2 = Libur Minggu',
   `end_day` date DEFAULT NULL,
   `code_holyday` varchar(20) NOT NULL,
   `date` date NOT NULL
@@ -423,11 +534,11 @@ CREATE TABLE `holyday` (
 -- Dumping data for table `holyday`
 --
 
-INSERT INTO `holyday` (`id_holyday`, `id_division`, `id_product`, `start_day`, `type_group`, `type_day`, `end_day`, `code_holyday`, `date`) VALUES
-(280, 1, 45, NULL, 4, 1, NULL, 'FEB2025', '2025-02-15'),
-(281, 3, 45, NULL, 4, 1, NULL, 'FEB2025', '2025-02-15'),
-(282, 4, 45, NULL, 4, 1, NULL, 'FEB2025', '2025-02-15'),
-(283, 5, 45, NULL, 4, 1, NULL, 'FEB2025', '2025-02-15');
+INSERT INTO `holyday` (`id_holyday`, `id_division`, `id_product`, `start_day`, `type_group`, `type_day`, `status_day`, `end_day`, `code_holyday`, `date`) VALUES
+(609, 1, 46, '2025-02-27', 4, 2, 1, '2025-03-02', '121212', '2025-02-27'),
+(610, 1, 46, '2025-02-27', 4, 2, 1, '2025-03-02', '121212', '2025-02-28'),
+(611, 1, 46, '2025-02-27', 4, 2, 1, '2025-03-02', '121212', '2025-03-01'),
+(612, 1, 46, '2025-02-27', 4, 2, 1, '2025-03-02', '121212', '2025-03-02');
 
 -- --------------------------------------------------------
 
@@ -451,7 +562,53 @@ CREATE TABLE `izin` (
 --
 
 INSERT INTO `izin` (`id_izin`, `id_employee`, `alasan_izin`, `input_at`, `tanggal_izin`, `bukti_surat_sakit`, `status`, `description`) VALUES
-(11, 40, '1', '2025-02-15 00:00:00', '2025-02-15', '-', 2, 'test');
+(11, 40, '1', '2025-02-15 00:00:00', '2025-02-15', '-', 2, 'test'),
+(12, 39, '1', '2025-02-22 00:00:00', '2025-02-22', '-', 2, 'test'),
+(13, 39, 'Izin Menghadiri Acara Keagamaan', '2025-02-22 00:00:00', '2025-02-23', '8cc08230537e020eec9caa84a99c5b66.jpeg', 3, 'test');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location`
+--
+
+CREATE TABLE `location` (
+  `id_location` int(11) NOT NULL,
+  `name_location` varchar(255) NOT NULL,
+  `latitude` varchar(80) NOT NULL,
+  `longitude` varchar(80) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `location`
+--
+
+INSERT INTO `location` (`id_location`, `name_location`, `latitude`, `longitude`, `created_at`) VALUES
+(1, 'Purwakarta, munjul jaya, gadgetcare purwakarta', '-6.5308924538605', '107.47401311012979', '2025-02-28 03:07:28'),
+(2, 'Subang', '-6.564517', '107.795412', '2025-02-28 03:07:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_contract_extension`
+--
+
+CREATE TABLE `log_contract_extension` (
+  `id_log_contract_extension` int(10) UNSIGNED NOT NULL,
+  `id_employee` int(10) UNSIGNED NOT NULL,
+  `old_contract` date NOT NULL,
+  `new_contract` date NOT NULL,
+  `description` varchar(150) NOT NULL,
+  `input_contract_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `log_contract_extension`
+--
+
+INSERT INTO `log_contract_extension` (`id_log_contract_extension`, `id_employee`, `old_contract`, `new_contract`, `description`, `input_contract_at`) VALUES
+(1, 46, '2025-04-24', '2025-08-23', 'test', '2025-02-22 10:56:40');
 
 -- --------------------------------------------------------
 
@@ -490,16 +647,21 @@ CREATE TABLE `payroll` (
   `code_payroll` varchar(15) DEFAULT NULL,
   `total_salary` decimal(10,0) DEFAULT NULL,
   `total_employee` int(11) DEFAULT NULL,
-  `input_at` date NOT NULL
+  `input_at` date NOT NULL,
+  `include_piutang` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 = Include, 2 = Exclude',
+  `include_finance_record` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 = Auto Insert, 2 = Manual',
+  `include_holiday` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 = Include, 2 = Exclude'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payroll`
 --
 
-INSERT INTO `payroll` (`id_payroll`, `code_payroll`, `total_salary`, `total_employee`, `input_at`) VALUES
-(1, '1212', '121212', 1, '2025-02-05'),
-(2, '121212', '121212', 12121, '2025-02-04');
+INSERT INTO `payroll` (`id_payroll`, `code_payroll`, `total_salary`, `total_employee`, `input_at`, `include_piutang`, `include_finance_record`, `include_holiday`) VALUES
+(45, 'test', NULL, NULL, '2025-02-27', 1, 1, 1),
+(46, '131212', NULL, NULL, '2025-02-27', 1, 1, 1),
+(49, '12121', NULL, NULL, '2025-02-27', 1, 1, 1),
+(50, 'dscsadas', NULL, NULL, '2025-02-27', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -513,23 +675,38 @@ CREATE TABLE `payroll_component` (
   `id_payroll` int(10) UNSIGNED NOT NULL,
   `bonus` decimal(10,0) NOT NULL,
   `tanggal_gajian` date NOT NULL,
+  `periode_gajian` date NOT NULL,
   `description` varchar(150) NOT NULL,
   `total_izin` tinyint(2) NOT NULL,
-  `total` decimal(10,0) NOT NULL,
+  `total` decimal(15,0) NOT NULL,
   `total_cuti` tinyint(2) NOT NULL,
-  `total_overtime` tinyint(3) NOT NULL,
+  `total_overtime` decimal(15,0) NOT NULL,
   `total_dayoff` tinyint(2) NOT NULL,
-  `piutang` decimal(15,0) DEFAULT NULL
+  `piutang` decimal(15,0) DEFAULT NULL,
+  `total_absen` int(11) NOT NULL,
+  `potongan_absen` decimal(15,0) NOT NULL,
+  `potongan_izin` decimal(15,0) NOT NULL,
+  `absen_hari` decimal(15,0) NOT NULL,
+  `izin_hari` decimal(15,0) NOT NULL,
+  `libur_nasional_hari` decimal(15,0) NOT NULL,
+  `total_libur_nasional` int(11) NOT NULL,
+  `potongan_libur_nasional` decimal(15,0) NOT NULL,
+  `total_potongan` decimal(15,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payroll_component`
 --
 
-INSERT INTO `payroll_component` (`id_payroll_component`, `id_employee`, `id_payroll`, `bonus`, `tanggal_gajian`, `description`, `total_izin`, `total`, `total_cuti`, `total_overtime`, `total_dayoff`, `piutang`) VALUES
-(1, 25, 1, '1111', '2025-02-05', 'afdwadaw', 4, '2', 3, 2, 1, '121212'),
-(2, 56, 2, '1000', '2025-02-11', '1212', 1, '2', 3, 2, 1, '2'),
-(3, 42, 1, '10000', '2025-02-01', '1', 4, '10000', 2, 2, 2, '2');
+INSERT INTO `payroll_component` (`id_payroll_component`, `id_employee`, `id_payroll`, `bonus`, `tanggal_gajian`, `periode_gajian`, `description`, `total_izin`, `total`, `total_cuti`, `total_overtime`, `total_dayoff`, `piutang`, `total_absen`, `potongan_absen`, `potongan_izin`, `absen_hari`, `izin_hari`, `libur_nasional_hari`, `total_libur_nasional`, `potongan_libur_nasional`, `total_potongan`) VALUES
+(51, 52, 45, '0', '2025-03-31', '0000-00-00', 'test', 0, '3480000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '0', 0, '0', '0'),
+(52, 53, 45, '0', '2025-03-31', '0000-00-00', 'test', 0, '3880000', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '0', 0, '0', '0'),
+(53, 52, 46, '0', '2025-03-31', '0000-00-00', 'tessss', 0, '3480000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '0', 0, '0', '0'),
+(54, 53, 46, '0', '2025-03-31', '0000-00-00', 'tessss', 0, '3880000', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '0', 0, '0', '0'),
+(55, 52, 49, '0', '2025-03-31', '2025-02-27', 'TERES', 0, '3400000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '0', 4, '80000', '80000'),
+(56, 53, 49, '0', '2025-03-31', '2025-02-27', 'TERES', 0, '3816668', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '0', 4, '63332', '63332'),
+(57, 52, 50, '0', '2025-03-31', '2025-03-01', 'test', 0, '3440000', 0, '0', 0, '0', 0, '0', '0', '111111', '20000', '20000', 2, '40000', '40000'),
+(58, 53, 50, '0', '2025-03-31', '2025-03-01', 'test', 0, '3848334', 0, '0', 0, '0', 0, '0', '0', '129630', '15833', '15833', 2, '31666', '31666');
 
 -- --------------------------------------------------------
 
@@ -559,8 +736,11 @@ CREATE TABLE `piutang` (
 --
 
 INSERT INTO `piutang` (`id_piutang`, `id_employee`, `type_piutang`, `tenor_piutang`, `amount_piutang`, `tgl_lunas`, `remaining_piutang`, `status_piutang`, `progress_piutang`, `description_piutang`, `piutang_date`, `type_tenor`, `angsuran`, `jatuh_tempo`) VALUES
-(60, 40, 2, 1, '10000.00', '2025-04-12', '10000.00', 2, 0, 'test', '2025-02-17', 3, '10000', 12),
-(61, 30, 1, 2, '100000.00', '2025-04-21', '100000.00', 2, 0, 'test', '2025-02-20', 3, '50000', 21);
+(60, 40, 2, 1, '10000.00', '2025-04-12', '0.00', 1, 0, 'test', '2025-02-17', 3, '10000', 12),
+(62, 27, 1, 4, '10000.00', '2025-06-25', '5000.00', 2, 0, 'test', '2025-02-25', 3, '2500', 25),
+(63, 43, 1, 2, '100000.00', '2025-04-03', '50000.00', 2, 0, 'test', '2025-01-25', 3, '50000', 3),
+(64, 44, 1, 2, '10000.00', '2025-03-26', '10000.00', 2, 0, 'test', '2025-01-25', 3, '5000', 26),
+(65, 30, 1, 2, '20000.00', '2025-03-26', '10000.00', 2, 0, 'test', '2025-01-25', 3, '10000', 26);
 
 -- --------------------------------------------------------
 
@@ -606,6 +786,7 @@ CREATE TABLE `potongan` (
 
 CREATE TABLE `products` (
   `id_product` smallint(5) UNSIGNED NOT NULL,
+  `id_location` int(10) UNSIGNED NOT NULL,
   `name_product` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `logo` varchar(255) DEFAULT 'image.png',
@@ -618,13 +799,13 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id_product`, `name_product`, `description`, `logo`, `url`, `status`, `visibility`) VALUES
-(43, 'Gadget Shop Purwakarta', 'Purwakarta', 'c389982f02a469c3682c5cdf77e0bb49.png', '', 1, 1),
-(44, 'Gadget Care Purwakarta', 'Purwakarta', 'b443e31dcaa71818ae499c4af77075b3.png', '', 1, 1),
-(45, 'CV.Multi Graha Radhika', 'Center', '4c6b65e753c369905c7ca9ac963af9b0.png', '', 1, 1),
-(46, 'PT Mencari Cinta Sejati', 'Dummy', 'faca02c6699118518c4d8aa38dd182e9.png', 'http://localhost/starter_ci/admin/product/product_page', 1, 1),
-(48, 'Gadget Shop Karawang', 'Karawang', 'adeacff83d2b31fee87dd30eb4b72568.png', 'http://localhost/phpmyadmin/sql.php?server=1&db=multigraharadhika&table=products&pos=0', 1, 1),
-(52, 'Gadget Care Subang', 'Subang', 'd5bebf1e289bfa9ce66420060a0982c9.jpg', '', 1, 1);
+INSERT INTO `products` (`id_product`, `id_location`, `name_product`, `description`, `logo`, `url`, `status`, `visibility`) VALUES
+(43, 1, 'Gadget Shop Purwakarta', 'Purwakarta', 'c389982f02a469c3682c5cdf77e0bb49.png', '', 1, 1),
+(44, 1, 'Gadget Care Purwakarta', 'Purwakarta', 'b443e31dcaa71818ae499c4af77075b3.png', '', 1, 1),
+(45, 1, 'CV.Multi Graha Radhika', 'Center', '4c6b65e753c369905c7ca9ac963af9b0.png', '', 1, 1),
+(46, 1, 'PT Mencari Cinta Sejati', 'Dummy', 'faca02c6699118518c4d8aa38dd182e9.png', 'http://localhost/starter_ci/admin/product/product_page', 1, 1),
+(48, 1, 'Gadget Shop Karawang', 'Karawang', 'adeacff83d2b31fee87dd30eb4b72568.png', 'http://localhost/phpmyadmin/sql.php?server=1&db=multigraharadhika&table=products&pos=0', 1, 1),
+(52, 2, 'Gadget Care Subang', 'Subang', 'd5bebf1e289bfa9ce66420060a0982c9.jpg', '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -767,6 +948,17 @@ CREATE TABLE `purchase_piutang` (
   `pay_date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `purchase_piutang`
+--
+
+INSERT INTO `purchase_piutang` (`id_purchase_piutang`, `id_piutang`, `pay_amount`, `description`, `pay_date`) VALUES
+(45, 60, '10000.00', ' test', '2025-02-25'),
+(47, 62, '2500.00', ' test', '2025-03-19'),
+(48, 65, '10000.00', '2025-02-25-testjan-Test111', '2025-02-25'),
+(49, 63, '50000.00', '2025-02-25-testjan-Test111', '2025-02-25'),
+(50, 62, '2500.00', '2025-02-27-TEST-RRRR', '2025-02-27');
+
 -- --------------------------------------------------------
 
 --
@@ -788,171 +980,45 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id_schedule`, `id_workshift`, `id_employee`, `status`, `start_date`, `end_date`, `waktu`) VALUES
-(386, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-01'),
-(387, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-02'),
-(388, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-03'),
-(389, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-04'),
-(390, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-05'),
-(391, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-06'),
-(392, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-07'),
-(393, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-08'),
-(394, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-09'),
-(395, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-10'),
-(396, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-11'),
-(397, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-12'),
-(398, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-13'),
-(399, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-14'),
-(400, 3, 39, 3, '2025-02-01', '2025-03-31', '2025-02-15'),
-(401, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-16'),
-(402, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-17'),
-(403, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-18'),
-(404, 3, 39, 7, '2025-02-01', '2025-03-31', '2025-02-19'),
-(405, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-20'),
-(406, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-21'),
-(407, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-22'),
-(408, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-23'),
-(409, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-24'),
-(410, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-25'),
-(411, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-26'),
-(412, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-27'),
-(413, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-02-28'),
-(414, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-01'),
-(415, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-02'),
-(416, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-03'),
-(417, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-04'),
-(418, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-05'),
-(419, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-06'),
-(420, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-07'),
-(421, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-08'),
-(422, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-09'),
-(423, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-10'),
-(424, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-11'),
-(425, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-12'),
-(426, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-13'),
-(427, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-14'),
-(428, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-15'),
-(429, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-16'),
-(430, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-17'),
-(431, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-18'),
-(432, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-19'),
-(433, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-20'),
-(434, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-21'),
-(435, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-22'),
-(436, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-23'),
-(437, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-24'),
-(438, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-25'),
-(439, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-26'),
-(440, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-27'),
-(441, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-28'),
-(442, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-29'),
-(443, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-30'),
-(444, 3, 39, 1, '2025-02-01', '2025-03-31', '2025-03-31'),
-(445, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-01'),
-(446, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-02'),
-(447, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-03'),
-(448, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-04'),
-(449, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-05'),
-(450, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-06'),
-(451, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-07'),
-(452, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-08'),
-(453, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-09'),
-(454, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-10'),
-(455, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-11'),
-(456, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-12'),
-(457, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-13'),
-(458, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-14'),
-(459, 3, 42, 6, '2025-02-01', '2025-03-31', '2025-02-15'),
-(460, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-16'),
-(461, 3, 42, 6, '2025-02-01', '2025-03-31', '2025-02-17'),
-(462, 3, 42, 6, '2025-02-01', '2025-03-31', '2025-02-18'),
-(463, 3, 42, 7, '2025-02-01', '2025-03-31', '2025-02-19'),
-(464, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-20'),
-(465, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-21'),
-(466, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-22'),
-(467, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-23'),
-(468, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-24'),
-(469, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-25'),
-(470, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-26'),
-(471, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-27'),
-(472, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-02-28'),
-(473, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-01'),
-(474, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-02'),
-(475, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-03'),
-(476, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-04'),
-(477, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-05'),
-(478, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-06'),
-(479, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-07'),
-(480, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-08'),
-(481, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-09'),
-(482, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-10'),
-(483, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-11'),
-(484, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-12'),
-(485, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-13'),
-(486, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-14'),
-(487, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-15'),
-(488, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-16'),
-(489, 3, 42, 1, '2025-02-01', '2025-03-31', '2025-03-17'),
-(490, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-01'),
-(491, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-02'),
-(492, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-03'),
-(493, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-04'),
-(494, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-05'),
-(495, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-06'),
-(496, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-07'),
-(497, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-08'),
-(498, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-09'),
-(499, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-10'),
-(500, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-11'),
-(501, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-12'),
-(502, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-13'),
-(503, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-14'),
-(504, 3, 38, 6, '2025-02-01', '2025-02-28', '2025-02-15'),
-(505, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-16'),
-(506, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-17'),
-(507, 3, 38, 7, '2025-02-01', '2025-02-28', '2025-02-18'),
-(508, 3, 38, 6, '2025-02-01', '2025-02-28', '2025-02-19'),
-(509, 3, 38, 4, '2025-02-01', '2025-02-28', '2025-02-20'),
-(510, 3, 38, 4, '2025-02-01', '2025-02-28', '2025-02-21'),
-(511, 3, 38, 2, '2025-02-01', '2025-02-28', '2025-02-22'),
-(512, 3, 38, 1, '2025-02-01', '2025-02-28', '2025-02-23'),
-(513, 3, 38, 1, '2025-02-01', '2025-02-28', '2025-02-24'),
-(514, 3, 38, 1, '2025-02-01', '2025-02-28', '2025-02-25'),
-(515, 3, 38, 1, '2025-02-01', '2025-02-28', '2025-02-26'),
-(516, 3, 38, 1, '2025-02-01', '2025-02-28', '2025-02-27'),
-(517, 3, 38, 1, '2025-02-01', '2025-02-28', '2025-02-28'),
-(518, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-01'),
-(519, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-02'),
-(520, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-03'),
-(521, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-04'),
-(522, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-05'),
-(523, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-06'),
-(524, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-07'),
-(525, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-08'),
-(526, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-09'),
-(527, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-10'),
-(528, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-11'),
-(529, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-12'),
-(530, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-13'),
-(531, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-14'),
-(532, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-15'),
-(533, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-16'),
-(534, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-17'),
-(535, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-18'),
-(536, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-19'),
-(537, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-20'),
-(538, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-21'),
-(539, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-22'),
-(540, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-23'),
-(541, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-24'),
-(542, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-25'),
-(543, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-26'),
-(544, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-27'),
-(545, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-28'),
-(546, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-29'),
-(547, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-30'),
-(548, 3, 27, 1, '2025-03-01', '2025-03-31', '2025-03-31'),
-(549, 3, 27, 7, '2025-02-17', '2025-02-17', '2025-02-17'),
-(550, 3, 27, 7, '2025-02-16', '2025-02-16', '2025-02-16');
+(1192, 3, 39, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1193, 3, 39, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
+(1194, 3, 40, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1195, 3, 40, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
+(1196, 3, 41, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1197, 3, 41, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
+(1198, 3, 51, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1199, 3, 51, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
+(1200, 3, 30, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1201, 3, 43, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1202, 3, 30, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
+(1203, 3, 43, 1, '2025-02-28', '2025-03-01', '2025-03-01'),
+(1204, 3, 44, 1, '2025-02-28', '2025-03-01', '2025-02-28'),
+(1205, 3, 44, 1, '2025-02-28', '2025-03-01', '2025-03-01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_teknisi`
+--
+
+CREATE TABLE `service_teknisi` (
+  `id_service_teknisi` int(10) UNSIGNED NOT NULL,
+  `id_employee` int(10) UNSIGNED NOT NULL,
+  `pendapatan_service` decimal(15,0) NOT NULL,
+  `total_service` int(11) NOT NULL,
+  `tanggal_service` date NOT NULL,
+  `input_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `type_service` varchar(80) NOT NULL,
+  `description` varchar(150) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `service_teknisi`
+--
+
+INSERT INTO `service_teknisi` (`id_service_teknisi`, `id_employee`, `pendapatan_service`, `total_service`, `tanggal_service`, `input_at`, `type_service`, `description`, `status`) VALUES
+(1, 47, '100000', 1000000, '2025-02-24', '2025-02-24 00:00:00', 'Ganti LCD', 'test', 2);
 
 -- --------------------------------------------------------
 
@@ -1025,6 +1091,13 @@ ALTER TABLE `account_code`
   ADD KEY `id_kategori` (`id_kategori`);
 
 --
+-- Indexes for table `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`id_address`),
+  ADD KEY `id_employee` (`id_employee`);
+
+--
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
@@ -1079,6 +1152,13 @@ ALTER TABLE `division`
   ADD PRIMARY KEY (`id_division`);
 
 --
+-- Indexes for table `domisili`
+--
+ALTER TABLE `domisili`
+  ADD PRIMARY KEY (`id_domisili`),
+  ADD KEY `id_employee` (`id_employee`);
+
+--
 -- Indexes for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
@@ -1115,6 +1195,19 @@ ALTER TABLE `holyday`
 --
 ALTER TABLE `izin`
   ADD PRIMARY KEY (`id_izin`),
+  ADD KEY `id_employee` (`id_employee`);
+
+--
+-- Indexes for table `location`
+--
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`id_location`);
+
+--
+-- Indexes for table `log_contract_extension`
+--
+ALTER TABLE `log_contract_extension`
+  ADD PRIMARY KEY (`id_log_contract_extension`),
   ADD KEY `id_employee` (`id_employee`);
 
 --
@@ -1163,7 +1256,8 @@ ALTER TABLE `potongan`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id_product`);
+  ADD PRIMARY KEY (`id_product`),
+  ADD KEY `id_location` (`id_location`);
 
 --
 -- Indexes for table `purchases`
@@ -1195,6 +1289,13 @@ ALTER TABLE `schedule`
   ADD KEY `id_employee` (`id_employee`);
 
 --
+-- Indexes for table `service_teknisi`
+--
+ALTER TABLE `service_teknisi`
+  ADD PRIMARY KEY (`id_service_teknisi`),
+  ADD KEY `id_employee` (`id_employee`);
+
+--
 -- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
@@ -1223,22 +1324,28 @@ ALTER TABLE `account_code`
   MODIFY `id_code` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `id_address` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id_attendance` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_attendance` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `bank_account`
 --
 ALTER TABLE `bank_account`
-  MODIFY `id_bank` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_bank` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -1262,7 +1369,7 @@ ALTER TABLE `cuti`
 -- AUTO_INCREMENT for table `day_off`
 --
 ALTER TABLE `day_off`
-  MODIFY `id_day_off` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_day_off` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `division`
@@ -1271,34 +1378,52 @@ ALTER TABLE `division`
   MODIFY `id_division` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `domisili`
+--
+ALTER TABLE `domisili`
+  MODIFY `id_domisili` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
-  MODIFY `id_contact` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_contact` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id_employee` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_employee` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `finance_records`
 --
 ALTER TABLE `finance_records`
-  MODIFY `id_record` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id_record` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `holyday`
 --
 ALTER TABLE `holyday`
-  MODIFY `id_holyday` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=284;
+  MODIFY `id_holyday` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=613;
 
 --
 -- AUTO_INCREMENT for table `izin`
 --
 ALTER TABLE `izin`
-  MODIFY `id_izin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_izin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `location`
+--
+ALTER TABLE `location`
+  MODIFY `id_location` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `log_contract_extension`
+--
+ALTER TABLE `log_contract_extension`
+  MODIFY `id_log_contract_extension` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `overtime`
@@ -1310,19 +1435,19 @@ ALTER TABLE `overtime`
 -- AUTO_INCREMENT for table `payroll`
 --
 ALTER TABLE `payroll`
-  MODIFY `id_payroll` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_payroll` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `payroll_component`
 --
 ALTER TABLE `payroll_component`
-  MODIFY `id_payroll_component` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_payroll_component` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `piutang`
 --
 ALTER TABLE `piutang`
-  MODIFY `id_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `position`
@@ -1358,13 +1483,19 @@ ALTER TABLE `purchase_payments`
 -- AUTO_INCREMENT for table `purchase_piutang`
 --
 ALTER TABLE `purchase_piutang`
-  MODIFY `id_purchase_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_purchase_piutang` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id_schedule` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=551;
+  MODIFY `id_schedule` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1206;
+
+--
+-- AUTO_INCREMENT for table `service_teknisi`
+--
+ALTER TABLE `service_teknisi`
+  MODIFY `id_service_teknisi` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `supplier`

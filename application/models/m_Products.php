@@ -27,7 +27,18 @@ class m_Products extends CI_Model {
         
         return null;
     }
-    
+
+
+
+	public function findByIdWithJoin_get($id)
+	{
+		$this->db->select('products.id_product, products.id_location, products.name_product, products.description, products.logo, products.url, products.status, products.visibility, location.id_location, location.name_location, location.latitude, location.longitude');
+		$this->db->from('products');
+		$this->db->join('location', 'location.id_location = products.id_location', 'left');
+
+
+		return $this->db->get()->row_array();
+	}
 
     public function findAllShow_get() 
     {

@@ -7,6 +7,8 @@ if($schedule) {
 								<input type="hidden" value="'. $schedule['id_employee'].'" name="id_employee" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" value="'. $schedule['id_schedule'].'" name="id_schedule" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" value="'. date('H:i:s').'" name="jam_masuk" autocomplete="off" class="form-control bg-transparent" />
+								<input type="hidden" id="latitude" name="latitude">
+    							<input type="hidden" id="longitude" name="longitude">
 								<input type="hidden" value="'. date('Y-m-d').'" name="tanggal_masuk" autocomplete="off" class="form-control bg-transparent" />
 								<button type="submit" id="submit_product" class="btn gradient-btn rounded-pill mt-6 mb-6">
 									<i class="bi bi-calendar-check"></i> CLOCK IN
@@ -189,6 +191,11 @@ if($schedule) {
 				}
 			});
 		});
+
+		navigator.geolocation.getCurrentPosition(position => {
+			document.getElementById('latitude').value = position.coords.latitude;
+			document.getElementById('longitude').value = position.coords.longitude;
+		}, error => alert('Harap aktifkan GPS untuk melakukan absensi!'));
 	</script>
 
 </main>
