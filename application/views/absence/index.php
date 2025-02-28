@@ -18,7 +18,8 @@ if($schedule) {
 								</span>
 								</button>
 						</form>
-						<p class="card-text text-danger">*Jam Masuk : '.date("H:i", strtotime($schedule['clock_in'])).'</p>';
+						<p class="card-text text-danger">*Jam Masuk : '.date("H:i", strtotime($schedule['clock_in'])).'</p> 
+						<p class="card-text text-danger">Pastikan dalam radius maksimal 250 meter dari lokasi kerja anda. </p>';
 	}
 	else if($schedule['status']== 2) {
 		$status = '<p class="card-text text-warning fw-bolder mt-4">*Hari ini adalah jadwal libur anda.</p>';
