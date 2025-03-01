@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Day_off extends CI_Model
+class M_day_off extends CI_Model
 {
 
 	private $column_search = array('day_off.id_day_off', 'day_off.id_employee', 'day_off.tgl_day_off', 'day_off.input_at', 'day_off.description', 'day_off.status', 'employee.id_employee', 'employee.name', 'employee.id_division', 'employee.id_product', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');

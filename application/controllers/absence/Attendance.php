@@ -6,7 +6,7 @@ class Attendance extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Day_off');
+		$this->load->model('M_day_off');
 		$this->load->model('M_products');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');

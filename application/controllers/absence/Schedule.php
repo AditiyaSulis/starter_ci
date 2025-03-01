@@ -11,7 +11,7 @@ class Schedule extends MY_Controller{
 		$this->load->model('m_Workshift');
 		$this->load->model('M_products');
 		$this->load->model('M_division');
-		$this->load->model('m_Day_off');
+		$this->load->model('M_day_off');
 		$this->load->model('M_izin');
 		$this->load->model('M_leave');
 		$this->load->model('m_Holyday');
@@ -441,14 +441,14 @@ class Schedule extends MY_Controller{
 
 		$thisMonth = [
 			'izin'  => $this->M_izin->totalIzinThisMonthByEmployeeId_get($idEmployee),
-			'dayoff' => $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($idEmployee),
+			'dayoff' => $this->M_day_off->totalDayOffThisMonthByEmployeeId_get($idEmployee),
 			'cuti'   => $this->M_leave->totalLeaveThisMonthByEmployeeId_get($idEmployee),
 			'absen'   => $this->M_schedule->totalAbsentThisMonthByEmployeeId_get($idEmployee),
 		];
 
 		$thisYear = [
 			'izin'  => $this->M_izin->totalIzinByEmployeeId_get($idEmployee),
-			'dayoff' => $this->m_Day_off->totalDayOffByEmployeeId_get($idEmployee),
+			'dayoff' => $this->M_day_off->totalDayOffByEmployeeId_get($idEmployee),
 			'cuti'   => $this->M_leave->totalLeaveByEmployeeId_get($idEmployee),
 			'absen'   => $this->M_schedule->totalAbsentByEmployeeId_get($idEmployee),
 
@@ -511,7 +511,7 @@ class Schedule extends MY_Controller{
 			foreach ($employees as $emp) {
 				$tanggal = date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_date', true))));
 
-				$isDayoff = $this->m_Day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
+				$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
 				$isHolyday = $this->m_Holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);

@@ -6,7 +6,7 @@ class DayOff extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Day_off');
+		$this->load->model('M_day_off');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_products');
@@ -26,8 +26,8 @@ class DayOff extends MY_Controller{
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = $id['id_employee'];
-		$data['total_dayoff'] = $this->m_Day_off->totalDayOffByEmployeeId_get($id['id_employee']);
-		$data['total_dayoff_this_month'] = $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($id['id_employee']);
+		$data['total_dayoff'] = $this->M_day_off->totalDayOffByEmployeeId_get($id['id_employee']);
+		$data['total_dayoff_this_month'] = $this->M_day_off->totalDayOffThisMonthByEmployeeId_get($id['id_employee']);
 
 		$data['view_data'] = 'core/dayoff/data_day_off';
 		$data['view_components'] = 'core/dayoff/data_day_off_components';
@@ -54,8 +54,8 @@ class DayOff extends MY_Controller{
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
 
-		$data['this_month'] = $this->m_Day_off->totalDayOffThisMonth_get();
-		$data['this_year'] = $this->m_Day_off->totalDayOff_get();
+		$data['this_month'] = $this->M_day_off->totalDayOffThisMonth_get();
+		$data['this_year'] = $this->M_day_off->totalDayOff_get();
 
 		$data['view_data'] = 'core/dayoff/data_day_off';
 		$data['view_components'] = 'core/dayoff/data_day_off_components';
@@ -104,7 +104,7 @@ class DayOff extends MY_Controller{
 			'description' => $this->input->post('description',true),
 		];
 
-		$overtime = $this->m_Day_off->create_post($data);
+		$overtime = $this->M_day_off->create_post($data);
 
 		if ($overtime) {
 			$response = [
@@ -158,7 +158,7 @@ class DayOff extends MY_Controller{
 			'status' => 2,
 		];
 
-		$overtime = $this->m_Day_off->create_post($data);
+		$overtime = $this->M_day_off->create_post($data);
 
 		if ($overtime) {
 			$this->M_schedule->setStatus_post($emp['id_employee'], $this->input->post('tgl_day_off',true), 2);
@@ -214,7 +214,7 @@ class DayOff extends MY_Controller{
 			$setStatus1 = $this->M_schedule->setStatus_post($idEmployee, $tanggal, 1);
 		}
 
-		if ($this->m_Day_off->setStatus_post($id, $setstatus)) {
+		if ($this->M_day_off->setStatus_post($id, $setstatus)) {
 			$response = [
 				'status' => true,
 				'message' => 'Status berhasil diperbarui.'
@@ -237,9 +237,9 @@ class DayOff extends MY_Controller{
 		$this->_isAjax();
 
 		$id = $this->input->post('id');
-		$data = $this->m_Day_off->findById_get($id);
+		$data = $this->M_day_off->findById_get($id);
 
-		if($this->m_Day_off->delete($id)){
+		if($this->M_day_off->delete($id)){
 			$this->M_schedule->setStatus_post($data['id_employee'], $data['tgl_day_off'], 1);
 			$response = [
 				'status' => true,

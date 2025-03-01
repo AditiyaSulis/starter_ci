@@ -11,7 +11,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_izin');
         $this->load->model('M_overtime');
         $this->load->model('M_leave');
-        $this->load->model('m_Day_off');
+        $this->load->model('M_day_off');
         $this->load->model('m_Holyday');
         $this->load->model('m_Payroll');
         $this->load->model('m_Payroll_component');
@@ -635,7 +635,7 @@ class Core_data extends MY_Controller{
 		$is = $this->input->post('is');
 		$id = $this->input->post('employee');
 
-		$list = $this->m_Day_off->get_datatables();
+		$list = $this->M_day_off->get_datatables();
 		$status  = '';
 
 		$data = [];
@@ -737,8 +737,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Day_off->count_all(),
-			"recordsFiltered" => $this->m_Day_off->count_filtered(),
+			"recordsTotal" => $this->M_day_off->count_all(),
+			"recordsFiltered" => $this->M_day_off->count_filtered(),
 			"option" => $option,
 			"startDate" => $startDate,
 			"endDate" => $endDate,
@@ -990,7 +990,7 @@ class Core_data extends MY_Controller{
 			foreach ($list as $item) {
 
 				$totalAbsent = $this->M_schedule->totalAttendance($item['id_employee'], $startDate, $endDate);
-				$totalDayOff = $this->m_Day_off->totalAttendance($item['id_employee'], $startDate, $endDate);
+				$totalDayOff = $this->M_day_off->totalAttendance($item['id_employee'], $startDate, $endDate);
 				$totalIzin = $this->M_izin->totalAttendance($item['id_employee'], $startDate, $endDate);
 				$totalCuti = $this->M_leave->totalAttendance($item['id_employee'], $startDate, $endDate);
 
