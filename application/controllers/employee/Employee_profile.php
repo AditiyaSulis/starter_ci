@@ -8,8 +8,8 @@ class Employee_profile extends MY_Controller{
 		parent::__construct();
 
 		$this->load->model('M_employees');
-		$this->load->model('m_Emergency_contact');
-		$this->load->model('m_Bank_account');
+		$this->load->model('M_emergency_contact');
+		$this->load->model('M_bank_account');
 		$this->load->library('upload');
 	}
 
@@ -26,8 +26,8 @@ class Employee_profile extends MY_Controller{
 
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['cp'] = $id['id_employee'];
-		$data['emergency_contact'] = $this->m_Emergency_contact->findByEmployeeId_get($id['id_employee']);
-		$data['bank_account'] = $this->m_Bank_account->findByEmployeeId_get($id['id_employee']);
+		$data['emergency_contact'] = $this->M_emergency_contact->findByEmployeeId_get($id['id_employee']);
+		$data['bank_account'] = $this->M_bank_account->findByEmployeeId_get($id['id_employee']);
 
 		if($data['user']) {
 			$this->load->view('templates/index', $data);

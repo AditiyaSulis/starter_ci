@@ -8,8 +8,8 @@ class Employee extends MY_Controller{
         $this->load->model('M_products');
         $this->load->model('M_position');
         $this->load->model('M_division');
-        $this->load->model('m_Bank_account');
-        $this->load->model('m_Emergency_contact');
+        $this->load->model('M_bank_account');
+        $this->load->model('M_emergency_contact');
         $this->load->model('m_Log_contract_extension');
         $this->load->model('m_Address');
         $this->load->model('m_Domisili');
@@ -560,7 +560,7 @@ class Employee extends MY_Controller{
         $id = $this->input->post('id');
 
 
-        if($this->M_employees->delete($id) && $this->m_Bank_account->deleteByEmployeeId_get($id) && $this->m_Emergency_contact->deleteByEmployeeId_get($id)){
+        if($this->M_employees->delete($id) && $this->M_bank_account->deleteByEmployeeId_get($id) && $this->M_emergency_contact->deleteByEmployeeId_get($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data karyawan berhasil dihapus',
@@ -716,7 +716,7 @@ class Employee extends MY_Controller{
              return;
          }
  
-         $banklist = $this->m_Bank_account->findByEmployeeId_get($id);
+         $banklist = $this->M_bank_account->findByEmployeeId_get($id);
  
          
          echo json_encode([
@@ -764,7 +764,7 @@ class Employee extends MY_Controller{
             'bank_holder_name' => $this->input->post('bank_holder_name', true),
         ];
 
-        $add_bank = $this->m_Bank_account->create_post($data);
+        $add_bank = $this->M_bank_account->create_post($data);
 
         if ($add_bank) {
             $response = [
@@ -789,7 +789,7 @@ class Employee extends MY_Controller{
         $id = $this->input->post('id_bank');
 
 
-        if($this->m_Bank_account->delete($id)){
+        if($this->M_bank_account->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data Bank berhasil dihapus',
@@ -834,7 +834,7 @@ class Employee extends MY_Controller{
             return;
         }
 
-        $contactList = $this->m_Emergency_contact->findByEmployeeId_get($id);
+        $contactList = $this->M_emergency_contact->findByEmployeeId_get($id);
 
         
         echo json_encode([
@@ -886,7 +886,7 @@ class Employee extends MY_Controller{
             'address_contact' => $this->input->post('address_contact', true),
         ];
 
-        $add_contact = $this->m_Emergency_contact->create_post($data);
+        $add_contact = $this->M_emergency_contact->create_post($data);
 
         if ($add_contact) {
             $response = [
@@ -911,7 +911,7 @@ class Employee extends MY_Controller{
         $id = $this->input->post('id_contact');
 
 
-        if($this->m_Emergency_contact->delete($id)){
+        if($this->M_emergency_contact->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data berhasil dihapus',
