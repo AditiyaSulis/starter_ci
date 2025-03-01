@@ -19,7 +19,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_finance_records');
 		$this->load->model('m_Service_teknisi');
 		$this->load->model('M_piutang');
-		$this->load->model('m_Purchase_piutang');
+		$this->load->model('M_purchase_piutang');
 		$this->load->model('m_Holyday');
 	}
 
@@ -192,7 +192,7 @@ class Payroll extends MY_Controller{
 						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
 					];
 
-					$piutang_payment = $this->m_Purchase_piutang->create_post($dataPiutang);
+					$piutang_payment = $this->M_purchase_piutang->create_post($dataPiutang);
 
 					$potPiutang = $piutang['angsuran'];
 				}

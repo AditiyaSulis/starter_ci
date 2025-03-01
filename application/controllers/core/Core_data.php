@@ -7,7 +7,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_employees');
         $this->load->model('M_piutang');
         $this->load->model('M_purchases');
-        $this->load->model('m_Purchase_piutang');
+        $this->load->model('M_purchase_piutang');
         $this->load->model('m_Izin');
         $this->load->model('m_Overtime');
         $this->load->model('m_Leave');

@@ -6,7 +6,7 @@ class Piutang extends MY_Controller{
         parent::__construct();
         $this->load->model('M_employees');
         $this->load->model('M_piutang');
-        $this->load->model('m_Purchase_piutang');
+        $this->load->model('M_purchase_piutang');
     }
 
     public function piutang_page()
@@ -389,7 +389,7 @@ class Piutang extends MY_Controller{
             return;
         }
 
-        $logs = $this->m_Purchase_piutang->findByPiutangId_get($id);
+        $logs = $this->M_purchase_piutang->findByPiutangId_get($id);
 
         
         echo json_encode([
@@ -464,7 +464,7 @@ class Piutang extends MY_Controller{
             'description' => $this->input->post('description', true),
         ];
 
-        $piutang_payment = $this->m_Purchase_piutang->create_post($data);
+        $piutang_payment = $this->M_purchase_piutang->create_post($data);
 
         if ($piutang_payment) {
             $response = [
@@ -653,7 +653,7 @@ class Piutang extends MY_Controller{
         
 
 
-        if($this->M_piutang->delete($id) && $this->m_Purchase_piutang->deleteByPiutangId_get($id) ){
+        if($this->M_piutang->delete($id) && $this->M_purchase_piutang->deleteByPiutangId_get($id) ){
             $response = [
                 'status' => true,
                 'message' => 'Transaksi berhasil dihapus',
@@ -873,7 +873,7 @@ class Piutang extends MY_Controller{
                         'jatuh_tempo' => date('Y-m-d', strtotime("+$tenor days")),
                     ];
     
-                    $this->m_Purchase_piutang->create_post($data_purchase);
+                    $this->M_purchase_piutang->create_post($data_purchase);
                 
             }  
             else if($type_tenor == 2) {
@@ -883,7 +883,7 @@ class Piutang extends MY_Controller{
                         'jatuh_tempo' => date('Y-m-d', strtotime("+$i weeks")),
                     ];
     
-                    $this->m_Purchase_piutang->create_post($data_purchase);
+                    $this->M_purchase_piutang->create_post($data_purchase);
                 }$tgl_lunas ==  date('Y-m-d', strtotime("+$tenor weeks"));
             } 
             else if($type_tenor == 3) {
@@ -893,7 +893,7 @@ class Piutang extends MY_Controller{
                         'jatuh_tempo' => date('Y-m-d', strtotime("+$i months")),
                     ];
     
-                    $this->m_Purchase_piutang->create_post($data_purchase);
+                    $this->M_purchase_piutang->create_post($data_purchase);
                 }
             } 
             else if($type_tenor == 4) {
@@ -903,7 +903,7 @@ class Piutang extends MY_Controller{
                         'jatuh_tempo' => date('Y-m-d', strtotime("+$i years")),
                     ];
     
-                    $this->m_Purchase_piutang->create_post($data_purchase);
+                    $this->M_purchase_piutang->create_post($data_purchase);
                 }
             } 
         } else {
@@ -928,7 +928,7 @@ class Piutang extends MY_Controller{
             return;
         }
     
-        $data = $this->m_Purchase_piutang->findByPiutangIdV2_get($id);
+        $data = $this->M_purchase_piutang->findByPiutangIdV2_get($id);
     
         if ($data) {
             echo json_encode([
@@ -1010,7 +1010,7 @@ class Piutang extends MY_Controller{
             'status' => 2,
         ];
 
-        $piutang_payment = $this->m_Purchase_piutang->pay_post($id_purchase_piutang, $data);
+        $piutang_payment = $this->M_purchase_piutang->pay_post($id_purchase_piutang, $data);
 
         if ($piutang_payment) {
             $response = [
