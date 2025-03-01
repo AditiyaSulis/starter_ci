@@ -17,7 +17,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_day_off');
 		$this->load->model('M_schedule');
 		$this->load->model('M_finance_records');
-		$this->load->model('m_Service_teknisi');
+		$this->load->model('M_service_teknisi');
 		$this->load->model('M_piutang');
 		$this->load->model('M_purchase_piutang');
 		$this->load->model('M_holyday');
@@ -202,7 +202,7 @@ class Payroll extends MY_Controller{
 
 			// Fitur Teknisi gaji
 			//if ($employee['code_division'] == 'TKS') {
-			//	$totalPendapatan = $this->m_Service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
+			//	$totalPendapatan = $this->M_service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
 			// 	$totalGaji = $totalPendapatan + $employee['uang_makan']+ $employee['bonus'] + $totalOvertime - $totalPotongan;
 			//} else {
 			//	$totalGaji = $employee['basic_salary'] + $employee['uang_makan'] + $employee['bonus'] + $totalOvertime - $totalPotongan;
@@ -502,7 +502,7 @@ class Payroll extends MY_Controller{
 	//		$potIzin=(round($employee['uang_makan']) / 26) * $totalIzin;
 	//
 	//		if($employee['code_division'] == 'TKS' )  {
-	//			$totalPendapatan = $this->m_Service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//			$totalPendapatan = $this->M_service_teknisi->totalServicePay_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//			$totalGaji = $totalPendapatan + $potIzin  + $employee['bonus'] + $totalOvertime;
 	//		} else {
 	//			$potAbsen = (round($employee['basic_salary']) / 27) * $totalAbsent;

@@ -6,7 +6,7 @@ class Service_teknisi extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Service_teknisi');
+		$this->load->model('M_service_teknisi');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_products');
@@ -27,8 +27,8 @@ class Service_teknisi extends MY_Controller{
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = $id['id_employee'];
-		$data['total_service_teknisi'] = $this->m_Service_teknisi->totalServiceTeknisiByEmployeeId_get($id['id_employee']);
-		$data['total_service_teknisi_this_month'] = $this->m_Service_teknisi->totalServiceTeknisiThisMonthByEmployeeId_get($id['id_employee']);
+		$data['total_service_teknisi'] = $this->M_service_teknisi->totalServiceTeknisiByEmployeeId_get($id['id_employee']);
+		$data['total_service_teknisi_this_month'] = $this->M_service_teknisi->totalServiceTeknisiThisMonthByEmployeeId_get($id['id_employee']);
 
 		$data['view_data'] = 'core/service_teknisi/data_service_teknisi';
 		$data['view_components'] = 'core/service_teknisi/data_service_teknisi_components';
@@ -55,8 +55,8 @@ class Service_teknisi extends MY_Controller{
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAllTechnician_get();
 
-		$data['this_month'] = $this->m_Service_teknisi->totalServiceTeknisiThisMonth_get();
-		$data['this_year'] = $this->m_Service_teknisi->totalServiceTeknisi_get();
+		$data['this_month'] = $this->M_service_teknisi->totalServiceTeknisiThisMonth_get();
+		$data['this_year'] = $this->M_service_teknisi->totalServiceTeknisi_get();
 
 		$data['view_data'] = 'core/service_teknisi/data_service_teknisi';
 		$data['view_components'] = 'core/service_teknisi/data_service_teknisi_components';
@@ -113,7 +113,7 @@ class Service_teknisi extends MY_Controller{
 			'status' => 3,
 		];
 
-		$serviceRecord = $this->m_Service_teknisi->create_post($data);
+		$serviceRecord = $this->M_service_teknisi->create_post($data);
 
 		if ($serviceRecord) {
 			$response = [
@@ -204,7 +204,7 @@ class Service_teknisi extends MY_Controller{
 			'status' => 2,
 		];
 
-		$overtime = $this->m_Service_teknisi->create_post($data);
+		$overtime = $this->M_service_teknisi->create_post($data);
 
 		if ($overtime) {
 			$response = [
@@ -257,7 +257,7 @@ class Service_teknisi extends MY_Controller{
 		$pay = $this->input->post('total_service', true);
 
 
-		if ($this->m_Service_teknisi->setStatus_post($id, $setstatus,$pay)) {
+		if ($this->M_service_teknisi->setStatus_post($id, $setstatus,$pay)) {
 			$response = [
 				'status' => true,
 				'message' => 'Status berhasil diperbarui.'
@@ -281,7 +281,7 @@ class Service_teknisi extends MY_Controller{
 
 		$id = $this->input->post('id');
 
-		if($this->m_Service_teknisi->delete($id)){
+		if($this->M_service_teknisi->delete($id)){
 			$response = [
 				'status' => true,
 					'message' => 'Data service teknisi berhasil dihapus',

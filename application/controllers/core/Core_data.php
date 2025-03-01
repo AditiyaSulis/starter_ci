@@ -18,7 +18,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_schedule');
         $this->load->model('M_rekap');
         $this->load->model('M_attendance');
-        $this->load->model('m_Service_teknisi');
+        $this->load->model('M_service_teknisi');
     }
 
 	public function data_piutang()
@@ -1072,7 +1072,7 @@ class Core_data extends MY_Controller{
 		$is = $this->input->post('is');
 		$id = $this->input->post('employee');
 
-		$list = $this->m_Service_teknisi->get_datatables();
+		$list = $this->M_service_teknisi->get_datatables();
 		$status  = '';
 
 		$data = [];
@@ -1182,8 +1182,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Service_teknisi->count_all(),
-			"recordsFiltered" => $this->m_Service_teknisi->count_filtered(),
+			"recordsTotal" => $this->M_service_teknisi->count_all(),
+			"recordsFiltered" => $this->M_service_teknisi->count_filtered(),
 			"option" => $option,
 			"startDate" => $startDate,
 			"endDate" => $endDate,

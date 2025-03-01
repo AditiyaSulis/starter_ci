@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Service_teknisi extends CI_Model
+class M_service_teknisi extends CI_Model
 {
 
 	private $column_search = array('service_teknisi.id_service_teknisi', 'service_teknisi.input_at', 'service_teknisi.id_employee', 'service_teknisi.tanggal_service', 'service_teknisi.total_service', 'service_teknisi.pendapatan_service', 'service_teknisi.type_service', 'service_teknisi.type_service','service_teknisi.description', 'service_teknisi.status', 'employee.id_employee', 'employee.name', 'employee.id_division', 'employee.id_product', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');
