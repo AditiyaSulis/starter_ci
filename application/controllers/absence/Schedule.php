@@ -10,7 +10,7 @@ class Schedule extends MY_Controller{
 		$this->load->model('M_employees');
 		$this->load->model('m_Workshift');
 		$this->load->model('M_products');
-		$this->load->model('m_Division');
+		$this->load->model('M_division');
 		$this->load->model('m_Day_off');
 		$this->load->model('m_Izin');
 		$this->load->model('m_Leave');
@@ -366,7 +366,7 @@ class Schedule extends MY_Controller{
 
 		$data['employees'] = $this->M_employees->findAll_get();
 		$data['workshifts'] = $this->m_Workshift->findAll_get();
-		$data['divisions'] = $this->m_Division->findAll_get();
+		$data['divisions'] = $this->M_division->findAll_get();
 		$data['products'] = $this->M_products->findAll_get();
 
 

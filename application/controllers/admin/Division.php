@@ -7,7 +7,7 @@ class Division extends MY_Controller{
     {
         parent::__construct();
 
-        $this->load->model('m_Division');
+        $this->load->model('M_division');
         $this->load->model('M_employees');
     }
 
@@ -22,7 +22,7 @@ class Division extends MY_Controller{
        $data['breadcrumb'] = 'Division';
        $data['menu'] = '';
        
-       $data['division'] = $this->m_Division->findAll_get();
+       $data['division'] = $this->M_division->findAll_get();
 
        if($data['user']) {
             $this->load->view('templates/index', $data);
@@ -67,7 +67,7 @@ class Division extends MY_Controller{
             'name_division' => $this->input->post('name_division', true),
         ];
 
-        $division = $this->m_Division->create_post($data);
+        $division = $this->M_division->create_post($data);
 
         if ($division) {
             $response = [
@@ -100,7 +100,7 @@ class Division extends MY_Controller{
             return;
         }
 
-        $ac = $this->m_Division->findById_get($id);
+        $ac = $this->M_division->findById_get($id);
         $oldCode = $ac['code_division'];
 
         $this->form_validation->set_rules('name_division', 'name_division', 'required|min_length[2]|max_length[80]', [
@@ -125,7 +125,7 @@ class Division extends MY_Controller{
         $newCode = $this->input->post('code_division',true);
 
         if($oldCode != $newCode){
-            $codeExist = $this->m_Division->findByCodeDivision_get($newCode);
+            $codeExist = $this->M_division->findByCodeDivision_get($newCode);
             if($codeExist){
                 $response = [
                     'status' => false,
@@ -143,7 +143,7 @@ class Division extends MY_Controller{
             'name_division' => $this->input->post('name_division', true),
         ];
 
-        $account_code = $this->m_Division->update_post($id, $data);
+        $account_code = $this->M_division->update_post($id, $data);
 
         if ($account_code) {
             $response = [
@@ -179,7 +179,7 @@ class Division extends MY_Controller{
             return;
         }
     
-        if ($this->m_Division->delete($id)) {
+        if ($this->M_division->delete($id)) {
             $response = [
                 'status' => true,
                 'message' => 'Divisi berhasil dihapus',

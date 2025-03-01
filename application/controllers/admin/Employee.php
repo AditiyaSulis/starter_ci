@@ -7,7 +7,7 @@ class Employee extends MY_Controller{
         $this->load->model('M_employees');
         $this->load->model('M_products');
         $this->load->model('M_position');
-        $this->load->model('m_Division');
+        $this->load->model('M_division');
         $this->load->model('m_Bank_account');
         $this->load->model('m_Emergency_contact');
         $this->load->model('m_Log_contract_extension');
@@ -28,7 +28,7 @@ class Employee extends MY_Controller{
         $data['menu'] = '';
 
         $data['employees'] = $this->M_employees->findAllJoin_get();
-        $data['division'] = $this->m_Division->findAll_get();
+        $data['division'] = $this->M_division->findAll_get();
         $data['position'] = $this->M_position->findAll_get();
         $data['products'] = $this->M_products->findAll_get();
         $data['products_show'] = $this->M_products->findAllShow_get();

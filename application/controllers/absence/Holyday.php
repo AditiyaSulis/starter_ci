@@ -8,7 +8,7 @@ class Holyday extends MY_Controller{
 		parent::__construct();
 		$this->load->model('m_Holyday');
 		$this->load->model('M_products');
-		$this->load->model('m_Division');
+		$this->load->model('M_division');
 		$this->load->model('M_schedule');
 	}
 
@@ -23,7 +23,7 @@ class Holyday extends MY_Controller{
 		$data['menu'] = 'Data';
 
 		$data['products'] = $this->M_products->findAll_get();
-		$data['divisions'] = $this->m_Division->findAll_get();
+		$data['divisions'] = $this->M_division->findAll_get();
 
 		$data['view_data'] = 'core/holyday/data_holyday';
 		$data['view_components'] = 'core/holyday/data_holyday_components';
@@ -81,11 +81,11 @@ class Holyday extends MY_Controller{
 			$product = $this->M_products->getAllIds_get();
 			$division = (array) $this->input->post('id_division', true);
 		} elseif ($typeGroup == 2) {
-			$division = $this->m_Division->getAllIds_get();
+			$division = $this->M_division->getAllIds_get();
 			$product = (array) $this->input->post('id_product', true);
 		} elseif ($typeGroup == 3) {
 			$product = $this->M_products->getAllIds_get();
-			$division = $this->m_Division->getAllIds_get();
+			$division = $this->M_division->getAllIds_get();
 		} elseif ($typeGroup == 4) {
 			$product = (array) $this->input->post('id_product', true);
 			$division = (array) $this->input->post('id_division', true);

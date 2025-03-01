@@ -9,7 +9,7 @@ class Payroll_component extends MY_Controller
 		parent::__construct();
 		$this->load->model('m_Overtime');
 		$this->load->model('M_employees');
-		$this->load->model('m_Division');
+		$this->load->model('M_division');
 		$this->load->model('M_products');
 	}
 
@@ -24,7 +24,7 @@ class Payroll_component extends MY_Controller
 		$data['menu'] = '';
 
 		$data['products'] = $this->M_products->findAll_get();
-		$data['divisions'] = $this->m_Division->findAll_get();
+		$data['divisions'] = $this->M_division->findAll_get();
 
 //		$data['view_data'] = 'core/payroll_component/data_payroll_component';
 //		$data['view_components'] = 'core/payroll_component/data_payroll_component_components';

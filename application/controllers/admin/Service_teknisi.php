@@ -10,7 +10,7 @@ class Service_teknisi extends MY_Controller{
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_products');
-		$this->load->model('m_Division');
+		$this->load->model('M_division');
 
 	}
 

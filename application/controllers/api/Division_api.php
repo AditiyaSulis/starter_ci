@@ -10,7 +10,7 @@ class Division_api extends RestController{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Division');
+        $this->load->model('M_division');
         validate_header();
 
     }
@@ -19,7 +19,7 @@ class Division_api extends RestController{
     public function getAll_get()
     {
 
-        $division = $this->m_Division->findAll_get();
+        $division = $this->M_division->findAll_get();
 
         if($division){
             $this->response([

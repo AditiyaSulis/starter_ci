@@ -8,7 +8,7 @@ class Overtime extends MY_Controller{
 		parent::__construct();
 		$this->load->model('m_Overtime');
 		$this->load->model('M_employees');
-		$this->load->model('m_Division');
+		$this->load->model('M_division');
 		$this->load->model('M_products');
 	}
 
@@ -50,7 +50,7 @@ class Overtime extends MY_Controller{
 		$data['employee'] = 'false';
 
 		$data['employees'] = $this->M_employees->findAll_get();
-		$data['divisions'] = $this->m_Division->findAll_get();
+		$data['divisions'] = $this->M_division->findAll_get();
 		$data['products'] = $this->M_products->findAll_get();
 
 		$data['this_month'] = $this->m_Overtime->totalOvertimeThisMonth_get();
