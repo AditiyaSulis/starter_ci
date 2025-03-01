@@ -78,7 +78,7 @@ class Auth extends CI_Controller{
     {
         $this->session->unset_userdata('user');
 
-        redirect('fetch/login');
+        redirect('panel');
     }
 
 

@@ -76,9 +76,13 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'u706709597_root',
-	'password' => '0k~IiC!~b&Bu',
-	'database' => 'u706709597_cvmgr',
+		'username' => 'u706709597_root',
+		'password' => '0k~IiC!~b&Bu',
+		'database' => 'u706709597_cvmgr',
+	//	'username' => 'root',
+	//	'password' => '',
+	//	'database' => 'multigraharadhika',
+
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
