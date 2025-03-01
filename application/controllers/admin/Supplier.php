@@ -8,7 +8,7 @@ class Supplier extends MY_Controller
   {
     parent::__construct();
     $this->load->model('m_Supplier');
-    $this->load->model('m_Purchases');
+    $this->load->model('M_purchases');
   }
 
 
@@ -182,7 +182,7 @@ class Supplier extends MY_Controller
         
         $id = $this->input->post('id_supplier');
         
-        if($this->m_Purchases->findBySupplierId_get($id)){
+        if($this->M_purchases->findBySupplierId_get($id)){
             $response = [
                 'status' => false,
                 'message' => 'Supplier ini tidak bisa dihapus karena memiliki relasi dengan tabel lain' 

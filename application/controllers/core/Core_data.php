@@ -6,7 +6,7 @@ class Core_data extends MY_Controller{
         parent::__construct();
         $this->load->model('M_employees');
         $this->load->model('M_piutang');
-        $this->load->model('m_Purchases');
+        $this->load->model('M_purchases');
         $this->load->model('m_Purchase_piutang');
         $this->load->model('m_Izin');
         $this->load->model('m_Overtime');
@@ -134,7 +134,7 @@ class Core_data extends MY_Controller{
 		$endDate = $this->input->post('endDate');
 		$status = $this->input->post('status_purchases');
 
-		$list = $this->m_Purchases->get_datatables();
+		$list = $this->M_purchases->get_datatables();
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -223,8 +223,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Purchases->count_all(),
-			"recordsFiltered" => $this->m_Purchases->count_filtered(),
+			"recordsTotal" => $this->M_purchases->count_all(),
+			"recordsFiltered" => $this->M_purchases->count_filtered(),
 			"option" => $option,
 			"startDate" => $startDate,
 			"endDate" => $endDate,

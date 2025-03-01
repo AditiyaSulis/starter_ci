@@ -7,7 +7,7 @@ class Purchases extends MY_Controller{
     {
         parent::__construct();
 
-        $this->load->model('m_Purchases');
+        $this->load->model('M_purchases');
         $this->load->model('m_Purchase_payment');
         $this->load->model('m_Supplier');
     }
@@ -23,18 +23,18 @@ class Purchases extends MY_Controller{
        $data['breadcrumb'] = 'Supplier - Purchases Unpaid';
        $data['tab'] = 'Unpaid';
        $data['menu'] = 'Supplier';
-       $data['total_paid'] = $this->m_Purchases->totalPaid_get();
-       $data['total_unpaid'] = $this->m_Purchases->totalUnpaid_get();
+       $data['total_paid'] = $this->M_purchases->totalPaid_get();
+       $data['total_unpaid'] = $this->M_purchases->totalUnpaid_get();
 
-	   $data['jatuh_tempo'] = $this->m_Purchases->jatuhTempo_get();
-	   $data['total_jatuh_tempo'] = $this->m_Purchases->totalJatuhTempo_get();
+	   $data['jatuh_tempo'] = $this->M_purchases->jatuhTempo_get();
+	   $data['total_jatuh_tempo'] = $this->M_purchases->totalJatuhTempo_get();
 
 	   $data['view_data'] = 'core/purchases/data_purchases';
 	   $data['view_component'] = 'core/purchases/data_purchases_components';
 
-       $data['purchases'] = $this->m_Purchases->findAllWithJoin_get();
+       $data['purchases'] = $this->M_purchases->findAllWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
-       $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
+       $data['totalFinalAmount'] = $this->M_purchases->getTotalFinalAmount_get();
        $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
 
@@ -58,14 +58,14 @@ class Purchases extends MY_Controller{
        $data['breadcrumb'] = 'Supplier - Purchases Paid';
        $data['tab'] = 'Unpaid';
        $data['menu'] = 'Supplier';
-       $data['total_paid'] = $this->m_Purchases->totalPaid_get();
-       $data['total_unpaid'] = $this->m_Purchases->totalUnpaid_get();
-       $data['totalFinalAmount'] = $this->m_Purchases->getTotalFinalAmount_get();
+       $data['total_paid'] = $this->M_purchases->totalPaid_get();
+       $data['total_unpaid'] = $this->M_purchases->totalUnpaid_get();
+       $data['totalFinalAmount'] = $this->M_purchases->getTotalFinalAmount_get();
        $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
 
-	   $data['jatuh_tempo'] = $this->m_Purchases->jatuhTempo_get();
-	   $data['total_jatuh_tempo'] = $this->m_Purchases->totalJatuhTempo_get();
+	   $data['jatuh_tempo'] = $this->M_purchases->jatuhTempo_get();
+	   $data['total_jatuh_tempo'] = $this->M_purchases->totalJatuhTempo_get();
        
 
 	   $data['view_data'] = 'core/purchases/data_purchases';
@@ -89,7 +89,7 @@ class Purchases extends MY_Controller{
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
 
-		$list = $this->m_Purchases-> getPurchasesDataPaid_get($option, $startDate, $endDate);
+		$list = $this->M_purchases-> getPurchasesDataPaid_get($option, $startDate, $endDate);
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -243,7 +243,7 @@ class Purchases extends MY_Controller{
 			'jatuh_tempo' => $this->input->post('jatuh_tempo', true),
         ];
 
-        $purchases = $this->m_Purchases->create_post($data);
+        $purchases = $this->M_purchases->create_post($data);
 
         if ($purchases) {
             $response = [
@@ -268,7 +268,7 @@ class Purchases extends MY_Controller{
         $id = $this->input->post('id', true);
 
 
-        if($this->m_Purchases->delete($id) && $this->m_Purchase_payment->deleteByPurchaseId_get($id)){
+        if($this->M_purchases->delete($id) && $this->m_Purchase_payment->deleteByPurchaseId_get($id)){
             $response = [
                 'status' => true,
 				'id' => $id,
@@ -343,7 +343,7 @@ class Purchases extends MY_Controller{
         $id_purchase = $this->input->post('id_purchases', true);
         $amount = $this->input->post('payment_amount', true);
 
-        $purchases = $this->m_Purchases->findById_get($id_purchase);
+        $purchases = $this->M_purchases->findById_get($id_purchase);
 
         if($amount > $purchases['remaining_amount']) {
             $response = [

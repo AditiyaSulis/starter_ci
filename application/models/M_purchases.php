@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class m_Purchases extends CI_Model {
+class M_purchases extends CI_Model {
 //	private $column_search = array('purchases.*, supplier.id_supplier, supplier.name_supplier');
 //	private $column_order = array('purchases.*, supplier.id_supplier, supplier.name_supplier');
 	private $column_search = array('purchases.id_purchases, purchases.id_supplier, purchases.created_at, purchases.input_at, purchases.total_amount, purchases.pot_amount, purchases.final_amount,purchases.remaining_amount, purchases.status_purchases, purchases.description, purchases.payment_type, purchases.jatuh_tempo, supplier.id_supplier, supplier.name_supplier');
