@@ -8,7 +8,7 @@ class Purchases extends MY_Controller{
         parent::__construct();
 
         $this->load->model('M_purchases');
-        $this->load->model('m_Purchase_payment');
+        $this->load->model('M_purchase_payment');
         $this->load->model('m_Supplier');
     }
     
@@ -35,7 +35,7 @@ class Purchases extends MY_Controller{
        $data['purchases'] = $this->M_purchases->findAllWithJoin_get();
        $data['suppliers'] = $this->m_Supplier->findAllIsActive();
        $data['totalFinalAmount'] = $this->M_purchases->getTotalFinalAmount_get();
-       $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
+       $data['totalPaymentAmount'] = $this->M_purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
 
        if($data['user']) {
@@ -61,7 +61,7 @@ class Purchases extends MY_Controller{
        $data['total_paid'] = $this->M_purchases->totalPaid_get();
        $data['total_unpaid'] = $this->M_purchases->totalUnpaid_get();
        $data['totalFinalAmount'] = $this->M_purchases->getTotalFinalAmount_get();
-       $data['totalPaymentAmount'] = $this->m_Purchase_payment->getTotalPaymentAmount_get();
+       $data['totalPaymentAmount'] = $this->M_purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
 
 	   $data['jatuh_tempo'] = $this->M_purchases->jatuhTempo_get();
@@ -268,7 +268,7 @@ class Purchases extends MY_Controller{
         $id = $this->input->post('id', true);
 
 
-        if($this->M_purchases->delete($id) && $this->m_Purchase_payment->deleteByPurchaseId_get($id)){
+        if($this->M_purchases->delete($id) && $this->M_purchase_payment->deleteByPurchaseId_get($id)){
             $response = [
                 'status' => true,
 				'id' => $id,
@@ -301,7 +301,7 @@ class Purchases extends MY_Controller{
             return;
         }
 
-        $logs = $this->m_Purchase_payment->findByPurchasesId_get($id);
+        $logs = $this->M_purchase_payment->findByPurchasesId_get($id);
 
         
         echo json_encode([
@@ -362,7 +362,7 @@ class Purchases extends MY_Controller{
             'description' => $this->input->post('description', true),
         ];
 
-        $purchase_payments = $this->m_Purchase_payment->create_post($data);
+        $purchase_payments = $this->M_purchase_payment->create_post($data);
 
         if ($purchase_payments) {
             $response = [

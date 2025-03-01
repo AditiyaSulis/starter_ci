@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_Purchase_payment extends CI_Model {
+class M_purchase_payment extends CI_Model {
 
     public function findAll_get()
     {
