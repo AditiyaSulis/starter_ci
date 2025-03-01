@@ -407,8 +407,24 @@ class Employee extends MY_Controller{
 		];
 
 		if(!$this->M_address->findByEmployeeId_get($id) && !$this->M_domisili->findByEmployeeId_get($id)){
-			$address = ['id_employee' => $id];
-			$domisili = ['id_employee' => $id];
+			$address = [
+				'id_employee' => $id,
+				'kabupaten' => $this->input->post('kabupaten', true),
+				'kecamatan' => $this->input->post('kecamatan', true),
+				'desa' => $this->input->post('desa', true),
+				'blok' => $this->input->post('blok', true),
+				'kode_pos' => $this->input->post('kode_pos', true),
+				'spesifik' => $this->input->post('spesifik', true),
+			];
+			$domisili = [
+				'id_employee' => $id,
+				'kabupaten_domisili' => $this->input->post('kabupaten_domisili', true),
+				'kecamatan_domisili' => $this->input->post('kecamatan_domisili', true),
+				'desa_domisili' => $this->input->post('desa_domisili', true),
+				'blok_domisili' => $this->input->post('blok_domisili', true),
+				'kode_pos_domisili' => $this->input->post('kode_pos_domisili', true),
+				'spesifik_domisili' => $this->input->post('spesifik_domisili', true),
+			];
 			if ($this->M_address->create_post($address) && $this->M_domisili->create_post($domisili)) {
 				$response = [
 					'status' => true,
