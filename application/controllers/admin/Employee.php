@@ -11,7 +11,7 @@ class Employee extends MY_Controller{
         $this->load->model('M_bank_account');
         $this->load->model('M_emergency_contact');
         $this->load->model('M_log_contract_extension');
-        $this->load->model('m_Address');
+        $this->load->model('M_address');
         $this->load->model('m_Domisili');
 
     }
@@ -406,10 +406,10 @@ class Employee extends MY_Controller{
 			'spesifik_domisili' => $this->input->post('spesifik_domisili', true),
 		];
 
-		if(!$this->m_Address->findByEmployeeId_get($id) && !$this->m_Domisili->findByEmployeeId_get($id)){
+		if(!$this->M_address->findByEmployeeId_get($id) && !$this->m_Domisili->findByEmployeeId_get($id)){
 			$address = ['id_employee' => $id];
 			$domisili = ['id_employee' => $id];
-			if ($this->m_Address->create_post($address) && $this->m_Domisili->create_post($domisili)) {
+			if ($this->M_address->create_post($address) && $this->m_Domisili->create_post($domisili)) {
 				$response = [
 					'status' => true,
 					'message' => 'Data address karyawan berhasil ditambahkan',
@@ -426,7 +426,7 @@ class Employee extends MY_Controller{
 			return;
 		}
 
-		if ($this->m_Address->update_post($id, $address) && $this->m_Domisili->update_post($id, $domisili)) {
+		if ($this->M_address->update_post($id, $address) && $this->m_Domisili->update_post($id, $domisili)) {
 			$response = [
 				'status' => true,
 				'message' => 'Data address karyawan berhasil diupdate',
