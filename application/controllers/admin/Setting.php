@@ -7,9 +7,9 @@ class Setting extends MY_Controller{
     {
         parent::__construct();
 
-        $this->load->model('m_Setting');
+        $this->load->model('M_setting');
         $this->load->library('upload');
-        $this->load->model('m_Setting');
+        $this->load->model('M_setting');
     }
 
 
@@ -24,7 +24,7 @@ class Setting extends MY_Controller{
        $data['menu'] = '';
        
       
-       $data['cp'] = $this->m_Setting->findAll_get();
+       $data['cp'] = $this->M_setting->findAll_get();
        
        if($data['user']) {
             $this->load->view('templates/index', $data);
@@ -80,7 +80,7 @@ class Setting extends MY_Controller{
         
         
         if (!empty($_FILES['logo']['name'])) {
-            $product = $this->m_Setting->findById_get($id);
+            $product = $this->M_setting->findById_get($id);
             if ($product && !empty($product['logo'])) {
                 $old_logo_path = './uploads/logos/' . $product['logo'];
                 if (file_exists($old_logo_path)) {
@@ -104,7 +104,7 @@ class Setting extends MY_Controller{
     
             $data['logo'] = $upload_result['message'];
         } else {
-            $product = $this->m_Setting->findById_get($id);
+            $product = $this->M_setting->findById_get($id);
             $old_logo_path = './uploads/logos/' . $product['logo'];
                 if (file_exists($old_logo_path)) {
                     unlink($old_logo_path);
@@ -113,7 +113,7 @@ class Setting extends MY_Controller{
         }
     
       
-        if ($this->m_Setting->update_post($id, $data)) {
+        if ($this->M_setting->update_post($id, $data)) {
             echo json_encode(['status' => true, 'message' => 'Profile berhasil diperbarui.']);
         } else {
             echo json_encode(['status' => false, 'message' => 'Gagal memperbarui profile.']);

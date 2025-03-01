@@ -10,7 +10,7 @@ class Company_profile_api extends RestController{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Setting');
+        $this->load->model('M_setting');
         validate_header();
 
     }
@@ -19,7 +19,7 @@ class Company_profile_api extends RestController{
     public function getOne_get()
     {
 
-        $company_profile = $this->m_Setting->getCp_get();
+        $company_profile = $this->M_setting->getCp_get();
 
         if($company_profile){
             $this->response([

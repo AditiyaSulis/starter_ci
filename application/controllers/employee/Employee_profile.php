@@ -83,7 +83,7 @@ class Employee_profile extends MY_Controller{
 
 
 		if (!empty($_FILES['logo']['name'])) {
-			$product = $this->m_Setting->findById_get($id);
+			$product = $this->M_setting->findById_get($id);
 			if ($product && !empty($product['logo'])) {
 				$old_logo_path = './uploads/logos/' . $product['logo'];
 				if (file_exists($old_logo_path)) {
@@ -107,7 +107,7 @@ class Employee_profile extends MY_Controller{
 
 			$data['logo'] = $upload_result['message'];
 		} else {
-			$product = $this->m_Setting->findById_get($id);
+			$product = $this->M_setting->findById_get($id);
 			$old_logo_path = './uploads/logos/' . $product['logo'];
 			if (file_exists($old_logo_path)) {
 				unlink($old_logo_path);
@@ -116,7 +116,7 @@ class Employee_profile extends MY_Controller{
 		}
 
 
-		if ($this->m_Setting->update_post($id, $data)) {
+		if ($this->M_setting->update_post($id, $data)) {
 			echo json_encode(['status' => true, 'message' => 'Profile berhasil diperbarui.']);
 		} else {
 			echo json_encode(['status' => false, 'message' => 'Gagal memperbarui profile.']);
