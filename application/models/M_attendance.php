@@ -114,12 +114,21 @@ class m_attendance extends CI_Model
 
 		$option = $this->input->post('option', true);
 		$product = $this->input->post('product', true);
+		$timeManagement = $this->input->post('timeManagement', true);
 
 		$id = $this->input->post('employee', true);
 
-		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
+		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk, attendance.time_management, attendance.potongan_telat,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
 		if($id != 'false') {
 			$this->db->where('attendance.id_employee', $id);
+		}
+		if($timeManagement != 'all') {
+			if($timeManagement == 'on_time') {
+				$this->db->where('attendance.time_management', true);
+			}
+			else if($timeManagement == 'telat_masuk') {
+				$this->db->where('attendance.time_management', false);
+			}
 		}
 		if($product != '' || !empty($product)) {
 			$this->db->where('employee.id_product', $product);
@@ -193,6 +202,30 @@ class m_attendance extends CI_Model
 
 	}
 
+	public function setPotongan_post($id, $potongan)
+	{
 
+		$this->db->set(['potongan_telat' => $potongan]);
+		$this->db->where('id_attendance', $id);
+		$this->db->update('attendance');
+
+		return true;
+
+	}
+
+
+	public function totalTelatLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
+	{
+
+		$this->db->select_sum('potongan_telat', 'total_telat');
+		$this->db->where('id_employee', $id);
+		$this->db->where('status', 2);
+		$this->db->where('time_management', false);
+		$this->db->where('tanggal_masuk >=', $tanggal2);
+		$this->db->where('tanggal_masuk <=', $tanggal);
+		$query = $this->db->get('attendance')->row();
+
+		return $query->total_telat ?? 0;
+	}
 
 }

@@ -6,6 +6,7 @@ if($schedule) {
 						<form class="form w-100" id="addproduct" data-action="'.site_url("absence/absence/add_attendance") .'" enctype="multipart/form-data">
 								<input type="hidden" value="'. $schedule['id_employee'].'" name="id_employee" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" value="'. $schedule['id_schedule'].'" name="id_schedule" autocomplete="off" class="form-control bg-transparent" />
+								<input type="hidden" value="'.date("H:i", strtotime($schedule['clock_in'])) .'" name="clock_in" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" value="'. date('H:i:s').'" name="jam_masuk" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" id="latitude" name="latitude">
     							<input type="hidden" id="longitude" name="longitude">
@@ -96,7 +97,7 @@ if($schedule) {
 
 				<div class="modal-body">
 					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/data/DataIzin/add_izin') ?>" enctype="multipart/form-data">
-							<input type="hidden" value="<?= $user['email'] ?>" name="id_employee" autocomplete="off" class="form-control bg-transparent" readonly/>
+							<input type="hidden" value="<?= $user['email'] ?>" name="id_employee" autocomplete="off" class="form-control bg-transparent"/>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Izin Dibuat</span>
 						</div>

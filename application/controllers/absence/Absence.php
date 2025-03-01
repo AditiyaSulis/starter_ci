@@ -82,21 +82,30 @@ class Absence extends MY_Controller{
 			return;
 		}
 
+
 		$idSchedule = $this->input->post('id_schedule', true);
 		$idEmployee = $this->input->post('id_employee', true);
 		$tanggal = $this->input->post('tanggal_masuk', true);
 		$latitude = $this->input->post('latitude', true);
 		$longitude = $this->input->post('longitude', true);
+		$clockIn = $this->input->post('clock_in', true);
+		$jam_masuk = $this->input->post('jam_masuk', true);
 
 		$employee = $this->M_employees->findById_get($idEmployee);
 		$product  =$this->M_products->findById_get($employee['id_product']);
 		$location = $this->M_location->get_location($product['id_location']);
 
+
 		$latitudeDecimal = floatval($location['latitude']);
 		$longitudeDecimal = floatval($location['longitude']);
 
+		$timeManagement = true;
+
+		if(strtotime($jam_masuk) > strtotime($clockIn)) {
+			$timeManagement = false;
+		}
 		//		echo '<pre>';
-		//		print_r($latitudeDecimal.' long : '.$longitudeDecimal);
+		//		print_r(strtotime($jam_masuk) > strtotime($clockIn));
 		//		echo '</pre>';
 		//		die();
 		// Gunakan geoPHP untuk menghitung jarak
@@ -118,6 +127,7 @@ class Absence extends MY_Controller{
 			return;
 		}
 
+
 		$dataAtt = [
 			'id_employee' =>$idEmployee,
 			'id_schedule' =>$idSchedule,
@@ -125,6 +135,7 @@ class Absence extends MY_Controller{
 			'tanggal_masuk' => $this->input->post('tanggal_masuk', true),
 			'location_latitude' => $latitude,
 			'location_longitude' => $longitude,
+			'time_management' => $timeManagement,
 			'status' => 2,
 		];
 

@@ -22,7 +22,7 @@
 
 <div class="mt-6">
 	<div class="row">
-		<div class="col-2 col-md-2 mb-3">
+		<div class="col-sm-4 col-md-2 mb-3">
 			<label class="form-label">Waktu :</label>
 			<select id="filterSelect" class="form-select form-select-sm">
 				<option value="today" selected>Today</option>
@@ -36,8 +36,16 @@
 				<option value="custom">Custom Range</option>
 			</select>
 		</div>
+		<div class="col-sm-4 col-md-2 mb-3">
+			<label class="form-label">Kehadiran :</label>
+			<select id="filterTimeManagement" class="form-select form-select-sm">
+				<option value="all" selected>All</option>
+				<option value="on_time">On time</option>
+				<option value="telat_masuk">Telat masuk</option>
+			</select>
+		</div>
 		<?php if($employee == '' || empty($employee) ): ?>
-		<div class="col-2 col-md-2 mb-3">
+		<div class="col-sm-4 col-md-2 mb-3">
 			<label class="form-label">Product :</label>
 			<select id="filterProduct" class="form-select form-select-sm">
 				<option value="" selected>All</option>
@@ -59,7 +67,10 @@
 				<th>Shift</th>
 				<th>Clock In</th>
 				<th>Absen Dilakukan</th>
+				<th>Kehadiran</th>
+				<th>Potongan</th>
 				<th>Tanggal Absen</th>
+				<th>Action</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -97,30 +108,76 @@
 	</div>
 </div>
 
+
+<div class="modal fade" tabindex="-1" id="potonganTelatModal">
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Potongan Telat</h4>
+
+
+				<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
+                        </span>
+				</div>
+
+			</div>
+
+			<div class="modal-body">
+				<form class="form w-100" id="potonganTelatForm" enctype="multipart/form-data">
+					<input type="hidden" id="id_attendance" name="id_attendance">
+					<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+						<span>Potongan</span>
+					</div>
+					<div class="fv-row mb-8">
+						<input type="number" id="potongan_telat" name="potongan_telat" class="form-control bg-transparent" />
+					</div>
+
+					<div class="d-grid mb-10">
+						<button type="submit" id="submit_product" class="btn btn-primary">
+                                            <span class="indicator-label">
+                                                    Save
+                                            </span>
+							<span class="indicator-progress">
+                                                     Please wait...
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	let table;
 	let option = '';
 	let product = '';
 	let startDate = '';
 	let endDate = '';
+	let timeManagement = 'all';
 	let employee = '<?= $employee;?>';
 	const base_urls = $('meta[name="base_url"]').attr('content');
 
-	$(document).ready(function(){
-		let params = new URLSearchParams(window.location.search);
-		data = Object.fromEntries(params.entries());
-	});
 
-
-	let params = new URLSearchParams(window.location.search);
-	data =  {
-		'option' :  option,
-		'product' :  product,
-		'startDate' :  startDate,
-		'endDate' :  endDate,
-		'employee' : employee,
-		'product' : product,
-	}
+	// $(document).ready(function(){
+	// 	let params = new URLSearchParams(window.location.search);
+	// 	data = Object.fromEntries(params.entries());
+	// });
+	//
+	//
+	// let params = new URLSearchParams(window.location.search);
+	// data =  {
+	// 	'option' :  option,
+	// 	'product' :  product,
+	// 	'startDate' :  startDate,
+	// 	'endDate' :  endDate,
+	// 	'employee' : employee,
+	// 	'product' : product,
+	// }
 
 	function callDT() {
 		table = $('#log_attendance_table').DataTable({
@@ -140,6 +197,7 @@
 					d.product = $('#filterProduct').val();
 					d.startDate = $('#startDate').val();
 					d.endDate = $('#endDate').val();
+					d.timeManagement = $('#filterTimeManagement').val();
 					d.employee = <?= $employee?>;
 				}
 			},
@@ -185,9 +243,60 @@
 			employee = '<?= $employee;?>';
 			table.ajax.reload();
 		});
+
+		$('#filterTimeManagement').change(function() {
+			timeManagement = $('#filterTimeManagement').val();
+			employee = '<?= $employee;?>';
+			table.ajax.reload();
+		});
 	}
 
 
+	function setPotonganTelat(element) {
+		let $element = $(element);
+
+		$("#id_attendance").val($element.data('id_attendance'));
+		$("#potongan_telat").val($element.data('potongan_telat'));
+
+		$("#potonganTelatModal").modal("show");
+	}
+	$(document).ready(function() {
+		const base_url = $('meta[name="base_url"]').attr('content');
+
+		$("#potonganTelatForm").on("submit", function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: base_url + "absence/attendance/set_potongan_telat",
+				type: "POST",
+				data: $(this).serialize(),
+				dataType: "json",
+				success: function(response) {
+					if (response.status) {
+						Swal.fire({
+							icon: "success",
+							title: "Berhasil",
+							text: response.message,
+							timer: 1500,
+							showConfirmButton: false
+						}).then(() => location.reload());
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Gagal",
+							text: response.message
+						});
+					}
+				},
+				error: function(xhr, status, error) {
+					Swal.fire({
+						icon: "error",
+						title: "Error",
+						text: "Terjadi kesalahan, silahkan coba lagi."
+					});
+				}
+			});
+		});
+	});
 
 	callDT();
 

@@ -125,6 +125,24 @@
 								<option value="2">Exclude</option>
 							</select>
 						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Potongan Cuti</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="include_cuti" id="include_cuti">
+								<option value="1" selected>Include</option>
+								<option value="2">Exclude</option>
+							</select>
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Potongan Telat</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="include_potongan_telat" id="include_potongan_telat">
+								<option value="1" selected>Include</option>
+								<option value="2">Exclude</option>
+							</select>
+						</div>
 						<div class="d-grid mb-10">
 							<button type="submit" id="submit_product" class="btn btn-primary">
 								<span class="indicator-label">Generate Payroll</span>

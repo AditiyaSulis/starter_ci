@@ -425,7 +425,7 @@ class Core_data extends MY_Controller{
 			else if ($item['status'] == 3 && $is !=3 && $employee == 'false') {
 				$status =  '
                              <td>
-							   <a a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
+							   <a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
 								data-id_overtime="'. $item['id_overtime'].'"
 								data-status="'. $item['status'].'">
 									<i class="ti ti-check"></i> Pending
@@ -872,6 +872,8 @@ class Core_data extends MY_Controller{
 			$piutang = $item['include_piutang'] == 1 ? 'Yes' : 'No';
 			$finance_record = $item['include_finance_record'] == 1 ? 'Yes' : 'No';
 			$holiday = $item['include_holiday'] == 1 ? 'Yes' : 'No';
+			$cuti = $item['include_cuti'] == 1 ? 'Yes' : 'No';
+			$telat = $item['include_potongan_telat'] == 1 ? 'Yes' : 'No';
 
 			$row = [];
 			$row[] = ++$no;
@@ -880,6 +882,8 @@ class Core_data extends MY_Controller{
 			$row[] = $piutang;
 			$row[] = $finance_record;
 			$row[] = $holiday;
+			$row[] = $cuti;
+			$row[] = $telat;
 			$row[] = date('d M Y', strtotime($item['tanggal_gajian']));
 			$row[] = $action;
 			$data[] = $row;
@@ -938,6 +942,9 @@ class Core_data extends MY_Controller{
                             data-potongan-libur-nasional="'.htmlspecialchars($item['potongan_libur_nasional']).'"
                             data-total-libur-nasional="'.htmlspecialchars($item['total_libur_nasional']).'"
                             data-libur-nasional-hari="'.htmlspecialchars($item['libur_nasional_hari']).'"
+                            data-total-potongan-telat="'.htmlspecialchars($item['total_potongan_telat']).'"
+                            data-potongan-cuti="'.htmlspecialchars($item['potongan_cuti']).'"
+                            data-cuti-hari="'.htmlspecialchars($item['cuti_hari']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -1033,6 +1040,7 @@ class Core_data extends MY_Controller{
 	{
 		$startDate = $this->input->post('startDate', true);
 		$endDate = $this->input->post('endDate', true);
+		$employee = $this->input->post('employee', true);
 
 		$list = $this->M_attendance->get_datatables();
 
@@ -1040,6 +1048,19 @@ class Core_data extends MY_Controller{
 		$no = $this->input->post('start');
 
 		foreach ($list as $item) {
+
+			$action = '-';
+			if($item['time_management'] == false && $employee == 'false'){
+				$action = ' <a href="javascript:void(0)" onclick="setPotonganTelat(this)" class="btn btn-info btn-sm rounded-pill btn-ptng-telat" style="width : 120px"
+								data-id_attendance="'. $item['id_attendance'].'"
+								data-potongan_telat="'. $item['potongan_telat'].'">
+									Potong
+							</a>
+								 ';
+			}
+
+			$time_management = $item['time_management'] == true ? 'On time' : 'Telat masuk';
+
 			$row = [];
 			$row[] = ++$no;
 			$row[] = $item['name'];
@@ -1047,7 +1068,10 @@ class Core_data extends MY_Controller{
 			$row[] = $item['name_workshift'];
 			$row[] = $item['clock_in'];
 			$row[] = $item['jam_masuk'];
+			$row[] = $time_management;
+			$row[] = 'Rp.'.number_format($item['potongan_telat'], 0 , ',', '.');
 			$row[] =  date('d M Y', strtotime($item['tanggal_masuk']));
+			$row[] = $action;
 			$data[] = $row;
 		}
 
@@ -1192,5 +1216,6 @@ class Core_data extends MY_Controller{
 
 		echo json_encode($output);
 	}
+
 
 }

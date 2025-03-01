@@ -1,6 +1,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+
+
 <!-- Modal Rincian Gaji -->
 <div class="modal fade" id="rincianModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl">
@@ -82,8 +84,16 @@
 								<div class="col-6 col-md-6"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
 							</div>
 							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Potongan Cuti</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="total_pot_cuti" class="ms-4 fw-bolder"> </span>(<span id="pot_cuti"> </span> x <span id="cuti_pc"></span>)</div>
+							</div>
+							<div class="row mb-1">
 								<div class="col-4 col-md-4"><span>Potongan Kasbon</span></div>
 								<div class="col-5 col-md-5"><span> = </span><span id="pot_kasbon" class="ms-4 fw-bolder"> </span></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Keterlambatan</span></div>
+								<div class="col-5 col-md-5"><span> = </span><span id="pot_telat" class="ms-4 fw-bolder"> </span></div>
 							</div>
 							<div class="row mb-1">
 								<div class="col-4 col-md-4"><span>Total Potongan</span></div>
@@ -159,7 +169,7 @@
 
 		const id = button.getAttribute('data-id-payroll-component');
 		const izin = parseFloat(button.getAttribute('data-total-izin')) || 0;
-		const cuti = parseFloat(button.getAttribute('data-total-cuti')) || 0;
+		const total_cuti = parseFloat(button.getAttribute('data-total-cuti')) || 0;
 		const absen = parseFloat(button.getAttribute('data-total-absent')) || 0;
 		const lembur = parseFloat(button.getAttribute('data-total-lembur')) || 0;
 		const dayoff = parseFloat(button.getAttribute('data-total-dayoff')) || 0;
@@ -183,6 +193,12 @@
 		const total_libur_nasional = button.getAttribute('data-total-libur-nasional');
 		const potongan_libur_nasional = button.getAttribute('data-potongan-libur-nasional');
 		const total = button.getAttribute('data-gaji-bersih');
+
+		const cuti_hari = button.getAttribute('data-cuti-hari');
+		const total_potongan_telat = button.getAttribute('data-total-potongan-telat');
+		const potongan_cuti = button.getAttribute('data-potongan-cuti');
+
+
 		const gaji_kotor = gaji+uang_makan+lembur+bonus;
 		console.log("ID:", id);
 
@@ -212,6 +228,11 @@
 		$('#total_pot_libur_nasional').text(formatToRupiah(potongan_libur_nasional));
 		$('#libur_nasional_pc').text(total_libur_nasional);
 		$('#pot_libur_nasional').text(formatToRupiah(libur_nasional_hari));
+
+		$('#pot_telat').text(formatToRupiah(total_potongan_telat));
+		$('#total_pot_cuti').text(formatToRupiah(potongan_cuti));
+		$('#cuti_pc').text(total_cuti);
+		$('#pot_cuti').text(formatToRupiah(cuti_hari));
 
 		$('#nip_employee').text(nip);
 		$('#name_employee').text(name);

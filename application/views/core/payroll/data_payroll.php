@@ -45,6 +45,8 @@
 				<th>Potong Piutang</th>
 				<th>Insert Finance Record</th>
 				<th>Potong Libur Nasional</th>
+				<th>Potong Cuti</th>
+				<th>Potong Keterlambatan</th>
 				<th>Tanggal Gajian</th>
 				<th>Action</th>
 			</tr>

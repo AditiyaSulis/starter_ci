@@ -21,6 +21,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_piutang');
 		$this->load->model('M_purchase_piutang');
 		$this->load->model('M_holyday');
+		$this->load->model('M_attendance');
 	}
 
 
@@ -100,6 +101,12 @@ class Payroll extends MY_Controller{
 		$this->form_validation->set_rules('holyday', 'holyday', 'required', [
 			'required' => 'holyday harus diisi',
 		]);
+		$this->form_validation->set_rules('include_cuti', 'include_cuti', 'required', [
+			'required' => 'Opsi Potongan cuti harus diisi',
+		]);
+		$this->form_validation->set_rules('include_potongan_telat', 'include_potongan_telat', 'required', [
+			'required' => 'Opsi Potongan telat harus diisi',
+		]);
 
 		if ($this->form_validation->run() == FALSE) {
 			echo json_encode([
@@ -122,7 +129,6 @@ class Payroll extends MY_Controller{
 			return;
 		}
 
-
 		$this->db->trans_start();
 
 		$dataPayroll = [
@@ -131,6 +137,8 @@ class Payroll extends MY_Controller{
 			'include_piutang' => $this->input->post('piutang', true),
 			'include_finance_record' => $this->input->post('finance_record', true),
 			'include_holiday' => $this->input->post('holyday', true),
+			'include_cuti' => $this->input->post('include_cuti', true),
+			'include_potongan_telat' => $this->input->post('include_potongan_telat', true),
 		];
 		$idPayroll = $this->M_payroll->create_post($dataPayroll);
 
@@ -150,6 +158,7 @@ class Payroll extends MY_Controller{
 
 			$potPiutang = 0;
 			$totalPotHolyday = 0;
+			$totalPotCuti = 0;
 
 			$totalCuti = $this->M_leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalIzin = $this->M_izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
@@ -157,6 +166,7 @@ class Payroll extends MY_Controller{
 			$totalOvertime = $this->M_overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalAbsent = $this->M_schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalHolyday = $this->M_holyday->totalHolydayLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalTelat = 0;
 			$employee = $this->M_employees->findByIdJoin_get($employeeId);
 			
 			$izinPerhari = round($employee['uang_makan'] / 24);
@@ -168,6 +178,13 @@ class Payroll extends MY_Controller{
 				$totalPotHolyday = $izinPerhari * $totalHolyday;
 			}
 
+			if($this->input->post('include_potongan_telat', true) == 1) {
+				$totalTelat = $this->M_attendance->totalTelatLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			}
+
+			if($this->input->post('include_cuti', true) == 1) {
+				$totalPotCuti = $izinPerhari * $totalCuti;
+			}
 
 			if ($this->input->post('piutang', true) == 1) {
 				$thisMonth = date('m' , strtotime($this->input->post('tanggal_gajian', true)));
@@ -186,9 +203,6 @@ class Payroll extends MY_Controller{
 						'id_piutang' => $piutang['id_piutang'],
 						'pay_date' =>$this->input->post('tanggal_gajian', true),
 						'pay_amount' => $piutang['angsuran'],
-						//						'include_piutang' => $this->input->post('piutang', true),
-						//						'include_finance_record' => $this->input->post('finance_record', true),
-						//						'include_holiday' => $this->input->post('holyday', true),
 						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
 					];
 
@@ -198,7 +212,7 @@ class Payroll extends MY_Controller{
 				}
 			}
 
-			$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang + $totalPotHolyday;
+			$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang + $totalPotHolyday + $totalPotCuti + $totalTelat;
 
 			// Fitur Teknisi gaji
 			//if ($employee['code_division'] == 'TKS') {
@@ -234,6 +248,9 @@ class Payroll extends MY_Controller{
 				'total_absen' => $totalAbsent,
 				'total_overtime' => $totalOvertime,
 				'total_dayoff' => $totalDayoff,
+				'total_potongan_telat' => $totalTelat,
+				'potongan_cuti' => $totalPotCuti,
+				'cuti_hari' => $izinPerhari,
 				'total_libur_nasional' => $totalHolyday,
 				'piutang' => $potPiutang,
 				'total' => $totalGaji,

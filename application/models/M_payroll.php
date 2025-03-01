@@ -100,7 +100,7 @@ class M_payroll extends CI_Model
 
 		$option = $this->input->post('option', true);
 
-		$this->db->select('payroll.id_payroll, payroll.code_payroll, payroll.input_at, payroll.total_salary, payroll.include_piutang, payroll.include_finance_record,payroll.include_holiday,  payroll.total_employee, MAX(payroll_component.tanggal_gajian) AS tanggal_gajian');
+		$this->db->select('payroll.id_payroll, payroll.code_payroll, payroll.input_at, payroll.total_salary, payroll.include_piutang, payroll.include_finance_record,payroll.include_holiday, payroll.include_potongan_telat, payroll.include_cuti, payroll.total_employee, MAX(payroll_component.tanggal_gajian) AS tanggal_gajian');
 		$this->db->from('payroll');
 		$this->db->join('payroll_component', 'payroll_component.id_payroll = payroll.id_payroll', 'left');
 		$this->db->group_by('payroll.id_payroll');

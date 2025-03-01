@@ -10,6 +10,7 @@ class Attendance extends MY_Controller{
 		$this->load->model('M_products');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
+		$this->load->model('M_attendance');
 
 	}
 
@@ -113,4 +114,52 @@ class Attendance extends MY_Controller{
 		echo "Jarak antara Jakarta dan Bandung: " . round($distance, 2) . " km";
 	}
 
+
+	public function set_potongan_telat()
+	{
+
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$id = $this->input->post('id_attendance', true);
+
+
+		$this->form_validation->set_rules('potongan_telat', 'potongan_telat', 'required', [
+			'required' => 'Potongan telat harus diisi',
+		]);
+
+		if ($this->form_validation->run() == false) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error'
+			];
+
+			echo json_encode($response);
+
+			return;
+		}
+
+
+		$potongan_telat = $this->input->post('potongan_telat', true);
+
+
+		if ($this->M_attendance->setPotongan_post($id, $potongan_telat)) {
+			$response = [
+				'status' => true,
+				'message' => 'Potongan telat berhasil diperbarui.'
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Gagal memperbarui Status.'
+			];
+		}
+
+		echo json_encode($response);
+
+
+	}
 }
