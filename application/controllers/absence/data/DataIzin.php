@@ -6,7 +6,7 @@ class DataIzin extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Izin');
+		$this->load->model('M_izin');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_products');
@@ -27,8 +27,8 @@ class DataIzin extends MY_Controller{
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
 
-		$data['this_month'] = $this->m_Izin->totalIzinThisMonthByEmployeeId_get(null);
-		$data['this_year'] = $this->m_Izin->totalIzinByEmployeeId_get(null);
+		$data['this_month'] = $this->M_izin->totalIzinThisMonthByEmployeeId_get(null);
+		$data['this_year'] = $this->M_izin->totalIzinByEmployeeId_get(null);
 
 		$data['view_data'] = 'core/izin/data_izin';
 		$data['view_components'] = 'core/izin/data_izin_components';
@@ -55,8 +55,8 @@ class DataIzin extends MY_Controller{
 		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['employees'] = $this->M_employees->findAll_get();
-		$data['total_izin'] = $this->m_Izin->totalIzinByEmployeeId_get($id['id_employee']);
-		$data['total_izin_this_month'] = $this->m_Izin->totalIzinThisMonthByEmployeeId_get($id['id_employee']);
+		$data['total_izin'] = $this->M_izin->totalIzinByEmployeeId_get($id['id_employee']);
+		$data['total_izin_this_month'] = $this->M_izin->totalIzinThisMonthByEmployeeId_get($id['id_employee']);
 
 
 		$data['view_data'] = 'core/izin/data_izin';
@@ -144,7 +144,7 @@ class DataIzin extends MY_Controller{
 			'bukti_surat_sakit' => $surat_sakit,
 		];
 
-		$product = $this->m_Izin->create_post($data);
+		$product = $this->M_izin->create_post($data);
 
 		if ($product) {
 			$response = [
@@ -197,7 +197,7 @@ class DataIzin extends MY_Controller{
 			$setStatus1 = $this->M_schedule->setStatus_post($idEmployee, $tanggal, 1);
 		}
 
-		if ($this->m_Izin->setStatus_post($id, $setstatus)) {
+		if ($this->M_izin->setStatus_post($id, $setstatus)) {
 			$response = [
 				'status' => true,
 				'message' => 'Status berhasil diperbarui.'
@@ -221,7 +221,7 @@ class DataIzin extends MY_Controller{
 
 		$id = $this->input->post('id');
 
-		$dataIzin = $this->m_Izin->findById_get($id);
+		$dataIzin = $this->M_izin->findById_get($id);
 
 		if(!empty($dataIzin)){
 			if (isset($dataIzin['bukti_surat_sakit']) && !empty($dataIzin['bukti_surat_sakit'])) {
@@ -234,7 +234,7 @@ class DataIzin extends MY_Controller{
 		}
 
 
-		if($this->m_Izin->delete($id)){
+		if($this->M_izin->delete($id)){
 			$this->M_schedule->setStatus_post($dataIzin['id_employee'], $dataIzin['tanggal_izin'], 1);
 
 			$response = [
@@ -259,7 +259,7 @@ class DataIzin extends MY_Controller{
 
 		$id = $this->input->post('id_izin', true);
 
-		$izin = $this->m_Izin->findById_get($id);
+		$izin = $this->M_izin->findById_get($id);
 
 		if ($izin && !empty($izin['bukti_surat_sakit'])) {
 			$old_logo_path = './uploads/bukti/compressed/' . $izin['bukti_surat_sakit'];
@@ -289,7 +289,7 @@ class DataIzin extends MY_Controller{
 				'bukti_surat_sakit' => $logo_name
 			];
 
-			if ($this->m_Izin->update_post($id, $data)) {
+			if ($this->M_izin->update_post($id, $data)) {
 				$response = [
 					'status' => true,
 					'message' => 'Bukti berhasil diperbarui.'

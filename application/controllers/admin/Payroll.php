@@ -13,7 +13,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_division');
 		$this->load->model('M_products');
 		$this->load->model('m_Leave');
-		$this->load->model('m_Izin');
+		$this->load->model('M_izin');
 		$this->load->model('m_Day_off');
 		$this->load->model('M_schedule');
 		$this->load->model('M_finance_records');
@@ -152,7 +152,7 @@ class Payroll extends MY_Controller{
 			$totalPotHolyday = 0;
 
 			$totalCuti = $this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
-			$totalIzin = $this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalIzin = $this->M_izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalDayoff = $this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalOvertime = $this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalAbsent = $this->M_schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
@@ -493,7 +493,7 @@ class Payroll extends MY_Controller{
 	//		$totalGaji = 0;
 	//
 	//		$totalCuti =$this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
-	//		$totalIzin =$this->m_Izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$totalIzin =$this->M_izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalDayoff =$this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalOvertime =$this->m_Overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalAbsent =$this->M_schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));

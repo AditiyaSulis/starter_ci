@@ -12,7 +12,7 @@ class Schedule extends MY_Controller{
 		$this->load->model('M_products');
 		$this->load->model('M_division');
 		$this->load->model('m_Day_off');
-		$this->load->model('m_Izin');
+		$this->load->model('M_izin');
 		$this->load->model('m_Leave');
 		$this->load->model('m_Holyday');
 
@@ -440,14 +440,14 @@ class Schedule extends MY_Controller{
 		}
 
 		$thisMonth = [
-			'izin'  => $this->m_Izin->totalIzinThisMonthByEmployeeId_get($idEmployee),
+			'izin'  => $this->M_izin->totalIzinThisMonthByEmployeeId_get($idEmployee),
 			'dayoff' => $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($idEmployee),
 			'cuti'   => $this->m_Leave->totalLeaveThisMonthByEmployeeId_get($idEmployee),
 			'absen'   => $this->M_schedule->totalAbsentThisMonthByEmployeeId_get($idEmployee),
 		];
 
 		$thisYear = [
-			'izin'  => $this->m_Izin->totalIzinByEmployeeId_get($idEmployee),
+			'izin'  => $this->M_izin->totalIzinByEmployeeId_get($idEmployee),
 			'dayoff' => $this->m_Day_off->totalDayOffByEmployeeId_get($idEmployee),
 			'cuti'   => $this->m_Leave->totalLeaveByEmployeeId_get($idEmployee),
 			'absen'   => $this->M_schedule->totalAbsentByEmployeeId_get($idEmployee),
@@ -513,7 +513,7 @@ class Schedule extends MY_Controller{
 
 				$isDayoff = $this->m_Day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isLeave = $this->m_Leave->findByEmployeeIdAtDate_get($emp, $tanggal);
-				$isIzin = $this->m_Izin->findByEmployeeIdAtDate_get($emp,$tanggal);
+				$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
 				$isHolyday = $this->m_Holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
 				$isSunday = $this->m_Holyday->isSunday_get($product, $division, $tanggal);
 

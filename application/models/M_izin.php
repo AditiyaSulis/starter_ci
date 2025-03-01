@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_Izin extends CI_Model {
+class M_izin extends CI_Model {
 
 	private $column_search = array('izin.id_izin', 'izin.id_employee', 'izin.alasan_izin', 'izin.input_at', 'izin.tanggal_izin', 'izin.bukti_surat_sakit', 'izin.description', 'izin.status', 'employee.id_employee', 'employee.name', 'employee.id_division', 'employee.id_product', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');
 	private $column_order = array('izin.id_izin', 'izin.id_employee', 'izin.alasan_izin', 'izin.input_at', 'izin.tanggal_izin', 'izin.bukti_surat_sakit', 'izin.description', 'izin.status', 'employee.id_employee', 'employee.name', 'employee.id_division', 'employee.id_product', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');
