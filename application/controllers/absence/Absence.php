@@ -9,7 +9,7 @@ class Absence extends MY_Controller{
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('m_Attendance');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 		$this->load->model('m_Location');
 
     }
@@ -89,7 +89,7 @@ class Absence extends MY_Controller{
 		$longitude = $this->input->post('longitude', true);
 
 		$employee = $this->M_employees->findById_get($idEmployee);
-		$product  =$this->m_Products->findById_get($employee['id_product']);
+		$product  =$this->M_products->findById_get($employee['id_product']);
 		$location = $this->m_Location->get_location($product['id_location']);
 
 		$latitudeDecimal = floatval($location['latitude']);

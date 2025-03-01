@@ -9,13 +9,13 @@ class Product_api extends RestController {
     function __construct() 
     {
         parent::__construct();
-        $this->load->model('m_Products');
+        $this->load->model('M_products');
         validate_header();
     }
 
     public function getAllVisibility_get() 
     {
-        $products = $this->m_Products->findAllShow_get();
+        $products = $this->M_products->findAllShow_get();
 
         if ($products) {
             $this->response([
@@ -32,7 +32,7 @@ class Product_api extends RestController {
 
     public function getAll_get() 
     {
-        $products = $this->m_Products->findAll_get();
+        $products = $this->M_products->findAll_get();
 
         if ($products) {
             $this->response([
@@ -49,7 +49,7 @@ class Product_api extends RestController {
 
     public function getById_get($id) 
     {
-        $product = $this->m_Products->findById_get($id);
+        $product = $this->M_products->findById_get($id);
 
         if ($product) {
             $this->response([

@@ -7,7 +7,7 @@ class Attendance extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('m_Day_off');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 
@@ -26,7 +26,7 @@ class Attendance extends MY_Controller{
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['employee'] = $id['id_employee'];
 
-		//	$data['products'] = $this->m_Products->findAll_get();
+		//	$data['products'] = $this->M_products->findAll_get();
 		$data['view_data'] = 'core/attendance/data_attendance';
 
 		if($data['user']) {
@@ -50,7 +50,7 @@ class Attendance extends MY_Controller{
 		$data['employee'] = 'false';
 
 		$data['view_data'] = 'core/attendance/data_attendance';
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 
 
 		if($data['user']) {
@@ -74,7 +74,7 @@ class Attendance extends MY_Controller{
 		$data['employee'] = 'false';
 
 		$data['view_data'] = 'core/log_attendance/data_log_attendance';
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 
 
 		if($data['user']) {

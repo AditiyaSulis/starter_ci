@@ -10,7 +10,7 @@ class Payroll_component extends MY_Controller
 		$this->load->model('m_Overtime');
 		$this->load->model('M_employees');
 		$this->load->model('m_Division');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 	}
 
 	public function payroll_component_page()
@@ -23,7 +23,7 @@ class Payroll_component extends MY_Controller
 		$data['breadcrumb'] = 'Payroll Component';
 		$data['menu'] = '';
 
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
 
 //		$data['view_data'] = 'core/payroll_component/data_payroll_component';

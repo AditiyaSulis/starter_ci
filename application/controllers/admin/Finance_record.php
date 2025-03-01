@@ -5,7 +5,7 @@ class Finance_record extends MY_Controller{
         parent::__construct();
         $this->load->model('m_Finance_records');
         $this->load->model('m_Account_code');
-        $this->load->model('m_Products');
+        $this->load->model('M_products');
         $this->load->model('m_Categories');
 
     }
@@ -23,8 +23,8 @@ class Finance_record extends MY_Controller{
     
         
         $data['categories'] = $this->m_Categories->findAll_get();
-        $data['products'] = $this->m_Products->findAll_get();
-        $data['products_show'] = $this->m_Products->findAllShow_get();
+        $data['products'] = $this->M_products->findAll_get();
+        $data['products_show'] = $this->M_products->findAllShow_get();
         $data['account_code'] = $this->m_Account_code->findAll_get();
 
     

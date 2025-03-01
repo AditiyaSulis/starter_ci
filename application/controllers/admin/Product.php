@@ -6,7 +6,7 @@ class Product extends MY_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Products');
+        $this->load->model('M_products');
         $this->load->model('M_employees');
         $this->load->model('m_Finance_records');
         $this->load->library('upload');
@@ -18,7 +18,7 @@ class Product extends MY_Controller{
     {
         $this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
-        $data['products'] = $this->m_Products->findAll_get();
+        $data['products'] = $this->M_products->findAll_get();
        
         $data['title'] = 'Product';
         $data['view_name'] = 'admin/products';
@@ -87,7 +87,7 @@ class Product extends MY_Controller{
             'logo' => $logo_name,
         ];
 
-        $product = $this->m_Products->create_post($data);
+        $product = $this->M_products->create_post($data);
 
         if ($product) {
             $response = [
@@ -141,7 +141,7 @@ class Product extends MY_Controller{
                 'url' => $url,
             ];
     
-            if ($this->m_Products->update_post($id, $data)) {
+            if ($this->M_products->update_post($id, $data)) {
                 $response = [
                     'status' => true,
                     'message' => 'Product berhasil diperbarui.'
@@ -156,7 +156,7 @@ class Product extends MY_Controller{
             return;
         }
     
-        $product = $this->m_Products->findById_get($id);
+        $product = $this->M_products->findById_get($id);
         if ($product && !empty($product['logo'])) {
                 $old_logo_path = './uploads/products/compressed/' . $product['logo'];
                 if (file_exists($old_logo_path)) {
@@ -188,7 +188,7 @@ class Product extends MY_Controller{
                 'logo' => $logo_name
             ];
         
-            if ($this->m_Products->update_post($id, $data)) {
+            if ($this->M_products->update_post($id, $data)) {
                 $response = [
                     'status' => true,
                     'message' => 'Product berhasil diperbarui.'
@@ -223,7 +223,7 @@ class Product extends MY_Controller{
             return;
         }
 
-        $product = $this->m_Products->findById_get($id);
+        $product = $this->M_products->findById_get($id);
 
         if ($product) {
 
@@ -237,7 +237,7 @@ class Product extends MY_Controller{
 
         }
 
-        if($this->m_Products->delete($id)){
+        if($this->M_products->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Product berhasil dihapus',
@@ -287,7 +287,7 @@ class Product extends MY_Controller{
          $setstatus = $this->input->post('visibility', true);
   
   
-        if ($this->m_Products->setVisibility_post($id, $setstatus)) {
+        if ($this->M_products->setVisibility_post($id, $setstatus)) {
           $response = [
               'status' => true,
               'message' => 'Visibility berhasil diperbarui.'

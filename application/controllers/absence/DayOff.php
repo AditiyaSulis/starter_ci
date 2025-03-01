@@ -9,7 +9,7 @@ class DayOff extends MY_Controller{
 		$this->load->model('m_Day_off');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 
 	}
 
@@ -24,7 +24,7 @@ class DayOff extends MY_Controller{
 		$data['menu'] = '';
 
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['total_dayoff'] = $this->m_Day_off->totalDayOffByEmployeeId_get($id['id_employee']);
 		$data['total_dayoff_this_month'] = $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($id['id_employee']);
@@ -50,7 +50,7 @@ class DayOff extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Day Off';
 		$data['menu'] = 'Data';
 
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
 

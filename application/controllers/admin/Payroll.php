@@ -11,7 +11,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('m_Payroll_component');
 		$this->load->model('M_employees');
 		$this->load->model('m_Division');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 		$this->load->model('m_Leave');
 		$this->load->model('m_Izin');
 		$this->load->model('m_Day_off');
@@ -34,7 +34,7 @@ class Payroll extends MY_Controller{
 		$data['breadcrumb'] = 'Payroll';
 		$data['menu'] = '';
 
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
 
 		$data['view_data'] = 'core/payroll/data_payroll';
@@ -410,7 +410,7 @@ class Payroll extends MY_Controller{
 		$data['breadcrumb'] = 'Detail Payroll';
 		$data['menu'] = '';
 
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
 
 		$data['view_data'] = 'core/payroll_component/data_payroll_component';

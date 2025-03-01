@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_Products extends CI_Model {
+class M_products extends CI_Model {
     public function create_post($data)
     {
         if ($this->db->insert('products', $data)) {

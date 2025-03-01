@@ -9,7 +9,7 @@ class Leave extends MY_Controller{
 		$this->load->model('m_Leave');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 
 	}
 
@@ -25,7 +25,7 @@ class Leave extends MY_Controller{
 		$data['menu'] = '';
 
 		$email = $data['user']['email'];
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$emp = $this->M_employees->findByEmail_get($email);
 		$data['employee'] = $emp['id_employee'];
 		$data['total_cuti'] = $this->m_Leave->totalLeaveByEmployeeId_get($emp['id_employee']);
@@ -52,7 +52,7 @@ class Leave extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Leave';
 		$data['menu'] = 'Data';
 
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
 

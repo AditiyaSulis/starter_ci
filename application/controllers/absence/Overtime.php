@@ -9,7 +9,7 @@ class Overtime extends MY_Controller{
 		$this->load->model('m_Overtime');
 		$this->load->model('M_employees');
 		$this->load->model('m_Division');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 	}
 
 	public function overtime_page()
@@ -23,7 +23,7 @@ class Overtime extends MY_Controller{
 		$data['menu'] = '';
 
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['view_data'] = 'core/overtime/data_overtime';
 		$data['view_components'] = 'core/overtime/data_overtime_components';
@@ -51,7 +51,7 @@ class Overtime extends MY_Controller{
 
 		$data['employees'] = $this->M_employees->findAll_get();
 		$data['divisions'] = $this->m_Division->findAll_get();
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 
 		$data['this_month'] = $this->m_Overtime->totalOvertimeThisMonth_get();
 		$data['this_year'] = $this->m_Overtime->totalOvertime_get();

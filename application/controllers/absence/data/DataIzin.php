@@ -9,7 +9,7 @@ class DataIzin extends MY_Controller{
 		$this->load->model('m_Izin');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
-		$this->load->model('m_Products');
+		$this->load->model('M_products');
 	}
 
 	public function data_izin_page()
@@ -23,7 +23,7 @@ class DataIzin extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Izin';
 		$data['menu'] = 'Data';
 
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
 
@@ -52,7 +52,7 @@ class DataIzin extends MY_Controller{
 		$data['menu'] = '';
 
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
-		$data['products'] = $this->m_Products->findAll_get();
+		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = $id['id_employee'];
 		$data['employees'] = $this->M_employees->findAll_get();
 		$data['total_izin'] = $this->m_Izin->totalIzinByEmployeeId_get($id['id_employee']);
