@@ -9,7 +9,7 @@ class Purchases extends MY_Controller{
 
         $this->load->model('M_purchases');
         $this->load->model('M_purchase_payment');
-        $this->load->model('m_Supplier');
+        $this->load->model('M_supplier');
     }
     
 
@@ -33,7 +33,7 @@ class Purchases extends MY_Controller{
 	   $data['view_component'] = 'core/purchases/data_purchases_components';
 
        $data['purchases'] = $this->M_purchases->findAllWithJoin_get();
-       $data['suppliers'] = $this->m_Supplier->findAllIsActive();
+       $data['suppliers'] = $this->M_supplier->findAllIsActive();
        $data['totalFinalAmount'] = $this->M_purchases->getTotalFinalAmount_get();
        $data['totalPaymentAmount'] = $this->M_purchase_payment->getTotalPaymentAmount_get();
        $data['totalRemainingAmount'] = $data['totalFinalAmount'] - $data['totalPaymentAmount'];
@@ -71,7 +71,7 @@ class Purchases extends MY_Controller{
 	   $data['view_data'] = 'core/purchases/data_purchases';
 	   $data['view_component'] = 'core/purchases/data_purchases_components';
 
-       $data['suppliers'] = $this->m_Supplier->findAllIsActive();
+       $data['suppliers'] = $this->M_supplier->findAllIsActive();
    
 
        if($data['user']) {

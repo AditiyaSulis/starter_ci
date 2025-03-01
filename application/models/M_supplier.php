@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_Supplier extends CI_Model {
+class M_supplier extends CI_Model {
 
     public function create_post($data)
     {

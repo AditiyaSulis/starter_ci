@@ -7,7 +7,7 @@ class Supplier extends MY_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('m_Supplier');
+    $this->load->model('M_supplier');
     $this->load->model('M_purchases');
   }
 
@@ -18,7 +18,7 @@ class Supplier extends MY_Controller
     $this->_ONLYSELECTED([1,2]);
     $data =  $this->_basicData();
 
-    $data['supplier'] = $this->m_Supplier->findAll_get();
+    $data['supplier'] = $this->M_supplier->findAll_get();
 
     $data['title'] = 'Supplier';
     $data['Supplier'] = 'Supplier';
@@ -79,7 +79,7 @@ class Supplier extends MY_Controller
         'status_supplier' => $this->input->post('status_supplier', true),
       ];
 
-      $supplier = $this->m_Supplier->create_post($data);
+      $supplier = $this->M_supplier->create_post($data);
 
       if($supplier){
         $response = [
@@ -106,7 +106,7 @@ class Supplier extends MY_Controller
 
       $id = $this->input->post('id_supplier', true);
       $newname = $this->input->post('name_supplier', true);
-      $supname = $this->m_Supplier->findById_get($id);
+      $supname = $this->M_supplier->findById_get($id);
       $oldname = $supname['name_supplier'];
       
       $this->form_validation->set_rules('name_supplier', 'name_supplier', 'required|min_length[3]|max_length[50]', [
@@ -140,7 +140,7 @@ class Supplier extends MY_Controller
       }
 
       if($oldname != $newname) {
-        if($this->m_Supplier->findByName_get($newname)) {
+        if($this->M_supplier->findByName_get($newname)) {
           $response = [
             'status' => false,
             'message' => 'Nama untuk supplier sudah digunakan'
@@ -157,7 +157,7 @@ class Supplier extends MY_Controller
         'status_supplier' => $this->input->post('status_supplier', true),
       ];
 
-      if ($this->m_Supplier->update_post($id, $data)) {
+      if ($this->M_supplier->update_post($id, $data)) {
         $response = [
             'status' => true,
             'message' => 'Supplier berhasil diperbarui.'
@@ -193,7 +193,7 @@ class Supplier extends MY_Controller
 
       
 
-        if($this->m_Supplier->delete($id)){
+        if($this->M_supplier->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Supplier berhasil dihapus',
@@ -243,7 +243,7 @@ class Supplier extends MY_Controller
        $setstatus = $this->input->post('status_supplier', true);
 
 
-      if ($this->m_Supplier->setStatus_post($id, $setstatus)) {
+      if ($this->M_supplier->setStatus_post($id, $setstatus)) {
         $response = [
             'status' => true,
             'message' => 'Status berhasil diperbarui.'

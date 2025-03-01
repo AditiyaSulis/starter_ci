@@ -9,14 +9,14 @@ class Supplier_api extends RestController {
     function __construct() 
     {
         parent::__construct();
-        $this->load->model('m_Supplier');
+        $this->load->model('M_supplier');
         validate_header();
     }
 
     public function getAllActive_get()
     {
 
-        $suppliers = $this->m_Supplier->findAllIsActive();
+        $suppliers = $this->M_supplier->findAllIsActive();
 
         if($suppliers){
             $this->response([
@@ -33,7 +33,7 @@ class Supplier_api extends RestController {
 
     public function getAll_get()
     {
-        $suppliers = $this->m_Supplier->findAll_get();
+        $suppliers = $this->M_supplier->findAll_get();
 
         if($suppliers){
             $this->response([
