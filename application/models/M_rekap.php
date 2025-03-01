@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Rekap extends CI_Model
+class M_rekap extends CI_Model
 {
 
 	private $column_search = array('employee.id_employee', 'employee.name', 'employee.id_product', 'products.name_product', 'employee.id_division', 'division.name_division', 'employee.id_position', 'position.name_position');

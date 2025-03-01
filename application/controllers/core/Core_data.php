@@ -16,7 +16,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_payroll');
         $this->load->model('M_payroll_component');
         $this->load->model('M_schedule');
-        $this->load->model('m_Rekap');
+        $this->load->model('M_rekap');
         $this->load->model('m_Attendance');
         $this->load->model('m_Service_teknisi');
     }
@@ -982,7 +982,7 @@ class Core_data extends MY_Controller{
 		$endDate = $this->input->post('endDate', true);
 
 
-			$list = $this->m_Rekap->get_datatables();
+			$list = $this->M_rekap->get_datatables();
 
 			$data = [];
 			$no = $this->input->post('start');
@@ -1017,8 +1017,8 @@ class Core_data extends MY_Controller{
 
 			$output = [
 				"draw" => @$_POST['draw'],
-				"recordsTotal" => $this->m_Rekap->count_all(),
-				"recordsFiltered" => $this->m_Rekap->count_filtered(),
+				"recordsTotal" => $this->M_rekap->count_all(),
+				"recordsFiltered" => $this->M_rekap->count_filtered(),
 				"startDate" => $startDate,
 				"endDate" => $endDate,
 				"data" => $data,
