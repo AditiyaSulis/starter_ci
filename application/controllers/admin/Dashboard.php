@@ -9,7 +9,7 @@ class Dashboard extends MY_Controller{
         $this->load->model('M_employees');
         $this->load->model('M_products');
         $this->load->model('M_finance_records');
-        $this->load->model('m_Piutang');
+        $this->load->model('M_piutang');
         $this->load->model('M_schedule');
     }
 
@@ -26,10 +26,10 @@ class Dashboard extends MY_Controller{
         $data['allEmployees']= $this->M_employees->totalEmployees_get();
         $data['allRecords']= $this->M_finance_records->totalFinanceRecords_get();
 
-        $data['totalJatuhTempo']= $this->m_Piutang->totalJatuhTempo_get();
-        $data['jatuhTempo']= $this->m_Piutang->jatuhTempo_get();
-		$data['totalUnpaid']= $this->m_Piutang->totalUnpaid_get();
-		$data['totalPaid']= $this->m_Piutang->totalPaid_get();
+        $data['totalJatuhTempo']= $this->M_piutang->totalJatuhTempo_get();
+        $data['jatuhTempo']= $this->M_piutang->jatuhTempo_get();
+		$data['totalUnpaid']= $this->M_piutang->totalUnpaid_get();
+		$data['totalPaid']= $this->M_piutang->totalPaid_get();
 
 		$data['view_data'] = 'core/piutang/data_piutang';
 		$data['view_components'] = 'core/piutang/data_piutang_components';

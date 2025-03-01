@@ -18,7 +18,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_schedule');
 		$this->load->model('M_finance_records');
 		$this->load->model('m_Service_teknisi');
-		$this->load->model('m_Piutang');
+		$this->load->model('M_piutang');
 		$this->load->model('m_Purchase_piutang');
 		$this->load->model('m_Holyday');
 	}
@@ -173,14 +173,14 @@ class Payroll extends MY_Controller{
 				$thisMonth = date('m' , strtotime($this->input->post('tanggal_gajian', true)));
 				$thisYear = date('Y', strtotime($this->input->post('tanggal_gajian', true)));
 
-				$piutang = $this->m_Piutang->findPiutangThisMonthByEmployeeId_get($employeeId, $thisMonth, $thisYear);
+				$piutang = $this->M_piutang->findPiutangThisMonthByEmployeeId_get($employeeId, $thisMonth, $thisYear);
 				if ($piutang) {
 					$changeStatus = $piutang['remaining_piutang'] - $piutang['angsuran'];
 
 					if($changeStatus == 0 || $changeStatus < 1 ) {
-						$this->m_Piutang->setStatus_post($piutang['id_piutang'], 1);
+						$this->M_piutang->setStatus_post($piutang['id_piutang'], 1);
 					}
-					$this->m_Piutang->updateRemaining_post($piutang['id_piutang'], $changeStatus);
+					$this->M_piutang->updateRemaining_post($piutang['id_piutang'], $changeStatus);
 
 					$dataPiutang = [
 						'id_piutang' => $piutang['id_piutang'],

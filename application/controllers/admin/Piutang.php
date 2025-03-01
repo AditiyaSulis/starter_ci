@@ -5,7 +5,7 @@ class Piutang extends MY_Controller{
     {
         parent::__construct();
         $this->load->model('M_employees');
-        $this->load->model('m_Piutang');
+        $this->load->model('M_piutang');
         $this->load->model('m_Purchase_piutang');
     }
 
@@ -20,7 +20,7 @@ class Piutang extends MY_Controller{
         $data['menu'] = '';
 
         $data['employee'] = $this->M_employees->findAll_get();
-        $data['piutang'] = $this->m_Piutang->findAllJoin_get();
+        $data['piutang'] = $this->M_piutang->findAllJoin_get();
 
 		$data['view_data'] = 'core/piutang/data_piutang';
 		$data['view_components'] = 'core/piutang/data_piutang_components';
@@ -156,7 +156,7 @@ class Piutang extends MY_Controller{
 			'jatuh_tempo' => $this->input->post('jatuh_tempo', true),
 		];
 
-		$employee = $this->m_Piutang->create_post($data);
+		$employee = $this->M_piutang->create_post($data);
 
 		if ($employee) {
 			$response = [
@@ -210,7 +210,7 @@ class Piutang extends MY_Controller{
         $emp = $this->M_employees->findById_get($id_emp);
         $amount_piutang = $this->input->post('amount_piutang',true);
 
-        $total_unpaid = $this->m_Piutang->getTotalAmountPiutang_get($id_emp) + $amount_piutang;
+        $total_unpaid = $this->M_piutang->getTotalAmountPiutang_get($id_emp) + $amount_piutang;
         if($total_unpaid > $emp['basic_salary'] ){
             $response = [
                 'status' => false,
@@ -268,7 +268,7 @@ class Piutang extends MY_Controller{
             'tgl_lunas' => $tgl_lunas,
         ];
 
-        $employee = $this->m_Piutang->create_post($data);
+        $employee = $this->M_piutang->create_post($data);
 
         if ($employee) {
             $response = [
@@ -290,7 +290,7 @@ class Piutang extends MY_Controller{
         $tenor = $this->input->post('tanggal_pelunasan'); 
         $type = $this->input->post('type'); 
     
-        $list = $this->m_Piutang->getPiutangData_get($type, $tenor);
+        $list = $this->M_piutang->getPiutangData_get($type, $tenor);
         
         $data = [];
         $no = $this->input->post('start');  
@@ -437,7 +437,7 @@ class Piutang extends MY_Controller{
         $id_piutang = $this->input->post('id_piutang', true);
         $amount = $this->input->post('pay_amount', true);
 
-        $piutang = $this->m_Piutang->findById_get($id_piutang);
+        $piutang = $this->M_piutang->findById_get($id_piutang);
 
         if($amount > $piutang['remaining_piutang']) {
             $response = [
@@ -451,11 +451,11 @@ class Piutang extends MY_Controller{
         $change_status = $piutang['remaining_piutang'] - $amount;
 
         if($change_status == 0 || $change_status < 1 ) {
-            $this->m_Piutang->setStatus_post($id_piutang, 1);
+            $this->M_piutang->setStatus_post($id_piutang, 1);
            
         }
 
-        $this->m_Piutang->updateRemaining_post($id_piutang, $change_status);
+        $this->M_piutang->updateRemaining_post($id_piutang, $change_status);
 
         $data = [
             'id_piutang' => $this->input->post('id_piutang', true),
@@ -514,7 +514,7 @@ class Piutang extends MY_Controller{
          $setstatus = $this->input->post('progress_piutang', true);
   
   
-        if ($this->m_Piutang->setProgress_post($id, $setstatus)) {
+        if ($this->M_piutang->setProgress_post($id, $setstatus)) {
           $response = [
               'status' => true,
               'message' => 'Progress berhasil diperbarui.'
@@ -546,7 +546,7 @@ class Piutang extends MY_Controller{
 		$data['view_components'] = 'core/piutang/data_piutang_components';
 
         $data['employee'] = $this->M_employees->findAll_get();
-        $data['piutang'] = $this->m_Piutang->findAllJoin_get();
+        $data['piutang'] = $this->M_piutang->findAllJoin_get();
 
 
         if($data['user']){
@@ -562,7 +562,7 @@ class Piutang extends MY_Controller{
 
         $type = $this->input->post('type'); 
     
-        $list = $this->m_Piutang->getPiutangWithPaid_get($type);
+        $list = $this->M_piutang->getPiutangWithPaid_get($type);
         
         $data = [];
         $no = $this->input->post('start');  
@@ -653,7 +653,7 @@ class Piutang extends MY_Controller{
         
 
 
-        if($this->m_Piutang->delete($id) && $this->m_Purchase_piutang->deleteByPiutangId_get($id) ){
+        if($this->M_piutang->delete($id) && $this->m_Purchase_piutang->deleteByPiutangId_get($id) ){
             $response = [
                 'status' => true,
                 'message' => 'Transaksi berhasil dihapus',
@@ -682,7 +682,7 @@ class Piutang extends MY_Controller{
         $data['menu'] = '';
 
         $data['employee'] = $this->M_employees->findAll_get();
-        $data['piutang'] = $this->m_Piutang->findAllJoinV2_get();
+        $data['piutang'] = $this->M_piutang->findAllJoinV2_get();
 
 
         if($data['user']){
@@ -698,7 +698,7 @@ class Piutang extends MY_Controller{
         $tenor = $this->input->post('tanggal_pelunasan'); 
         $type = $this->input->post('type'); 
     
-        $list = $this->m_Piutang->getPiutangDataV2_get($type, $tenor);
+        $list = $this->M_piutang->getPiutangDataV2_get($type, $tenor);
         
         $data = [];
         $no = $this->input->post('start');  
@@ -858,7 +858,7 @@ class Piutang extends MY_Controller{
             'angsuran' => ceil($angsuran),
         ];
 
-        $employee = $this->m_Piutang->createV2_post($data);
+        $employee = $this->M_piutang->createV2_post($data);
 
         if ($employee) {
             $response = [
@@ -986,7 +986,7 @@ class Piutang extends MY_Controller{
        $id_purchase_piutang = $this->input->post('id_purchase_piutang', true);
        $amount = $this->input->post('pay_amount', true);
 
-       $piutang = $this->m_Piutang->findById_get($id_piutang);
+       $piutang = $this->M_piutang->findById_get($id_piutang);
 
 
        $remaining = $piutang['remaining_piutang'] - $amount;
@@ -1017,9 +1017,9 @@ class Piutang extends MY_Controller{
                 'status' => true,
                 'message' => 'Pembayaran berhasil ditambahkan',
             ];
-            $this->m_Piutang->updateRemaining_post($id_piutang, $remaining);
+            $this->M_piutang->updateRemaining_post($id_piutang, $remaining);
             if($remaining == 0 || $remaining < 1 ) {
-                $this->m_Piutang->setStatus_post($id_piutang, 1);
+                $this->M_piutang->setStatus_post($id_piutang, 1);
                
             }
         } else {
@@ -1044,7 +1044,7 @@ class Piutang extends MY_Controller{
         $data['menu'] = '';
 
         $data['employee'] = $this->M_employees->findAll_get();
-        $data['piutang'] = $this->m_Piutang->findAllJoinV2_get();
+        $data['piutang'] = $this->M_piutang->findAllJoinV2_get();
 
 
         if($data['user']){
@@ -1060,7 +1060,7 @@ class Piutang extends MY_Controller{
 
         $type = $this->input->post('type'); 
     
-        $list = $this->m_Piutang->getPiutangWithPaidV2_get($type);
+        $list = $this->M_piutang->getPiutangWithPaidV2_get($type);
         
         $data = [];
         $no = $this->input->post('start');  

@@ -5,7 +5,7 @@ class Core_data extends MY_Controller{
     {
         parent::__construct();
         $this->load->model('M_employees');
-        $this->load->model('m_Piutang');
+        $this->load->model('M_piutang');
         $this->load->model('m_Purchases');
         $this->load->model('m_Purchase_piutang');
         $this->load->model('m_Izin');
@@ -27,7 +27,7 @@ class Core_data extends MY_Controller{
 		$type = $this->input->post('type');
 		$status_piutang = $this->input->post('status_piutang');
 
-		$list = $this->m_Piutang->get_datatables();
+		$list = $this->M_piutang->get_datatables();
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -116,8 +116,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Piutang->count_all(),
-			"recordsFiltered" => $this->m_Piutang->count_filtered(),
+			"recordsTotal" => $this->M_piutang->count_all(),
+			"recordsFiltered" => $this->M_piutang->count_filtered(),
 			"tenor" => $tenor,
 			"type" => $type,
 			"data" => $data,

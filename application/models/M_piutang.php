@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class m_Piutang extends CI_Model {
+class M_piutang extends CI_Model {
 	private $column_order = array('employee.name', 'piutang.remaining_piutang', 'piutang.amount_piutang');
 	private $column_search = array('employee.name', 'piutang.remaining_piutang', 'piutang.amount_piutang');
 	private $order = array('piutang.id_piutang' => 'asc');
