@@ -14,7 +14,7 @@ class Schedule extends MY_Controller{
 		$this->load->model('M_day_off');
 		$this->load->model('M_izin');
 		$this->load->model('M_leave');
-		$this->load->model('m_Holyday');
+		$this->load->model('M_holyday');
 
 		$this->load->helper('date');
 	}
@@ -514,8 +514,8 @@ class Schedule extends MY_Controller{
 				$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
-				$isHolyday = $this->m_Holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
-				$isSunday = $this->m_Holyday->isSunday_get($product, $division, $tanggal);
+				$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
+				$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
 
 
 				$status = 1;

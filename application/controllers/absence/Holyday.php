@@ -6,7 +6,7 @@ class Holyday extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Holyday');
+		$this->load->model('M_holyday');
 		$this->load->model('M_products');
 		$this->load->model('M_division');
 		$this->load->model('M_schedule');
@@ -141,7 +141,7 @@ class Holyday extends MY_Controller{
 			}
 		}
 
-		$holyday = $this->m_Holyday->create_batch_post($dataBatch);
+		$holyday = $this->M_holyday->create_batch_post($dataBatch);
 
 		echo json_encode([
 			'status' => $holyday ? true : false,
@@ -161,9 +161,9 @@ class Holyday extends MY_Controller{
 		$this->_isAjax();
 
 		$id = $this->input->post('id');
-		$data = $this->m_Holyday->findById_get($id);
+		$data = $this->M_holyday->findById_get($id);
 
-		if($this->m_Holyday->delete($id)){
+		if($this->M_holyday->delete($id)){
 			$this->M_schedule->setStatusFromHolyday_post($data['id_product'], $data['id_division'], $data['date'], 1);
 			$response = [
 				'status' => true,

@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Holyday extends CI_Model
+class M_holyday extends CI_Model
 {
 
 	private $column_search = array('holyday.id_product', 'holyday.date', 'holyday.code_holyday', 'holyday.type_day', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');

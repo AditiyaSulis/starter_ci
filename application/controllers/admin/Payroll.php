@@ -20,7 +20,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('m_Service_teknisi');
 		$this->load->model('M_piutang');
 		$this->load->model('M_purchase_piutang');
-		$this->load->model('m_Holyday');
+		$this->load->model('M_holyday');
 	}
 
 
@@ -156,7 +156,7 @@ class Payroll extends MY_Controller{
 			$totalDayoff = $this->M_day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalOvertime = $this->M_overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalAbsent = $this->M_schedule->totalAbsentLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
-			$totalHolyday = $this->m_Holyday->totalHolydayLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalHolyday = $this->M_holyday->totalHolydayLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$employee = $this->M_employees->findByIdJoin_get($employeeId);
 			
 			$izinPerhari = round($employee['uang_makan'] / 24);
