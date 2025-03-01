@@ -53,9 +53,12 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 // $route['admin/product/delete'] = 'admin/products/delete';
- $route['panel'] = 'fetch/login';
+$route['panel'] = 'fetch/login';
 $route['absence/dayoff/day_off_page'] = 'absence/DayOff/day_off_page';
 $route['absence/dayoff/su_day_off_page'] = 'absence/DayOff/su_day_off_page';
+$route['absence/data/dataizin/emp_data_izin_page'] = 'absence/data/DataIzin/emp_data_izin_page';
+$route['absence/data/dataizin/data_izin_page'] = 'absence/data/DataIzin/data_izin_page';
+
 // $route['starter'] = 'starter/indexemployee';
 // $route['starter/store'] = 'starter/storeemployee';
 // $route['starter/edit/(:any)'] = 'starter/editemployee/$1';
