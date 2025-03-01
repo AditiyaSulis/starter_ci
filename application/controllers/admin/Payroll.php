@@ -7,7 +7,7 @@ class Payroll extends MY_Controller{
 	{
 		parent::__construct();
 		$this->load->model('M_overtime');
-		$this->load->model('m_Payroll');
+		$this->load->model('M_payroll');
 		$this->load->model('m_Payroll_component');
 		$this->load->model('M_employees');
 		$this->load->model('M_division');
@@ -132,7 +132,7 @@ class Payroll extends MY_Controller{
 			'include_finance_record' => $this->input->post('finance_record', true),
 			'include_holiday' => $this->input->post('holyday', true),
 		];
-		$idPayroll = $this->m_Payroll->create_post($dataPayroll);
+		$idPayroll = $this->M_payroll->create_post($dataPayroll);
 
 		if (!$idPayroll) {
 			$this->db->trans_rollback();
@@ -384,7 +384,7 @@ class Payroll extends MY_Controller{
 		$id = $this->input->post('id');
 
 
-		if($this->m_Payroll->delete($id)){
+		if($this->M_payroll->delete($id)){
 			$response = [
 				'status' => true,
 				'message' => 'Data lembur karyawan berhasil dihapus',
@@ -477,7 +477,7 @@ class Payroll extends MY_Controller{
 	//		'input_at' => $this->input->post('input_at', true),
 	//	];
 	//
-	//	$idPayroll = $this->m_Payroll->create_post($dataPayroll);
+	//	$idPayroll = $this->M_payroll->create_post($dataPayroll);
 	//	if(!$idPayroll) {
 	//		echo json_encode([
 	//			'status' => false,
@@ -536,7 +536,7 @@ class Payroll extends MY_Controller{
 	//		];
 	//	}
 	//
-	//	$insert = $this->m_Payroll->create_batch_post($dataBatch);
+	//	$insert = $this->M_payroll->create_batch_post($dataBatch);
 	//
 	//
 	//	if ($insert) {

@@ -13,7 +13,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_leave');
         $this->load->model('M_day_off');
         $this->load->model('M_holyday');
-        $this->load->model('m_Payroll');
+        $this->load->model('M_payroll');
         $this->load->model('m_Payroll_component');
         $this->load->model('M_schedule');
         $this->load->model('m_Rekap');
@@ -848,7 +848,7 @@ class Core_data extends MY_Controller{
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
 
-		$list = $this->m_Payroll->get_datatables();
+		$list = $this->M_payroll->get_datatables();
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -887,8 +887,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Payroll->count_all(),
-			"recordsFiltered" => $this->m_Payroll->count_filtered(),
+			"recordsTotal" => $this->M_payroll->count_all(),
+			"recordsFiltered" => $this->M_payroll->count_filtered(),
 			"option" => $option,
 			"startDate" => $startDate,
 			"endDate" => $endDate,

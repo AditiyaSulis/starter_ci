@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Payroll extends CI_Model
+class M_payroll extends CI_Model
 {
 
 	private $column_search = array('payroll.id_payroll','payroll.code_payroll', 'payroll.input_at','payroll.total_salary', 'payroll.code_payroll', 'payroll.total_employee', 'payroll.include_piutang', 'payroll.include_finance_record','payroll.include_holiday', 'payroll_component.id_payroll', 'payroll_component.tanggal_gajian', );
