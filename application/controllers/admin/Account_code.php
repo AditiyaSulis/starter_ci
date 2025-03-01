@@ -8,7 +8,7 @@ class Account_code extends MY_Controller{
         parent::__construct();
 
         $this->load->model('m_Account_code');
-        $this->load->model('m_Finance_records');
+        $this->load->model('M_finance_records');
         $this->load->model('m_Categories');
     }
 
@@ -180,7 +180,7 @@ class Account_code extends MY_Controller{
 
         $id = $this->input->post('id_code');
         
-        if($this->m_Finance_records->findByIdAc_get($id) ){
+        if($this->M_finance_records->findByIdAc_get($id) ){
             $response = [
                 'status' => false,
                 'message' => 'Code ini tidak bisa dihapus karena memiliki relasi dengan tabel lain ' 

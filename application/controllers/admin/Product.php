@@ -8,7 +8,7 @@ class Product extends MY_Controller{
         parent::__construct();
         $this->load->model('M_products');
         $this->load->model('M_employees');
-        $this->load->model('m_Finance_records');
+        $this->load->model('M_finance_records');
         $this->load->library('upload');
 
     }
@@ -214,7 +214,7 @@ class Product extends MY_Controller{
         
         $id = $this->input->post('id_product');
         
-        if($this->m_Finance_records->findByProductId_get($id) || $this->M_employees->findByProductId_get($id) ){
+        if($this->M_finance_records->findByProductId_get($id) || $this->M_employees->findByProductId_get($id) ){
             $response = [
                 'status' => false,
                 'message' => 'Product ini tidak bisa dihapus karena memiliki relasi dengan tabel lain ' 

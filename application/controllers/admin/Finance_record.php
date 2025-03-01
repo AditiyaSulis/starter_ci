@@ -3,7 +3,7 @@ class Finance_record extends MY_Controller{
 
     function __construct(){
         parent::__construct();
-        $this->load->model('m_Finance_records');
+        $this->load->model('M_finance_records');
         $this->load->model('m_Account_code');
         $this->load->model('M_products');
         $this->load->model('m_Categories');
@@ -127,7 +127,7 @@ class Finance_record extends MY_Controller{
                 'description' => $this->input->post('description', true),
         ];
 
-        $record = $this->m_Finance_records->create_post($data);
+        $record = $this->M_finance_records->create_post($data);
 
         if ($record) {
             $response = [
@@ -189,7 +189,7 @@ class Finance_record extends MY_Controller{
             'record_date' => $this->input->post('record_date', true)
         ];
 
-        $record = $this->m_Finance_records->update_post($data['id_record'], $data);
+        $record = $this->M_finance_records->update_post($data['id_record'], $data);
 
         if ($record) {
             $response = [
@@ -216,7 +216,7 @@ class Finance_record extends MY_Controller{
         $id = $this->input->post('id');
 
 
-        if($this->m_Finance_records->delete($id)){
+        if($this->M_finance_records->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Data record berhasil dihapus',
@@ -242,7 +242,7 @@ class Finance_record extends MY_Controller{
         $type = $this->input->post('type');
         $code = $this->input->post('code');
 
-        $list = $this->m_Finance_records->get_datatables($option, $startDate, $endDate, $product, $code, $type); 
+        $list = $this->M_finance_records->get_datatables($option, $startDate, $endDate, $product, $code, $type); 
         $data = array();
         $no = @$_POST['start']; 
     
@@ -282,8 +282,8 @@ class Finance_record extends MY_Controller{
     
         $output = array(
             "draw" => @$_POST['draw'], 
-            "recordsTotal" => $this->m_Finance_records->count_all(),
-            "recordsFiltered" => $this->m_Finance_records->count_filtered($option, $startDate, $endDate, $product, $code, $type), 
+            "recordsTotal" => $this->M_finance_records->count_all(),
+            "recordsFiltered" => $this->M_finance_records->count_filtered($option, $startDate, $endDate, $product, $code, $type), 
             "data" => $data, 
         );
     
@@ -303,7 +303,7 @@ class Finance_record extends MY_Controller{
             return;
         }
     
-        $record = $this->m_Finance_records->findById_get($id);
+        $record = $this->M_finance_records->findById_get($id);
     
         if ($record) {
             echo json_encode([
@@ -325,11 +325,11 @@ class Finance_record extends MY_Controller{
         $startDate = $this->input->post('startDate');
         $endDate = $this->input->post('endDate');
         if($filter){
-            $categories = $this->m_Finance_records->getTotalAmountByCategory($filter, $startDate, $endDate);
-            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory($filter, $startDate, $endDate);
+            $categories = $this->M_finance_records->getTotalAmountByCategory($filter, $startDate, $endDate);
+            $products = $this->M_finance_records->getTotalAmountByProductAndCategory($filter, $startDate, $endDate);
         } else {
-            $categories = $this->m_Finance_records->getTotalAmountByCategory('this_month', $startDate, $endDate);
-            $products = $this->m_Finance_records->getTotalAmountByProductAndCategory('this_month', $startDate, $endDate);
+            $categories = $this->M_finance_records->getTotalAmountByCategory('this_month', $startDate, $endDate);
+            $products = $this->M_finance_records->getTotalAmountByProductAndCategory('this_month', $startDate, $endDate);
         }
         
 

@@ -8,7 +8,7 @@ class Dashboard extends MY_Controller{
         parent::__construct();
         $this->load->model('M_employees');
         $this->load->model('M_products');
-        $this->load->model('m_Finance_records');
+        $this->load->model('M_finance_records');
         $this->load->model('m_Piutang');
         $this->load->model('M_schedule');
     }
@@ -24,7 +24,7 @@ class Dashboard extends MY_Controller{
         $data['allAdmins']= $this->M_admin->totalAdmins_get();
         $data['allProducts']= $this->M_products->totalProducts_get();
         $data['allEmployees']= $this->M_employees->totalEmployees_get();
-        $data['allRecords']= $this->m_Finance_records->totalFinanceRecords_get();
+        $data['allRecords']= $this->M_finance_records->totalFinanceRecords_get();
 
         $data['totalJatuhTempo']= $this->m_Piutang->totalJatuhTempo_get();
         $data['jatuhTempo']= $this->m_Piutang->jatuhTempo_get();

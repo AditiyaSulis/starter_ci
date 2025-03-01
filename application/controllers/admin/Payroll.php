@@ -16,7 +16,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('m_Izin');
 		$this->load->model('m_Day_off');
 		$this->load->model('M_schedule');
-		$this->load->model('m_Finance_records');
+		$this->load->model('M_finance_records');
 		$this->load->model('m_Service_teknisi');
 		$this->load->model('m_Piutang');
 		$this->load->model('m_Purchase_piutang');
@@ -259,7 +259,7 @@ class Payroll extends MY_Controller{
 		}
 
 		if (!empty($dataFinanceRecord)) {
-			$insertFinanceRecord = $this->m_Finance_records->create_batch_post($dataFinanceRecord);
+			$insertFinanceRecord = $this->M_finance_records->create_batch_post($dataFinanceRecord);
 			if (!$insertFinanceRecord) {
 				$this->db->trans_rollback();
 				echo json_encode([
@@ -518,7 +518,7 @@ class Payroll extends MY_Controller{
 	//				'description' => $this->input->post('tanggal_gajian', true)."-".$this->input->post('description', true)."-".$this->input->post('code_payroll', true),
 	//			];
 	//
-	//			//	$record = $this->m_Finance_records->create_post($dataFinanceRecord);
+	//			//	$record = $this->M_finance_records->create_post($dataFinanceRecord);
 	//		}
 	//
 	//		$dataBatch[] = [
