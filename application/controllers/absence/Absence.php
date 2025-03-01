@@ -8,7 +8,7 @@ class Absence extends MY_Controller{
         parent::__construct();
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
-		$this->load->model('m_Attendance');
+		$this->load->model('M_attendance');
 		$this->load->model('M_products');
 		$this->load->model('m_Location');
 
@@ -129,7 +129,7 @@ class Absence extends MY_Controller{
 		];
 
 
-		$attendance = $this->m_Attendance->create_post($dataAtt);
+		$attendance = $this->M_attendance->create_post($dataAtt);
 
 		if ($attendance) {
 			$this->M_schedule->setStatus_post($idEmployee, $tanggal, '6');
