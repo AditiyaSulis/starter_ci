@@ -7,7 +7,7 @@ class Workshift extends MY_Controller{
 	{
 		parent::__construct();
 
-		$this->load->model('m_Workshift');
+		$this->load->model('M_workshift');
 	}
 
 
@@ -22,7 +22,7 @@ class Workshift extends MY_Controller{
 		$data['menu'] = 'Data';
 
 
-		$data['workshift'] = $this->m_Workshift->findAll_get();
+		$data['workshift'] = $this->M_workshift->findAll_get();
 
 		if($data['user']) {
 			$this->load->view('templates/index', $data);
@@ -82,7 +82,7 @@ class Workshift extends MY_Controller{
 			'description' => $this->input->post('description', true),
 		];
 
-		$position = $this->m_Workshift->create_post($data);
+		$position = $this->M_workshift->create_post($data);
 
 		if ($position) {
 			$response = [
@@ -115,7 +115,7 @@ class Workshift extends MY_Controller{
 			return;
 		}
 
-		$ac = $this->m_Workshift->findById_get($id);
+		$ac = $this->M_workshift->findById_get($id);
 		$oldCode = $ac['code_workshift'];
 
 		$this->form_validation->set_rules('name_workshift', 'name_workshift', 'required|min_length[2]|max_length[80]', [
@@ -154,7 +154,7 @@ class Workshift extends MY_Controller{
 		$newCode = $this->input->post('code_workshift',true);
 
 		if($oldCode != $newCode){
-			$codeExist = $this->m_Workshift->findByCodeWorkshift_get($newCode);
+			$codeExist = $this->M_workshift->findByCodeWorkshift_get($newCode);
 			if($codeExist){
 				$response = [
 					'status' => false,
@@ -175,7 +175,7 @@ class Workshift extends MY_Controller{
 			'description' => $this->input->post('description', true)
 		];
 
-		$workshift = $this->m_Workshift->update_post($id, $data);
+		$workshift = $this->M_workshift->update_post($id, $data);
 
 		if ($workshift) {
 			$response = [
@@ -201,7 +201,7 @@ class Workshift extends MY_Controller{
 
 		$id = $this->input->post('id');
 
-//		if($this->m_Workshift->findByWorkshiftId_get($id) ){
+//		if($this->M_workshift->findByWorkshiftId_get($id) ){
 //			$response = [
 //				'status' => false,
 //				'message' => 'Code ini tidak bisa dihapus karena memiliki relasi dengan tabel lain '
@@ -211,7 +211,7 @@ class Workshift extends MY_Controller{
 //		}
 
 
-		if($this->m_Workshift->delete($id)){
+		if($this->M_workshift->delete($id)){
 			$response = [
 				'status' => true,
 				'message' => 'Shift berhasil dihapus',
