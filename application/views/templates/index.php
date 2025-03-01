@@ -301,7 +301,7 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/dayoff/day_off_page?status_day_off=3&is=3')?>">
+								<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/DayOff/day_off_page?status_day_off=3&is=3')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi bi-calendar-x"></i>
@@ -327,7 +327,7 @@
 						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 							 id="#kt_aside_menu" data-kt-menu="true">
 							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Izin' ? "active": ""?>" href="<?=base_url('absence/data/dataizin/emp_data_izin_page?status_izin=3&is=3')?>">
+								<a class="menu-link <?= $title == 'Izin' ? "active": ""?>" href="<?=base_url('absence/data/DataIzin/emp_data_izin_page?status_izin=3&is=3')?>">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
                                             <i class="bi  bi-calendar-plus"></i>
@@ -359,7 +359,7 @@
 								<!-- Dropdown Submenu -->
 								<div class="menu-sub menu-sub-accordion">
 									<div class="menu-item">
-										<a href="<?=base_url('absence/data/dataizin/data_izin_page?status_izin=3')?>" class="menu-link <?= $title == 'Data Izin' ? "active": ""?>">
+										<a href="<?=base_url('absence/data/DataIzin/data_izin_page?status_izin=3')?>" class="menu-link <?= $title == 'Data Izin' ? "active": ""?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -375,7 +375,7 @@
 										</a>
 									</div>
 									<div class="menu-item">
-										<a href="<?=base_url('absence/dayoff/su_day_off_page?status_day_off=3&is=1')?>" class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>">
+										<a href="<?=base_url('absence/DayOff/su_day_off_page?status_day_off=3&is=1')?>" class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>

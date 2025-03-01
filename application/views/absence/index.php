@@ -95,7 +95,7 @@ if($schedule) {
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/data/dataizin/add_izin') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/data/DataIzin/add_izin') ?>" enctype="multipart/form-data">
 							<input type="hidden" value="<?= $user['email'] ?>" name="id_employee" autocomplete="off" class="form-control bg-transparent" readonly/>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Izin Dibuat</span>
