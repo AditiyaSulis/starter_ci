@@ -6,7 +6,7 @@ class Finance_record extends MY_Controller{
         $this->load->model('M_finance_records');
         $this->load->model('M_account_code');
         $this->load->model('M_products');
-        $this->load->model('m_Categories');
+        $this->load->model('M_categories');
 
     }
 
@@ -22,7 +22,7 @@ class Finance_record extends MY_Controller{
         $data['menu'] = 'FR';
     
         
-        $data['categories'] = $this->m_Categories->findAll_get();
+        $data['categories'] = $this->M_categories->findAll_get();
         $data['products'] = $this->M_products->findAll_get();
         $data['products_show'] = $this->M_products->findAllShow_get();
         $data['account_code'] = $this->M_account_code->findAll_get();

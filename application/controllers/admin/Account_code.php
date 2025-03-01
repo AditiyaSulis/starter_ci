@@ -9,7 +9,7 @@ class Account_code extends MY_Controller{
 
         $this->load->model('M_account_code');
         $this->load->model('M_finance_records');
-        $this->load->model('m_Categories');
+        $this->load->model('M_categories');
     }
 
 
@@ -23,7 +23,7 @@ class Account_code extends MY_Controller{
        $data['breadcrumb'] = 'Finance Record - Account Code';
        $data['menu'] = 'FR';
        
-       $data['categories'] = $this->m_Categories->findAll_get();
+       $data['categories'] = $this->M_categories->findAll_get();
        $data['account_code'] = $this->M_account_code->findAllWithJoin_get();
 
        if($data['user']) {
