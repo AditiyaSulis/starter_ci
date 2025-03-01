@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Overtime extends CI_Model
+class M_overtime extends CI_Model
 {
 
 	private $column_search = array('overtime.id_overtime', 'overtime.id_employee', 'overtime.tanggal', 'overtime.input_at', 'overtime.pay','overtime.time_spend', 'overtime.start', 'overtime.description', 'overtime.end', 'overtime.status', 'employee.id_employee', 'employee.name', 'employee.id_division', 'employee.id_product', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');

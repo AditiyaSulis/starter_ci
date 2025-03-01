@@ -6,7 +6,7 @@ class Overtime extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Overtime');
+		$this->load->model('M_overtime');
 		$this->load->model('M_employees');
 		$this->load->model('M_division');
 		$this->load->model('M_products');
@@ -53,8 +53,8 @@ class Overtime extends MY_Controller{
 		$data['divisions'] = $this->M_division->findAll_get();
 		$data['products'] = $this->M_products->findAll_get();
 
-		$data['this_month'] = $this->m_Overtime->totalOvertimeThisMonth_get();
-		$data['this_year'] = $this->m_Overtime->totalOvertime_get();
+		$data['this_month'] = $this->M_overtime->totalOvertimeThisMonth_get();
+		$data['this_year'] = $this->M_overtime->totalOvertime_get();
 
 
 		$data['view_data'] = 'core/overtime/data_overtime';
@@ -143,7 +143,7 @@ class Overtime extends MY_Controller{
 			];
 
 
-		$overtime = $this->m_Overtime->create_post($data);
+		$overtime = $this->M_overtime->create_post($data);
 
 		if ($overtime) {
 			$response = [
@@ -211,7 +211,7 @@ class Overtime extends MY_Controller{
 		];
 
 
-		$overtime = $this->m_Overtime->create_post($data);
+		$overtime = $this->M_overtime->create_post($data);
 
 		if ($overtime) {
 			$response = [
@@ -264,7 +264,7 @@ class Overtime extends MY_Controller{
 		$pay = $this->input->post('pay', true);
 
 
-		if ($this->m_Overtime->setStatus_post($id, $setstatus,$pay)) {
+		if ($this->M_overtime->setStatus_post($id, $setstatus,$pay)) {
 			$response = [
 				'status' => true,
 				'message' => 'Status berhasil diperbarui.'
@@ -332,7 +332,7 @@ class Overtime extends MY_Controller{
 			];
 		}
 
-		$insert = $this->m_Overtime->create_batch_post($dataBatch);
+		$insert = $this->M_overtime->create_batch_post($dataBatch);
 
 		if ($insert) {
 			echo json_encode([
@@ -355,7 +355,7 @@ class Overtime extends MY_Controller{
 		$id = $this->input->post('id');
 
 
-		if($this->m_Overtime->delete($id)){
+		if($this->M_overtime->delete($id)){
 			$response = [
 				'status' => true,
 				'message' => 'Data lembur karyawan berhasil dihapus',

@@ -9,7 +9,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_purchases');
         $this->load->model('M_purchase_piutang');
         $this->load->model('M_izin');
-        $this->load->model('m_Overtime');
+        $this->load->model('M_overtime');
         $this->load->model('m_Leave');
         $this->load->model('m_Day_off');
         $this->load->model('m_Holyday');
@@ -383,7 +383,7 @@ class Core_data extends MY_Controller{
 		$employee = $this->input->post('employee');
 
 
-		$list = $this->m_Overtime->get_datatables();
+		$list = $this->M_overtime->get_datatables();
 
 		$status ='';
 
@@ -483,8 +483,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->m_Overtime->count_all(),
-			"recordsFiltered" => $this->m_Overtime->count_filtered(),
+			"recordsTotal" => $this->M_overtime->count_all(),
+			"recordsFiltered" => $this->M_overtime->count_filtered(),
 			"option" => $option,
 			"startDate" => $startDate,
 			"endDate" => $endDate,
