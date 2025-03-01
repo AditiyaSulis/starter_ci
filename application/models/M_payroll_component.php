@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Payroll_component extends CI_Model
+class M_payroll_component extends CI_Model
 {
 
 	private $column_search = array('payroll_component.id_payroll_component','payroll_component.id_employee', 'payroll_component.total_absen', 'payroll_component.id_payroll','payroll_component.total', 'payroll_component.total_izin', 'payroll_component.total_cuti', 'payroll_component.total_overtime', 'payroll_component.total_dayoff', 'payroll_component.piutang', 'payroll_component.bonus','payroll_component.tanggal_gajian', 'payroll_component.potongan_absen',  'payroll_component.potongan_izin', 'payroll_component.absen_hari', 'payroll_component.izin_hari',  'payroll_component.total_potongan' ,'payroll_component.description',  'employee.name', 'employee.id_product', 'employee.id_division', 'employee.basic_salary', 'employee.nip', 'employee.bonus', 'employee.uang_makan', 'products.name_product', 'division.name_division');

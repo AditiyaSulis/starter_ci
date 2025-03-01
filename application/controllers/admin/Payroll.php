@@ -8,7 +8,7 @@ class Payroll extends MY_Controller{
 		parent::__construct();
 		$this->load->model('M_overtime');
 		$this->load->model('M_payroll');
-		$this->load->model('m_Payroll_component');
+		$this->load->model('M_payroll_component');
 		$this->load->model('M_employees');
 		$this->load->model('M_division');
 		$this->load->model('M_products');
@@ -247,7 +247,7 @@ class Payroll extends MY_Controller{
 			];
 		}
 
-		$insertPayroll = $this->m_Payroll_component->create_batch_post($dataBatch);
+		$insertPayroll = $this->M_payroll_component->create_batch_post($dataBatch);
 
 		if (!$insertPayroll) {
 			$this->db->trans_rollback();
