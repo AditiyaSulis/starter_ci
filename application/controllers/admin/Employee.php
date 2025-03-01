@@ -10,7 +10,7 @@ class Employee extends MY_Controller{
         $this->load->model('M_division');
         $this->load->model('M_bank_account');
         $this->load->model('M_emergency_contact');
-        $this->load->model('m_Log_contract_extension');
+        $this->load->model('M_log_contract_extension');
         $this->load->model('m_Address');
         $this->load->model('m_Domisili');
 
@@ -944,7 +944,7 @@ class Employee extends MY_Controller{
             return;
         }
 
-        $contractList = $this->m_Log_contract_extension->findByEmployeeId_get($id);
+        $contractList = $this->M_log_contract_extension->findByEmployeeId_get($id);
 
         
         echo json_encode([
@@ -991,7 +991,7 @@ class Employee extends MY_Controller{
 		$renewContract = $this->M_employees->renewContract_post($id_employee, $data['new_contract']);
 
 		if ($renewContract) {
-			$this->m_Log_contract_extension->create_post($data);
+			$this->M_log_contract_extension->create_post($data);
 			$response = [
 				'status' => true,
 				'message' => 'Perpanjangan kontrak berhasil dibuat',
