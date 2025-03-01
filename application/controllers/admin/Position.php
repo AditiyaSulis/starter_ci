@@ -7,7 +7,7 @@ class Position extends MY_Controller{
     {
         parent::__construct();
 
-        $this->load->model('m_Position');
+        $this->load->model('M_position');
         $this->load->model('M_employees');
     }
 
@@ -23,7 +23,7 @@ class Position extends MY_Controller{
        $data['menu'] = '';
 
 
-       $data['position'] = $this->m_Position->findAll_get();
+       $data['position'] = $this->M_position->findAll_get();
 
        if($data['user']) {
             $this->load->view('templates/index', $data);
@@ -68,7 +68,7 @@ class Position extends MY_Controller{
             'name_position' => $this->input->post('name_position', true),
         ];
 
-        $position = $this->m_Position->create_post($data);
+        $position = $this->M_position->create_post($data);
 
         if ($position) {
             $response = [
@@ -101,7 +101,7 @@ class Position extends MY_Controller{
             return;
         }
 
-        $ac = $this->m_Position->findById_get($id);
+        $ac = $this->M_position->findById_get($id);
         $oldCode = $ac['code_position'];
 
         $this->form_validation->set_rules('name_position', 'name_position', 'required|min_length[2]|max_length[80]', [
@@ -126,7 +126,7 @@ class Position extends MY_Controller{
         $newCode = $this->input->post('code_position',true);
 
         if($oldCode != $newCode){
-            $codeExist = $this->m_Position->findByCodePosition_get($newCode);
+            $codeExist = $this->M_position->findByCodePosition_get($newCode);
             if($codeExist){
                 $response = [
                     'status' => false,
@@ -144,7 +144,7 @@ class Position extends MY_Controller{
             'name_position' => $this->input->post('name_position', true),
         ];
 
-        $account_code = $this->m_Position->update_post($id, $data);
+        $account_code = $this->M_position->update_post($id, $data);
 
         if ($account_code) {
             $response = [
@@ -180,7 +180,7 @@ class Position extends MY_Controller{
         }
 
 
-        if($this->m_Position->delete($id)){
+        if($this->M_position->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Posisi berhasil dihapus',

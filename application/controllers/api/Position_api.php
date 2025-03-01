@@ -10,7 +10,7 @@ class Position_api extends RestController{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Position');
+        $this->load->model('M_position');
         validate_header();
 
     }
@@ -18,7 +18,7 @@ class Position_api extends RestController{
     public function getAll_get()
     {
 
-        $position = $this->m_Position->findAll_get();
+        $position = $this->M_position->findAll_get();
 
         if($position){
             $this->response([
