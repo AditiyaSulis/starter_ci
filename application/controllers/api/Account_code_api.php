@@ -10,7 +10,7 @@ class Account_code_api extends RestController{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('m_Account_code');
+        $this->load->model('M_account_code');
         validate_header();
 
     }
@@ -18,7 +18,7 @@ class Account_code_api extends RestController{
     public function getAll_get()
     {
 
-        $ac = $this->m_Account_code->findAll_get();
+        $ac = $this->M_account_code->findAll_get();
 
         if($ac){
             $this->response([

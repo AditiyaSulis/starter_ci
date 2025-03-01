@@ -7,7 +7,7 @@ class Account_code extends MY_Controller{
     {
         parent::__construct();
 
-        $this->load->model('m_Account_code');
+        $this->load->model('M_account_code');
         $this->load->model('M_finance_records');
         $this->load->model('m_Categories');
     }
@@ -24,7 +24,7 @@ class Account_code extends MY_Controller{
        $data['menu'] = 'FR';
        
        $data['categories'] = $this->m_Categories->findAll_get();
-       $data['account_code'] = $this->m_Account_code->findAllWithJoin_get();
+       $data['account_code'] = $this->M_account_code->findAllWithJoin_get();
 
        if($data['user']) {
             $this->load->view('templates/index', $data);
@@ -73,7 +73,7 @@ class Account_code extends MY_Controller{
             'name_code' => $this->input->post('name_code', true),
         ];
 
-        $account = $this->m_Account_code->create_post($data);
+        $account = $this->M_account_code->create_post($data);
 
         if ($account) {
             $response = [
@@ -106,7 +106,7 @@ class Account_code extends MY_Controller{
             return;
         }
 
-        $ac = $this->m_Account_code->findById_get($id);
+        $ac = $this->M_account_code->findById_get($id);
         $oldCode = $ac['code'];
 
         $this->form_validation->set_rules('id_kategori', 'Id_kategori', 'required', [
@@ -135,7 +135,7 @@ class Account_code extends MY_Controller{
         $newCode = $this->input->post('code',true);
 
         if($oldCode != $newCode){
-            $codeExist = $this->m_Account_code->findByCode_get($newCode);
+            $codeExist = $this->M_account_code->findByCode_get($newCode);
             if($codeExist){
                 $response = [
                     'status' => false,
@@ -154,7 +154,7 @@ class Account_code extends MY_Controller{
             'name_code' => $this->input->post('name_code', true),
         ];
 
-        $account_code = $this->m_Account_code->update_post($id, $data);
+        $account_code = $this->M_account_code->update_post($id, $data);
 
         if ($account_code) {
             $response = [
@@ -190,7 +190,7 @@ class Account_code extends MY_Controller{
         }
 
 
-        if($this->m_Account_code->delete($id)){
+        if($this->M_account_code->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'Product berhasil dihapus',

@@ -4,7 +4,7 @@ class Finance_record extends MY_Controller{
     function __construct(){
         parent::__construct();
         $this->load->model('M_finance_records');
-        $this->load->model('m_Account_code');
+        $this->load->model('M_account_code');
         $this->load->model('M_products');
         $this->load->model('m_Categories');
 
@@ -25,7 +25,7 @@ class Finance_record extends MY_Controller{
         $data['categories'] = $this->m_Categories->findAll_get();
         $data['products'] = $this->M_products->findAll_get();
         $data['products_show'] = $this->M_products->findAllShow_get();
-        $data['account_code'] = $this->m_Account_code->findAll_get();
+        $data['account_code'] = $this->M_account_code->findAll_get();
 
     
         if (isset($data['user']) && $data['user']) {
@@ -41,7 +41,7 @@ class Finance_record extends MY_Controller{
     {
         $id = $this->input->post('category_id', true);
 
-        $account = $this->m_Account_code->findByCategoryId_get($id);
+        $account = $this->M_account_code->findByCategoryId_get($id);
 
         if(empty($account)){
 			echo json_encode([
@@ -65,7 +65,7 @@ class Finance_record extends MY_Controller{
     {
         $id = $this->input->post('category_id', true);
 
-        $account = $this->m_Account_code->findByCategoryId_get($id);
+        $account = $this->M_account_code->findByCategoryId_get($id);
 
         if(empty($account)){
 			echo json_encode([
