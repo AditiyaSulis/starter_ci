@@ -13,7 +13,7 @@ class Schedule extends MY_Controller{
 		$this->load->model('M_division');
 		$this->load->model('m_Day_off');
 		$this->load->model('M_izin');
-		$this->load->model('m_Leave');
+		$this->load->model('M_leave');
 		$this->load->model('m_Holyday');
 
 		$this->load->helper('date');
@@ -442,14 +442,14 @@ class Schedule extends MY_Controller{
 		$thisMonth = [
 			'izin'  => $this->M_izin->totalIzinThisMonthByEmployeeId_get($idEmployee),
 			'dayoff' => $this->m_Day_off->totalDayOffThisMonthByEmployeeId_get($idEmployee),
-			'cuti'   => $this->m_Leave->totalLeaveThisMonthByEmployeeId_get($idEmployee),
+			'cuti'   => $this->M_leave->totalLeaveThisMonthByEmployeeId_get($idEmployee),
 			'absen'   => $this->M_schedule->totalAbsentThisMonthByEmployeeId_get($idEmployee),
 		];
 
 		$thisYear = [
 			'izin'  => $this->M_izin->totalIzinByEmployeeId_get($idEmployee),
 			'dayoff' => $this->m_Day_off->totalDayOffByEmployeeId_get($idEmployee),
-			'cuti'   => $this->m_Leave->totalLeaveByEmployeeId_get($idEmployee),
+			'cuti'   => $this->M_leave->totalLeaveByEmployeeId_get($idEmployee),
 			'absen'   => $this->M_schedule->totalAbsentByEmployeeId_get($idEmployee),
 
 		];
@@ -512,7 +512,7 @@ class Schedule extends MY_Controller{
 				$tanggal = date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_date', true))));
 
 				$isDayoff = $this->m_Day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
-				$isLeave = $this->m_Leave->findByEmployeeIdAtDate_get($emp, $tanggal);
+				$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
 				$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
 				$isHolyday = $this->m_Holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
 				$isSunday = $this->m_Holyday->isSunday_get($product, $division, $tanggal);
@@ -564,7 +564,7 @@ class Schedule extends MY_Controller{
 
 		$id = $this->input->post('id');
 
-		if($this->m_Overtime->delete($id)){
+		if($this->M_overtime->delete($id)){
 			$response = [
 				'status' => true,
 				'message' => 'Data lembur karyawan berhasil dihapus',

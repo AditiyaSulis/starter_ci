@@ -3,7 +3,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class m_Leave extends CI_Model
+class M_leave extends CI_Model
 {
 
 	private $column_search = array('cuti.id_cuti', 'cuti.id_employee', 'cuti.total_days', 'cuti.input_at', 'cuti.start_day', 'cuti.description', 'cuti.end_day', 'cuti.type', 'cuti.status', 'employee.id_employee', 'employee.name', 'employee.id_division', 'employee.id_product', 'division.id_division', 'division.name_division', 'products.id_product', 'products.name_product');

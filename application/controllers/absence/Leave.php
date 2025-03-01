@@ -6,7 +6,7 @@ class Leave extends MY_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_Leave');
+		$this->load->model('M_leave');
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_products');
@@ -28,7 +28,7 @@ class Leave extends MY_Controller{
 		$data['products'] = $this->M_products->findAll_get();
 		$emp = $this->M_employees->findByEmail_get($email);
 		$data['employee'] = $emp['id_employee'];
-		$data['total_cuti'] = $this->m_Leave->totalLeaveByEmployeeId_get($emp['id_employee']);
+		$data['total_cuti'] = $this->M_leave->totalLeaveByEmployeeId_get($emp['id_employee']);
 
 		$data['view_data'] = 'core/leave/data_leave';
 		$data['view_components'] = 'core/leave/data_leave_components';
@@ -56,8 +56,8 @@ class Leave extends MY_Controller{
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
 
-		$data['this_month'] = $this->m_Leave->totalLeaveThisMonth_get();
-		$data['this_year'] = $this->m_Leave->totalLeave_get();
+		$data['this_month'] = $this->M_leave->totalLeaveThisMonth_get();
+		$data['this_year'] = $this->M_leave->totalLeave_get();
 
 		$data['view_data'] = 'core/leave/data_leave';
 		$data['view_components'] = 'core/leave/data_leave_components';
@@ -140,7 +140,7 @@ class Leave extends MY_Controller{
 		}
 
 		//validasi dalam setahun tidak boleh melebih 12x
-		$totalLeaves = $this->m_Leave->totalLeaveByEmployeeId_get($emp['id_employee']);
+		$totalLeaves = $this->M_leave->totalLeaveByEmployeeId_get($emp['id_employee']);
 		if($totalLeaves > 12 ) {
 			$response = [
 				'status' => false,
@@ -152,7 +152,7 @@ class Leave extends MY_Controller{
 			return;
 		}
 
-		$totalLeavesThisMonth = $this->m_Leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
+		$totalLeavesThisMonth = $this->M_leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
 		if($totalLeavesThisMonth > 2 ) {
 			$response = [
 				'status' => false,
@@ -179,7 +179,7 @@ class Leave extends MY_Controller{
 		];
 
 
-		$overtime = $this->m_Leave->create_post($data);
+		$overtime = $this->M_leave->create_post($data);
 
 		if ($overtime) {
 			$response = [
@@ -267,7 +267,7 @@ class Leave extends MY_Controller{
 		}
 
 		//validasi dalam setahun tidak boleh melebih 12x
-		$totalLeaves = $this->m_Leave->totalLeaveByEmployeeId_get($emp['id_employee']);
+		$totalLeaves = $this->M_leave->totalLeaveByEmployeeId_get($emp['id_employee']);
 		if($totalLeaves > 12 ) {
 			$response = [
 				'status' => false,
@@ -280,7 +280,7 @@ class Leave extends MY_Controller{
 		}
 
 		//validasi dalam sebulan tidak boleh melebih 2x
-		$totalLeavesThisMonth = $this->m_Leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
+		$totalLeavesThisMonth = $this->M_leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
 		if($totalLeavesThisMonth > 1 ) {
 			$response = [
 				'status' => false,
@@ -309,7 +309,7 @@ class Leave extends MY_Controller{
 
 
 
-		$leave = $this->m_Leave->create_post($data);
+		$leave = $this->M_leave->create_post($data);
 
 		if ($leave) {
 			if($type == 2) {
@@ -383,7 +383,7 @@ class Leave extends MY_Controller{
 		}
 
 
-		if ($this->m_Leave->setStatus_post($id, $setstatus)) {
+		if ($this->M_leave->setStatus_post($id, $setstatus)) {
 			$response = [
 				'status' => true,
 				'message' => 'Status berhasil diperbarui.'
@@ -407,9 +407,9 @@ class Leave extends MY_Controller{
 		$this->_isAjax();
 
 		$id = $this->input->post('id');
-		$data = $this->m_Leave->findById_get($id);
+		$data = $this->M_leave->findById_get($id);
 
-		if($this->m_Leave->delete($id)){
+		if($this->M_leave->delete($id)){
 			$this->M_schedule->setStatus_post($data['id_employee'], $data['start_day'], 1);
 			if($data['end_day'] != null){
 				$this->M_schedule->setStatus_post($data['id_employee'], $data['end_day'], 1);

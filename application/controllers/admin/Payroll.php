@@ -12,7 +12,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_employees');
 		$this->load->model('M_division');
 		$this->load->model('M_products');
-		$this->load->model('m_Leave');
+		$this->load->model('M_leave');
 		$this->load->model('M_izin');
 		$this->load->model('m_Day_off');
 		$this->load->model('M_schedule');
@@ -151,7 +151,7 @@ class Payroll extends MY_Controller{
 			$potPiutang = 0;
 			$totalPotHolyday = 0;
 
-			$totalCuti = $this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
+			$totalCuti = $this->M_leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalIzin = $this->M_izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalDayoff = $this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalOvertime = $this->M_overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
@@ -492,7 +492,7 @@ class Payroll extends MY_Controller{
 	//
 	//		$totalGaji = 0;
 	//
-	//		$totalCuti =$this->m_Leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
+	//		$totalCuti =$this->M_leave->totalLeaveLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalIzin =$this->M_izin->totalIzinLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalDayoff =$this->m_Day_off->totalDayOffLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
 	//		$totalOvertime =$this->M_overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true));
