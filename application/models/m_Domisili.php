@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_Domisili extends CI_Model {
+class M_domisili extends CI_Model {
 
 	public function findAll_get()
 	{
