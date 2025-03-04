@@ -32,9 +32,8 @@ class M_products extends CI_Model {
 
 	public function findByIdWithJoin_get($id)
 	{
-		$this->db->select('products.id_product, products.id_location, products.name_product, products.description, products.logo, products.url, products.status, products.visibility, location.id_location, location.name_location, location.latitude, location.longitude');
+		$this->db->select('products.id_product, products.id_location, products.name_product, products.description, products.logo, products.url, products.status, products.visibility, products.latitude, products.longitude');
 		$this->db->from('products');
-		$this->db->join('location', 'location.id_location = products.id_location', 'left');
 
 
 		return $this->db->get()->row_array();
@@ -89,6 +88,18 @@ class M_products extends CI_Model {
       return true;
 
     }
+
+
+	public function updateLocation_post($id, $latitude, $longitude)
+	{
+
+		$this->db->set(['latitude' => $latitude, 'longitude' => $longitude]);
+		$this->db->where('id_product', $id);
+		$this->db->update('products');
+
+		return true;
+
+	}
 
 
 	public function getAllIds_get() {

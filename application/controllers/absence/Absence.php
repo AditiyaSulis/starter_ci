@@ -93,11 +93,10 @@ class Absence extends MY_Controller{
 
 		$employee = $this->M_employees->findById_get($idEmployee);
 		$product  =$this->M_products->findById_get($employee['id_product']);
-		$location = $this->M_location->get_location($product['id_location']);
 
 
-		$latitudeDecimal = floatval($location['latitude']);
-		$longitudeDecimal = floatval($location['longitude']);
+		$latitudeDecimal = floatval($product['latitude']);
+		$longitudeDecimal = floatval($product['longitude']);
 
 		$timeManagement = true;
 

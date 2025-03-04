@@ -42,11 +42,19 @@ class Product extends MY_Controller{
             'min_length' => 'Nama minimal harus mempunyai 3 huruf',
             'max_length' => 'Nama tidak boleh melebihi 40 karakter',
         ]);
-        
         $this->form_validation->set_rules('description', 'Description', 'trim|required|min_length[4]', [
             'required' => 'Deskripsi harus diisi',
             'min_length' => 'Deskripsi minimal 4 huruf',
         ]);
+        $this->form_validation->set_rules('latitude', 'latitude', 'trim|required|max_length[80]', [
+            'required' => 'Latitude harus diisi',
+            'min_length' => 'Latitude maksimal 80 huruf',
+        ]);
+        $this->form_validation->set_rules('longitude', 'longitude', 'trim|required|max_length[80]', [
+            'required' => 'Deskripsi harus diisi',
+            'min_length' => 'Deskripsi minimal 4 huruf',
+        ]);
+
 
         if ($this->form_validation->run() == FALSE) {
             $response = [
@@ -62,7 +70,7 @@ class Product extends MY_Controller{
 
         $this->load->helper('image_helper');
 
-        $upload_path = 'products/compressed'; 
+        $upload_path = 'products/compressed';
         $resize_width = 500;
         $resize_height = 500;
         $resize_quality = 60;
@@ -83,6 +91,8 @@ class Product extends MY_Controller{
         $data = [
             'name_product' => $this->input->post('name_product', true),
             'description' => $this->input->post('description', true),
+            'latitude' => $this->input->post('latitude', true),
+            'longitude' => $this->input->post('longitude', true),
             'url' => $this->input->post('url', true),
             'logo' => $logo_name,
         ];
@@ -296,6 +306,63 @@ class Product extends MY_Controller{
           $response = [
               'status' => false,
               'message' => 'Gagal memperbarui Visibility.'
+          ];
+      }
+  
+      echo json_encode($response);
+      return;
+  
+    }
+
+    public function update_location()
+    {
+  
+        $this->_ONLY_SU();
+        $this->_isAjax();
+  
+        $id = $this->input->post('id_product', true);
+  
+        
+        $this->form_validation->set_rules('latitude', 'latitude', 'trim|required|max_length[80]', [
+            'required' => 'Latitude harus diisi',
+            'min_length' => 'Latitude maksimal 80 huruf',
+        ]);
+        $this->form_validation->set_rules('longitude', 'longitude', 'trim|required|max_length[80]', [
+            'required' => 'Deskripsi harus diisi',
+            'min_length' => 'Deskripsi minimal 4 huruf',
+        ]);
+    
+  
+  
+        if($this->form_validation->run() == false) {
+          $response = [
+            'status' => false,
+            'message' => validation_errors('<p>' , '</p>'),
+            'confirmationbutton' => true,
+            'timer' => 0,
+            'icon' => 'error'
+          ];
+  
+          echo json_encode($response);
+  
+          return;
+        }
+  
+  
+      
+         $latitude = $this->input->post('latitude', true);
+         $longitude = $this->input->post('longitude', true);
+  
+  
+        if ($this->M_products->updateLocation_post($id, $latitude, $longitude)) {
+          $response = [
+              'status' => true,
+              'message' => 'Lokasi produk berhasil diperbarui.'
+          ];
+      } else {
+          $response = [
+              'status' => false,
+              'message' => 'Gagal memperbarui lokasi produk.'
           ];
       }
   
