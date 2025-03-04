@@ -26,7 +26,7 @@
 				</button>
 			</div>
 		<?php if($employee == 'false'):?>
-			<div class="col-2 col-md-2 mb-3">
+			<div class="col-4 col-md-2 mb-3">
 				<select id="filterProduct" class="form-select form-select-sm">
 					<option value="" selected>All Product</option>
 					<?php foreach($products as $product): ?>

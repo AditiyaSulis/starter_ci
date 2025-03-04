@@ -57,6 +57,7 @@
 					<th>Gaji</th>
 					<th class="px-2">Uang Makan</th>
 					<th class="px-2">Bonus</th>
+					<th>Account</th>
 					<th>Address</th>
 					<th>Bank</th>
 					<th>EC</th>
@@ -760,7 +761,41 @@
 				</div>
 			</div>
 		</div>
+
+	<div class="modal fade" id="userShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">User Account</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="editUserAccountForm">
+						<input type="hidden" id="edit_id_employee_user" name="id_employee">
+						<input type="hidden" id="old_email" name="old_email">
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">Email</label>
+							<input type="text" class="form-control" id="email_edit" placeholder="Email" name="email" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">Password</label>
+							<input type="text" class="form-control" id="password_edit_user" placeholder="Password" name="password" required>
+						</div>
+						<button type="submit" class="btn btn-primary">
+								<span class="indicator-label">
+									Update
+								</span>
+							<span class="indicator-progress">
+									Please wait...
+									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+								</span>
+						</button>
+				</div>
+				</form>
+			</div>
+		</div>
 	</div>
+
 
 
     <script>
@@ -850,7 +885,6 @@
             });
         }
 
-       
         //------ADD BANK 
         const exampleModal = document.getElementById('bankModal');
         exampleModal.addEventListener('show.bs.modal', function (event) 
@@ -1634,6 +1668,83 @@
 			});
 
 		});
+
+
+		//-----------------------------------------------------
+		const acModal = document.getElementById('userShowModal');
+		acModal.addEventListener('show.bs.modal', function (event)
+		{
+			const button1 = event.relatedTarget;
+			const email = button1.getAttribute('data-email');
+			const id_employee = button1.getAttribute('data-id_employee');
+			$.ajax({
+				url: "<?= site_url('admin/employee/find_user') ?>",
+				type: "POST",
+				data: { email: email,
+				id_employee: id_employee},
+				dataType: "json",
+				success: function(response) {
+					if (response.status) {
+						$("#edit_id_employee_user").val(id_employee);
+						$("#old_email").val(email);
+						$("#email_edit").val(response.data.email);
+						$("#password_edit_user").val(response.data.password);
+					} else {
+						alert(response.message);
+					}
+				},
+				error: function() {
+					alert("Terjadi kesalahan saat mengambil data.");
+				}
+			});
+
+
+			$("#editUserAccountForm").on("submit", function (e) {
+				e.preventDefault();
+
+				const submitbuttom1 = $("#editUserAccountForm button[type=submit]");
+				submitbuttom1.prop("disabled", true).text("Processing...");
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Pastikan data sudah benar",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Update',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							url: base_url + "admin/employee/edit_user",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									submitbuttom1.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								submitbuttom1.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+		});
+
 
 	</script>
 </main>

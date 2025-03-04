@@ -277,7 +277,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tanggal_izin="'. $item['tanggal_izin'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</a>
 							</td>
 						  ';
@@ -290,7 +290,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tanggal_izin="'. $item['tanggal_izin'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</a>
 							</td>
                            ';
@@ -303,7 +303,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tanggal_izin="'. $item['tanggal_izin'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</a>
 							</td>
                            ';
@@ -313,7 +313,7 @@ class Core_data extends MY_Controller{
 					' 	
 							<td>
 							   <button class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px" disabled >
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</button>
 							</td>
 						  ';
@@ -322,7 +322,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px" disabled >
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</button>
 							</td>
                            ';
@@ -331,7 +331,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button  class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled >
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</button>
 							</td>
                            ';
@@ -406,7 +406,7 @@ class Core_data extends MY_Controller{
 							   <a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px"
 								data-id_overtime="'. $item['id_overtime'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</a>
 							</td>
 						  ';
@@ -417,7 +417,7 @@ class Core_data extends MY_Controller{
 							   <a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px"
 								data-id_overtime="'. $item['id_overtime'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</a>
 							</td>
                            ';
@@ -428,7 +428,7 @@ class Core_data extends MY_Controller{
 							   <a href="javascript:void(0)" onclick="setStatusOvertime(this)" class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px"
 								data-id_overtime="'. $item['id_overtime'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</a>
 							</td>
                            ';
@@ -438,7 +438,7 @@ class Core_data extends MY_Controller{
 					' 	
 							<td>
 							   <button  class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px" disabled>
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</button>
 							</td>
 						  ';
@@ -447,7 +447,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</button>
 							</td>
                            ';
@@ -456,7 +456,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</button>
 							</td>
                            ';
@@ -531,7 +531,7 @@ class Core_data extends MY_Controller{
 								data-start_day="'. $item['start_day'].'"
 								data-end_day="'. $endDay.'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</a>
 							</td>
 						  ';
@@ -546,7 +546,7 @@ class Core_data extends MY_Controller{
 								data-start_day="'. $item['start_day'].'"
 								data-end_day="'. $endDay.'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</a>
 							</td>
                            ';
@@ -561,7 +561,7 @@ class Core_data extends MY_Controller{
 								data-start_day="'. $item['start_day'].'"
 								data-end_day="'. $endDay.'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</a>
 							</td>
                            ';
@@ -571,7 +571,7 @@ class Core_data extends MY_Controller{
 						' 	
 							<td>
 							   <button class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px" disabled>
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</button>
 							</td>
 						  ';
@@ -580,7 +580,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</button>
 							</td>
                            ';
@@ -589,7 +589,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</button>
 							</td>
                            ';
@@ -660,7 +660,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tgl_day_off="'. $item['tgl_day_off'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</a>
 							</td>
 						  ';
@@ -673,7 +673,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tgl_day_off="'. $item['tgl_day_off'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</a>
 							</td>
                            ';
@@ -686,7 +686,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tgl_day_off="'. $item['tgl_day_off'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</a>
 							</td>
                            ';
@@ -696,7 +696,7 @@ class Core_data extends MY_Controller{
 					' 	
 							<td>
 							   <button class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px" disabled="">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</button>
 							</td>
 						  ';
@@ -705,7 +705,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</button>
 							</td>
                            ';
@@ -714,7 +714,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</button>
 							</td>
                            ';
@@ -869,11 +869,11 @@ class Core_data extends MY_Controller{
 						</button>
                      ';
 
-			$piutang = $item['include_piutang'] == 1 ? 'Yes' : 'No';
-			$finance_record = $item['include_finance_record'] == 1 ? 'Yes' : 'No';
-			$holiday = $item['include_holiday'] == 1 ? 'Yes' : 'No';
-			$cuti = $item['include_cuti'] == 1 ? 'Yes' : 'No';
-			$telat = $item['include_potongan_telat'] == 1 ? 'Yes' : 'No';
+			$piutang = $item['include_piutang'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$finance_record = $item['include_finance_record'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$holiday = $item['include_holiday'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$cuti = $item['include_cuti'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$telat = $item['include_potongan_telat'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 
 			$row = [];
 			$row[] = ++$no;
@@ -1059,7 +1059,7 @@ class Core_data extends MY_Controller{
 								 ';
 			}
 
-			$time_management = $item['time_management'] == true ? 'On time' : 'Telat masuk';
+			$time_management = $item['time_management'] == true ? '<span class="badge bg-success"  style="width: 70px;">On Time</span>' : '<span class="badge bg-warning"  style="width: 70px;">Telat</span>';
 
 			$row = [];
 			$row[] = ++$no;
@@ -1122,7 +1122,7 @@ class Core_data extends MY_Controller{
 								data-total_service="'. $item['total_service'].'"
 								data-tgl_service_teknisi="'. $item['tanggal_service'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</a>
 							</td>
 						  ';
@@ -1136,7 +1136,7 @@ class Core_data extends MY_Controller{
 								data-total_service="'. $item['total_service'].'"
 								data-tgl_service_teknisi="'. $item['tanggal_service'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</a>
 							</td>
                            ';
@@ -1151,7 +1151,7 @@ class Core_data extends MY_Controller{
 								data-id_employee="'. $item['id_employee'].'"
 								data-tgl_service_teknisi="'. $item['tanggal_service'].'"
 								data-status="'. $item['status'].'">
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</a>
 							</td>
                            ';
@@ -1161,7 +1161,7 @@ class Core_data extends MY_Controller{
 					' 	
 							<td>
 							   <button class="btn btn-danger btn-sm rounded-pill btn-stts" style="width : 140px" disabled="">
-									<i class="ti ti-check"></i> Disapproval
+									<i class="bi bi-x-lg"></i> Disapprove
 								</button>
 							</td>
 						  ';
@@ -1170,7 +1170,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-primary btn-sm rounded-pill btn-stts" style="width : 120px">
-									<i class="ti ti-check"></i> Approval
+									<i class="ti ti-check"></i> Approve
 								</button>
 							</td>
                            ';
@@ -1179,7 +1179,7 @@ class Core_data extends MY_Controller{
 				$status =  '
                              <td>
 							   <button class="btn btn-info btn-sm rounded-pill btn-stts" style="width : 120px" disabled>
-									<i class="ti ti-check"></i> Pending
+									<i class="bi bi-clock-history"></i> Pending
 								</button>
 							</td>
                            ';

@@ -45,7 +45,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 	</button>
 
 	<div class="row g-3 align-items-center mt-4">
-		<div class="col-12 col-md-auto">
+		<div class="col-4 col-md-2">
 			<label class="form-label">Product:</label>
 			<select id="filter-product" class="form-select form-select-sm">
 				<option value="All" selected>All</option>
@@ -336,6 +336,9 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 						d.product = product;
 					}
 				},
+				dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+					"tr" +
+					"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 				columnDefs: [
 					{ targets: "_all", orderable: false },
 					{ targets: 0, className: "text-center" },

@@ -458,6 +458,7 @@ class Employee extends MY_Controller{
 
 	}
 
+
     public function update() 
     {
 
@@ -681,6 +682,14 @@ class Employee extends MY_Controller{
                              data-kabupaten_domisili="'.htmlspecialchars($item['kabupaten_domisili']).'">
                             <i class="bi bi-pin-map"></i>
                            </button>';
+              $account_info = ' <button 
+                             class="btn btn-primary btn-sm rounded-pill btn-acc" 
+                             data-bs-toggle="modal" 
+                             data-bs-target="#userShowModal"
+                             data-id_employees="'.htmlspecialchars($item['id_employee']).'"
+                             data-email="'.htmlspecialchars($item['email']).'">
+                             <i class="bi bi-person-fill-gear"></i>
+                            </button>';
 
 
 
@@ -700,6 +709,7 @@ class Employee extends MY_Controller{
             $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');
             $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['bonus'], 0 , ',', '.');  
+			$row[] = $account_info;
             $row[] = $address_info;
             $row[] = $bank_info;
             $row[] = $ec_info;
@@ -716,6 +726,7 @@ class Employee extends MY_Controller{
     
         echo json_encode($output);
     }
+
 
      //---------BANK ACCOUNT INFO
      public function bank_info() 
@@ -740,6 +751,7 @@ class Employee extends MY_Controller{
              'banks' => $banklist,
          ]);
      }
+
 
      public function add_bank()
     {
@@ -797,6 +809,7 @@ class Employee extends MY_Controller{
         echo json_encode($response);
     }
 
+
     public function delete_bank()
     {
         $this->_ONLY_SU();
@@ -821,6 +834,7 @@ class Employee extends MY_Controller{
         echo json_encode($response);
 
     }
+
 
     public function get_employee()
     {
@@ -858,6 +872,7 @@ class Employee extends MY_Controller{
             'contacts' => $contactList,
         ]);
     }
+
 
     public function add_contact()
     {
@@ -919,6 +934,7 @@ class Employee extends MY_Controller{
         echo json_encode($response);
     }
 
+
     public function delete_contact()
     {
         $this->_ONLY_SU();
@@ -968,6 +984,7 @@ class Employee extends MY_Controller{
             'contract' => $contractList,
         ]);
     }
+
 
 	public function add_contract()
 	{
@@ -1022,6 +1039,81 @@ class Employee extends MY_Controller{
 		echo json_encode($response);
 	}
 
+
+    //--------------- ACCOUNT INFO 
+    public function find_user()
+    {
+        $email = $this->input->post('email', true);
+
+        // Ambil data user berdasarkan email
+        $account = $this->M_admin->findByEmailOnly_get($email);
+
+		$lb = new Opensslencryptdecrypt();
+		$decryptPassword =$lb->decrypt($account['password']);
+
+        if (empty($account)) {
+            echo json_encode([
+                'status' => false,
+				'email' => $email,
+                'message' => 'Data tidak ditemukan',
+            ]);
+            return;
+        } 
+    
+        // Kirim data email & password ke frontend
+        echo json_encode([
+            'status' => true,
+            'email' => $email,
+            'data' => [
+                'email' => $account['email'],
+                'password' => $decryptPassword  // Pastikan password tidak di-hash jika ingin ditampilkan
+            ]
+        ]);
+    }
+
+
+	public function edit_user(){
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('email', 'email', 'required', [
+			'required' => 'Email harus diisi!',
+		]);
+		$this->form_validation->set_rules('password', 'password', 'required', [
+			'required' => 'Password harus diisi!',
+		]);
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$newEmail = $this->input->post('email', true);
+		$oldEmail = $this->input->post('old_email', true);
+		$password = $this->input->post('password', true);
+
+
+			if ($this->M_admin->changeEmailNPassword_post($oldEmail, $newEmail, $password) && $this->M_employees->changeEmail_post($oldEmail, $newEmail)) {
+			$response = [
+				'status' => true,
+				'message' => 'User account karyawan berhasil diupdate',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'User account karyawan gagal diupdate',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
 
 
 }

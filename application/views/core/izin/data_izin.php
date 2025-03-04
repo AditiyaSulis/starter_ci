@@ -22,7 +22,7 @@
 
 
 <div class="mt-6">
-	<div class="col-2 col-md-2 mb-3">
+	<div class="col-3 col-md-1 mb-3">
 		<label class="form-label">Tanggal Izin:</label>
 		<select id="filterSelect" class="form-select form-select-sm">
 			<option value="" selected>All</option>
@@ -109,6 +109,9 @@
 					d.with_alerts = data.with_alerts;
 				}
 			},
+			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
+				"tr" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 			columnDefs: [
 				{ targets: "_all", orderable: false },
 				{ targets: 0, className: "text-center" },

@@ -20,6 +20,33 @@ class M_admin extends CI_Model {
    
    }
 
+	public function changeEmailNPassword_post($oldEmail, $newEmail, $password)
+	{
+
+		$lb = new Opensslencryptdecrypt();
+		$encrypt =$lb->encrypt($password);
+
+		$this->db->where('email', $oldEmail);
+		$this->db->set(['email' => $newEmail, 'password' => $encrypt]);
+		$this->db->update('admin');
+
+		return true;
+
+
+	}
+
+
+	public function findByEmailOnly_get($email)
+	{
+		$user = $this->db->get_where('admin', ['email' => $email])->row_array();
+
+		if (!$user) {
+			return null; // Jika user tidak ditemukan
+		}
+
+		return $user; // Kembalikan data tanpa mengubah password
+	}
+
 
    public function findByEmailForEdit_get($email)
    {
