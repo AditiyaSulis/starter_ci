@@ -18,7 +18,7 @@ class MY_Controller extends CI_Controller
 		if (!$current) {
 			$this->session->set_flashdata('forbidden', 'Silahkan login');
             $this->session->unset_userdata('user');
-			redirect('fetch/login'); // lempar ke login dan destroy session
+			redirect('panel'); // lempar ke login dan destroy session
 		}
 
 		$this->idUSER   = $current['id'];  //data id hasil query
