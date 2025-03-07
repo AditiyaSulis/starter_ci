@@ -34,7 +34,9 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 	.izin { background-color: #65c2e4; }
 	.absen { background-color: #e87828; }
 	.minggu { background-color: rgba(209, 35, 248, 0.2); }
-	.nothing { background-color: #73736b; }
+	.nothing { background-color: #73736b;
+
+
 </style>
 <main>
 	<h1>Schedule</h1>
@@ -115,6 +117,10 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 								<?php endforeach;?>
 							</select>
 						</div>
+<!--						<div class="fv-row mb-8">-->
+<!--							<select class="form-select select2-employees" name="id_employee[]" id="id_employee" multiple>-->
+<!--							</select>-->
+<!--						</div>-->
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Karyawan</span>
 						</div>
@@ -188,8 +194,10 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="calendar-container">
-						<p>Loading schedule...</p>
+					<div style="overflow-x: auto;">
+						<div id="calendar-container">
+							<p>Loading schedule...</p>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -314,6 +322,55 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 	</div>
 
 
+	<!-- Modal Status Schedule -->
+	<div class="modal fade" tabindex="-1" id="setStatusScheduleModal">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Set Status Schedule</h4>
+
+
+					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
+                        </span>
+					</div>
+
+				</div>
+
+				<div class="modal-body">
+					<form class="form w-100" id="setStatusScheduleForm" enctype="multipart/form-data">
+						<input type="hidden" id="id_schedule_set" name="id_schedule">
+						<input type="hidden" id="id_employee_set" name="id_employee">
+						<input type="hidden" id="clock_in_set" name="clock_in">
+						<input type="hidden" id="old_status_set" name="old_status">
+						<input type="hidden" id="waktu_set" name="waktu">
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" id="status_set" name="status">
+								<option value="6">Hadir</option>
+								<option value="7">Absen</option>
+								<option value="10">Hapus Jadwal</option>
+							</select>
+						</div>
+						<div class="d-grid mb-10">
+							<button type="submit" id="submit_product" class="btn btn-primary">
+                                            <span class="indicator-label">
+                                                    Save changes
+                                            </span>
+								<span class="indicator-progress">
+                                                     Please wait...
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script>
 		const base_url = $('meta[name="base_url"]').attr('content');
 
@@ -362,12 +419,12 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			const productId = $('#id_product').val();
 			const employeeSelect = $('#id_employee');
 
-			if (!divisionId || divisionId === "-pilih divisi-" || !productId || productId === "-pilih product-") {
-				console.log("⏳ Tunggu sampai product dan divisi dipilih.");
+			if (!productId || productId === "-pilih product-") {
+				console.log("⏳ Pilih product terlebih dahulu.");
 				return;
 			}
 
-			let key = `${productId}_${divisionId}`;
+			let key = divisionId ? `${productId}_${divisionId}` : `${productId}`;
 
 			let previousSelection = employeeSelect.val() || [];
 			if (previousSelection.length > 0) {
@@ -378,53 +435,63 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 		});
 
 		function getEmployee(productId, divisionId, key) {
-			console.log("🔍 Mengambil data employee untuk:", { productId, divisionId });
-
 			$.ajax({
 				url: base_url + 'absence/schedule/option_employee',
 				type: 'POST',
 				data: { id_product: productId, id_division: divisionId },
 				dataType: 'json',
 				success: function (response) {
-					console.log("✅ Data dari server:", response);
-
 					const employeeSelect = $('#id_employee');
 					let previousSelection = selectedEmployeesMap.get(key) || [];
-					console.log(`🔄 Pilihan sebelumnya (${key}):`, previousSelection);
+					let existingOptions = employeeSelect.find('option:selected').map(function () {
+						return this.value;
+					}).get(); // Ambil opsi yang sudah dipilih sebelumnya
+
+					let newSelection = [...existingOptions]; // Simpan opsi yang sudah dipilih sebelumnya
 
 					if (response.status) {
-						employeeSelect.empty();
-						let newSelection = [];
+						let availableEmployees = response.data.map(emp => emp.id_employee.toString());
+
+						// 🔹 Hapus hanya opsi yang tidak dipilih sebelumnya
+						employeeSelect.find('option').each(function () {
+							let empId = this.value;
+							if (!existingOptions.includes(empId)) {
+								$(this).remove();
+							}
+						});
 
 						$.each(response.data, function (index, employee) {
 							let empId = employee.id_employee.toString();
-							let isSelected = previousSelection.includes(empId);
+							let isSelected = existingOptions.includes(empId);
 
-							if (isSelected) {
+							if (isSelected || previousSelection.includes(empId)) {
 								newSelection.push(empId);
 							}
 
-							employeeSelect.append(
-								`<option value="${empId}" ${isSelected ? "selected" : ""}>${employee.name}</option>`
-							);
+							if (employeeSelect.find(`option[value="${empId}"]`).length === 0) {
+								employeeSelect.append(
+									`<option value="${empId}" ${isSelected ? "selected" : ""}>${employee.name}</option>`
+								);
+							}
 						});
 
+						newSelection = [...new Set(newSelection)]; // Hapus duplikasi
+
 						setTimeout(() => {
-							console.log("🎯 Mengatur kembali pilihan yang dipilih:", newSelection);
 							employeeSelect.val(newSelection).trigger('change');
 							selectedEmployeesMap.set(key, newSelection);
 						}, 100);
 					} else {
-						console.log("⚠️ Gagal mengambil data employee.");
+						console.log("⚠️ Tidak ada data employee baru.");
+						// 🚀 Jika tidak ada data baru, hapus semua kecuali yang sudah dipilih
+						employeeSelect.find('option').each(function () {
+							let empId = this.value;
+							if (!previousSelection.includes(empId)) {
+								$(this).remove();
+							}
+						});
 
 						setTimeout(() => {
-							console.log("⏳ Mengembalikan pilihan sebelumnya karena tidak ada data baru.");
-
-							if (!selectedEmployeesMap.has(key)) {
-								selectedEmployeesMap.set(key, previousSelection);
-							}
-
-							// **Jangan kosongkan select, tetap gunakan opsi sebelumnya**
 							employeeSelect.val(previousSelection).trigger('change');
 						}, 100);
 					}
@@ -434,6 +501,14 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 				}
 			});
 		}
+
+
+
+
+
+
+
+
 
 		$(document).ready(function () {
 			$('#id_employee').select2({
@@ -474,6 +549,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			loadCalendar(id_employee, year, month);
 		}
 
+
 		function loadCalendar(id_employee, year, month) {
 			$.ajax({
 				url: base_url + `absence/schedule/load_calendar_by_ajax/${year}/${month}`,
@@ -498,6 +574,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			});
 		}
 
+
 		function updateCalendarNavigation(id_employee) {
 			$(".calendar-header a").each(function() {
 				let url = $(this).attr("href");
@@ -514,6 +591,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 				}
 			});
 		}
+
 
 		$(document).on("click", "#calendar-container .calendar-header a", function(e) {
 			e.preventDefault();
@@ -532,7 +610,6 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 
 		//RIWAYAT KEHADIRAN
 		const riwayatModal = document.getElementById('riwayatKehadiranModal');
-
 		riwayatModal.addEventListener('show.bs.modal', function (event) {
 			const button = event.relatedTarget;
 			const employeeId = button.getAttribute('data-id-employee');
@@ -589,6 +666,71 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			}
 		});
 
+		//SET SCHEDULE
+		const setStatusScheduleModal = document.getElementById('setStatusScheduleModal');
+		setStatusScheduleModal.addEventListener('show.bs.modal', function (event) {
+			// console.log("Related Target:", event.relatedTarget);
+
+			const button = event.relatedTarget;
+			const id_schedule = button.getAttribute('data-id_schedule');
+			const id_employee = button.getAttribute('data-id_employee');
+			const status = button.getAttribute('data-status');
+			const clock_in = button.getAttribute('data-clock_in');
+			const waktu = button.getAttribute('data-waktu');
+
+			console.log("ID:", id_schedule);
+
+			$('#id_employee_set').val(id_employee);
+			$('#id_schedule_set').val(id_schedule);
+			$('#status_set').val(status);
+			$('#clock_in_set').val(clock_in);
+			$('#waktu_set').val(waktu);
+			$('#old_status_set').val(status);
+
+			$("#setStatusScheduleForm").on("submit", function (e) {
+				e.preventDefault();
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Pastikan data yang dimasukan sudah benar",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Update',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+
+						$.ajax({
+							url: base_url + "absence/schedule/set_status_schedule",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									// submitButton.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								// submitButton.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+
+		});
 
 	</script>
 </main>

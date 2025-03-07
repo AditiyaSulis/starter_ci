@@ -106,7 +106,8 @@ class M_schedule extends CI_Model
 	}
 
 
-	public function create_batch_post($data) {
+	public function create_batch_post($data) 
+	{
 		return $this->db->insert_batch('schedule', $data);
 	}
 
@@ -247,6 +248,19 @@ class M_schedule extends CI_Model
 	}
 
 
+	public function setStatusById_post($id, $status)
+	{
+
+		$this->db->set(['status' => $status]);
+
+		$this->db->where('id_schedule', $id);
+		$this->db->update('schedule');
+
+		return true;
+	}
+
+
+
 	public function setStatusFromHolyday_post($idProduct, $idDivision, $tanggal, $status)
 	{
 		$this->db->set(['status' => $status]);
@@ -296,6 +310,34 @@ class M_schedule extends CI_Model
 
 		return $count;
 	}
+
+	public function totalScheduleByStatus_get($id, $tanggal1, $tanggal2, $status)
+	{
+		$count = $this->db
+			->where('id_employee', $id)
+			->where('status', $status)
+			->where('waktu >=', $tanggal1)
+			->where('waktu <=', $tanggal2)
+			->count_all_results('schedule');
+
+		return $count;
+	}
+
+
+	public function totalScheduleByStatusV2_get($id,  $tanggal1, $tanggal2, $status)
+	{
+		$count = $this->db
+			->where('id_employee', $id)
+			->where('status', $status)
+			->where('waktu >=', $tanggal2)
+			->where('waktu <=', $tanggal1)
+			->count_all_results('schedule');
+
+		return $count;
+	}
+
+
+	
 
 	public function totalAbsentThisMonthByEmployeeId_get($id)
 	{

@@ -15,6 +15,7 @@ class Schedule extends MY_Controller{
 		$this->load->model('M_izin');
 		$this->load->model('M_leave');
 		$this->load->model('M_holyday');
+		$this->load->model('M_attendance');
 
 		$this->load->helper('date');
 	}
@@ -96,6 +97,7 @@ class Schedule extends MY_Controller{
 		]);
 	}
 
+
 	public function option_employee()
 	{
 		$idProduct = $this->input->post('id_product', true);
@@ -119,6 +121,7 @@ class Schedule extends MY_Controller{
 		echo json_encode($response);
 
 	}
+
 
 	public function schedule_page($year = NULL, $month = NULL)
 	{
@@ -148,15 +151,15 @@ class Schedule extends MY_Controller{
 				$event = '';
 
 				switch ($schedules['status']) {
-					case 1: $event = '<div class="jadwal">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</div>'; break;
-					case 2: $event = '<div class="dayoff">Day Off</div>'; break;
-					case 3: $event = '<div class="tanggal_merah">Tanggal Merah</div>'; break;
-					case 4: $event = '<div class="cuti">Cuti</div>'; break;
-					case 5: $event = '<div class="izin">Izin</div>'; break;
-					case 6: $event = '<div class="hadir">Hadir</div>'; break;
-					case 7: $event = '<div class="absen">Tidak Hadir</div>'; break;
-					case 8: $event = '<div class="minggu">Hari Minggu</div>'; break;
-					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
+					case 1: $event = '<span class="jadwal badge">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</span>'; break;
+					case 2: $event = '<span class="dayoff badge">Day Off</span>'; break;
+					case 3: $event = '<span class="tanggal_merah badge">Tanggal Merah</span>'; break;
+					case 4: $event = '<span class="cuti badge">Cuti</span>'; break;
+					case 5: $event = '<span class="izin badge">Izin</span>'; break;
+					case 6: $event = '<span class="hadir badge" style="background-color: lightseagreen">Hadir</span>'; break;
+					case 7: $event = '<span class="absen badge">Tidak Hadir</span>'; break;
+					case 8: $event = '<span class="minggu badge">Hari Minggu</span>'; break;
+					default: $event = '<span class="nothing badge">Tidak ada jadwal</span>';
 				}
 
 				$jadwal[$tanggal] = $event;
@@ -213,6 +216,7 @@ class Schedule extends MY_Controller{
 			redirect('fetch/login');
 		}
 	}
+
 
 	public function load_calendar($year = NULL, $month = NULL)
 	{
@@ -284,6 +288,7 @@ class Schedule extends MY_Controller{
 		echo $this->calendar->generate($year, $month, $jadwal);
 	}
 
+
 	public function load_calendar_by_ajax($year = NULL, $month = NULL) {
 		$idEmployee = $this->input->get('id_employee', true);
 
@@ -304,15 +309,15 @@ class Schedule extends MY_Controller{
 				$event = '';
 
 				switch ($schedules['status']) {
-					case 1: $event = '<div class="jadwal">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</div>'; break;
-					case 2: $event = '<div class="dayoff">Day Off</div>'; break;
-					case 3: $event = '<div class="tanggal_merah">Tanggal Merah</div>'; break;
-					case 4: $event = '<div class="cuti">Cuti</div>'; break;
-					case 5: $event = '<div class="izin">Izin</div>'; break;
-					case 6: $event = '<div class="hadir">Hadir</div>'; break;
-					case 7: $event = '<div class="absen">Absen</div>'; break;
-					case 8: $event = '<div class="minggu">Minggu</div>'; break;
-					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
+					case 1: $event = '<button style="border : none; background-color: transparent;" data-bs-toggle="modal" data-bs-target="#setStatusScheduleModal" data-id_employee ="'.htmlspecialchars($idEmployee).'"  data-id_schedule ="'.htmlspecialchars($schedules['id_schedule']).'"  data-clock_in ="'.htmlspecialchars($schedules['clock_in']).'" data-status="'.htmlspecialchars($schedules['status']).'" data-waktu ="'.htmlspecialchars($schedules['waktu']).'"><span class="jadwal badge">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</span></button>'; break;
+					case 2: $event = '<span class="dayoff badge">Day Off</span>'; break;
+					case 3: $event = '<span class="tanggal_merah badge">Tanggal Merah</span>'; break;
+					case 4: $event = '<span class="cuti badge">Cuti</span>'; break;
+					case 5: $event = '<span class="izin badge">Izin</span>'; break;
+					case 6: $event = '<button style="border : none; background-color: transparent;" data-bs-toggle="modal" data-bs-target="#setStatusScheduleModal" data-id_employee ="'.htmlspecialchars($idEmployee).'"  data-id_schedule ="'.htmlspecialchars($schedules['id_schedule']).'" data-clock_in ="'.htmlspecialchars($schedules['clock_in']).'" data-status="'.htmlspecialchars($schedules['status']).'" data-waktu ="'.htmlspecialchars($schedules['waktu']).'"><span class="hadir badge" style="background-color: lightseagreen;">Hadir</span></button>'; break;
+					case 7: $event = '<button style="border : none; background-color: transparent;" data-bs-toggle="modal" data-bs-target="#setStatusScheduleModal" data-id_employee ="'.htmlspecialchars($idEmployee).'"  data-id_schedule ="'.htmlspecialchars($schedules['id_schedule']).'" data-clock_in ="'.htmlspecialchars($schedules['clock_in']).'" data-status="'.htmlspecialchars($schedules['status']).'" data-waktu ="'.htmlspecialchars($schedules['waktu']).'"><span class="absen badge">Absen</span></button> '; break;
+					case 8: $event = '<span class="minggu badge">Minggu</span>'; break;
+					default: $event = '<span class="nothing badge">Tidak ada jadwal</span>';
 				}
 
 				$jadwal[$tanggal] = $event;
@@ -353,6 +358,7 @@ class Schedule extends MY_Controller{
 			'calendar' => $this->calendar->generate($year, $month, $jadwal)
 		]);
 	}
+
 
 	public function su_schedule_page()
 	{
@@ -427,6 +433,7 @@ class Schedule extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
 	public function riwayat_kehadiran()
 	{
 		$idEmployee = $this->input->post('id_employee', true);
@@ -460,6 +467,7 @@ class Schedule extends MY_Controller{
 			'thisYear' => $thisYear
 		]);
 	}
+
 
 	public function add_batch_schedule() {
 		$this->_ONLY_SU();
@@ -495,6 +503,7 @@ class Schedule extends MY_Controller{
 		$division = $this->input->post('id_division', true);
 		$employees = $this->input->post('id_employee', true);
 
+
 		if(empty($employees) || $employees == null) {
 			echo json_encode([
 				'status' => false,
@@ -505,6 +514,16 @@ class Schedule extends MY_Controller{
 			]);
 			return;
 		}
+
+		//		echo json_encode([
+		//			'status' => false,
+		//			'message' => $employees,
+		//			'employee' => $employees,
+		//			'confirmationbutton' => true,
+		//			'timer' => 0,
+		//			'icon' => 'error',
+		//		]);
+		//		die();
 
 
 		for($i = 0; $i < $totalDays; $i++) {
@@ -556,6 +575,142 @@ class Schedule extends MY_Controller{
 	}
 
 
+	public function set_status_schedule() {
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+
+		$this->form_validation->set_rules('status', 'status', 'required', [
+			'required' => 'status harus diisi',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			echo json_encode([
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			]);
+			return;
+		}
+
+
+		$status = $this->input->post('status', true);
+		$id_employee = $this->input->post('id_employee', true);
+		$id_schedule = $this->input->post('id_schedule', true);
+		$clock_in = $this->input->post('clock_in', true);
+		$old_status = $this->input->post('old_status', true);
+		$waktu = $this->input->post('waktu', true);
+
+		if($status == 6 ) {
+
+			$set_status = $this->M_schedule->setStatusById_post($id_schedule, $status);
+			if(!$set_status) {
+				$response = [
+					'status' => false,
+					'message' => 'Gagal set hadir',
+				];
+
+				echo json_encode($response);
+
+				return;
+			}
+			$dataAtt = [
+				'id_employee' =>$id_employee,
+				'id_schedule' =>$id_schedule,
+				'jam_masuk' => $clock_in,
+				'tanggal_masuk' => $waktu,
+				'time_management' => true,
+				'status' => 2,
+			];
+			$create_attendance = $this->M_attendance->create_post($dataAtt);
+
+			if ($create_attendance) {
+				$response = [
+					'status' => true,
+					'message' => 'Hadir berhasil',
+				];
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Hadir Gagal',
+				];
+			}
+
+			echo json_encode($response);
+
+			return;
+
+		} else if($status == 7) {
+			$set_status = $this->M_schedule->setStatusById_post($id_schedule, $status);
+			if(!$set_status) {
+				$response = [
+					'status' => false,
+					'message' => 'Gagal set absen',
+				];
+
+				echo json_encode($response);
+
+				return;
+			}
+
+			$attendance = $this->M_attendance->deleteByScheduleNEmployee($id_schedule, $id_employee);
+
+			if ($attendance) {
+				$response = [
+					'status' => true,
+					'message' => 'Absen berhasil',
+				];
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Absen Gagal',
+				];
+			}
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		else if($status == 10) {
+			$attendance = $this->M_schedule->delete($id_schedule);
+			if(!$attendance) {
+				$response = [
+					'status' => false,
+					'message' => 'Gagal hapus jadwal',
+				];
+
+				echo json_encode($response);
+
+				return;
+			}
+
+			if($old_status == 6) {
+				$attendance = $this->M_attendance->deleteByScheduleNEmployee($id_schedule, $id_employee);
+				if (!$attendance) {
+					$response = [
+						'status' => false,
+						'message' => 'Menghapus kehadiran Gagal',
+					];
+
+					echo json_encode($response);
+					return;
+				}
+
+			}
+
+			$response = [
+				'status' => true,
+				'message' => 'Menghapus jadwal berhasil',
+			];
+			echo json_encode($response);
+
+			return;
+		}
+
+	}
 
 	public function delete()
 	{
@@ -585,14 +740,3 @@ class Schedule extends MY_Controller{
 }
 
 
-
-//				switch ($schedules['status']) {
-//					case 1: $event = '<div class="jadwal">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</div>'; break;
-//					case 2: $event = '<div class="dayoff">Day Off</div>'; break;
-//					case 3: $event = '<div class="tanggal_merah">Tanggal Merah</div>'; break;
-//					case 4: $event = '<div class="cuti">Cuti</div>'; break;
-//					case 5: $event = '<div class="izin">Izin</div>'; break;
-//					case 6: $event = '<div class="hadir">Hadir</div>'; break;
-//					case 7: $event = '<div class="absen">Absen</div>'; break;
-//					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
-//				}

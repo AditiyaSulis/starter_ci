@@ -162,21 +162,6 @@
 	const base_urls = $('meta[name="base_url"]').attr('content');
 
 
-	// $(document).ready(function(){
-	// 	let params = new URLSearchParams(window.location.search);
-	// 	data = Object.fromEntries(params.entries());
-	// });
-	//
-	//
-	// let params = new URLSearchParams(window.location.search);
-	// data =  {
-	// 	'option' :  option,
-	// 	'product' :  product,
-	// 	'startDate' :  startDate,
-	// 	'endDate' :  endDate,
-	// 	'employee' : employee,
-	// 	'product' : product,
-	// }
 
 	function callDT() {
 		table = $('#log_attendance_table').DataTable({

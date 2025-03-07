@@ -761,6 +761,7 @@
 				</div>
 			</div>
 		</div>
+    </div>
 
 	<div class="modal fade" id="userShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 		<div class="modal-dialog">

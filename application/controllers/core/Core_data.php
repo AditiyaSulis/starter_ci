@@ -996,10 +996,10 @@ class Core_data extends MY_Controller{
 
 			foreach ($list as $item) {
 
-				$totalAbsent = $this->M_schedule->totalAttendance($item['id_employee'], $startDate, $endDate);
-				$totalDayOff = $this->M_day_off->totalAttendance($item['id_employee'], $startDate, $endDate);
-				$totalIzin = $this->M_izin->totalAttendance($item['id_employee'], $startDate, $endDate);
-				$totalCuti = $this->M_leave->totalAttendance($item['id_employee'], $startDate, $endDate);
+				$totalAbsent = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 7);
+				$totalDayOff = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 2);
+				$totalIzin = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 5);
+				$totalCuti = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 4);
 
 
 				$action =
@@ -1087,6 +1087,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 
 	}
+
 
 	public function data_service_teknisi()
 	{

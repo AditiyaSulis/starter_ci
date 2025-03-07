@@ -94,6 +94,16 @@ class Absence extends MY_Controller{
 		$employee = $this->M_employees->findById_get($idEmployee);
 		$product  =$this->M_products->findById_get($employee['id_product']);
 
+		if($product['latitude'] == null && $product['longitude'] == null) {
+			$response = [
+				'status' => false,
+				'message' => 'Lokasi product belum ditentukan, update lokasi pada halaman Product!',
+			];
+			echo json_encode($response);
+
+			return;
+		}
+
 
 		$latitudeDecimal = floatval($product['latitude']);
 		$longitudeDecimal = floatval($product['longitude']);
@@ -103,29 +113,15 @@ class Absence extends MY_Controller{
 		if(strtotime($jam_masuk) > strtotime($clockIn)) {
 			$timeManagement = false;
 		}
-		//		echo '<pre>';
-		//		print_r(strtotime($jam_masuk) > strtotime($clockIn));
-		//		echo '</pre>';
-		//		die();
-		// Gunakan geoPHP untuk menghitung jarak
-		//		$this->load->library('geoGPS');
-		//		$point1 = geoPHP::load("POINT($longitude $latitude)", 'wkt'); // Absensi karyawan
-		//		$point2 = geoPHP::load("POINT({$longitudeDecimal} {$latitudeDecimal})", 'wkt'); // Lokasi kantor
-
 
 		$this->load->helper('distance');
 		$distance =  haversine_distance_in_meter($latitudeDecimal, $longitudeDecimal, $latitude, $longitude);
-		//		$distance = $point1->distance($point2) * 111320; // Hasil dalam meter
-		//		echo '<pre>';
-		//		print_r($distance);
-		//		echo '</pre>';
-		//		die();
+
 
 		if ($distance > 250) {
 			echo json_encode(['status' => false, 'message' => "Anda berjarak $distance meter dari lokasi tempat anda bekerja"]);
 			return;
 		}
-
 
 		$dataAtt = [
 			'id_employee' =>$idEmployee,

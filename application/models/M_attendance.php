@@ -20,6 +20,7 @@ class m_attendance extends CI_Model
 		return $this->db->get_where('attendance', ['id_attendance' => $id])->row_array();
 	}
 
+
 	public function findAllWithJoin_get()
 	{
 		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule, attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, employee.id_employee, employee.name');
@@ -67,6 +68,7 @@ class m_attendance extends CI_Model
 		}
 	}
 
+
 	private function _filterDATE($type)
 	{
 		switch ($type) {
@@ -108,6 +110,7 @@ class m_attendance extends CI_Model
 				break;
 		}
 	}
+
 
 	public function getAttendanceDataCore_get()
 	{
@@ -168,6 +171,7 @@ class m_attendance extends CI_Model
 
 	}
 
+
 	public function get_datatables()
 	{
 		$this->getAttendanceDataCore_get();
@@ -178,6 +182,7 @@ class m_attendance extends CI_Model
 		return $query->result_array();
 	}
 
+
 	public function count_filtered()
 	{
 		$this->getAttendanceDataCore_get();
@@ -185,11 +190,13 @@ class m_attendance extends CI_Model
 		return $query->num_rows();
 	}
 
+
 	public function count_all()
 	{
 		$this->db->from('attendance');
 		return $this->db->count_all_results();
 	}
+
 
 	public function setStatus_post($id, $status)
 	{
@@ -201,6 +208,7 @@ class m_attendance extends CI_Model
 		return true;
 
 	}
+
 
 	public function setPotongan_post($id, $potongan)
 	{
@@ -226,6 +234,11 @@ class m_attendance extends CI_Model
 		$query = $this->db->get('attendance')->row();
 
 		return $query->total_telat ?? 0;
+	}
+
+	public function deleteByScheduleNEmployee($id_schedule, $id_employee)
+	{
+		return $this->db->delete('attendance', ['id_schedule' => $id_schedule, 'id_employee' => $id_employee]);
 	}
 
 }

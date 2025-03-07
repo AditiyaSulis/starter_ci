@@ -1,3 +1,9 @@
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+
 <main>
     <h1 class="mb-4">Finance Record</h1>
 
@@ -37,7 +43,7 @@
                             <div class="card card-flush h-lg-100 ">
                                 <div class="card-header px-5 mb-0" style="min-height:55px !important">
                                     <h3 class="card-title align-items-start flex-column mb-0">
-                                        <p class="fw-bold mb-0 text-primary"><?= $product['name_product'] ?></sp>
+                                        <p class="fw-bold mb-0 text-primary"><?= $product['name_product'] ?></p>
                                     </h3>
                                 </div>
                                 <div class="card-body px-5 pb-4 pt-0">

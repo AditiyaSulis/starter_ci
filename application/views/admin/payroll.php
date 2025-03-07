@@ -169,60 +169,96 @@
 		const base_url = $('meta[name="base_url"]').attr('content');
 
 
-		//option select employee
-		$('#id_division').on('change', function() {
-			const divisionId = $(this).val();
+		let selectedEmployeesMap = new Map();
+
+		$('#id_division, #id_product').on('change', function () {
+			const divisionId = $('#id_division').val();
 			const productId = $('#id_product').val();
 			const employeeSelect = $('#id_employee');
 
-			accID = 'id_employee';
-			accVAL = '';
-
-			console.log('idDivision : '+ divisionId);
-			console.log('idProduct : '+ productId);
-			employeeSelect.html('<option value="" selected disabled>-select employee-</option>');
-
-			if (divisionId) {
-				getEmployee(productId, divisionId);
+			if (!productId || productId === "-pilih product-") {
+				console.log("⏳ Pilih product terlebih dahulu.");
+				return;
 			}
+
+			let key = divisionId ? `${productId}_${divisionId}` : `${productId}`;
+
+			let previousSelection = employeeSelect.val() || [];
+			if (previousSelection.length > 0) {
+				selectedEmployeesMap.set(key, previousSelection);
+			}
+
+			getEmployee(productId, divisionId, key);
 		});
 
-
-		//division to employee
-		function getEmployee(productId, divisionId) {
-			console.log("Mengambil data employee untuk:", { productId, divisionId });
-
+		function getEmployee(productId, divisionId, key) {
 			$.ajax({
-				url: base_url + 'absence/overtime/option_employee',
+				url: base_url + 'absence/schedule/option_employee',
 				type: 'POST',
-				data: {
-					id_product: productId,
-					id_division: divisionId
-				},
+				data: { id_product: productId, id_division: divisionId },
 				dataType: 'json',
-				success: function(response) {
-					console.log("Response dari server:", response);
+				success: function (response) {
+					const employeeSelect = $('#id_employee');
+					let previousSelection = selectedEmployeesMap.get(key) || [];
+					let existingOptions = employeeSelect.find('option:selected').map(function () {
+						return this.value;
+					}).get(); // Ambil opsi yang sudah dipilih sebelumnya
 
-					const employeeSelect = $('#' + accID);
-					employeeSelect.empty(); //
-					// employeeSelect.append('<option value="" selected disabled>-select employee-</option>');
+					let newSelection = [...existingOptions]; // Simpan opsi yang sudah dipilih sebelumnya
 
 					if (response.status) {
-						$.each(response.data, function(index, employee) {
-							const selected = accVAL == employee.id_employee ? 'selected' : '';
-							employeeSelect.append(
-								`<option value="${employee.id_employee}" ${selected}> ${employee.name}</option>`
-							);
+						let availableEmployees = response.data.map(emp => emp.id_employee.toString());
+
+						// 🔹 Hapus hanya opsi yang tidak dipilih sebelumnya
+						employeeSelect.find('option').each(function () {
+							let empId = this.value;
+							if (!existingOptions.includes(empId)) {
+								$(this).remove();
+							}
 						});
+
+						$.each(response.data, function (index, employee) {
+							let empId = employee.id_employee.toString();
+							let isSelected = existingOptions.includes(empId);
+
+							if (isSelected || previousSelection.includes(empId)) {
+								newSelection.push(empId);
+							}
+
+							if (employeeSelect.find(`option[value="${empId}"]`).length === 0) {
+								employeeSelect.append(
+									`<option value="${empId}" ${isSelected ? "selected" : ""}>${employee.name}</option>`
+								);
+							}
+						});
+
+						newSelection = [...new Set(newSelection)]; // Hapus duplikasi
+
+						setTimeout(() => {
+							employeeSelect.val(newSelection).trigger('change');
+							selectedEmployeesMap.set(key, newSelection);
+						}, 100);
 					} else {
-						console.log('Gagal mengambil data employee.');
+						console.log("⚠️ Tidak ada data employee baru.");
+						// 🚀 Jika tidak ada data baru, hapus semua kecuali yang sudah dipilih
+						employeeSelect.find('option').each(function () {
+							let empId = this.value;
+							if (!previousSelection.includes(empId)) {
+								$(this).remove();
+							}
+						});
+
+						setTimeout(() => {
+							employeeSelect.val(previousSelection).trigger('change');
+						}, 100);
 					}
 				},
-				error: function(xhr, status, error) {
-					console.error('Error AJAX:', error, xhr.responseText);
+				error: function (xhr, status, error) {
+					console.error('❌ Error AJAX:', error, xhr.responseText);
 				}
 			});
 		}
+
 
 		$(document).ready(function() {
 			$('#id_employee').select2({
