@@ -58,6 +58,8 @@
 					<th class="px-2">Uang Makan</th>
 					<th class="px-2">Bonus</th>
 					<th>Account</th>
+					<th>BPJS</th>
+					<th>PPH 21</th>
 					<th>Address</th>
 					<th>Bank</th>
 					<th>EC</th>
@@ -206,13 +208,34 @@
 						<div id="newContract">
 							<div class="mb-3">
 								<label for="contract_expired" class="form-label">Kontrak Selesai</label>
-								<input type="date" class="form-control" name="contract_expired" required />
+								<input type="date" class="form-control" name="contract_expired" />
 							</div>
 						</div>
                         <div class="mb-3">
                             <label for="bonus" class="form-label">Bonus</label>
                             <input type="number" value="0" class="form-control" name="bonus" required />
                         </div>
+						<div class="mb-3">
+							<label for="npwp" class="form-label">NPWP</label>
+							<input type="number"  class="form-control" name="npwp" required />
+						</div>
+						<div class="mb-3">
+							<label for="position" class="form-label">Jenis PPH</label>
+							<select class="form-select" name="id_ptkp" required>
+								<option value="" selected>Pilih Jenis PPH</option>
+								<?php foreach($pph as $pph_21): ?>
+									<option value="<?= $pph_21['id_ptkp'] ?>"><?= $pph_21['code_ptkp'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label for="nik" class="form-label">NIK</label>
+							<input type="number"  class="form-control" name="nik" required />
+						</div>
+						<div class="mb-3">
+							<label for="no_bpjs" class="form-label">No.BPJS</label>
+							<input type="number"  class="form-control" name="no_bpjs" required />
+						</div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -760,8 +783,8 @@
 					</form>
 				</div>
 			</div>
-		</div>
-    </div>
+	</div>
+
 
 	<div class="modal fade" id="userShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -798,8 +821,83 @@
 	</div>
 
 
+	<!-- Modal  PPH-->
+	<div class="modal fade" id="pphShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">PPH</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="editPphForm">
+						<input type="hidden" id="edit_id_employee_pph" name="id_employee">
+						<div class="mb-3">
+							<label for="position" class="form-label">Jenis PPH</label>
+							<select class="form-select" name="id_ptkp" id="edit_id_ptkp" required>
+								<option value="" selected>Pilih Jenis PPH</option>
+								<?php foreach($pph as $pph_21): ?>
+									<option value="<?= $pph_21['id_ptkp'] ?>"><?= $pph_21['code_ptkp'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label for="form_text1" class="form-label">NIK</label>
+							<input type="number" class="form-control" id="nik_edit" placeholder="nik" name="nik" required>
+						</div>
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">NPWP</label>
+							<input type="number" class="form-control" id="npwp_edit" placeholder="npwp" name="npwp" required>
+						</div>
+						<button type="submit" class="btn btn-primary">
+									<span class="indicator-label">
+										Update
+									</span>
+							<span class="indicator-progress">
+										Please wait...
+										<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+									</span>
+						</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
-    <script>
+
+	<!-- Modal  BPJS-->
+	<div class="modal fade" id="bpjsShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">BPJS</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="editBpjsForm">
+						<input type="hidden" id="edit_id_employee_bpjs" name="id_employee">
+						<div class="mb-3">
+							<label for="form_text2" class="form-label">NO BPJS</label>
+							<input type="number" class="form-control" id="no_bpjs_edit" placeholder="no bpjs" name="no_bpjs" required>
+						</div>
+						<button type="submit" class="btn btn-primary">
+								<span class="indicator-label">
+									Update
+								</span>
+							<span class="indicator-progress">
+									Please wait...
+									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+								</span>
+						</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script>
         const base_url = $('meta[name="base_url"]').attr('content');  
 
         let product = 'All';
@@ -1746,6 +1844,139 @@
 			});
 		});
 
+
+		//---------------------PPH
+		const pphModal = document.getElementById('pphShowModal');
+		pphModal.addEventListener('show.bs.modal', function (event) {
+			// console.log("Related Target:", event.relatedTarget);
+
+			const button = event.relatedTarget;
+			const id = button.getAttribute('data-id_employee');
+			const nik = button.getAttribute('data-nik');
+			const npwp = button.getAttribute('data-npwp');
+			const id_ptkp = button.getAttribute('data-id_ptkp');
+
+			console.log("ID:", id);
+
+
+			$('#nik_edit').val(nik);
+			$('#npwp_edit').val(npwp);
+			$('#edit_id_ptkp').val(id_ptkp);
+			$('#edit_id_employee_pph').val(id);
+
+			$("#editPphForm").on("submit", function (e) {
+				e.preventDefault();
+
+				// const submitButton = $("#editAddressForrm button[type=submit]");
+				// submitButton.prop("disabled", true).text("Processing...");
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Pastikan data yang dimasukan sudah benar",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Update',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+
+
+						$.ajax({
+							url: base_url + "admin/employee/edit_pph",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									// submitButton.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								// submitButton.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+
+		});
+
+
+		//---------------------BPJS
+		const bpjsModal = document.getElementById('bpjsShowModal');
+		bpjsModal.addEventListener('show.bs.modal', function (event) {
+			// console.log("Related Target:", event.relatedTarget);
+
+			const button = event.relatedTarget;
+			const id = button.getAttribute('data-id_employee');
+			const no_bpjs = button.getAttribute('data-no_bpjs');
+
+			console.log("ID:", id);
+
+
+			$('#edit_id_employee_bpjs').val(id);
+			$('#no_bpjs_edit').val(no_bpjs);
+
+			$("#editBpjsForm").on("submit", function (e) {
+				e.preventDefault();
+
+				// const submitButton = $("#editAddressForrm button[type=submit]");
+				// submitButton.prop("disabled", true).text("Processing...");
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Pastikan data yang dimasukan sudah benar",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Update',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+
+
+						$.ajax({
+							url: base_url + "admin/employee/edit_bpjs",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									// submitButton.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								// submitButton.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+
+		});
 
 	</script>
 </main>

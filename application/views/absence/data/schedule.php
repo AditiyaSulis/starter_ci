@@ -502,14 +502,6 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			});
 		}
 
-
-
-
-
-
-
-
-
 		$(document).ready(function () {
 			$('#id_employee').select2({
 				placeholder: "Select options",

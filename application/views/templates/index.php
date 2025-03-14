@@ -21,8 +21,6 @@
 
 
 
-
-
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -32,11 +30,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 
-	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-	<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+	<!--		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">-->
+	<!--		<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>-->
+	<!--		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>-->
+	<!--		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>-->
+	<!--		<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>-->
 
 
 
@@ -129,6 +127,17 @@
         }
         .gradient-btn-unpaid {
             background: linear-gradient(to right,rgb(137, 26, 26), rgb(119, 29, 29));
+            border: none;
+            color: white;
+        } 
+
+		.gradient-btn-unpaid:hover {
+            background: linear-gradient(to right,rgb(219, 146, 146), rgb(70, 52, 52));
+            border: none;
+            color: white;
+        }
+		.gradient-btn-paid:hover {
+            background: linear-gradient(to right,rgb(94, 123, 175), rgb(24, 42, 68));
             border: none;
             color: white;
         }

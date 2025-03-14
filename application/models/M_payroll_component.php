@@ -182,5 +182,39 @@ class M_payroll_component extends CI_Model
 	}
 
 
+	/*public function findTotalSalaryByEmployeeId_get($employee_id) {
+		$this->db->select('COALESCE(SUM(employee.basic_salary), 0) AS total_penghasilan', false);
+		$this->db->from('payroll_component');
+		$this->db->where('id_employee', $employee_id);
+		$this->db->where('YEAR(tanggal_gajian) =', date('Y')); // Menggunakan tanggal_gajian
+		$this->db->join('employee', 'employee.id_employee = payroll_component.id_employee', 'left');
+
+		$query = $this->db->get()->row();
+
+		return intval($query->total_penghasilan);
+	}*/
+
+	public function findTotalSalaryByEmployeeId_get($employee_id) {
+		$this->db->select('COALESCE(SUM(pc.gaji_pokok), 0) AS total_penghasilan', false);
+		$this->db->from('payroll_component pc');
+		$this->db->where('pc.id_employee', $employee_id);
+		$this->db->where('YEAR(pc.tanggal_gajian)', date('Y')); // Pastikan tanggal_gajian ada di payroll_component
+
+		$query = $this->db->get()->row();
+		return intval($query->total_penghasilan);
+	}
+
+	
+
+	public function create_post($data)
+	{
+		if ($this->db->insert('payroll_component', $data)) {
+			return $this->db->insert_id();
+		} else {
+			return false;
+		}
+	}
+
+
 
 }

@@ -112,8 +112,8 @@
 						</div>
 						<div class="fv-row mb-8">
 							<select class="form-select" aria-label="Default select example" name="piutang" id="piutang">
-								<option value="1" selected>Include</option>
-								<option value="2">Exclude</option>
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -121,8 +121,8 @@
 						</div>
 						<div class="fv-row mb-8">
 							<select class="form-select" aria-label="Default select example" name="holyday" id="holyday">
-								<option value="1" selected>Include</option>
-								<option value="2">Exclude</option>
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -130,8 +130,8 @@
 						</div>
 						<div class="fv-row mb-8">
 							<select class="form-select" aria-label="Default select example" name="include_cuti" id="include_cuti">
-								<option value="1" selected>Include</option>
-								<option value="2">Exclude</option>
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -139,8 +139,26 @@
 						</div>
 						<div class="fv-row mb-8">
 							<select class="form-select" aria-label="Default select example" name="include_potongan_telat" id="include_potongan_telat">
-								<option value="1" selected>Include</option>
-								<option value="2">Exclude</option>
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
+							</select>
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>BPJS</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="include_bpjs" id="include_bpjs">
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
+							</select>
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>PPH</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="include_pph" id="include_pph">
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="d-grid mb-10">

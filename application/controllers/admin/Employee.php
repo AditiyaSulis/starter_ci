@@ -13,6 +13,9 @@ class Employee extends MY_Controller{
         $this->load->model('M_log_contract_extension');
         $this->load->model('M_address');
         $this->load->model('M_domisili');
+        $this->load->model('M_ptkp');
+        $this->load->model('M_bpjs_config');
+        $this->load->model('M_pph_config');
 
     }
 
@@ -31,6 +34,7 @@ class Employee extends MY_Controller{
         $data['division'] = $this->M_division->findAll_get();
         $data['position'] = $this->M_position->findAll_get();
         $data['products'] = $this->M_products->findAll_get();
+        $data['pph'] = $this->M_ptkp->findAll_get();
         $data['products_show'] = $this->M_products->findAllShow_get();
 
         if($data['user']){
@@ -237,6 +241,19 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('no_hp', 'no_hp', 'required', [
 			'required' => 'Nomer Hp harus diisi!',
 		]);
+		$this->form_validation->set_rules('npwp', 'npwp', 'required|min_length[16]|max_length[16]',[
+			'required' => 'NPWP harus diisi',
+			'min_length'=> 'NPWP minimal memiliki 16 karakter huruf',
+			'max_length'=> 'NPWP tidak boleh melebihi 16 huruf',
+		]);
+		$this->form_validation->set_rules('nik', 'nik', 'required|min_length[16]|max_length[16]',[
+			'required' => 'NIK harus diisi',
+			'min_length'=> 'NIK minimal memiliki 16 karakter huruf',
+			'max_length'=> 'NIK tidak boleh melebihi 16 huruf',
+		]);
+		$this->form_validation->set_rules('id_ptkp', 'id_ptkp', 'required', [
+			'required' => 'Jenis PPH harus diisi!',
+		]);
 
 		if ($this->form_validation->run() == FALSE) {
 			$response = [
@@ -314,8 +331,17 @@ class Employee extends MY_Controller{
 			'kode_pos_domisili' => $this->input->post('kode_pos_domisili', true),
 			'spesifik_domisili' => $this->input->post('spesifik_domisili', true),
 		];
+		$pph = [
+			'id_ptkp' => $this->input->post('id_ptkp', true),
+			'nik' => $this->input->post('nik', true),
+			'npwp' => $this->input->post('npwp', true),
+		];
+		$bpjs = [
+			'no_bpjs' => $this->input->post('no_bpjs', true),
+		];
 
-		$employee = $this->M_employees->create_allDataEmployees($emp, $account, $bank, $ec, $address, $domisili);
+
+		$employee = $this->M_employees->create_allDataEmployees($emp, $account, $bank, $ec, $address, $domisili, $pph, $bpjs);
 
 		if ($employee) {
 			$response = [
@@ -691,6 +717,25 @@ class Employee extends MY_Controller{
                              <i class="bi bi-person-fill-gear"></i>
                             </button>';
 
+			$bpjs_info = ' <button 
+                             class="btn gradient-btn-unpaid btn-sm rounded-pill btn-bpjs" 
+                             data-bs-toggle="modal" 
+                             data-bs-target="#bpjsShowModal"
+                             data-id_employee="'.htmlspecialchars($item['id_employee']).'"
+                             data-no_bpjs="'.htmlspecialchars($item['no_bpjs']).'">
+                             <i class="bi bi-prescription2"></i>
+                            </button>';
+			$pph_info = ' <button 
+                             class="btn gradient-btn-paid btn-sm rounded-pill btn-pph" 
+                             data-bs-toggle="modal" 
+                             data-bs-target="#pphShowModal"
+                             data-id_employee="'.htmlspecialchars($item['id_employee']).'"
+                             data-nik="'.htmlspecialchars($item['nik']).'"
+                             data-npwp="'.htmlspecialchars($item['npwp']).'"
+                             data-id_ptkp="'.htmlspecialchars($item['id_ptkp']).'">
+                             <i class="bi bi-cash"></i>
+                            </button>';
+
 
 
             $row = [];
@@ -710,6 +755,8 @@ class Employee extends MY_Controller{
             $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.');  
             $row[] = 'Rp.'. number_format($item['bonus'], 0 , ',', '.');  
 			$row[] = $account_info;
+			$row[] = $bpjs_info;
+			$row[] = $pph_info;
             $row[] = $address_info;
             $row[] = $bank_info;
             $row[] = $ec_info;
@@ -1116,4 +1163,148 @@ class Employee extends MY_Controller{
 	}
 
 
+
+	//----------------BPJS INFO
+	public function edit_bpjs(){
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('no_bpjs', 'no_bpjs', 'required', [
+			'required' => 'No.BPJS harus diisi!',
+		]);
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$id = $this->input->post('id_employee');
+
+		$address = [
+			'no_bpjs' => $this->input->post('no_bpjs', true),
+		];
+
+		if(!$this->M_bpjs_config->findByEmployeeId_get($id)){
+			$address = [
+				'id_employee' => $id,
+				'no_bpjs' => $this->input->post('no_bpjs', true),
+			];
+			if ($this->M_bpjs_config->create_post($address)) {
+				$response = [
+					'status' => true,
+					'message' => 'Data BPJS karyawan berhasil ditambahkan',
+				];
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Data BPJS karyawan gagal ditambahkan',
+				];
+			}
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		if ($this->M_bpjs_config->update_post($id, $address) ) {
+			$response = [
+				'status' => true,
+				'message' => 'Data BPJS karyawan berhasil diupdate',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Data BPJS karyawan gagal diupdate',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
+
+
+	//----------------PPH INFO
+
+	public function edit_pph(){
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('id_ptkp', 'id_ptkp', 'required', [
+			'required' => 'Jenis PPH harus diisi!',
+		]);
+		$this->form_validation->set_rules('nik', 'nik', 'required', [
+			'required' => 'NIK harus diisi!',
+		]);
+		$this->form_validation->set_rules('npwp', 'npwp', 'required', [
+			'required' => 'NPWP.BPJS harus diisi!',
+		]);
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$id = $this->input->post('id_employee');
+
+		$address = [
+			'id_ptkp' => $this->input->post('id_ptkp', true),
+			'npwp' => $this->input->post('npwp', true),
+			'nik' => $this->input->post('nik', true),
+		];
+
+		if(!$this->M_pph_config->findByEmployeeId_get($id)){
+			$address = [
+				'id_employee' => $id,
+				'id_ptkp' => $this->input->post('id_ptkp', true),
+				'npwp' => $this->input->post('npwp', true),
+				'nik' => $this->input->post('nik', true),
+			];
+			if ($this->M_pph_config->create_post($address)) {
+				$response = [
+					'status' => true,
+					'message' => 'Data PPH karyawan berhasil ditambahkan',
+				];
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Data PPH karyawan gagal ditambahkan',
+				];
+			}
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		if ($this->M_pph_config->update_post($id, $address) ) {
+			$response = [
+				'status' => true,
+				'message' => 'Data PPH karyawan berhasil diupdate',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Data PPH karyawan gagal diupdate',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
 }
