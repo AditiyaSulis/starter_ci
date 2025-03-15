@@ -197,8 +197,11 @@ class M_payroll_component extends CI_Model
 	public function findTotalSalaryByEmployeeId_get($employee_id) {
 		$this->db->select('COALESCE(SUM(pc.gaji_pokok), 0) AS total_penghasilan', false);
 		$this->db->from('payroll_component pc');
+		$this->db->join('payroll', 'payroll.id_payroll = pc.id_payroll', 'left');
 		$this->db->where('pc.id_employee', $employee_id);
 		$this->db->where('YEAR(pc.tanggal_gajian)', date('Y')); // Pastikan tanggal_gajian ada di payroll_component
+		$this->db->where('payroll.include_pph', 1);
+
 
 		$query = $this->db->get()->row();
 		return intval($query->total_penghasilan);

@@ -13,7 +13,7 @@ class Finance_record extends MY_Controller{
    
     public function finance_record_page()
     {
-        $this->_ONLYSELECTED([1, 2]); 
+        $this->_ONLYSELECTED([1, 2]);
         $data = $this->_basicData();
     
         $data['title'] = 'Finance Record';
@@ -87,9 +87,9 @@ class Finance_record extends MY_Controller{
     
     public function add_finance()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1, 2]);
 
-        $this->_isAjax();
+		$this->_isAjax();
         $this->form_validation->set_rules('product_id', 'Product_id', 'required', [
             'required' => 'Product harus diisi',
         ]);
@@ -148,8 +148,8 @@ class Finance_record extends MY_Controller{
     public function update() 
     {
 
-        $this->_ONLY_SU();
-        $this->_isAjax();
+		$this->_ONLYSELECTED([1, 2]);
+		$this->_isAjax();
 
         $this->form_validation->set_rules('product_id', 'Product_id', 'required', [
             'required' => 'Product harus diisi',
@@ -210,8 +210,8 @@ class Finance_record extends MY_Controller{
 
     public function delete()
     {
-        $this->_ONLY_SU();
-        $this->_isAjax();
+		$this->_ONLYSELECTED([1, 2]);
+		$this->_isAjax();
 
         $id = $this->input->post('id');
 

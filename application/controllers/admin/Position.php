@@ -14,7 +14,7 @@ class Position extends MY_Controller{
 
     public function position_page()
     {
-       $this->_ONLYSELECTED([1,2]);
+		$this->_ONLY_SU();
        $data = $this->_basicData();
 
        $data['title'] = 'Position';

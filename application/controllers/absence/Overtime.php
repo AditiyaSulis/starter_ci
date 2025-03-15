@@ -38,7 +38,7 @@ class Overtime extends MY_Controller{
 
 	public function su_overtime_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Overtime';
@@ -162,7 +162,7 @@ class Overtime extends MY_Controller{
 
 	public function su_add_overtime()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('input_at', 'input_at', 'required', [
@@ -231,7 +231,7 @@ class Overtime extends MY_Controller{
 	public function set_status()
 	{
 
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id_overtime', true);
@@ -283,7 +283,7 @@ class Overtime extends MY_Controller{
 
 	public function su_add_batch_overtime() 
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('input_at', 'input_at', 'required', ['required' => 'Tanggal input harus diisi']);
@@ -349,7 +349,7 @@ class Overtime extends MY_Controller{
 
 	public function delete()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id');

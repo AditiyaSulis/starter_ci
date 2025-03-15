@@ -40,7 +40,7 @@ class Attendance extends MY_Controller{
 
 	public function su_attendance_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Data Attendance';
@@ -64,7 +64,7 @@ class Attendance extends MY_Controller{
 
 	public function log_attendance_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Data Attendance';
@@ -118,7 +118,7 @@ class Attendance extends MY_Controller{
 	public function set_potongan_telat()
 	{
 
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id_attendance', true);

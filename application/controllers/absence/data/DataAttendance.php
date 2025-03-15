@@ -11,7 +11,7 @@ class DataAttendance extends MY_Controller{
 
 	public function data_attendance_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Data Attendance';

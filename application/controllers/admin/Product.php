@@ -35,7 +35,7 @@ class Product extends MY_Controller{
 
     public function add_products()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
         $this->form_validation->set_rules('name_product', 'Name_product', 'trim|required|min_length[3]|max_length[40]', [
             'required' => 'Nama harus diisi',
@@ -117,7 +117,7 @@ class Product extends MY_Controller{
 
     public function update() 
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
         
         $id = $this->input->post('id_product', true);
@@ -219,7 +219,7 @@ class Product extends MY_Controller{
 
     public function delete()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
         
         $id = $this->input->post('id_product');
@@ -266,8 +266,8 @@ class Product extends MY_Controller{
 
     public function set_visibility()
     {
-  
-        $this->_ONLY_SU();
+
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
   
         $id = $this->input->post('id_product', true);
@@ -314,10 +314,11 @@ class Product extends MY_Controller{
   
     }
 
+
     public function update_location()
     {
-  
-        $this->_ONLY_SU();
+
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
   
         $id = $this->input->post('id_product', true);

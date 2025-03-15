@@ -39,7 +39,7 @@ class Supplier extends MY_Controller
   public function add_supplier()
   {
 
-      $this->_ONLY_SU();
+	  $this->_ONLYSELECTED([1,2]);
       $this->_isAjax();
 
       $this->form_validation->set_rules('name_supplier', 'name_supplier', 'required|min_length[3]|max_length[50]|is_unique[supplier.name_supplier]', [
@@ -101,7 +101,7 @@ class Supplier extends MY_Controller
   public function update()
   {
 
-      $this->_ONLY_SU();
+	  $this->_ONLYSELECTED([1,2]);
       $this->_isAjax();
 
       $id = $this->input->post('id_supplier', true);
@@ -177,7 +177,7 @@ class Supplier extends MY_Controller
   
   public function delete()
   {
-       $this->_ONLY_SU();
+	  $this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
         
         $id = $this->input->post('id_supplier');
@@ -213,7 +213,7 @@ class Supplier extends MY_Controller
   public function set_status()
   {
 
-      $this->_ONLY_SU();
+	  $this->_ONLYSELECTED([1,2]);
       $this->_isAjax();
 
       $id = $this->input->post('id_supplier', true);

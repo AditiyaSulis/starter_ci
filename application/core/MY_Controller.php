@@ -8,6 +8,7 @@ class MY_Controller extends CI_Controller
 	protected $roleUSER = '';
 	protected $arrUSER  = '';
 
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -26,6 +27,7 @@ class MY_Controller extends CI_Controller
 		$this->arrUSER  = $current;
 	}
 
+
 	public function _ONLY_SU()
 	{
 		if ($this->roleUSER == 1) {
@@ -33,9 +35,10 @@ class MY_Controller extends CI_Controller
 		} else {
 			$this->session->unset_userdata('user');
 			$this->session->set_flashdata('forbidden', 'Silahkan login');
-			redirect('fetch/login'); // lempar ke login dan destroy session
+			redirect('panel'); // lempar ke login dan destroy session
 		}
 	}
+
 
 	public function _ONLYSELECTED($arr)
 	{
@@ -44,9 +47,10 @@ class MY_Controller extends CI_Controller
 		} else {
 			$this->session->set_flashdata('forbidden', 'Silahkan login');
 			$this->session->unset_userdata('user');
-			redirect('fetch/login'); // lempar ke login dan destroy session
+			redirect('panel'); // lempar ke login dan destroy session
 		}
 	}
+
 
 	public function _isAjax()
 	{
@@ -54,6 +58,7 @@ class MY_Controller extends CI_Controller
 			exit('No direct script access allowed');
 		}
 	}
+
 
 	public function _basicData()
 	{

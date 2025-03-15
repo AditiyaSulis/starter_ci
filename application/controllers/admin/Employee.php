@@ -54,23 +54,28 @@ class Employee extends MY_Controller{
         $this->form_validation->set_rules('gender', 'Gender', 'required', [
             'required' => 'Gender harus diisi',
         ]);
+        
         $this->form_validation->set_rules('basic_salary', 'basic_salary', 'required', [
             'required' => 'Salary harus diisi',
         ]);
+
         $this->form_validation->set_rules('uang_makan', 'uang_makan', 'required', [
             'required' => 'Uang makan harus diisi',
         ]);
+
         $this->form_validation->set_rules('nip', 'NIP', 'required|min_length[8]|max_length[18]|is_unique[employee.nip]', [
             'required' => 'NIP harus diisi',
             'min_length' => 'NIP minimal 8 karakter',
             'max_length' => 'NIP maksimal 18 karakter',
             'is_unique' => 'NIP sudah dipakai',
         ]);
+
         $this->form_validation->set_rules('name', 'Name', 'required|min_length[3]|max_length[50]', [
             'required' => 'Name harus diisi',
             'min_length' => 'Name minimal 3 karakter',
             'max_length' => 'Name maksimal 50 karakter',
         ]);
+
         $this->form_validation->set_rules('place_of_birth', 'Place_of_birth', 'required|min_length[4]|max_length[30]', [
             'required' => 'Tempat lahir harus diisi',
             'min_length' => 'Tempat lahir minimal 4 karakter',
@@ -80,6 +85,7 @@ class Employee extends MY_Controller{
         $this->form_validation->set_rules('id_position', 'id_position', 'required', [
             'required' => 'Posisi harus diisi',
         ]);
+
         $this->form_validation->set_rules('id_division', 'id_division', 'required', [
             'required' => 'Divisi harus diisi',
         ]);
@@ -132,7 +138,7 @@ class Employee extends MY_Controller{
 
 
 	public function add_all_data_employee(){
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('gender', 'Gender', 'required', [
@@ -241,13 +247,19 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('no_hp', 'no_hp', 'required', [
 			'required' => 'Nomer Hp harus diisi!',
 		]);
-		$this->form_validation->set_rules('npwp', 'npwp', 'required|min_length[16]|max_length[16]',[
-			'required' => 'NPWP harus diisi',
+		$this->form_validation->set_rules('npwp', 'npwp', 'min_length[16]|max_length[16]|is_unique[pph_config.npwp]',[
+			'is_unique' => 'NPWP sudah dipakai',
 			'min_length'=> 'NPWP minimal memiliki 16 karakter huruf',
 			'max_length'=> 'NPWP tidak boleh melebihi 16 huruf',
 		]);
-		$this->form_validation->set_rules('nik', 'nik', 'required|min_length[16]|max_length[16]',[
+		$this->form_validation->set_rules('no_bpjs', 'no_bpjs', 'min_length[11]|max_length[13]|is_unique[bpjs_config.no_bpjs]',[
+			'is_unique' => 'BPJS sudah dipakai',
+			'min_length'=> 'BPJS minimal memiliki 11 karakter huruf',
+			'max_length'=> 'BPJS tidak boleh melebihi 13 huruf',
+		]);
+		$this->form_validation->set_rules('nik', 'nik', 'required|min_length[16]|max_length[16]|is_unique[pph_config.nik]',[
 			'required' => 'NIK harus diisi',
+			'is_unique' => 'NIK sudah dipakai',
 			'min_length'=> 'NIK minimal memiliki 16 karakter huruf',
 			'max_length'=> 'NIK tidak boleh melebihi 16 huruf',
 		]);
@@ -334,10 +346,10 @@ class Employee extends MY_Controller{
 		$pph = [
 			'id_ptkp' => $this->input->post('id_ptkp', true),
 			'nik' => $this->input->post('nik', true),
-			'npwp' => $this->input->post('npwp', true),
+			'npwp' => $this->input->post('npwp', true) == '' ? null : $this->input->post('npwp', true),
 		];
 		$bpjs = [
-			'no_bpjs' => $this->input->post('no_bpjs', true),
+			'no_bpjs' => $this->input->post('no_bpjs', true) == '' ? null : $this->input->post('no_bpjs', true),
 		];
 
 
@@ -361,7 +373,7 @@ class Employee extends MY_Controller{
 	}
 
 	public function edit_address(){
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('kabupaten', 'kabupaten', 'required', [
@@ -488,8 +500,8 @@ class Employee extends MY_Controller{
     public function update() 
     {
 
-        $this->_ONLY_SU();
-        $this->_isAjax();
+		$this->_ONLYSELECTED([1,2]);
+		$this->_isAjax();
         $id = $this->input->post('id_employee', true);
 
         $emp = $this->M_employees->findById_get($id);
@@ -597,8 +609,8 @@ class Employee extends MY_Controller{
 
     public function delete()
     {
-        $this->_ONLY_SU();
-        $this->_isAjax();
+		$this->_ONLYSELECTED([1,2]);
+		$this->_isAjax();
 
         $id = $this->input->post('id');
 
@@ -803,7 +815,7 @@ class Employee extends MY_Controller{
      public function add_bank()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
         $this->form_validation->set_rules('bank_name', 'bank_name', 'required', [
             'required' => 'Bank name harus diisi',
@@ -859,7 +871,7 @@ class Employee extends MY_Controller{
 
     public function delete_bank()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
 
         $id = $this->input->post('id_bank');
@@ -924,7 +936,7 @@ class Employee extends MY_Controller{
     public function add_contact()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
         $this->form_validation->set_rules('name_contact', 'name_contact', 'required', [
             'required' => 'Contact name harus diisi',
@@ -984,7 +996,7 @@ class Employee extends MY_Controller{
 
     public function delete_contact()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
 
         $id = $this->input->post('id_contact');
@@ -1036,7 +1048,7 @@ class Employee extends MY_Controller{
 	public function add_contract()
 	{
 		$this->_isAjax();
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
 		$this->form_validation->set_rules('new_contract', 'new_contract', 'required', [
 			'required' => 'Kontrak baru harus diisi',
@@ -1120,7 +1132,7 @@ class Employee extends MY_Controller{
 
 
 	public function edit_user(){
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('email', 'email', 'required', [
@@ -1146,11 +1158,11 @@ class Employee extends MY_Controller{
 		$password = $this->input->post('password', true);
 
 
-			if ($this->M_admin->changeEmailNPassword_post($oldEmail, $newEmail, $password) && $this->M_employees->changeEmail_post($oldEmail, $newEmail)) {
-			$response = [
-				'status' => true,
-				'message' => 'User account karyawan berhasil diupdate',
-			];
+		if ($this->M_admin->changeEmailNPassword_post($oldEmail, $newEmail, $password) && $this->M_employees->changeEmail_post($oldEmail, $newEmail)) {
+		$response = [
+			'status' => true,
+			'message' => 'User account karyawan berhasil diupdate',
+		];
 		} else {
 			$response = [
 				'status' => false,
@@ -1163,15 +1175,30 @@ class Employee extends MY_Controller{
 	}
 
 
-
 	//----------------BPJS INFO
 	public function edit_bpjs(){
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
-		$this->form_validation->set_rules('no_bpjs', 'no_bpjs', 'required', [
-			'required' => 'No.BPJS harus diisi!',
+		$id = $this->input->post('id_employee');
+		$bpjs = $this->M_bpjs_config->findByEmployeeId_get($id);
+		$oldBpjs = $bpjs['no_bpjs'];
+
+		$this->form_validation->set_rules('no_bpjs', 'no_bpjs', 'min_length[11]|max_length[13]', [
+			'min_length' => 'BPJS minimal 11 karakter',
+			'max_length' => 'BPJS maksimal 13 karakter',
 		]);
+
+		$newBpjs = $this->input->post('no_bpjs', true);
+
+		if($newBpjs != $oldBpjs){
+			$this->form_validation->set_rules('no_bpjs', 'bpjs', 'min_length[11]|max_length[13]|is_unique[bpjs_config.no_bpjs]', [
+				'min_length' => 'BPJS minimal 11 karakter',
+				'max_length' => 'BPJS maksimal 13 karakter',
+				'is_unique' => 'BPJS sudah dipakai',
+			]);
+		}
+
 
 
 		if ($this->form_validation->run() == FALSE) {
@@ -1186,16 +1213,15 @@ class Employee extends MY_Controller{
 			return;
 		}
 
-		$id = $this->input->post('id_employee');
 
 		$address = [
-			'no_bpjs' => $this->input->post('no_bpjs', true),
+			'no_bpjs' => $this->input->post('no_bpjs', true) == '' ? null :  $this->input->post('no_bpjs', true) ,
 		];
 
 		if(!$this->M_bpjs_config->findByEmployeeId_get($id)){
 			$address = [
 				'id_employee' => $id,
-				'no_bpjs' => $this->input->post('no_bpjs', true),
+				'no_bpjs' => $this->input->post('no_bpjs', true) == '' ? null :  $this->input->post('no_bpjs', true) ,
 			];
 			if ($this->M_bpjs_config->create_post($address)) {
 				$response = [
@@ -1234,7 +1260,7 @@ class Employee extends MY_Controller{
 	//----------------PPH INFO
 
 	public function edit_pph(){
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('id_ptkp', 'id_ptkp', 'required', [
@@ -1243,10 +1269,29 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('nik', 'nik', 'required', [
 			'required' => 'NIK harus diisi!',
 		]);
-		$this->form_validation->set_rules('npwp', 'npwp', 'required', [
-			'required' => 'NPWP.BPJS harus diisi!',
-		]);
 
+		$id = $this->input->post('id_employee');
+		$pph = $this->M_pph_config->findByEmployeeId_get($id);
+		$oldNpwp = $pph['npwp'];
+		$oldNik = $pph['nik'];
+
+		$newNpwp = $this->input->post('npwp', true);
+		$newNik = $this->input->post('nik', true);
+		if($newNpwp != $oldNpwp){
+			$this->form_validation->set_rules('npwp', 'npwp', 'min_length[16]|max_length[16]|is_unique[pph_config.npwp]', [
+				'min_length' => 'NPWP minimal 16 karakter',
+				'max_length' => 'NPWP maksimal 16 karakter',
+				'is_unique' => 'NPWP sudah dipakai',
+			]);
+		}
+
+		if($newNik != $oldNik){
+			$this->form_validation->set_rules('nik', 'nik', 'min_length[16]|max_length[16]|is_unique[pph_config.nik]', [
+				'min_length' => 'NIK minimal 16 karakter',
+				'max_length' => 'NIK maksimal 16 karakter',
+				'is_unique' => 'NIK sudah dipakai',
+			]);
+		}
 
 		if ($this->form_validation->run() == FALSE) {
 			$response = [
@@ -1260,11 +1305,11 @@ class Employee extends MY_Controller{
 			return;
 		}
 
-		$id = $this->input->post('id_employee');
+
 
 		$address = [
 			'id_ptkp' => $this->input->post('id_ptkp', true),
-			'npwp' => $this->input->post('npwp', true),
+			'npwp' => $this->input->post('npwp', true) == '' ? null : $this->input->post('npwp', true),
 			'nik' => $this->input->post('nik', true),
 		];
 
@@ -1272,7 +1317,7 @@ class Employee extends MY_Controller{
 			$address = [
 				'id_employee' => $id,
 				'id_ptkp' => $this->input->post('id_ptkp', true),
-				'npwp' => $this->input->post('npwp', true),
+				'npwp' => $this->input->post('npwp', true) == '' ? null : $this->input->post('npwp', true),
 				'nik' => $this->input->post('nik', true),
 			];
 			if ($this->M_pph_config->create_post($address)) {

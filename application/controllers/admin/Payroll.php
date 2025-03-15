@@ -82,7 +82,7 @@ class Payroll extends MY_Controller{
 
 	public function add_batch_payroll()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('code_payroll', 'code_payroll', 'trim|required|is_unique[payroll.code_payroll]',[
@@ -583,7 +583,7 @@ class Payroll extends MY_Controller{
 
 	public function delete()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id');

@@ -215,7 +215,7 @@
                         data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
                         data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
                         data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
-						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+						<?php if($user['role'] == 1 || $user['role'] == 2 || $user['role']==4): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -229,7 +229,9 @@
 									</a>
 								</div>
 							</div>
+						<?php endif;?>
 
+						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
 									<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">EMPLOYMENT</span>
@@ -261,6 +263,10 @@
 									</a>
 								</div>
 							</div>
+
+						<?php endif;?>
+						<?php if($user['role'] == 1 ): ?>
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -278,6 +284,7 @@
 						<?php endif;?>
 
 
+
 						<div  class="menu-item pt-5" >
 							<div  class="menu-content" >
 								<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">ABSENCE</span>
@@ -285,151 +292,175 @@
 						</div>
 
 						<?php if($user['role'] == 3): ?>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Absence' ? "active": ""?>" href="<?=base_url('absence/absence/absence_page')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-calendar-check"></i>
-                                        </span>
-                                    </span>
-									<span class="menu-title">Attendance</span>
-								</a>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Absence' ? "active": ""?>" href="<?=base_url('absence/absence/absence_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-calendar-check"></i>
+											</span>
+										</span>
+										<span class="menu-title">Attendance</span>
+									</a>
+								</div>
 							</div>
-						</div>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Schedule' ? "active": ""?>" href="<?=base_url('absence/schedule/schedule_page')?>">
-								<span class="menu-icon">
-									<span class="svg-icon svg-icon-2">
-										<i class="bi bi-calendar-week"></i>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Schedule' ? "active": ""?>" href="<?=base_url('absence/schedule/schedule_page')?>">
+									<span class="menu-icon">
+										<span class="svg-icon svg-icon-2">
+											<i class="bi bi-calendar-week"></i>
+										</span>
 									</span>
-								</span>
-									<span class="menu-title">Schedule</span>
-								</a>
+										<span class="menu-title">Schedule</span>
+									</a>
+								</div>
 							</div>
-						</div>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/DayOff/day_off_page?status_day_off=3&is=3')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-calendar-x"></i>
-                                        </span>
-                                    </span>
-									<span class="menu-title">Day Off</span>
-								</a>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Day Off' ? "active": ""?>" href="<?=base_url('absence/DayOff/day_off_page?status_day_off=3&is=3')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-calendar-x"></i>
+											</span>
+										</span>
+										<span class="menu-title">Day Off</span>
+									</a>
+								</div>
 							</div>
-						</div>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Leave' ? "active": ""?>" href="<?=base_url('absence/leave/leave_page?status_leave=3&is=3')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi bi-calendar-range"></i>
-                                        </span>
-                                    </span>
-									<span class="menu-title">Leave</span>
-								</a>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Leave' ? "active": ""?>" href="<?=base_url('absence/leave/leave_page?status_leave=3&is=3')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-calendar-range"></i>
+											</span>
+										</span>
+										<span class="menu-title">Leave</span>
+									</a>
+								</div>
 							</div>
-						</div>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item">
-								<a class="menu-link <?= $title == 'Izin' ? "active": ""?>" href="<?=base_url('absence/data/DataIzin/emp_data_izin_page?status_izin=3&is=3')?>">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <i class="bi  bi-calendar-plus"></i>
-                                        </span>
-                                    </span>
-									<span class="menu-title">Izin</span>
-								</a>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Izin' ? "active": ""?>" href="<?=base_url('absence/data/DataIzin/emp_data_izin_page?status_izin=3&is=3')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi  bi-calendar-plus"></i>
+											</span>
+										</span>
+										<span class="menu-title">Izin</span>
+									</a>
+								</div>
 							</div>
-						</div>
 
 						<?php endif;?>
 
-						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
-						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-							 id="#kt_aside_menu" data-kt-menu="true">
-							<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
-								<!-- Menu Link -->
-								<span class="menu-link <?= $menu == 'Data' ? "active": ""?>">
+						<?php if($user['role'] == 1 || $user['role'] == 2 || $user['role'] == 4): ?>
+							<!--HRD-->
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Attendance' ? "active": ""?>" href="<?=base_url('absence/attendance/su_attendance_page')?>">
 										<span class="menu-icon">
 											<span class="svg-icon svg-icon-2">
-												<i class="bi bi-calendar3"></i>
+												<i class="bi bi-calendar-check"></i>
 											</span>
 										</span>
-
-										<span class="menu-title">Data</span>
-										<span class="menu-arrow"></span>
-									</span>
-
-								<!-- Dropdown Submenu -->
-								<div class="menu-sub menu-sub-accordion">
-									<div class="menu-item">
-										<a href="<?=base_url('absence/data/DataIzin/data_izin_page?status_izin=3')?>" class="menu-link <?= $title == 'Data Izin' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Izin</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/leave/su_leave_page?status_leave=3&is=1')?>" class="menu-link <?= $title == 'Data Leave' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Leave</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/DayOff/su_day_off_page?status_day_off=3&is=1')?>" class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Day off</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/holyday/holyday_page')?>" class="menu-link <?= $title == 'Data Holyday' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Holiday</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/workshift/workshift_page')?>" class="menu-link <?= $title == 'Data Workshift' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Workshift</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/schedule/su_schedule_page')?>" class="menu-link <?= $title == 'Data Schedule' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Schedule</span>
-										</a>
-									</div>
-									<div class="menu-item">
-										<a href="<?=base_url('absence/attendance/su_attendance_page')?>" class="menu-link <?= $title == 'Data Attendance' ? "active": ""?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-											<span class="menu-title">Attendance</span>
-										</a>
-									</div>
+										<span class="menu-title">Attendance</span>
+									</a>
 								</div>
 							</div>
-						</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>" href="<?=base_url('absence/DayOff/su_day_off_page?status_day_off=3&is=1')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-calendar-x"></i>
+											</span>
+										</span>
+										<span class="menu-title">Day Off</span>
+									</a>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Holyday' ? "active": ""?>" href="<?=base_url('absence/holyday/holyday_page')?>">
+									<span class="menu-icon">
+										<span class="svg-icon svg-icon-2">
+											<i class="bi bi-calendar-range"></i>
+										</span>
+									</span>
+										<span class="menu-title">Holiday</span>
+									</a>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Izin' ? "active": ""?>" href="<?=base_url('absence/data/DataIzin/data_izin_page?status_izin=3')?>">
+								<span class="menu-icon">
+									<span class="svg-icon svg-icon-2">
+										<i class="bi  bi-calendar-plus"></i>
+									</span>
+								</span>
+										<span class="menu-title">Izin</span>
+									</a>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Leave' ? "active": ""?>" href="<?=base_url('absence/leave/su_leave_page?status_leave=3&is=1')?>">
+								<span class="menu-icon">
+									<span class="svg-icon svg-icon-2">
+										<i class="bi bi-calendar-range"></i>
+									</span>
+								</span>
+										<span class="menu-title">Leave</span>
+									</a>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Schedule' ? "active": ""?>" href="<?=base_url('absence/schedule/su_schedule_page')?>">
+									<span class="menu-icon">
+										<span class="svg-icon svg-icon-2">
+											<i class="bi bi-calendar-week"></i>
+										</span>
+									</span>
+										<span class="menu-title">Schedule</span>
+									</a>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Workshift' ? "active": ""?>" href="<?=base_url('absence/workshift/workshift_page')?>">
+								<span class="menu-icon">
+									<span class="svg-icon svg-icon-2">
+										<i class="bi bi-calendar-range"></i>
+									</span>
+								</span>
+										<span class="menu-title">Work shift</span>
+									</a>
+								</div>
+							</div>
+							<!--end HRD-->
+
 						<?php endif;?>
 
 
@@ -438,7 +469,7 @@
 									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
 								</div>
 							</div>
-						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+						<?php if($user['role'] == 1): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
@@ -475,7 +506,39 @@
 									</div>
 								</div>
 							</div>
+						<?php endif;?>
+						<?php if($user['role'] == 2): ?>
+						<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+							 id="#kt_aside_menu" data-kt-menu="true">
+							<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+								<!-- Menu Link -->
+								<span class="menu-link <?= $menu == 'FR' ? "active": ""?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-receipt"></i>
+											</span>
+										</span>
 
+										<span class="menu-title">Finance Record</span>
+										<span class="menu-arrow"></span>
+									</span>
+
+								<!-- Dropdown Submenu -->
+								<div class="menu-sub menu-sub-accordion">
+									<div class="menu-item">
+										<a href="<?=base_url('admin/finance_record/finance_record_page')?>" class="menu-link <?= $title == 'Finance Record' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+											<span class="menu-title">Transaction</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php endif;?>
+
+						<?php if($user['role'] == 1||$user['role'] == 2): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
@@ -513,6 +576,7 @@
 								</div>
 							</div>
 
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -539,6 +603,8 @@
 									</a>
 								</div>
 							</div>
+						<?php endif;?>
+
 							<!--							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"-->
 							<!--								 id="#kt_aside_menu" data-kt-menu="true">-->
 							<!--								<div class="menu-item">-->
@@ -552,6 +618,8 @@
 							<!--									</a>-->
 							<!--								</div>-->
 							<!--							</div>-->
+						<?php if($user['role'] == 1||$user['role'] == 2 || $user['role'] == 4): ?>
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -565,7 +633,9 @@
 									</a>
 								</div>
 							</div>
+
 						<?php endif;?>
+
 						<?php if($user['role'] == 3): ?>
 							<!-- EMPLOYEE-->
 							<!--							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"-->
@@ -615,7 +685,7 @@
 							<!--							</div>-->
 						<?php endif;?>
 
-						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+						<?php if($user['role'] == 1): ?>
 
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >

@@ -36,7 +36,7 @@ class Piutang extends MY_Controller{
 
 	public function add_piutang()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('id_employee', 'id_employee', 'required', [
@@ -175,7 +175,7 @@ class Piutang extends MY_Controller{
 
     public function add_piutangS()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
 
         $this->form_validation->set_rules('id_employee', 'id_employee', 'required', [
@@ -402,7 +402,7 @@ class Piutang extends MY_Controller{
     public function add_pay()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
 
         $this->form_validation->set_rules('id_piutang', 'id_piutang', 'required', [
@@ -483,8 +483,8 @@ class Piutang extends MY_Controller{
 
     public function set_progress()
     {
-  
-        $this->_ONLY_SU();
+
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
   
         $id = $this->input->post('id_piutang', true);
@@ -534,7 +534,7 @@ class Piutang extends MY_Controller{
 	//-------------------------------PAID
     public function piutang_paid_page()
     {
-        $this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2]);
         $data = $this->_basicData();
 
         $data['title'] = 'Piutang';
@@ -647,7 +647,7 @@ class Piutang extends MY_Controller{
     public function delete()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
         $id = $this->input->post('id');
         
@@ -784,7 +784,7 @@ class Piutang extends MY_Controller{
 
     public function add_piutang_v2()
     {
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
         $this->_isAjax();
 
 
@@ -946,7 +946,7 @@ class Piutang extends MY_Controller{
     public function add_pay_v2()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
 
         $this->form_validation->set_rules('id_piutang', 'id_piutang', 'required', [

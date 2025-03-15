@@ -14,7 +14,7 @@ class DataIzin extends MY_Controller{
 
 	public function data_izin_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 
@@ -72,7 +72,7 @@ class DataIzin extends MY_Controller{
 
 	public function add_izin()
 	{
-		$this->_ONLYSELECTED([1,2,3]);
+		$this->_ONLYSELECTED([1,2,3,4]);
 		$this->_isAjax();
 		$this->form_validation->set_rules('alasan_izin', 'alasan_izin', 'required', [
 			'required' => 'Alasan Izin harus diisi',
@@ -164,7 +164,7 @@ class DataIzin extends MY_Controller{
 	public function set_status()
 	{
 
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id_izin', true);
@@ -216,7 +216,7 @@ class DataIzin extends MY_Controller{
 
 	public function delete()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id');
@@ -254,7 +254,7 @@ class DataIzin extends MY_Controller{
 
 	public function update_bukti()
 	{
-		$this->_ONLYSELECTED([1,3]);
+		$this->_ONLYSELECTED([1,2,3,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id_izin', true);

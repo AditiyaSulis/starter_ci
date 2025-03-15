@@ -55,7 +55,8 @@ class Auth extends CI_Controller{
             $this->M_admin->updateLogin_post($data['email']);
             $this->session->set_userdata('user', $infoAccount['id']);
 
-			$url = $infoAccount['role'] == 1 || $infoAccount['role'] == 2 ? 'admin/dashboard/dashboard_page?with_alerts=1' : 'absence/absence/absence_page';
+			$url = $infoAccount['role'] == 1 || $infoAccount['role'] == 2 || $infoAccount['role'] == 4? 'admin/dashboard/dashboard_page?with_alerts=1' : 'absence/absence/absence_page';
+
 
 
             $response = [

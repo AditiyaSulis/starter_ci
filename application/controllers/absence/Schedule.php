@@ -362,7 +362,7 @@ class Schedule extends MY_Controller{
 
 	public function su_schedule_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Data Schedule';
@@ -470,7 +470,7 @@ class Schedule extends MY_Controller{
 
 
 	public function add_batch_schedule() {
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 
@@ -576,7 +576,7 @@ class Schedule extends MY_Controller{
 
 
 	public function set_status_schedule() {
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 
@@ -714,7 +714,7 @@ class Schedule extends MY_Controller{
 
 	public function delete()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id');

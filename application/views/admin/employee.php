@@ -73,7 +73,6 @@
 	</div>
 
 
-
 	<!-- Modal Add Product -->
     <div class="modal fade" tabindex="-1" id="addEmployeeModal" data-bs-backdrop="static">
         <div class="modal-dialog">
@@ -217,7 +216,7 @@
                         </div>
 						<div class="mb-3">
 							<label for="npwp" class="form-label">NPWP</label>
-							<input type="number"  class="form-control" name="npwp" required />
+							<input type="number"  class="form-control" name="npwp"  />
 						</div>
 						<div class="mb-3">
 							<label for="position" class="form-label">Jenis PPH</label>
@@ -234,7 +233,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="no_bpjs" class="form-label">No.BPJS</label>
-							<input type="number"  class="form-control" name="no_bpjs" required />
+							<input type="number"  class="form-control" name="no_bpjs"  />
 						</div>
                     </form>
                 </div>
@@ -701,6 +700,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<div class="modal fade" id="addressShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 		<div class="modal-dialog">

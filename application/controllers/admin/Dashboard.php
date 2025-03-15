@@ -13,10 +13,9 @@ class Dashboard extends MY_Controller{
         $this->load->model('M_schedule');
     }
 
-
     public function dashboard_page()
     {
-        $this->_ONLYSELECTED([1,2]);
+        $this->_ONLYSELECTED([1,2,4]);
         $data = $this->_basicData();
 
         $data['allUsers'] = $this->M_admin->totalUsers_get();
@@ -48,8 +47,5 @@ class Dashboard extends MY_Controller{
             redirect('fetch/login');
         }
     }
-
-
-
 
 }

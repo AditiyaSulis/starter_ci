@@ -13,7 +13,7 @@ class Workshift extends MY_Controller{
 
 	public function workshift_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Workshift';
@@ -36,7 +36,7 @@ class Workshift extends MY_Controller{
 	public function add_workshift()
 	{
 		$this->_isAjax();
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 
 		$this->form_validation->set_rules('code_workshift', 'code_workshift', 'required|is_unique[workshift.code_workshift]', [
 			'required' => 'Code shift harus diisi',
@@ -104,7 +104,7 @@ class Workshift extends MY_Controller{
 	{
 
 		$this->_isAjax();
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$id = $this->input->post('id_workshift', true);
 		if (!$id) {
 			$response = [
@@ -197,7 +197,7 @@ class Workshift extends MY_Controller{
 	public function delete()
 	{
 		$this->_isAjax();
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 
 		$id = $this->input->post('id');
 

@@ -179,7 +179,7 @@ class Purchases extends MY_Controller{
     public function add_purchases()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
         $this->form_validation->set_rules('id_supplier', 'id_supplier', 'required', [
             'required' => 'Supplier harus diisi',
@@ -263,7 +263,7 @@ class Purchases extends MY_Controller{
     public function delete()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
         $id = $this->input->post('id', true);
 
@@ -313,7 +313,7 @@ class Purchases extends MY_Controller{
     public function add_pay()
     {
         $this->_isAjax();
-        $this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2]);
 
         $this->form_validation->set_rules('id_purchases', 'id_purchase', 'required', [
             'required' => 'ID Purchase harus diisi',

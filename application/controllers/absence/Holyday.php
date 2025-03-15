@@ -14,7 +14,7 @@ class Holyday extends MY_Controller{
 
 	public function holyday_page()
 	{
-		$this->_ONLYSELECTED([1,2]);
+		$this->_ONLYSELECTED([1,2,4]);
 		$data = $this->_basicData();
 
 		$data['title'] = 'Data Holyday';
@@ -37,7 +37,7 @@ class Holyday extends MY_Controller{
 	}
 
 	public function add_holyday() {
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$this->form_validation->set_rules('type_group', 'type_group', 'required', [
@@ -157,7 +157,7 @@ class Holyday extends MY_Controller{
 
 	public function delete()
 	{
-		$this->_ONLY_SU();
+		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id');
