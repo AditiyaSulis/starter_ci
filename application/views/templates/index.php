@@ -20,10 +20,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.bootstrap4.css" />
 
 
-
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<!-- Tambahkan di <head> -->
+
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
     <script src=" https://cdn.datatables.net/2.1.6/js/dataTables.bootstrap4.js"></script>

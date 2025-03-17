@@ -2,6 +2,9 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+
+
+
 <main>
 	<h1>Holiday</h1>
 
@@ -82,14 +85,25 @@
 								<option selected>- Pilih Type -</option>
 								<option value="1">Single Day</option>
 								<option value="2">Multiple Day</option>
+								<option value="3">Select Day</option>
 							</select>
 						</div>
-
-						<div class="mb-2 fw-bolder text-gray-900">
-							<span>Mulai Hari Libur</span>
+						<div id="start" style="display: block;">
+							<div class="mb-2 fw-bolder text-gray-900">
+								<span>Mulai Hari Libur</span>
+							</div>
+							<div class="mb-4">
+								<input type="date" id="start_day" value="<?= date("Y-m-d") ?>" name="start_day" class="form-control bg-transparent"/>
+							</div>
 						</div>
-						<div class="mb-4">
-							<input type="date" id="start_day" value="<?= date("Y-m-d") ?>" name="start_day" class="form-control bg-transparent"/>
+
+						<div id="select_date" style="display: none;">
+							<div class="mb-2 fw-bolder text-gray-900">
+								<span>Pilih Hari Libur</span>
+							</div>
+							<div class="mb-4">
+								<input type="text" id="select_libur" name="select_libur" class="form-control bg-transparent"/>
+							</div>
 						</div>
 
 						<div id="end_date" style="display: none;">
@@ -143,7 +157,13 @@
 
 	<script>
 
-
+		document.addEventListener("DOMContentLoaded", function() {
+			flatpickr("#select_libur", {
+				dateFormat: "Y-m-d",
+				allowInput: true,
+				mode: "multiple" // Bisa input manual
+			});
+		});
 		document.addEventListener('DOMContentLoaded', function () {
 			const typeGroup = document.getElementById('type_group');
 			const selectDivision = document.getElementById('select_division');
@@ -153,6 +173,8 @@
 			const totalHari = document.getElementById("total");
 			const startDay = document.getElementById("start_day");
 			const endDay = document.getElementById("end_day");
+			const selectDate = document.getElementById("select_date");
+			const start = document.getElementById("start");
 
 			typeGroup.addEventListener('change', function () {
 				if (this.value === '1') {
@@ -173,9 +195,14 @@
 			typeHolyday.addEventListener('change', function () {
 				if (this.value === '1') {
 					endDate.style.display = 'none';
-				} else {
+				} else if(this.value === '2') {
 					endDate.style.display = 'block';
 					totalHari.value = 1;
+				} else {
+					selectDate.style.display = 'block'
+					endDate.style.display = 'none';
+					start.style.display = 'none';
+
 				}
 			});
 

@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
 <style>
 
 	#holyday_table {
@@ -46,6 +50,12 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
+		<div class="col-4 col-md-2 mb-3 mt-8">
+			<button type="button" class="btn gradient-btn-delete rounded-pill btn-sm" data-bs-toggle="modal" data-bs-target="#deleteByCodeModal">
+				<i class="bi bi-trash"></i>
+				Delete By Code
+			</button>
+		</div>
 	</div>
 
 	<div style="overflow-x: auto; width: 100%;">
@@ -57,7 +67,8 @@
 				<th>Kode</th>
 				<th>Product</th>
 				<th>Divisi</th>
-				<th>Type Libur</th>
+				<th>Select type</th>
+				<th>Jenis Libur</th>
 				<th>Tanggal Libur</th>
 				<th>Action</th>
 			</tr>

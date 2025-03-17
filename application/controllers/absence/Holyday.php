@@ -48,13 +48,15 @@ class Holyday extends MY_Controller{
 			'required' => 'Type day harus diisi',
 		]);
 
-		$this->form_validation->set_rules('start_day', 'start_day', 'required', [
-			'required' => 'Tanggal Mulai harus diisi',
+		$this->form_validation->set_rules('code_holyday', 'code_holyday', 'required|is_unique[holyday.code_holyday]', [
+			'required' => 'Type day harus diisi',
+			'is_unique' => 'Kode telah digunakan',
 		]);
+		//		$this->form_validation->set_rules('start_day', 'start_day', 'required', [
+		//			'required' => 'Tanggal Mulai harus diisi',
+		//		]);
 
-		$this->form_validation->set_rules('code_holyday', 'code_holyday', 'required', [
-			'required' => 'Kode Holiday harus diisi',
-		]);
+
 
 		if ($this->form_validation->run() == FALSE) {
 			echo json_encode([
@@ -66,7 +68,6 @@ class Holyday extends MY_Controller{
 			]);
 			return;
 		}
-
 
 
 		$typeGroup = $this->input->post('type_group', true);
@@ -99,7 +100,7 @@ class Holyday extends MY_Controller{
 				foreach ($division as $divisionId) {
 					$idProduct = is_array($productId) ? $productId['id_product'] : $productId;
 					$idDivision = is_array($divisionId) ? $divisionId['id_division'] : $divisionId;
-					$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true), 3);
+
 					$dataBatch[] = [
 						'id_product' => is_array($productId) ? $productId['id_product'] : $productId,
 						'id_division' => is_array($divisionId) ? $divisionId['id_division'] : $divisionId,
@@ -110,15 +111,20 @@ class Holyday extends MY_Controller{
 						'end_day' => $typeDay == 2 ? $this->input->post('end_day', true) : null,
 						'status_day' => $this->input->post('status_day', true),
 					];
+
+					if($this->input->post('status_day', true) == 1 ) {
+						$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true), 3);
+					} else {
+						$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true), 8);
+					}
 				}
 			}
-		} else {
+		} else if($typeDay == 2) {
 			for($i = 0; $i < $totalDays; $i++) {
 				foreach ($product as $productId) {
 					foreach ($division as $divisionId) {
 						$idProduct = is_array($productId) ? $productId['id_product'] : $productId;
 						$idDivision = is_array($divisionId) ? $divisionId['id_division'] : $divisionId;
-		//						$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, $this->input->post('start_day', true));
 						$dataBatch[] = [
 							'id_product' => is_array($productId) ? $productId['id_product'] : $productId,
 							'id_division' => is_array($divisionId) ? $divisionId['id_division'] : $divisionId,
@@ -139,6 +145,36 @@ class Holyday extends MY_Controller{
 					}
 				}
 			}
+		} else if ($typeDay == 3) {
+			$selectDate = $this->input->post('select_libur');
+			$tanggalArray = explode(',', $selectDate); // Ubah ke array
+			$totalDays = count($tanggalArray);
+			for($i = 0; $i < $totalDays; $i++) {
+				foreach ($product as $productId) {
+					foreach ($division as $divisionId) {
+						$idProduct = is_array($productId) ? $productId['id_product'] : $productId;
+						$idDivision = is_array($divisionId) ? $divisionId['id_division'] : $divisionId;
+
+						$dataBatch[] = [
+							'id_product' => is_array($productId) ? $productId['id_product'] : $productId,
+							'id_division' => is_array($divisionId) ? $divisionId['id_division'] : $divisionId,
+							'code_holyday' => $this->input->post('code_holyday', true),
+							'type_day' => $typeDay,
+							'type_group' => $typeGroup,
+							'start_day' => null,
+							'date' => date('Y-m-d', strtotime($tanggalArray[$i])),
+							'end_day' =>  null,
+							'status_day' => $this->input->post('status_day', true)
+						];
+						if($this->input->post('status_day', true) == 1 ){
+							$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime($tanggalArray[$i])), 3);
+						} else {
+							$this->M_schedule->setStatusFromHolyday_post($idProduct, $idDivision, date('Y-m-d', strtotime($tanggalArray[$i])), 8);
+						}
+
+					}
+				}
+			}
 		}
 
 		$holyday = $this->M_holyday->create_batch_post($dataBatch);
@@ -146,10 +182,6 @@ class Holyday extends MY_Controller{
 		echo json_encode([
 			'status' => $holyday ? true : false,
 			'message' => $holyday ? 'Data libur berhasil dibuat' : 'Data libur gagal ditambahkan',
-			'product' => $product,
-			'division' => $division,
-			'typeproduct' => gettype($product),
-			'typedivision' => gettype($division),
 		]);
 
 	}
@@ -178,6 +210,54 @@ class Holyday extends MY_Controller{
 
 		echo json_encode($response);
 
+	}
+
+	public function delete_by_code()
+	{
+		$this->_ONLYSELECTED([1,2,4]);
+		$this->_isAjax();
+
+		$code = $this->input->post('code_delete');
+		$data = $this->M_holyday->findByCode_get($code);
+
+		if(!$data) {
+			$response = [
+				'status' => false,
+				'message' => 'Kode tidak ditemukan',
+			];
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		foreach($data as $holidays) {
+			$delete = $this->M_holyday->delete($holidays['id_holyday']);
+			if (!$delete) {
+				$response = [
+					'status' => false,
+					'message' => 'Data libur berdasarkan kode gagal dihapus',
+				];
+				echo json_encode($response);
+				return;
+			}
+			$set = $this->M_schedule->setStatusFromHolyday_post($holidays['id_product'], $holidays['id_division'], $holidays['date'], 1);
+			if(!$set) {
+				$response = [
+					'status' => false,
+					'message' => 'Gagal mengubah status jadwal',
+				];
+				echo json_encode($response);
+				return;
+			}
+
+
+		}
+		$response = [
+			'status' => true,
+			'message' => 'Data libur berdasarkan kode berhasil dihapus',
+		];
+		echo json_encode($response);
 	}
 
 }

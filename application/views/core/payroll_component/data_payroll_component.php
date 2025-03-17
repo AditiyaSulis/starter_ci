@@ -45,11 +45,16 @@
 				<th>Uang Makan</th>
 				<th>Bonus</th>
 				<th>Izin</th>
+				<th>Pot Izin</th>
 				<th>Day Off</th>
 				<th>Cuti</th>
+				<th>Pot Cuti</th>
 				<th>Absen</th>
+				<th>Pot Absen</th>
+				<th>Pot PPH</th>
 				<th>Lembur</th>
-				<th>Total Gaji</th>
+				<th>Total</th>
+				<th>Gaji Bersih</th>
 				<th>Deskripsi</th>
 				<th>Action</th>
 			</tr>

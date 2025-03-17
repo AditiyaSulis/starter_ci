@@ -18,6 +18,11 @@ class M_holyday extends CI_Model
 	public function findById_get($id)
 	{
 		return $this->db->get_where('holyday', ['id_holyday' => $id])->row_array();
+	} 
+
+	public function findByCode_get($code)
+	{
+		return $this->db->get_where('holyday', ['code_holyday' => $code])->result_array();
 	}
 
 	public function findAllWithJoin_get()

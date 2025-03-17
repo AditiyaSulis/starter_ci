@@ -277,10 +277,7 @@ class Payroll extends MY_Controller{
 						$bruto = (float)$employee['basic_salary'];
 					}
 
-					/*echo '<pre>';
-					print_r($bruto);
-					echo('<br>');
-					die();*/
+
 
 					$ptkp = $this->M_pph_config->findByEmployeeId_get($employeeId);
 
@@ -350,10 +347,7 @@ class Payroll extends MY_Controller{
 					}
 				}
 
-			/*echo '<pre>';
-			print_r($totalPotPph);
-			echo '</pre>';
-			die();*/
+
 
 			// Selesai PPH
 
@@ -384,7 +378,7 @@ class Payroll extends MY_Controller{
 						'record_date' => $this->input->post('tanggal_gajian', true),
 						'product_id' => $employee['id_product'],
 						'amount' => $totalPotPph,
-						'id_code' => 28,
+						'id_code' => 32,
 						'description' => $this->input->post('tanggal_gajian', true) . "-PPH-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
 					];
 				}

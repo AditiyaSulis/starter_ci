@@ -27,6 +27,49 @@
 	</div>
 </div>
 
+<div class="modal fade" tabindex="-1" id="deleteByCodeModal">
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Delete By Code</h4>
+
+
+				<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
+                        </span>
+				</div>
+
+			</div>
+
+			<div class="modal-body">
+				<form class="form w-100" id="deleteByCodeForm" enctype="multipart/form-data">
+					<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+						<span>Kode</span>
+					</div>
+					<div class="fv-row mb-8">
+						<input type="text" id="code_delete" name="code_delete" class="form-control bg-transparent" />
+					</div>
+
+					<div class="d-grid mb-10">
+						<button type="submit" id="delete_holiday" class="btn btn-primary">
+                                            <span class="indicator-label">
+                                                    Delete
+                                            </span>
+							<span class="indicator-progress">
+                                                     Please wait...
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 
 	function preventMultipleSubmit(form) {
@@ -99,6 +142,41 @@
 	}
 
 
+	// ----------- DELETE BY CODE
+	$(document).ready(function () {
+		var base_url = $('meta[name="base_url"]').attr('content');
+		$("#deleteByCodeForm").on("submit", function (e) {
+			e.preventDefault();
+
+			var formElement = this;
+			var formData = new FormData(formElement);
+
+			$.ajax({
+				url: base_url +"absence/holyday/delete_by_code",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				processData: false,
+				dataType: "json",
+				success: function (response) {
+					if (response.status) {
+						swallMssg_s(response.message, false, 1500)
+							.then(() =>  {
+								location.reload();
+							});
+					} else {
+						swallMssg_e(response.message, true, 0);
+					}
+				},
+				error: function (xhr, status, error) {
+					swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk mengedit data ' + error, true, 0).
+					then(() =>  {
+						location.reload();
+					});
+				}
+			});
+		});
+	});
 
 
 

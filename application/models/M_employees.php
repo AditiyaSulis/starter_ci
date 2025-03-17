@@ -31,6 +31,8 @@ class M_employees extends CI_Model {
         $this->db->join('division', 'division.id_division = employee.id_division', 'left');
         $this->db->join('domisili', 'domisili.id_employee = employee.id_employee', 'left');  // Menggunakan RIGHT JOIN
         $this->db->join('address', 'address.id_employee = employee.id_employee', 'left');  // Menggunakan RIGHT JOIN
+        $this->db->order_by('products.name_product', 'ASC');  
+        $this->db->order_by('employee.name', 'ASC');  
         
         return $this->db->get()->row_array();
     }
@@ -187,6 +189,8 @@ class M_employees extends CI_Model {
         $this->db->join('pph_config', 'pph_config.id_employee = employee.id_employee', 'left');
         $this->db->join('bpjs_config', 'bpjs_config.id_employee = employee.id_employee', 'left');
         $this->db->join('ptkp', 'ptkp.id_ptkp = pph_config.id_ptkp', 'left');
+        $this->db->order_by('products.name_product', 'ASC');  
+        $this->db->order_by('employee.name', 'ASC');  
 
         if ($product && $product !== 'All') {  
             $this->db->where('employee.id_product', $product);

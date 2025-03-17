@@ -20,7 +20,9 @@
 						 <h6> - </h6>
 						<h6 id="tanggal_gajian"></h6>
 
-
+					</div>
+					<div class="d-flex">
+						<span id="kode" class="text-sm"></span>
 					</div>
 				</div>
 				<div class="row mb-1">
@@ -112,12 +114,12 @@
 							<tbody>
 								<tr>
 									<td>
-										Total Gaji - Total Potongan = Gaji Bersih
+										Total Gaji - Total Potongan - PPH = Gaji Bersih
 									</td>
 								</tr>
 								<tr>
 									<td>
-									<span id="rms_total_gaji"></span> - <span id="rms_potongan_gaji"></span> = <span id="gaji_bersih"></span>
+										<span id="rms_total_gaji"></span> - <span id="rms_potongan_gaji"> </span> -  <span id="pot_pph"> </span> = <span id="gaji_bersih"></span>
 									</td>
 								</tr>
 								<tr>
@@ -152,12 +154,17 @@
 		}).then(canvas => {
 			const imgData = canvas.toDataURL('image/jpeg', 0.7);
 			const { jsPDF } = window.jspdf;
-			const pdf = new jsPDF('p', 'mm', 'a4');
+			const pdf = new jsPDF('l', 'mm', 'a4');
 
-			const imgWidth = 180;
+			const imgWidth = 250;
 			const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-			pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth, imgHeight, '', 'FAST');
+			const pageWidth = pdf.internal.pageSize.getWidth();
+			const pageHeight = pdf.internal.pageSize.getHeight();
+			const x = (pageWidth - imgWidth) / 2;
+			const y = (pageHeight - imgHeight) / 2;
+
+			pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight, '', 'FAST');
 			pdf.save('Slip_Gaji.pdf');
 		});
 	});
@@ -192,7 +199,10 @@
 		const libur_nasional_hari = button.getAttribute('data-libur-nasional-hari');
 		const total_libur_nasional = button.getAttribute('data-total-libur-nasional');
 		const potongan_libur_nasional = button.getAttribute('data-potongan-libur-nasional');
+		const pph = button.getAttribute('data-pph');
 		const total = button.getAttribute('data-gaji-bersih');
+		const total_gaji_bersih = button.getAttribute('data-total-gaji-bersih');
+		const code = button.getAttribute('data-code-payroll');
 
 		const cuti_hari = button.getAttribute('data-cuti-hari');
 		const total_potongan_telat = button.getAttribute('data-total-potongan-telat');
@@ -248,8 +258,10 @@
 		$('#total_pot_absen').text(formatToRupiah(potongan_absen));
 		$('#rms_total_gaji').text(formatToRupiah(gaji_kotor));
 		$('#rms_potongan_gaji').text(formatToRupiah(total_potongan));
-		$('#gaji_bersih').text(formatToRupiah(total));
-		$('#gaji_bersih_anda').text(formatToRupiah(total));
+		$('#gaji_bersih').text(formatToRupiah(total_gaji_bersih));
+		$('#pot_pph').text(formatToRupiah(pph));
+		$('#gaji_bersih_anda').text(formatToRupiah(total_gaji_bersih));
+		$('#kode').text(code);
 
 		$("#edit_id").val(id);
 	});

@@ -770,6 +770,7 @@ class Core_data extends MY_Controller{
                      ';
 
 			$type_day =  $item['type_day'] == 1 ? 'Single Day' : 'Multiple Days';
+			$jenis_libur =  $item['type_day'] == 2 ? 'Libur Minggu' : 'Libur Nasional';
 			$end_day =  $item['type_day'] == 1 ? '-' : date('d M Y', strtotime($item['end_day']));
 
 			$row = [];
@@ -778,6 +779,7 @@ class Core_data extends MY_Controller{
 			$row[] = $item['name_product'];
 			$row[] = $item['name_division'];
 			$row[] = $type_day;
+			$row[] = $jenis_libur;
 			$row[] = date('d M Y', strtotime($item['date']));
 			$row[] = $action;
 			$data[] = $row;
@@ -945,6 +947,9 @@ class Core_data extends MY_Controller{
                             data-total-potongan-telat="'.htmlspecialchars($item['total_potongan_telat']).'"
                             data-potongan-cuti="'.htmlspecialchars($item['potongan_cuti']).'"
                             data-cuti-hari="'.htmlspecialchars($item['cuti_hari']).'"
+                            data-pph="'.htmlspecialchars($item['hasil_pph']).'"
+                            data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
+                            data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -962,11 +967,16 @@ class Core_data extends MY_Controller{
 			$row[] = 'Rp.'.number_format($item['uang_makan'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['bonus'], 0 , ',', '.');
 			$row[] = $item['total_izin'];
+			$row[] = 'Rp.'.number_format($item['potongan_izin'], 0 , ',', '.');
 			$row[] = $item['total_dayoff'];
 			$row[] = $item['total_cuti'];
+			$row[] = 'Rp.'.number_format( $item['potongan_cuti'], 0 , ',', '.');
 			$row[] = $item['total_absen'];
+			$row[] = 'Rp.'.number_format($item['potongan_absen'], 0 , ',', '.');
+			$row[] = $item['hasil_pph'];
 			$row[] = 'Rp.'.number_format($item['total_overtime'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['total'], 0 , ',', '.');
+			$row[] = 'Rp.'.number_format($item['gaji_bersih'], 0 , ',', '.');
 			$row[] = $item['description'];
 			$row[] = $action;
 			$data[] = $row;
