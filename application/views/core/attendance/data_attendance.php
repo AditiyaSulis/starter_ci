@@ -26,7 +26,7 @@
 				</button>
 			</div>
 		<?php if($employee == 'false'):?>
-			<div class="col-4 col-md-2 mb-3">
+			<div class="col-4 col-md-2 col-lg-2 mb-3">
 				<select id="filterProduct" class="form-select form-select-sm">
 					<option value="" selected>All Product</option>
 					<?php foreach($products as $product): ?>
@@ -34,7 +34,7 @@
 					<?php endforeach; ?>
 				</select>
 			</div>
-			<div class="col-auto mb-2">
+			<div class="col-5 col-md-4 mb-2">
 				<button id="exportPDF" type="button" class="btn btn-info btn-sm rounded-pill">
 					<i class="ti ti-download"></i> Export to PDF
 				</button>

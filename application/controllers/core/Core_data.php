@@ -19,6 +19,8 @@ class Core_data extends MY_Controller{
         $this->load->model('M_rekap');
         $this->load->model('M_attendance');
         $this->load->model('M_service_teknisi');
+        $this->load->model('M_batch_uang_makan');
+        $this->load->model('M_uang_makan');
     }
 
 	public function data_piutang()
@@ -873,8 +875,6 @@ class Core_data extends MY_Controller{
 
 			$piutang = $item['include_piutang'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$finance_record = $item['include_finance_record'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
-			$holiday = $item['include_holiday'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
-			$cuti = $item['include_cuti'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$telat = $item['include_potongan_telat'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 
 			$row = [];
@@ -883,8 +883,6 @@ class Core_data extends MY_Controller{
 			$row[] = $item['code_payroll'];
 			$row[] = $piutang;
 			$row[] = $finance_record;
-			$row[] = $holiday;
-			$row[] = $cuti;
 			$row[] = $telat;
 			$row[] = date('d M Y', strtotime($item['tanggal_gajian']));
 			$row[] = $action;
@@ -920,8 +918,6 @@ class Core_data extends MY_Controller{
                             data-bs-toggle="modal" 
                             data-bs-target="#rincianModal"
                             data-id="'.htmlspecialchars($item['id_payroll_component']).'"
-                            data-total-izin="'.htmlspecialchars($item['total_izin']).'"
-                            data-total-cuti="'.htmlspecialchars($item['total_cuti']).'"
                             data-total-absent="'.htmlspecialchars($item['total_absen']).'"
                             data-total-lembur="'.htmlspecialchars($item['total_overtime']).'"
                             data-basic-salary="'.htmlspecialchars($item['basic_salary']).'"
@@ -934,19 +930,12 @@ class Core_data extends MY_Controller{
                             data-position="'.htmlspecialchars($item['name_position']).'"
                             data-tanggal-gajian="'.htmlspecialchars($item['tanggal_gajian']).'"
                             data-potongan-absen="'.htmlspecialchars($item['potongan_absen']).'"
-                            data-potongan-izin="'.htmlspecialchars($item['potongan_izin']).'"
                             data-absen-hari="'.htmlspecialchars($item['absen_hari']).'"
-                            data-izin-hari="'.htmlspecialchars($item['izin_hari']).'"
                             data-total-potongan="'.htmlspecialchars($item['total_potongan']).'"
                             data-gaji-bersih="'.htmlspecialchars($item['total']).'"
                             data-piutang="'.htmlspecialchars($item['piutang']).'"
                             data-periode-gajian="'.htmlspecialchars($item['periode_gajian']).'"
-                            data-potongan-libur-nasional="'.htmlspecialchars($item['potongan_libur_nasional']).'"
-                            data-total-libur-nasional="'.htmlspecialchars($item['total_libur_nasional']).'"
-                            data-libur-nasional-hari="'.htmlspecialchars($item['libur_nasional_hari']).'"
                             data-total-potongan-telat="'.htmlspecialchars($item['total_potongan_telat']).'"
-                            data-potongan-cuti="'.htmlspecialchars($item['potongan_cuti']).'"
-                            data-cuti-hari="'.htmlspecialchars($item['cuti_hari']).'"
                             data-pph="'.htmlspecialchars($item['hasil_pph']).'"
                             data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
                             data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
@@ -966,11 +955,7 @@ class Core_data extends MY_Controller{
 			$row[] = 'Rp.'.number_format($item['basic_salary'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['uang_makan'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['bonus'], 0 , ',', '.');
-			$row[] = $item['total_izin'];
-			$row[] = 'Rp.'.number_format($item['potongan_izin'], 0 , ',', '.');
 			$row[] = $item['total_dayoff'];
-			$row[] = $item['total_cuti'];
-			$row[] = 'Rp.'.number_format( $item['potongan_cuti'], 0 , ',', '.');
 			$row[] = $item['total_absen'];
 			$row[] = 'Rp.'.number_format($item['potongan_absen'], 0 , ',', '.');
 			$row[] = $item['hasil_pph'];
@@ -1228,5 +1213,137 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 	}
 
+
+	public function data_batch_uang_makan()
+	{
+		$option = $this->input->post('option');
+		$startDate = $this->input->post('startDate');
+		$endDate = $this->input->post('endDate');
+
+		$list = $this->M_batch_uang_makan->get_datatables();
+
+		$data = [];
+		$no = $this->input->post('start');
+		//		<a href="'. base_url('admin/uang_makan/detail_uang_makan?uang_makan='.$item['id_uang_makan']) .'"
+		//						   class="btn btn-warning btn-sm rounded-pill mb-1"
+		//						   style="width: 100px;">
+		//							   DETAIL
+		//						</a>
+
+		foreach($list as $item) {
+			$action =
+				'   		<a href="'. base_url('admin/uang_makan/detail_uang_makan?uang_makan='.$item['id_batch_uang_makan']) .'"
+							   class="btn btn-warning btn-sm rounded-pill mb-1"
+							   style="width: 100px;">
+								   DETAIL
+							</a>
+
+                      
+                         <button class="btn  gradient-btn-delete btn-sm rounded-pill" 
+								onclick="handleDeleteUangMakanButton('. htmlspecialchars($item['id_batch_uang_makan']) .')" 
+								style="width: 100px;">
+							DELETE
+						</button>
+                     ';
+
+			$finance_record = $item['auto_finance_record'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$holiday = $item['include_holiday'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$cuti = $item['include_leave'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$absen = $item['include_absen'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = date('d M Y', strtotime($item['tanggal_batch_uang_makan']));
+			$row[] = $item['code_batch_uang_makan'];
+			$row[] = $finance_record;
+			$row[] = $holiday;
+			$row[] = $cuti;
+			$row[] = $absen;
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => $this->M_batch_uang_makan->count_all(),
+			"recordsFiltered" => $this->M_batch_uang_makan->count_filtered(),
+			"option" => $option,
+			"startDate" => $startDate,
+			"endDate" => $endDate,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+	}
+
+
+	public function data_uang_makan()
+	{
+		$uang_makan = $this->input->post('uang_makan', true);
+		$list = $this->M_uang_makan->get_datatables();
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach($list as $item) {
+			$action =
+				'    <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-rincian-gaji" style="width : 90px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#rincianUangMakanModal"
+                            data-id="'.htmlspecialchars($item['id_batch_uang_makan']).'"
+                            data-total-izin="'.htmlspecialchars($item['total_izin']).'"
+                            data-total-cuti="'.htmlspecialchars($item['total_cuti']).'"
+                            data-total-absent="'.htmlspecialchars($item['total_absen']).'"
+                            data-uang-makan="'.htmlspecialchars($item['uang_makan']).'"
+                            data-name="'.htmlspecialchars($item['name']).'"
+                            data-product="'.htmlspecialchars($item['name_product']).'"
+                            data-divisi="'.htmlspecialchars($item['name_division']).'"
+                            data-position="'.htmlspecialchars($item['name_position']).'"
+                            data-potongan-absen="'.htmlspecialchars($item['pot_absen']).'"
+                            data-potongan-izin="'.htmlspecialchars($item['pot_izin']).'"
+                            data-total-potongan="'.htmlspecialchars($item['total_pot_uang_makan']).'"
+                            data-uang-makan-bersih="'.htmlspecialchars($item['total_uang_makan']).'"
+                            data-potongan-libur-nasional="'.htmlspecialchars($item['pot_holiday']).'"
+                            data-total-libur-nasional="'.htmlspecialchars($item['total_holiday']).'"
+                            data-potongan-cuti="'.htmlspecialchars($item['pot_cuti']).'"
+                            data-code-payroll="'.htmlspecialchars($item['code_batch_uang_makan']).'">
+                            RINCIAN
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" onclick="handleDeleteBatchUangMakanButton('.htmlspecialchars($item['id_batch_uang_makan']).')" style="width : 70px">
+                            DELETE
+                        </button>
+                     ';
+
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = date('d M Y', strtotime($item['input_at']));
+			$row[] = $item['name'];
+			$row[] = 'Rp.'.number_format($item['uang_makan'], 0 , ',', '.');
+			$row[] = $item['total_izin'];
+			$row[] = 'Rp.'.number_format($item['pot_izin'], 0 , ',', '.');
+			$row[] = $item['total_cuti'];
+			$row[] = 'Rp.'.number_format( $item['pot_cuti'], 0 , ',', '.');
+			$row[] = $item['total_absen'];
+			$row[] = 'Rp.'.number_format($item['pot_absen'], 0 , ',', '.');
+			$row[] = $item['total_holiday'];
+			$row[] = 'Rp.'.number_format($item['pot_holiday'], 0 , ',', '.');
+			$row[] = 'Rp.'.number_format($item['total_pot_uang_makan'], 0 , ',', '.');
+			$row[] = 'Rp.'.number_format($item['total_uang_makan'], 0 , ',', '.');
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => $this->M_batch_uang_makan->count_all(),
+			"recordsFiltered" => $this->M_batch_uang_makan->count_filtered(),
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+	}
 
 }

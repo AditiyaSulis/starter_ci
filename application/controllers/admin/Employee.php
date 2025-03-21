@@ -63,12 +63,18 @@ class Employee extends MY_Controller{
             'required' => 'Uang makan harus diisi',
         ]);
 
+		$this->form_validation->set_rules('type_uang_makan', 'type_uang_makan', 'required', [
+			'required' => 'Type uang makan harus diisi',
+		]);
+
+
         $this->form_validation->set_rules('nip', 'NIP', 'required|min_length[8]|max_length[18]|is_unique[employee.nip]', [
             'required' => 'NIP harus diisi',
             'min_length' => 'NIP minimal 8 karakter',
             'max_length' => 'NIP maksimal 18 karakter',
             'is_unique' => 'NIP sudah dipakai',
         ]);
+
 
         $this->form_validation->set_rules('name', 'Name', 'required|min_length[3]|max_length[50]', [
             'required' => 'Name harus diisi',
@@ -115,7 +121,7 @@ class Employee extends MY_Controller{
             'id_division' => $this->input->post('id_division', true),
             'uang_makan' => $this->input->post('uang_makan', true),
             'basic_salary' => $this->input->post('basic_salary', true),
-            'bonus' => $this->input->post('bonus', true),
+            'type_uang_makan' => $this->input->post('type_uang_makan', true),
           
         ];
 
@@ -150,6 +156,9 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('uang_makan', 'uang_makan', 'required', [
 			'required' => 'Uang makan harus diisi',
 		]);
+		$this->form_validation->set_rules('type_uang_makan', 'type_uang_makan', 'required', [
+			'required' => 'Type uang makan harus diisi',
+		]);
 		$this->form_validation->set_rules('nip', 'NIP', 'required|min_length[8]|max_length[18]|is_unique[employee.nip]', [
 			'required' => 'NIP harus diisi',
 			'min_length' => 'NIP minimal 8 karakter',
@@ -172,6 +181,14 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('id_division', 'id_division', 'required', [
 			'required' => 'Divisi harus diisi',
 		]);
+		$this->form_validation->set_rules('type_employee', 'type_employee', 'required', [
+			'required' => 'Type karyawan harus diisi',
+		]);
+		$this->form_validation->set_rules('rewrite_password', 'rewrite_password', 'required', [
+			'required' => 'Ketik Ulang password harus diisi!',
+		]);
+
+		//USER ACCOUNT
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[4]|max_length[20]',[
 			'required' => 'password harus diisi',
 			'min_length'=> 'password minimal memiliki 4 karakter huruf',
@@ -181,33 +198,19 @@ class Employee extends MY_Controller{
 			'valid_email' => 'Invalid email',
 			'is_unique' => 'Email sudah digunakan'
 		]);
-		$this->form_validation->set_rules('bank_name', 'bank_name', 'required', [
-			'required' => 'Bank name harus diisi',
-		]);
-		$this->form_validation->set_rules('bank_number', 'bank_number', 'required', [
-			'required' => 'Account number harus diisi',
-		]);
-		$this->form_validation->set_rules('bank_holder_name', 'bank_holder_name', 'required', [
-			'required' => 'Account holder name harus diisi',
-		]);
-		$this->form_validation->set_rules('name_contact', 'name_contact', 'required', [
-			'required' => 'Contact name harus diisi',
-		]);
-		$this->form_validation->set_rules('number_contact', 'number_contact', 'required', [
-			'required' => 'No.Hp harus diisi',
-		]);
-		$this->form_validation->set_rules('as_contact', 'as_contact', 'required', [
-			'required' => 'Hubungan harus diisi',
-		]);
-		$this->form_validation->set_rules('address_contact', 'address_contact', 'required', [
-			'required' => 'Address harus diisi',
-		]);
-		$this->form_validation->set_rules('type_employee', 'type_employee', 'required', [
-			'required' => 'Type karyawan harus diisi',
-		]);
-		$this->form_validation->set_rules('rewrite_password', 'rewrite_password', 'required', [
-			'required' => 'Ketik Ulang password harus diisi!',
-		]);
+
+		//BANK ACCOUNT
+		$this->form_validation->set_rules('bank_name', 'bank_name', 'callback_empty_to_null');
+		$this->form_validation->set_rules('bank_number', 'bank_number', 'callback_empty_to_null');
+		$this->form_validation->set_rules('bank_holder_name', 'bank_holder_name', 'callback_empty_to_null');
+
+		//EMERGENCY CONTACT
+		$this->form_validation->set_rules('name_contact', 'name_contact', 'callback_empty_to_null');
+		$this->form_validation->set_rules('number_contact', 'number_contact', 'callback_empty_to_null');
+		$this->form_validation->set_rules('as_contact', 'as_contact', 'callback_empty_to_null');
+		$this->form_validation->set_rules('address_contact', 'address_contact', 'callback_empty_to_null');
+
+		//ADDRESS
 		$this->form_validation->set_rules('kabupaten', 'kabupaten', 'required', [
 			'required' => 'Kabupaten/kota harus diisi!',
 		]);
@@ -247,25 +250,19 @@ class Employee extends MY_Controller{
 		$this->form_validation->set_rules('no_hp', 'no_hp', 'required', [
 			'required' => 'Nomer Hp harus diisi!',
 		]);
-		$this->form_validation->set_rules('npwp', 'npwp', 'min_length[16]|max_length[16]|is_unique[pph_config.npwp]',[
+		$this->form_validation->set_rules('npwp', 'npwp', 'is_unique[pph_config.npwp]',[
 			'is_unique' => 'NPWP sudah dipakai',
-			'min_length'=> 'NPWP minimal memiliki 16 karakter huruf',
-			'max_length'=> 'NPWP tidak boleh melebihi 16 huruf',
 		]);
-		$this->form_validation->set_rules('no_bpjs', 'no_bpjs', 'min_length[11]|max_length[13]|is_unique[bpjs_config.no_bpjs]',[
+		$this->form_validation->set_rules('no_bpjs', 'no_bpjs', 'is_unique[bpjs_config.no_bpjs]|callback_empty_to_null',[
 			'is_unique' => 'BPJS sudah dipakai',
-			'min_length'=> 'BPJS minimal memiliki 11 karakter huruf',
-			'max_length'=> 'BPJS tidak boleh melebihi 13 huruf',
+
 		]);
-		$this->form_validation->set_rules('nik', 'nik', 'required|min_length[16]|max_length[16]|is_unique[pph_config.nik]',[
-			'required' => 'NIK harus diisi',
+		$this->form_validation->set_rules('nik', 'nik', 'min_length[16]|max_length[16]|is_unique[pph_config.nik]|callback_empty_to_null',[
 			'is_unique' => 'NIK sudah dipakai',
 			'min_length'=> 'NIK minimal memiliki 16 karakter huruf',
 			'max_length'=> 'NIK tidak boleh melebihi 16 huruf',
 		]);
-		$this->form_validation->set_rules('id_ptkp', 'id_ptkp', 'required', [
-			'required' => 'Jenis PPH harus diisi!',
-		]);
+		$this->form_validation->set_rules('id_ptkp', 'id_ptkp', 'callback_empty_to_null');
 
 		if ($this->form_validation->run() == FALSE) {
 			$response = [
@@ -308,7 +305,7 @@ class Employee extends MY_Controller{
 			'type_employee' => $this->input->post('type_employee', true),
 			'contract_expired' => $contract_expired,
 			'basic_salary' => $this->input->post('basic_salary', true),
-			'bonus' => $this->input->post('bonus', true),
+			'type_uang_makan' => $this->input->post('type_uang_makan', true),
 		];
 		$account = [
 			'name' => $this->input->post('name', true),
@@ -371,6 +368,13 @@ class Employee extends MY_Controller{
 		echo json_encode($response);
 
 	}
+
+
+	public function empty_to_null($input)
+	{
+		return $input === "" ? NULL : $input;
+	}
+
 
 	public function edit_address(){
 		$this->_ONLYSELECTED([1,2]);
@@ -516,6 +520,9 @@ class Employee extends MY_Controller{
         $this->form_validation->set_rules('uang_makan', 'uang_makan', 'required', [
             'required' => 'Uang makan harus diisi',
         ]);
+			$this->form_validation->set_rules('type_uang_makan', 'type_uang_makan', 'required', [
+				'required' => 'Type uang makan harus diisi',
+			]);
         $this->form_validation->set_rules('nip', 'NIP', 'required|min_length[8]|max_length[18]', [
             'required' => 'NIP harus diisi',
             'min_length' => 'NIP minimal 8 karakter',
@@ -542,6 +549,10 @@ class Employee extends MY_Controller{
         $this->form_validation->set_rules('gender', 'Gender', 'required', [
             'required' => 'Gender harus diisi',
         ]);
+
+		$this->form_validation->set_rules('type_employee', 'type_employee', 'required', [
+			'required' => 'Type employee harus diisi',
+		]);
 
         if ($this->form_validation->run() == FALSE) {
             $response = [
@@ -583,7 +594,8 @@ class Employee extends MY_Controller{
             'id_division' => $this->input->post('id_division', true),
             'basic_salary' => $this->input->post('basic_salary', true),
             'uang_makan' => $this->input->post('uang_makan', true),
-            'bonus' => $this->input->post('bonus', true),
+            'type_employee' => $this->input->post('type_employee', true),
+            'type_uang_makan' => $this->input->post('type_uang_makan', true),
         ];
 
         $employee = $this->M_employees->update_post($id, $data);
@@ -653,6 +665,16 @@ class Employee extends MY_Controller{
 				$type = 'Permanent';
 			}
 
+			$type_uang_makan = '';
+			if ($item['type_uang_makan'] == 1) {
+				$type_uang_makan = 'Hari';
+			} else if ($item['type_uang_makan'] == 2) {
+				$type_uang_makan = 'Minggu';
+			} else {
+				$type_uang_makan = 'Bulan';
+			}
+
+
 			$contract = $item['contract_expired'] == null ? '-' : '<button 
                             class="btn btn-warning btn-sm rounded-pill btn-ec" 
                             data-bs-toggle="modal" 
@@ -676,7 +698,8 @@ class Employee extends MY_Controller{
                             data-edit_division="'. htmlspecialchars($item['id_division']) .'"
                             data-edit_basic_salary="'. htmlspecialchars($item['basic_salary']) .'"
                             data-edit_uang_makan="'. htmlspecialchars($item['uang_makan']) .'"
-                            data-edit_bonus="'. htmlspecialchars($item['bonus']) .'"
+                            data-edit_type_uang_makan="'. htmlspecialchars($item['type_uang_makan']) .'"
+                            data-type_employee="'. htmlspecialchars($item['type_employee']) .'"
                             data-edit_position="'. htmlspecialchars($item['id_position']) .'">
                                 EDIT
                         </a>
@@ -764,8 +787,7 @@ class Employee extends MY_Controller{
             $row[] = $type;
             $row[] = $contract;
             $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');
-            $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.');  
-            $row[] = 'Rp.'. number_format($item['bonus'], 0 , ',', '.');  
+            $row[] = 'Rp.'. number_format($item['uang_makan'], 0 , ',', '.').'/'.$type_uang_makan;
 			$row[] = $account_info;
 			$row[] = $bpjs_info;
 			$row[] = $pph_info;
@@ -1050,8 +1072,22 @@ class Employee extends MY_Controller{
 		$this->_isAjax();
 		$this->_ONLYSELECTED([1,2]);
 
+		$id_employee = $this->input->post('id_employee', true);
+		$employee = $this->M_employees->findById_get($id_employee);
+
+		if($employee['type_employee'] == 3){
+			$response = [
+				'status' => false,
+				'message' => 'Tidak bisa melakukan perpanjangan pada karyawan bertype permanent',
+			];
+
+			echo json_encode($response);
+
+			return;
+		}
+
 		$this->form_validation->set_rules('new_contract', 'new_contract', 'required', [
-			'required' => 'Kontrak baru harus diisi',
+		'required' => 'Kontrak baru harus diisi',
 		]);
 
 		$this->form_validation->set_rules('description', 'description', 'required', [
@@ -1071,7 +1107,7 @@ class Employee extends MY_Controller{
 			return;
 		}
 
-		$id_employee = $this->input->post('id_employee', true);
+
 
 		$data = [
 			'id_employee' => $this->input->post('id_employee', true),
@@ -1079,6 +1115,7 @@ class Employee extends MY_Controller{
 			'new_contract' => $this->input->post('new_contract', true),
 			'description' => $this->input->post('description', true),
 		];
+
 
 		$renewContract = $this->M_employees->renewContract_post($id_employee, $data['new_contract']);
 

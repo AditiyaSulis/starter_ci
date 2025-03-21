@@ -22,7 +22,7 @@
 
 <div class="mt-6">
 	<div class="row">
-		<div class="col-2 col-md-2 mb-3">
+		<div class="col-4 col-md-2 mb-3">
 			<label class="form-label">Waktu :</label>
 			<select id="filterSelect" class="form-select form-select-sm">
 				<option value="" selected>All</option>
@@ -38,7 +38,7 @@
 			</select>
 		</div>
 		<?php if($employee == 'false') :?>
-			<div class="col-2 col-md-2 mb-3">
+			<div class="col-4 col-md-2 mb-3">
 				<label class="form-label">Product :</label>
 				<select id="filterProduct" class="form-select form-select-sm">
 					<option value="" selected>All</option>

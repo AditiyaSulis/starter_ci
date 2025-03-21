@@ -1,9 +1,71 @@
 
 
+<!DOCTYPE html>
+
+<html lang="en" >
+
+    <head>
+        <title>Add User</title>
+        <meta charset="utf-8"/>
+    
+        <meta property="og:url" content="https://keenthemes.com/metronic"/>
+        <meta property="og:site_name" content="Metronic by Keenthemes" />
+        <link rel="canonical" href="https://preview.keenthemes.com/metronic8/demo1/authentication/layouts/corporate/sign-in.html"/>
+        <link rel="shortcut icon" href="/metronic8/demo1/assets/media/logos/favicon.ico"/>
 
 
-    <main>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                  
+        <link href="<?= base_url('asset/plugins/global/plugins.bundle.css')?>" rel="stylesheet" type="text/css"/>
+        <link href="<?= base_url('asset/css/style.bundle.css')?>" rel="stylesheet" type="text/css"/>
+    
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-52YZ3XGZJ6');
+        </script>        
+       
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+        <script>
+            if (window.top != window.self) {
+                    window.top.location.replace(window.self.location.href);
+            }
+        </script>
+        <script>
+            if (window.top != window.self) {
+                 window.top.location.replace(window.self.location.href);
+                }
+        </script>
+    </head>
+
+    <body  id="kt_body"  class="app-blank" >
+            <script>
+                var defaultThemeMode = "light";
+                var themeMode;
+
+                if ( document.documentElement ) {
+                    if ( document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                        themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+                    } else {
+                        if ( localStorage.getItem("data-bs-theme") !== null ) {
+                            themeMode = localStorage.getItem("data-bs-theme");
+                        } else {
+                            themeMode = defaultThemeMode;
+                        }			
+                    }
+
+                    if (themeMode === "system") {
+                        themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                    }
+
+                    document.documentElement.setAttribute("data-bs-theme", themeMode);
+                }            
+            </script>          
        
         <div class="d-flex flex-column flex-root" id="kt_app_root">
             <div class="d-flex flex-column flex-lg-row flex-column-fluid">    
@@ -14,11 +76,11 @@
                                 <form class="form w-100" novalidate="novalidate" id="addproduct" data-action="<?= site_url('auth/regist') ?>" enctype="multipart/form-data">
                                     <div class="text-center mb-11">
                                         <h1 class="text-gray-900 fw-bolder mb-3">
-                                            Add User
+                                            Sign Up
                                         </h1>
-<!--                                        <div class="text-gray-500 fw-semibold fs-6">-->
-<!--                                            Your Social Campaigns-->
-<!--                                        </div>-->
+                                        <div class="text-gray-500 fw-semibold fs-6">
+                                            Your Social Campaigns
+                                        </div>
                                     </div>
                                     <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
                                         <span>Avatar</span>
@@ -63,9 +125,16 @@
                                         </div>
                                     </div>
                                     <div class="fv-row mb-8">    
-                                        <input type="password" placeholder="Repeat Password" name="confirm-password" type="password" autocomplete="off" class="form-control bg-transparent"/>
+                                        <input type="text" placeholder="Repeat Password" name="confirm-password" type="password" autocomplete="off" class="form-control bg-transparent"/>
                                     </div>
-
+                                    <!-- <div class="fv-row mb-8">
+                                        <label class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="toc" value="1"/>
+                                            <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">
+                                                I Accept the <a href="#" class="ms-1 link-primary">Terms</a>
+                                            </span>
+                                        </label>
+                                    </div> -->
                                     <div class="d-grid mb-10">
                                         <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
                                                  <span class="indicator-label">
@@ -79,6 +148,10 @@
                                     </div>
                                     <div class="text-gray-500 text-center fw-semibold fs-6">
 
+
+<!--                                        <a href="--><?php //=base_url('admin/dashboard_page')?><!--" class="link-primary fw-semibold">-->
+<!--                                            Kembali Ke Dashboard-->
+<!--                                        </a>-->
                                     </div>
                             </form>
                         </div>
@@ -104,7 +177,9 @@
                 </div>
             </div>
         </div>
-
-    </main>
+            <script src="<?= base_url('asset/plugins/global/plugins.bundle.js')?>"></script>
+            <script src="<?= base_url('asset/js/scripts.bundle.js')?>"></script>
+            <script src="<?=base_url('asset/js/finance_record.js')?>"></script>
+    </body>
 
 </html>

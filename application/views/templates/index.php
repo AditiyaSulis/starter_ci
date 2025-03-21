@@ -605,6 +605,19 @@
 									</a>
 								</div>
 							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Batch Uang Makan' ? "active": ""?>" href="<?=base_url('admin/uang_makan/batch_uang_makan_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-wallet"></i>
+											</span>
+										</span>
+										<span class="menu-title">Uang Makan</span>
+									</a>
+								</div>
+							</div>
 						<?php endif;?>
 
 							<!--							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"-->
@@ -709,6 +722,19 @@
 								</div>
 							</div>
 
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Add User' ? "active": ""?>" href="<?=base_url('admin/userdata/signup')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-settings"></i>
+											</span>
+										</span>
+										<span class="menu-title">Add User</span>
+									</a>
+								</div>
+							</div>
 						<?php endif;?>
 
                     </div>

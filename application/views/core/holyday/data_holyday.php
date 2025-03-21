@@ -26,7 +26,7 @@
 
 <div class="mt-6">
 	<div class="row">
-		<div class="col-3 col-md-1 mb-3">
+		<div class="col-3 col-md-2 col-lg-1 mb-3">
 			<label class="form-label">Waktu :</label>
 			<select id="filterSelect" class="form-select form-select-sm">
 				<option value="" selected>All</option>
@@ -41,7 +41,7 @@
 				<option value="custom">Custom Range</option>
 			</select>
 		</div>
-		<div class="col-3 col-md-1 mb-3">
+		<div class="col-3 col-md-2 col-lg-1 mb-3">
 			<label class="form-label">Product :</label>
 			<select id="filterProduct" class="form-select form-select-sm">
 				<option value="" selected>All</option>
@@ -50,7 +50,7 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
-		<div class="col-4 col-md-2 mb-3 mt-8">
+		<div class="col-5 col-md-4 mb-3 mt-8">
 			<button type="button" class="btn gradient-btn-delete rounded-pill btn-sm" data-bs-toggle="modal" data-bs-target="#deleteByCodeModal">
 				<i class="bi bi-trash"></i>
 				Delete By Code

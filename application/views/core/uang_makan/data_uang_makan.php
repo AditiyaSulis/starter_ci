@@ -41,17 +41,17 @@
 				<th>No</th>
 				<th>Tanggal</th>
 				<th>Nama</th>
-				<th>Gaji</th>
 				<th>Uang Makan</th>
-				<th>Bonus</th>
-				<th>Day Off</th>
+				<th>Izin</th>
+				<th>Pot Izin</th>
+				<th>Cuti</th>
+				<th>Pot Cuti</th>
 				<th>Absen</th>
 				<th>Pot Absen</th>
-				<th>Pot PPH</th>
-				<th>Lembur</th>
-				<th>Total</th>
-				<th>Gaji Bersih</th>
-				<th>Deskripsi</th>
+				<th>Holiday</th>
+				<th>Pot Holiday</th>
+				<th>Total Potongan</th>
+				<th>Total Uang makan</th>
 				<th>Action</th>
 			</tr>
 			</thead>
@@ -77,7 +77,7 @@
 	let params = new URLSearchParams(window.location.search);
 	data =  {
 		'product' :  product,
-		'payroll' :  params.get('payroll'),
+		'uang_makan' :  params.get('uang_makan'),
 	}
 
 	function callDT() {
@@ -91,11 +91,11 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: base_urls + 'core/core_data/data_payroll_component',
+				url: base_urls + 'core/core_data/data_uang_makan',
 				type: 'POST',
 				data: function(d) {
 					d.product = $('#filterProduct').val();
-					d.payroll = data.payroll;
+					d.uang_makan = data.uang_makan;
 				}
 			},
 			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +

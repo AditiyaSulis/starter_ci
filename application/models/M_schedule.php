@@ -336,8 +336,27 @@ class M_schedule extends CI_Model
 		return $count;
 	}
 
+	public function totalScheduleByStatusForUangMakan_get($id, $type, $tanggal1, $status)
+	{
 
-	
+		if($type == 'minggu') {
+			$tanggal2 = date('Y-m-d', strtotime($tanggal1 . '-6 days'));
+		} else if ($type == 'bulan') {
+			$tanggal2 = date('Y-m-d', strtotime($tanggal1 . '-1 months'));
+		}
+
+		$count = $this->db
+			->where('id_employee', $id)
+			->where('status', $status)
+			->where('waktu >=', $tanggal2)
+			->where('waktu <=', $tanggal1)
+			->count_all_results('schedule');
+
+		return $count;
+	}
+
+
+
 
 	public function totalAbsentThisMonthByEmployeeId_get($id)
 	{

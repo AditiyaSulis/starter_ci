@@ -3,11 +3,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <main>
-	<h1>Payroll</h1>
+	<h1>Uang Makan</h1>
 
 	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
 		<i class="bi bi-plus-circle"></i>
-		Add Payroll
+		Add Batch
 	</button>
 
 	<?php $this->load->view($view_data); ?>
@@ -18,7 +18,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Payroll</h3>
+					<h3 class="modal-title">Uang makan</h3>
 					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
 							<span class="menu-icon">
 								<span class="svg-icon svg-icon-2">
@@ -29,18 +29,18 @@
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/payroll/add_batch_payroll') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/uang_makan/add_batch_uang_makan') ?>" enctype="multipart/form-data">
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Kode</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="text" name="code_payroll" autocomplete="off" class="form-control bg-transparent" />
+							<input type="text" name="code_batch_uang_makan" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Tanggal Input</span>
+							<span>Tanggal</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="date" value="<?= date('Y-m-d') ?>" name="input_at" autocomplete="off" class="form-control bg-transparent" />
+							<input type="date" value="<?= date('Y-m-d') ?>" name="tanggal_batch_uang_makan" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Product</span>
@@ -73,88 +73,51 @@
 							</select>
 						</div>
 
-						<div class="row">
-							<div class="col-md-5 col-5">
-								<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-									<span>Mulai</span>
-								</div>
-								<div class="fv-row mb-8">
-									<input type="date"  name="periode_gajian" autocomplete="off" class="form-control bg-transparent" />
-								</div>
-							</div>
-							<div class="col-md-5 col-5">
-								<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-									<span>Selesai</span>
-								</div>
-								<div class="fv-row mb-8">
-									<input type="date" value="<?= date('Y-m-d') ?>" name="tanggal_gajian" autocomplete="off" class="form-control bg-transparent" />
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-5 col-5">
-							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-								<span>bonus</span>
-							</div>
-							<div class="fv-row mb-8">
-								<input type="number" name="bonus" autocomplete="off" class="form-control bg-transparent" />
-							</div>
-						</div>
-
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+						<!--<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
 						</div>
 						<div class="fv-row mb-8">
 							<textarea type="text" class="form-control" id="description" name="description"></textarea>
-						</div>
+						</div>--!>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Insert Finance Record</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="finance_record" id="finance_record">
-									<option value="1" selected>Auto Insert</option>
-									<option value="2">Manual Insert</option>
+							<select class="form-select" aria-label="Default select example" name="auto_finance_record" id="auto_finance_record">
+								<option value="1" selected>Auto Insert</option>
+								<option value="2">Manual Insert</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Piutang</span>
+							<span>Potongan Libur nasional</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="piutang" id="piutang">
+							<select class="form-select" aria-label="Default select example" name="include_holiday" id="include_holiday">
 								<option value="1" selected>Yes</option>
 								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Potongan Telat</span>
+							<span>Potongan Cuti</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="include_potongan_telat" id="include_potongan_telat">
+							<select class="form-select" aria-label="Default select example" name="include_leave" id="include_leave">
 								<option value="1" selected>Yes</option>
 								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>BPJS</span>
+							<span>Potongan Absen</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="include_bpjs" id="include_bpjs">
-								<option value="1">Yes</option>
-								<option value="2" selected>No</option>
-							</select>
-						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>PPH</span>
-						</div>
-						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="include_pph" id="include_pph">
-								<option value="1">Yes</option>
-								<option value="2" selected>No</option>
+							<select class="form-select" aria-label="Default select example" name="include_absen" id="include_absen">
+								<option value="1" selected>Yes</option>
+								<option value="2">No</option>
 							</select>
 						</div>
 						<div class="d-grid mb-10">
 							<button type="submit" id="submit_product" class="btn btn-primary">
-								<span class="indicator-label">Generate Payroll</span>
+								<span class="indicator-label">Generate Batch Uang Makan</span>
 								<span class="indicator-progress">
 									Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -277,3 +240,4 @@
 		});
 	</script>
 </main>
+testssssss

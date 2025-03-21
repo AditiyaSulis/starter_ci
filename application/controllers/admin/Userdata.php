@@ -568,4 +568,119 @@ class Userdata extends MY_Controller{
         echo json_encode($response);
 
     }
+
+
+	public function signup()
+	{
+		$this->_ONLY_SU();
+		$data = $this->_basicData();
+
+
+		$data['title'] = 'Add Account';
+		$data['view_name'] = 'login/signup';
+		$data['menu'] = '';
+		$data['breadcrumb'] = 'Add Account';
+		if($data['user']){
+			$this->load->view('templates/index', $data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('panel');
+		}
+	}
+
+
+	public function regist()
+	{
+		$this->_ONLY_SU();
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('name', 'Name', 'required|min_length[4]|max_length[50]', [
+			'required' => 'Nama harus diisi',
+			'min_length' => 'Nama minimal memiliki 4 karakter huruf',
+			'max_length' => 'Nama tidak boleh melebihi 50 huruf',
+		]);
+		$this->form_validation->set_rules('role', 'role', 'required', [
+			'required' => 'Role harus diisi',
+		]);
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[4]|max_length[20]', [
+			'required' => 'Password harus diisi',
+			'min_length' => 'Password minimal memiliki 4 karakter huruf',
+			'max_length' => 'Password tidak boleh melebihi 20 huruf',
+		]);
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[admin.email]', [
+			'valid_email' => 'Invalid email',
+			'is_unique' => 'Email sudah digunakan'
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			echo json_encode([
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error'
+			]);
+			return;
+		}
+
+		if (empty($_FILES['avatar']['name'])) {
+			echo json_encode([
+				'status' => false,
+				'message' => 'Avatar harus diunggah',
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error'
+			]);
+			return;
+		}
+
+		$this->load->helper('image_helper');
+
+		$upload_path = 'avatar/';
+		$resize_width = 500;
+		$resize_height = 500;
+		$resize_quality = 60;
+
+		$upload_result = upload_and_resize('avatar', $upload_path, $resize_width, $resize_height, $resize_quality);
+
+		if (!$upload_result['status']) {
+			$response = [
+				'status' => false,
+				'message' => $upload_result['message'],
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$logo_name = $upload_result['message'];;
+
+
+		$lb = new Opensslencryptdecrypt();
+
+		$encrypt =$lb->encrypt($this->input->post('password', true));
+
+		$data = [
+			'avatar' => $logo_name,
+			'name' => $this->input->post('name', true),
+			'email' => $this->input->post('email', true),
+			'password' => $encrypt,
+			'role' => $this->input->post('role', true),
+		];
+
+
+
+		if ($this->M_admin->create_post($data)) {
+			$response = [
+				'status' => true,
+				'message' => 'Employee berhasil ditambahkan',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Employee gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+	}
 }

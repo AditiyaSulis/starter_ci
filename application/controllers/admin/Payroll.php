@@ -106,12 +106,6 @@ class Payroll extends MY_Controller{
 		$this->form_validation->set_rules('description', 'description', 'required', [
 			'required' => 'Deskripsi harus diisi',
 		]);
-		$this->form_validation->set_rules('holyday', 'holyday', 'required', [
-			'required' => 'holyday harus diisi',
-		]);
-		$this->form_validation->set_rules('include_cuti', 'include_cuti', 'required', [
-			'required' => 'Opsi Potongan cuti harus diisi',
-		]);
 		$this->form_validation->set_rules('include_potongan_telat', 'include_potongan_telat', 'required', [
 			'required' => 'Opsi Potongan telat harus diisi',
 		]);
@@ -150,8 +144,6 @@ class Payroll extends MY_Controller{
 			'input_at' => $this->input->post('input_at', true),
 			'include_piutang' => $this->input->post('piutang', true),
 			'include_finance_record' => $this->input->post('finance_record', true),
-			'include_holiday' => $this->input->post('holyday', true),
-			'include_cuti' => $this->input->post('include_cuti', true),
 			'include_potongan_telat' => $this->input->post('include_potongan_telat', true),
 			'include_bpjs' => $this->input->post('include_bpjs', true),
 			'include_pph' => $this->input->post('include_pph', true),
@@ -176,8 +168,6 @@ class Payroll extends MY_Controller{
 		foreach ($employees as $employeeId) {
 
 			$potPiutang = 0;
-			$totalPotHolyday = 0;
-			$totalPotCuti = 0;
 			$jht = 0;
 			$jp = 0;
 			$totalPotPph = 0;
@@ -188,33 +178,26 @@ class Payroll extends MY_Controller{
 			$pot_ptkp = 0;
 			$pph_akumulatif = 0;
 			$pengurangan_pajak = 0;
+			$bonus = $this->input->post('bonus');
 
 
 			//V2
-			$totalCuti = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 4 );
-			$totalIzin = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 5);
+
 			$totalDayoff = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 2);
 			$totalAbsent = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 7);
-			$totalHolyday = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 3);
 			$totalOvertime = $this->M_overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalTelat = 0;
 			$employee = $this->M_employees->findByIdJoin_get($employeeId);
 			
-			$izinPerhari = round($employee['uang_makan'] / 24);
+
 			$absenPerhari = round($employee['basic_salary'] / 27);
 			$totalPotAbsen = $absenPerhari * $totalAbsent;
-			$totalPotIzin = $izinPerhari * $totalIzin;
 
-			if($this->input->post('holyday', true) == 1) {
-				$totalPotHolyday = $izinPerhari * $totalHolyday;
-			}
+
+
 
 			if($this->input->post('include_potongan_telat', true) == 1) {
 				$totalTelat = $this->M_attendance->totalTelatLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
-			}
-
-			if($this->input->post('include_cuti', true) == 1) {
-				$totalPotCuti = $izinPerhari * $totalCuti;
 			}
 
 			if ($this->input->post('piutang', true) == 1) {
@@ -328,8 +311,6 @@ class Payroll extends MY_Controller{
 							}
 						}
 
-
-
 						$npwp = $this->M_pph_config->findByEmployeeId_get($employeeId);
 						$periode_gajian = $this->input->post('periode_gajian', true);
 						$date = new DateTime($periode_gajian);
@@ -351,17 +332,17 @@ class Payroll extends MY_Controller{
 
 			// Selesai PPH
 
-			$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang + $totalPotHolyday + $totalPotCuti + $totalTelat;
+			$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat;
 
 			if($this->input->post('include_bpjs', true) == 1 && $this->input->post('include_pph', true) == 2 ) {
 				$bpjs = $this->M_bpjs_config->findByEmployeeId_get($employeeId);
 				if($bpjs['no_bpjs'] == null || empty($bpjs['no_bpjs'])) {
 					$jht = 0.02 * $employee['basic_salary'];
 					$jp = 0.01 *  $employee['basic_salary'];
-					$totalPotongan = $totalPotAbsen + $totalPotIzin + $potPiutang + $totalPotHolyday + $totalPotCuti + $totalTelat + $jht + $jp;
+					$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $jht + $jp;
 				}
 			}
-			$totalGaji = $employee['basic_salary'] + $employee['uang_makan'] + $employee['bonus'] + $totalOvertime - $totalPotongan;
+			$totalGaji = $employee['basic_salary']  + $totalOvertime - $totalPotongan + $bonus;
 			$totalGajiSetelahPph = $totalGaji - $totalPotPph;
 
 			//Finance record Insert
@@ -371,7 +352,7 @@ class Payroll extends MY_Controller{
 					'product_id' => $employee['id_product'],
 					'amount' => $totalGajiSetelahPph,
 					'id_code' => 22,
-					'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
+					'description' => "Gaji ".$employee['name']." Dengan Code ".$this->input->post('code_payroll', true),
 				];
 				if( $this->input->post('include_pph', true) == 1) {
 					$dataFinanceRecordTax[] = [
@@ -379,7 +360,7 @@ class Payroll extends MY_Controller{
 						'product_id' => $employee['id_product'],
 						'amount' => $totalPotPph,
 						'id_code' => 32,
-						'description' => $this->input->post('tanggal_gajian', true) . "-PPH-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
+						'description' => "Potongann PPH ".$employee['name']." Dengan Code ".$this->input->post('code_payroll', true),
 					];
 				}
 			}
@@ -388,30 +369,21 @@ class Payroll extends MY_Controller{
 			$dataBatch = [
 				'id_employee' => $employeeId,
 				'id_payroll' => $idPayroll,
-				'bonus' => $employee['bonus'],
 				'tanggal_gajian' => $this->input->post('tanggal_gajian', true),
 				'periode_gajian' =>$this->input->post('periode_gajian', true),
 				'description' => $this->input->post('description', true),
-				'total_izin' => $totalIzin,
-				'total_cuti' => $totalCuti,
 				'total_absen' => $totalAbsent,
 				'total_overtime' => $totalOvertime,
 				'total_dayoff' => $totalDayoff,
 				'total_potongan_telat' => $totalTelat,
-				'potongan_cuti' => $totalPotCuti,
-				'cuti_hari' => $izinPerhari,
-				'total_libur_nasional' => $totalHolyday,
 				'piutang' => $potPiutang,
 				'total' => $totalGaji,
-				'potongan_libur_nasional' => $totalPotHolyday,
 				'potongan_absen' => $totalPotAbsen,
-				'potongan_izin' => $totalPotIzin,
 				'absen_hari' => $absenPerhari,
-				'izin_hari' => $izinPerhari,
-				'libur_nasional_hari' => $izinPerhari,
 				'total_potongan' => $totalPotongan,
 				'jht' => $jht,
 				'jp' => $jp,
+				'bonus' => $bonus,
 				'gaji_bersih' => $totalGajiSetelahPph,
 				'gaji_pokok' => $employee['basic_salary'],
 			];

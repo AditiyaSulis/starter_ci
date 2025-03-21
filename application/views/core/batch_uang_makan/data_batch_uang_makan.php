@@ -1,12 +1,12 @@
 <style>
 
-	#izin_table {
+	#payroll_table {
 		width: 100% !important;
 	}
 
 
-	#izin_table thead th,
-	#izin_table tbody td {
+	#payroll_table thead th,
+	#payroll_table tbody td {
 		white-space: nowrap;
 		padding: 5px;
 	}
@@ -16,18 +16,15 @@
 		width: 100% !important;
 	}
 
-
-
 </style>
 
-
 <div class="mt-6">
-	<div class="col-3 col-md-2 col-lg-1 mb-3">
-		<label class="form-label">Tanggal Izin:</label>
+	<div class="col-2 col-md-2 mb-3">
+		<label class="form-label">Input At:</label>
 		<select id="filterSelect" class="form-select form-select-sm">
 			<option value="" selected>All</option>
 			<option value="today">Today</option>
-			<option value="tomorrow">Tomorrow</option>
+			<option value="tommorow">Tomorrow</option>
 			<option value="this_week">This Week</option>
 			<option value="next_week">Next Week</option>
 			<option value="this_month">This Month</option>
@@ -38,20 +35,17 @@
 		</select>
 	</div>
 	<div style="overflow-x: auto; width: 100%;">
-		<table id="izin_table" class="table table-bordered table-striped" style="width:100%">
+		<table id="batch_uang_makan_table" class="table table-bordered table-striped" style="width:100%">
 			<thead class="table-primary">
 			<?php $no = 1 ?>
 			<tr>
 				<th>No</th>
-				<th>Tanggal Input</th>
-				<th>Nama</th>
-				<th>Produk</th>
-				<th>Divisi</th>
-				<th>Tanggal Izin</th>
-				<th>Alasan</th>
-				<th>Bukti</th>
-				<th>Status</th>
-				<th>Deskripsi</th>
+				<th>Tanggal</th>
+				<th>Kode</th>
+				<th>Insert Finance Record</th>
+				<th>Potong Libur Nasional</th>
+				<th>Potong Cuti</th>
+				<th>Potong Absen</th>
 				<th>Action</th>
 			</tr>
 			</thead>
@@ -64,31 +58,27 @@
 
 
 <script>
-	let table;
+	let table1;
 	let option = '';
 	let startDate = '';
 	let endDate = '';
-	let employee = '<?= $employee;?>';
-	const base_urls = $('meta[name="base_url"]').attr('content');
+	const baseur = $('meta[name="base_url"]').attr('content');
 
 	$(document).ready(function(){
-		let params = new URLSearchParams(window.location.search);
-		data = Object.fromEntries(params.entries());
+		let para = new URLSearchParams(window.location.search);
+		data = Object.fromEntries(para.entries());
 	});
 
 
-	let params = new URLSearchParams(window.location.search);
+	let para = new URLSearchParams(window.location.search);
 	data =  {
 		'option' :  option,
 		'startDate' :  startDate,
 		'endDate' :  endDate,
-		'employee' : employee,
-		'status_izin' :  params.get('status_izin'),
-		'with_alerts' :  params.get('with_alerts'),
 	}
 
-	function callDT() {
-		table = $('#izin_table').DataTable({
+	function callDT1() {
+		table1 = $('#batch_uang_makan_table').DataTable({
 			responsive: {
 				details: {
 					type: 'column',
@@ -98,15 +88,12 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: base_urls + 'core/core_data/data_izin',
+				url: baseur + 'core/core_data/data_batch_uang_makan',
 				type: 'POST',
 				data: function(d) {
 					d.option = $('#filterSelect').val();
-					d.startDate = $('#startDate').val();
-					d.endDate = $('#endDate').val();
-					d.employee = data.employee;
-					d.status_izin = data.status_izin;
-					d.with_alerts = data.with_alerts;
+					d.startDate = data.startDate;
+					d.endDate = data.endDate;
 				}
 			},
 			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
@@ -119,8 +106,9 @@
 				{ targets: -1, responsivePriority: 2 },
 			]
 		});
+
 		$('#filterSelect').on('change', function() {
-			option = $(this).val();
+
 			if (option === 'custom') {
 				$('#customDateModal').modal('show');
 			} else {
@@ -133,8 +121,7 @@
 	}
 
 
-
-	callDT();
+	callDT1();
 
 
 

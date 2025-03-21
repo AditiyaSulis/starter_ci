@@ -102,6 +102,9 @@ class Auth extends CI_Controller{
             'min_length' => 'Nama minimal memiliki 4 karakter huruf',
             'max_length' => 'Nama tidak boleh melebihi 50 huruf',
         ]);
+		$this->form_validation->set_rules('role', 'role', 'required', [
+			'required' => 'Role harus diisi',
+		]);
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[4]|max_length[20]', [
             'required' => 'Password harus diisi',
             'min_length' => 'Password minimal memiliki 4 karakter huruf',
@@ -133,35 +136,34 @@ class Auth extends CI_Controller{
             ]);
             return;
         }
-    
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|png|jpg|jpeg';
-        $config['max_size'] = 2048;
-        $config['file_name'] = time() . '_' . $_FILES['avatar']['name'];
-    
-        $this->upload->initialize($config);
-    
-        if (!$this->upload->do_upload('avatar')) {
-            $error = $this->upload->display_errors();
-            echo json_encode([
-                'status' => false,
-                'message' => 'Gagal mengunggah avatar: ' . $error,
-                'confirmationbutton' => true,
-                'timer' => 0,
-                'icon' => 'error'
-            ]);
-            return;
-        }
-    
-        $file_data = $this->upload->data();
-        $avatar = $file_data['file_name'];
+
+		$this->load->helper('image_helper');
+
+		$upload_path = 'avatar/';
+		$resize_width = 500;
+		$resize_height = 500;
+		$resize_quality = 60;
+
+		$upload_result = upload_and_resize('avatar', $upload_path, $resize_width, $resize_height, $resize_quality);
+
+		if (!$upload_result['status']) {
+			$response = [
+				'status' => false,
+				'message' => $upload_result['message'],
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$logo_name = $upload_result['message'];;
+
 
         $lb = new Opensslencryptdecrypt();
 
         $encrypt =$lb->encrypt($this->input->post('password', true));
     
         $data = [
-            'avatar' => $avatar,
+            'avatar' => $logo_name,
             'name' => $this->input->post('name', true),
             'email' => $this->input->post('email', true),
             'password' => $encrypt,

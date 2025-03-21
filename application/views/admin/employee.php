@@ -27,7 +27,7 @@
     </button>
 
     <div class="row g-3 align-items-center mt-4">
-        <div class="col-12 col-md-auto">
+        <div class="col-6 col-md-3">
             <label class="form-label">Product:</label>
             <select id="filter-product" class="form-select form-select-sm">
                 <option value="All" selected>All</option>
@@ -56,7 +56,6 @@
 					<th>Contract</th>
 					<th>Gaji</th>
 					<th class="px-2">Uang Makan</th>
-					<th class="px-2">Bonus</th>
 					<th>Account</th>
 					<th>BPJS</th>
 					<th>PPH 21</th>
@@ -196,6 +195,15 @@
                             <input type="number" class="form-control" name="uang_makan" required />
                         </div>
 						<div class="mb-3" id="type">
+							<label for="position" class="form-label">Type Uang Makan</label>
+							<select id="type_uang_makan" class="form-select" name="type_uang_makan" required>
+								<option value="" selected>-pilih tipe-</option>
+								<option value="1">Harian</option>
+								<option value="2">Mingguan</option>
+								<option value="3">Bulanan</option>
+							</select>
+						</div>
+						<div class="mb-3" id="type">
 							<label for="position" class="form-label">Type Karyawan</label>
 							<select id="type_employee" class="form-select" name="type_employee" required>
 								<option value="" selected>-pilih tipe-</option>
@@ -210,17 +218,13 @@
 								<input type="date" class="form-control" name="contract_expired" />
 							</div>
 						</div>
-                        <div class="mb-3">
-                            <label for="bonus" class="form-label">Bonus</label>
-                            <input type="number" value="0" class="form-control" name="bonus" required />
-                        </div>
 						<div class="mb-3">
 							<label for="npwp" class="form-label">NPWP</label>
 							<input type="number"  class="form-control" name="npwp"  />
 						</div>
 						<div class="mb-3">
 							<label for="position" class="form-label">Jenis PPH</label>
-							<select class="form-select" name="id_ptkp" required>
+							<select class="form-select" name="id_ptkp">
 								<option value="" selected>Pilih Jenis PPH</option>
 								<?php foreach($pph as $pph_21): ?>
 									<option value="<?= $pph_21['id_ptkp'] ?>"><?= $pph_21['code_ptkp'] ?></option>
@@ -229,7 +233,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="nik" class="form-label">NIK</label>
-							<input type="number"  class="form-control" name="nik" required />
+							<input type="number"  class="form-control" name="nik"  />
 						</div>
 						<div class="mb-3">
 							<label for="no_bpjs" class="form-label">No.BPJS</label>
@@ -335,15 +339,15 @@
 					<form id="addBankForm">
 						<div class="mb-3">
 							<label for="form_text1" class="form-label">Nama Bank</label>
-							<input type="text" class="form-control" id="bank_name1" placeholder="Bank Name" name="bank_name" required>
+							<input type="text" class="form-control" id="bank_name1" placeholder="Bank Name" name="bank_name">
 						</div>
 						<div class="mb-3">
 							<label for="form_text2" class="form-label">No.Rek</label>
-							<input type="number" class="form-control" id="bank_number1" placeholder="Bank Number" name="bank_number" required>
+							<input type="number" class="form-control" id="bank_number1" placeholder="Bank Number" name="bank_number" >
 						</div>
 						<div class="mb-3">
 							<label for="form_text2" class="form-label">Atas Nama</label>
-							<input type="text" class="form-control" id="bank_holder_name1" placeholder="Holder Name" name="bank_holder_name" required>
+							<input type="text" class="form-control" id="bank_holder_name1" placeholder="Holder Name" name="bank_holder_name" >
 						</div>
 						<div class="d-grid mb-10 mt-10">
 						</div>
@@ -372,11 +376,11 @@
 					<form id="addEcForm">
 						<div class="mb-5">
 							<label for="form_text1" class="form-label">Name</label>
-							<input type="text" class="form-control" id="name_contact1" placeholder="Name contact" name="name_contact" required>
+							<input type="text" class="form-control" id="name_contact1" placeholder="Name contact" name="name_contact">
 						</div>
 						<div class="mb-5">
 							<label for="form_text2" class="form-label">No.Hp</label>
-							<input type="number" class="form-control" id="number_contact1" placeholder="08122xxxx" name="number_contact" required>
+							<input type="number" class="form-control" id="number_contact1" placeholder="08122xxxx" name="number_contact">
 						</div>
 						<div class="mb-5">
 							<label for="form_text2" class="form-label">Hubungan</label>
@@ -390,7 +394,7 @@
 						</div>
 						<div class="mb-5">
 							<label for="form_text2" class="form-label">Alamat</label>
-							<textarea type="text" class="form-control" id="address_contact1" name="address_contact" required></textarea>
+							<textarea type="text" class="form-control" id="address_contact1" name="address_contact"></textarea>
 						</div>
 					</form>
 				</div>
@@ -453,6 +457,7 @@
                             <label for="edit_dob" class="form-label">Tanggal Lahir</label>
                             <input type="date" name="date_of_birth" id="edit_dob" class="form-control">
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" id="nextToEditSalary" class="btn btn-primary w-100">Next</button>
                         </div>
@@ -504,10 +509,24 @@
                             <label for="edit_salary" class="form-label">Uang Makan</label>
                             <input type="number" name="uang_makan" id="edit_uang_makan" class="form-control">
                         </div>
-                        <div class="mb-3">
-                            <label for="edit_salary" class="form-label">Bonus</label>
-                            <input type="number" name="bonus" id="edit_bonus" class="form-control">
-                        </div>
+						<div class="mb-3" id="type">
+							<label for="position" class="form-label">Type Uang Makan</label>
+							<select id="type_uang_makan_edit" class="form-select" name="type_uang_makan" required>
+								<option value="" selected>-pilih tipe-</option>
+								<option value="1">Harian</option>
+								<option value="2">Mingguan</option>
+								<option value="3">Bulanan</option>
+							</select>
+						</div>
+						<div class="mb-3" id="type">
+							<label for="position" class="form-label">Type Karyawan</label>
+							<select id="type_employee_edit" class="form-select" name="type_employee" required>
+								<option value="" selected>-pilih tipe-</option>
+								<option value="1">Kontrak</option>
+								<option value="2">Magang</option>
+								<option value="3">Permanent</option>
+							</select>
+						</div>
                         <div class="modal-footer">
                             <div class="row">
                                 <div class="col-md-6">
@@ -701,7 +720,7 @@
 		</div>
 	</div>
 
-
+	<!-- Modal Address-->
 	<div class="modal fade" id="addressShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -785,7 +804,7 @@
 			</div>
 	</div>
 
-
+	<!-- Modal User Account-->
 	<div class="modal fade" id="userShowModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -834,7 +853,7 @@
 						<input type="hidden" id="edit_id_employee_pph" name="id_employee">
 						<div class="mb-3">
 							<label for="position" class="form-label">Jenis PPH</label>
-							<select class="form-select" name="id_ptkp" id="edit_id_ptkp" required>
+							<select class="form-select" name="id_ptkp" id="edit_id_ptkp">
 								<option value="" selected>Pilih Jenis PPH</option>
 								<?php foreach($pph as $pph_21): ?>
 									<option value="<?= $pph_21['id_ptkp'] ?>"><?= $pph_21['code_ptkp'] ?></option>
@@ -843,11 +862,11 @@
 						</div>
 						<div class="mb-3">
 							<label for="form_text1" class="form-label">NIK</label>
-							<input type="number" class="form-control" id="nik_edit" placeholder="nik" name="nik" required>
+							<input type="number" class="form-control" id="nik_edit" placeholder="nik" name="nik">
 						</div>
 						<div class="mb-3">
 							<label for="form_text2" class="form-label">NPWP</label>
-							<input type="number" class="form-control" id="npwp_edit" placeholder="npwp" name="npwp" required>
+							<input type="number" class="form-control" id="npwp_edit" placeholder="npwp" name="npwp">
 						</div>
 						<button type="submit" class="btn btn-primary">
 									<span class="indicator-label">
@@ -878,7 +897,7 @@
 						<input type="hidden" id="edit_id_employee_bpjs" name="id_employee">
 						<div class="mb-3">
 							<label for="form_text2" class="form-label">NO BPJS</label>
-							<input type="number" class="form-control" id="no_bpjs_edit" placeholder="no bpjs" name="no_bpjs" required>
+							<input type="number" class="form-control" id="no_bpjs_edit" placeholder="no bpjs" name="no_bpjs">
 						</div>
 						<button type="submit" class="btn btn-primary">
 								<span class="indicator-label">
@@ -1456,7 +1475,7 @@
 		});
 
 
-         // ------------EDIT FINANCE
+         // ------------EDIT EMPLOYEE
          function editEmployeeBtn(element) 
         {
             const id = $(element).data('edit_id');
@@ -1470,8 +1489,9 @@
             const division = $(element).data('edit_division');
             const basicSalary = $(element).data('edit_basic_salary');
             const uangMakan = $(element).data('edit_uang_makan');
-            const bonus = $(element).data('edit_bonus');
+            const type_uang_makan = $(element).data('edit_type_uang_makan');
             const position = $(element).data('edit_position');
+            const type_employee = $(element).data('type_employee');
 
             $('#edit_employee_id').val(id);
             $('#edit_product').val(product);
@@ -1484,13 +1504,14 @@
             $('#edit_division').val(division);
             $('#edit_salary').val(basicSalary);
             $('#edit_uang_makan').val(uangMakan);
-            $('#edit_bonus').val(bonus);
+            $('#type_uang_makan_edit').val(type_uang_makan);
             $('#edit_position').val(position);
+            $('#type_employee_edit').val(type_employee);
 
             $('#editProduct').modal('show');
         }
 
-        
+		// ------------EDIT SALARY
         $(document).ready(function () 
         {
 
@@ -1672,7 +1693,7 @@
 
 		});
 
-		// SHOW AND EDIT MODAL
+		// SHOW AND EDIT address MODAL
 		const editAddressModal = document.getElementById('addressShowModal');
 		editAddressModal.addEventListener('show.bs.modal', function (event) {
 			// console.log("Related Target:", event.relatedTarget);

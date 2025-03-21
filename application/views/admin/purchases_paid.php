@@ -89,7 +89,7 @@
                             <div class="card card-flush h-lg-100 ">
                                 <div class="card-header px-5 mb-0" style="min-height:55px !important">
                                     <h3 class="card-title align-items-start flex-column mb-0">
-                                        <p class="fw-bold mb-0 text-primary">Final Amount</sp>
+                                        <p class="fw-bold mb-0 text-primary">Final Amount</p>
                                     </h3>
                                 </div>
                                 <div class="card-body px-5 pb-4 pt-0">
@@ -112,7 +112,7 @@
                             <div class="card card-flush h-lg-100 ">
                                 <div class="card-header px-5 mb-0" style="min-height:55px !important">
                                     <h3 class="card-title align-items-start flex-column mb-0">
-                                        <p class="fw-bold mb-0 text-primary">Payment Amount</sp>
+                                        <p class="fw-bold mb-0 text-primary">Payment Amount</p>
                                     </h3>
                                 </div>
                                 <div class="card-body px-5 pb-4 pt-0">

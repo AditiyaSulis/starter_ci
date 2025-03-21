@@ -22,7 +22,7 @@
 
 
 <div class="row g-3 align-items-center mt-4">
-	<div class="col-12 col-md-auto">
+	<div class="col-4 col-md-2">
 		<label class="form-label">Type Piutang :</label>
 		<select id="filter-type" class="form-select form-select-sm">
 			<option value="All" selected>All</option>
@@ -30,7 +30,7 @@
 			<option value="1">Pinjaman</option>
 		</select>
 	</div>
-	<div class="col-12 col-md-auto">
+	<div class="col-4 col-md-2">
 		<label class="form-label">Pelunasan :</label>
 		<select id="filter-tenor" class="form-select form-select-sm">
 			<option value="All" selected>All</option>

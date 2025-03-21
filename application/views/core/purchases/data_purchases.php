@@ -21,7 +21,7 @@
 </style>
 
 <div class="mt-6">
-	<div class="col-2 col-md-2 mb-3">
+	<div class="col-3 col-md-2 mb-3">
 		<label class="form-label">Jatuh Tempo:</label>
 		<select id="filterSelect" class="form-select form-select-sm">
 			<option value="" selected>All</option>
