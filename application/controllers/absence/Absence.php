@@ -14,31 +14,67 @@ class Absence extends MY_Controller{
 
     }
 
-    public function absence_page()
-    {
-        $this->_ONLYSELECTED([3]);
-        $data = $this->_basicData();
 
-        $data['title'] = 'Absence';
-        $data['view_name'] = 'absence/index';
-        $data['breadcrumb'] = 'Absence';
-        $data['menu'] = '';
+	public function absence_page()
+	{
+		$this->_ONLYSELECTED([3]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Absence';
+		$data['view_name'] = 'absence/index';
+		$data['breadcrumb'] = 'Absence';
+		$data['menu'] = '';
 
 		$id = $this->M_employees->findByEmail_get($data['user']['email']);
 		$data['employee'] = $id['id_employee'];
 
 		$today = date('Y-m-d');
+		$current_time = date('H:i:s');
+
 
 		$data['schedule'] = $this->M_schedule->findScheduleToday_get($data['employee'], $today);
+		//Mencari jadwal
+		$yesterdayAttend = $this->M_schedule->findYesterdaySchedule_get($data['employee'], $today);
+		if($yesterdayAttend) {
+			//Mencari jadwal kemarin apakah sudah membuat kehadiran?
+			$anyAttend = $this->M_attendance->anyAttendance_get($yesterdayAttend['id_schedule']);
+
+			if(!$anyAttend) {
+				//Apakah jam sekarang sudah melebihi waktu clock out?
+				$isOnSchedule = strtotime($current_time) <= strtotime($yesterdayAttend['clock_out']) && strtotime($current_time) <= strtotime($yesterdayAttend['clock_in']) ;
+				if($isOnSchedule){
+					$data['schedule'] = $yesterdayAttend;
+				}
+			}
+		}
+
+
+
+
+//		$response = [
+//
+//			'data' => $yesterdayAttend,
+//			//'on' => $isOnSchedule ,
+//			'schedule' => $data['schedule'],
+//			//any' => $anyAttend,
+//
+//		];
+//
+//		echo json_encode($response);
+//
+//		die();
+
 		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
 
-        if($data['user']) { 
-            $this->load->view('templates/index' ,$data);
-        } else {
-            $this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
-            redirect('fetch/login');
-        }
-    }
+		if ($data['user']) {
+			$this->load->view('templates/index', $data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('panel');
+		}
+	}
+
+
 
 
 	public function add_attendance()
@@ -110,7 +146,10 @@ class Absence extends MY_Controller{
 
 		$timeManagement = true;
 
-		if(strtotime($jam_masuk) > strtotime($clockIn)) {
+		$schedule = $this->M_schedule->findById_get($idSchedule);
+
+
+		if(strtotime($jam_masuk) > strtotime($clockIn) || strtotime($tanggal) > strtotime($schedule['waktu'])) {
 			$timeManagement = false;
 		}
 
@@ -122,6 +161,8 @@ class Absence extends MY_Controller{
 			echo json_encode(['status' => false, 'message' => "Anda berjarak $distance meter dari lokasi tempat anda bekerja"]);
 			return;
 		}
+
+
 
 		$dataAtt = [
 			'id_employee' =>$idEmployee,
@@ -138,7 +179,7 @@ class Absence extends MY_Controller{
 		$attendance = $this->M_attendance->create_post($dataAtt);
 
 		if ($attendance) {
-			$this->M_schedule->setStatus_post($idEmployee, $tanggal, '6');
+			$this->M_schedule->setStatusById_post($idSchedule, '6');
 			$response = [
 				'status' => true,
 				'sc' => $idSchedule,
@@ -155,4 +196,34 @@ class Absence extends MY_Controller{
 		echo json_encode($response);
 	}
 
+
+
+	/* public function absence_page()
+	 {
+		 $this->_ONLYSELECTED([3]);
+		 $data = $this->_basicData();
+
+		 $data['title'] = 'Absence';
+		 $data['view_name'] = 'absence/index';
+		 $data['breadcrumb'] = 'Absence';
+		 $data['menu'] = '';
+
+		 $id = $this->M_employees->findByEmail_get($data['user']['email']);
+		 $data['employee'] = $id['id_employee'];
+
+		 $today = date('Y-m-d');
+
+		 $data['schedule'] = $this->M_schedule->findScheduleToday_get($data['employee'], $today);
+		 $data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
+
+		 if($data['user']) {
+			 $this->load->view('templates/index' ,$data);
+		 } else {
+			 $this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			 redirect('panel');
+		 }
+	 }*/
+
 }
+
+

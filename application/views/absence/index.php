@@ -1,5 +1,6 @@
 <?php
 $status = '';
+
 if($schedule) {
 	if($schedule['status']==1) {
 		$status = '<p class="card-text">Silahkan melakukan absen dengan menekan tombol dibawah.</p>
@@ -19,7 +20,8 @@ if($schedule) {
 								</span>
 								</button>
 						</form>
-						<p class="card-text text-danger">*Jam Masuk : '.date("H:i", strtotime($schedule['clock_in'])).'</p> 
+						<span class="card-text text-danger">*Jadwal : '.date("d-m-Y", strtotime($schedule['waktu'])).'</span> 
+						<p class="card-text text-danger">Jam Masuk : '.date("H:i", strtotime($schedule['clock_in'])).'</p> 
 						<p class="card-text text-danger">Pastikan dalam radius maksimal 250 meter dari lokasi kerja anda. </p>';
 	}
 	else if($schedule['status']== 2) {
@@ -40,9 +42,17 @@ if($schedule) {
 }
 
 
+
+
+
+
 ?>
 
+
 <main>
+
+
+
 	<h1>Absence</h1>
 
 	<ul class="nav nav-tabs mt-8">
@@ -55,11 +65,11 @@ if($schedule) {
 	</ul>
 
 	<div class="row mt-12">
-		<div class="col-md-6 mb-4 col-sm-12">
+		<div class="col-md-8 mb-4 col-sm-12">
 			<h4>Data Kehadiran Hari Ini</h4>
 				<?php $this->load->view($view_log_attendance); ?>
 		</div>
-		<div class="col-md-6 mb-4 col-sm-12">
+		<div class="col-md-4 mb-4 col-sm-12">
 			<div class="card text-center">
 				<div class="card-header d-flex justify-content-center pt-4">
 					<h5 class="card-title">Attendance</h5>

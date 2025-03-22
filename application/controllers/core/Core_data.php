@@ -1066,6 +1066,7 @@ class Core_data extends MY_Controller{
 			$row[] = $time_management;
 			$row[] = 'Rp.'.number_format($item['potongan_telat'], 0 , ',', '.');
 			$row[] =  date('d M Y', strtotime($item['tanggal_masuk']));
+			$row[] =  date('d M Y', strtotime($item['waktu']));
 			$row[] = $action;
 			$data[] = $row;
 		}

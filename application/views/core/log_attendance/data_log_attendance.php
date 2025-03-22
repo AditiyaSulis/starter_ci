@@ -21,7 +21,7 @@
 
 <div class="mt-6">
 	<div class="row">
-		<div class="col-3 col-md-2 mb-3">
+		<div class="col-5 col-md-3 mb-3">
 			<label class="form-label">Waktu :</label>
 			<select id="filterSelect" class="form-select form-select-sm">
 				<option value="today" selected>Today</option>
@@ -35,7 +35,7 @@
 				<option value="custom">Custom Range</option>
 			</select>
 		</div>
-		<div class="col-3 col-md-2 mb-3">
+		<div class="col-5 col-md-3 mb-3">
 			<label class="form-label">Kehadiran :</label>
 			<select id="filterTimeManagement" class="form-select form-select-sm">
 				<option value="all" selected>All</option>
@@ -69,6 +69,7 @@
 				<th>Kehadiran</th>
 				<th>Potongan</th>
 				<th>Tanggal Absen</th>
+				<th>Jadwal</th>
 				<th>Action</th>
 			</tr>
 			</thead>

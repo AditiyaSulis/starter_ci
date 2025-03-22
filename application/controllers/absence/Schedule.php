@@ -236,15 +236,15 @@ class Schedule extends MY_Controller{
 				$event = '';
 
 				switch ($schedules['status']) {
-					case 1: $event = '<div class="jadwal">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</div>'; break;
-					case 2: $event = '<div class="dayoff">Day Off</div>'; break;
-					case 3: $event = '<div class="tanggal_merah">Tanggal Merah</div>'; break;
-					case 4: $event = '<div class="cuti">Cuti</div>'; break;
-					case 5: $event = '<div class="izin">Izin</div>'; break;
-					case 6: $event = '<div class="hadir">Hadir</div>'; break;
-					case 7: $event = '<div class="absen">Absen</div>'; break;
-					case 7: $event = '<div class="minggu">Minggu</div>'; break;
-					default: $event = '<div class="nothing">Tidak ada jadwal</div>';
+					case 1: $event = '<span class="jadwal badge">'.date("H:i", strtotime($schedules['clock_in'])).' - '.date("H:i", strtotime($schedules['clock_out'])).'</span>'; break;
+					case 2: $event = '<span class="dayoff badge">Day Off</span>'; break;
+					case 3: $event = '<span class="tanggal_merah badge">Tanggal Merah</span>'; break;
+					case 4: $event = '<span class="cuti badge">Cuti</span>'; break;
+					case 5: $event = '<span class="izin badge">Izin</span>'; break;
+					case 6: $event = '<span class="hadir badge" style="background-color: lightseagreen;">Hadir</span>'; break;
+					case 7: $event = '<span class="absen badge">Absen</span>'; break;
+					case 8: $event = '<span class="minggu badge">Minggu</span>'; break;
+					default: $event = '<span class="nothing badge">Tidak ada jadwal</span>';
 				}
 
 				$jadwal[$tanggal] = $event;

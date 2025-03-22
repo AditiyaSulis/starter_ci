@@ -121,7 +121,7 @@ class m_attendance extends CI_Model
 
 		$id = $this->input->post('employee', true);
 
-		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk, attendance.time_management, attendance.potongan_telat,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
+		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk, attendance.time_management, attendance.potongan_telat,  schedule.id_workshift, schedule.waktu, workshift.clock_in, workshift.clock_out,  workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
 		if($id != 'false') {
 			$this->db->where('attendance.id_employee', $id);
 		}
@@ -206,6 +206,16 @@ class m_attendance extends CI_Model
 		$this->db->update('attendance');
 
 		return true;
+
+	}
+
+	public function anyAttendance_get($id){
+
+			$this->db->select('*');
+			$this->db->where('id_schedule', $id);
+			$this->db->from('attendance');
+
+			return $this->db->get()->row_array();
 
 	}
 

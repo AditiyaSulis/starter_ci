@@ -59,6 +59,22 @@ class M_schedule extends CI_Model
 	}
 
 
+
+	public function findYesterdaySchedule_get($id, $today)
+	{
+		$yesterday = date('Y-m-d', strtotime('-1 day', strtotime($today)));
+		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.status, schedule.waktu, schedule.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, attendance.jam_masuk');
+		$this->db->where('schedule.id_employee', $id);
+		$this->db->where('schedule.waktu', $yesterday);
+		$this->db->from('schedule');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		$this->db->join('attendance', 'attendance.id_schedule = schedule.id_schedule', 'left');
+		return $this->db->get()->row_array();
+	}
+
+
+
+
 	public function findAllWithJoin_get()
 	{
 		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.id_employee, employee.name_employee');
@@ -273,13 +289,14 @@ class M_schedule extends CI_Model
 
 
 	public function mark_absent_if_no_checkin() {
-		$currentDate = date('Y-m-d', strtotime('-1 day'));
-
-		$this->db->where('status', 1);
-		$this->db->where('waktu <=', $currentDate);
-		$this->db->update('schedule', ['status' => 7]);
-
-		return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
+		//		$currentDate = date('Y-m-d', strtotime('-1 day'));
+		//
+		//		$this->db->where('status', 1);
+		//		$this->db->where('waktu <=', $currentDate);
+		//		$this->db->update('schedule', ['status' => 7]);
+		//
+		//		return $this->db->affected_rows();
+		return 'test';
 	}
 	
 

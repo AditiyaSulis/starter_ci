@@ -33,45 +33,89 @@ function swallMssg_s(mssg, btnconf, timer){
 }
 
 // Add Product
+// $(document).ready(function () {
+//     $("#addproduct").on("submit", function (e) {
+//         e.preventDefault();
+//
+//         var formElement = this;
+//         var formData = new FormData(formElement);
+//
+//         $("#submit_product").prop("disabled", true);
+//
+//         $.ajax({
+//             url: $(formElement).data("action"),
+//             type: "POST",
+//             data: formData,
+//             contentType: false,
+//             processData: false,
+//             dataType: "json",
+//             success: function (response) {
+//                 $("#submit_product").prop("disabled", false);
+//                 if (response.status) {
+//                     swallMssg_s(response.message, false, 1500)
+//                     .then(() =>  {
+//                         location.reload();
+//                     });
+//                 } else {
+//                     swallMssg_e(response.message, true, 0);
+//                 }
+//             },
+//             error: function (xhr, status, error) {
+//                 $("#submit_product").prop("disabled", false);
+//                 swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0).
+//                 then(() =>  {
+//                     location.reload();
+//                 });
+//             },
+//         });
+//     });
+//
+// });
 $(document).ready(function () {
-    $("#addproduct").on("submit", function (e) {
-        e.preventDefault(); 
+	$("#addproduct").on("submit", function (e) {
+		e.preventDefault();
 
-        var formElement = this; 
-        var formData = new FormData(formElement); 
+		var formElement = this;
+		var formData = new FormData(formElement);
 
-        $("#submit_product").prop("disabled", true); 
+		// Menonaktifkan tombol submit
+		$("#submit_product").prop("disabled", true);
+		$("#submit_product").text("Processing..."); // Opsional: menambahkan teks loading pada tombol
 
-        $.ajax({
-            url: $(formElement).data("action"), 
-            type: "POST", 
-            data: formData,
-            contentType: false, 
-            processData: false, 
-            dataType: "json", 
-            success: function (response) {
-                $("#submit_product").prop("disabled", false); 
-                if (response.status) {
-                    swallMssg_s(response.message, false, 1500)
-                    .then(() =>  {
-                        location.reload();
-                    });
-                } else {
-                    swallMssg_e(response.message, true, 0); 
-                }
-            },
-            error: function (xhr, status, error) {
-                $("#submit_product").prop("disabled", false); 
-                swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0).
-                then(() =>  {
-                    location.reload();
-                });
-            },
-        });
-    });
+		$.ajax({
+			url: $(formElement).data("action"),
+			type: "POST",
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+			success: function (response) {
+				// Mengaktifkan tombol submit setelah respon diterima
+				$("#submit_product").prop("disabled", false);
+				$("#submit_product").text("Submit Product"); // Kembalikan teks tombol
 
+				if (response.status) {
+					swallMssg_s(response.message, false, 1500)
+						.then(() =>  {
+							location.reload();
+						});
+				} else {
+					swallMssg_e(response.message, true, 0);
+				}
+			},
+			error: function (xhr, status, error) {
+				// Mengaktifkan tombol submit setelah error terjadi
+				$("#submit_product").prop("disabled", false);
+				$("#submit_product").text("Submit Product"); // Kembalikan teks tombol
+
+				swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0)
+					.then(() =>  {
+						location.reload();
+					});
+			},
+		});
+	});
 });
-
 
 // // Delete Product
 $(document).ready(function () {
