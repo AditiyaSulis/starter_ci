@@ -188,7 +188,7 @@ class Payroll extends MY_Controller{
 			$totalOvertime = $this->M_overtime->totalOvertimeLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
 			$totalTelat = 0;
 			$employee = $this->M_employees->findByIdJoin_get($employeeId);
-			
+
 
 			$absenPerhari = round($employee['basic_salary'] / 27);
 			$totalPotAbsen = $absenPerhari * $totalAbsent;
@@ -555,15 +555,15 @@ class Payroll extends MY_Controller{
 		$id = $this->input->post('id');
 
 
-		if($this->M_payroll->delete($id)){
+		if($this->M_payroll_component->delete($id)){
 			$response = [
 				'status' => true,
-				'message' => 'Data lembur karyawan berhasil dihapus',
+				'message' => 'Slip Gaji berhasil dihapus',
 			];
 		} else {
 			$response = [
 				'status' => false,
-				'message' => 'Data lembur karyawan gagal dihapus',
+				'message' => 'Slip Gaji gagal dihapus',
 			];
 		}
 
@@ -571,6 +571,34 @@ class Payroll extends MY_Controller{
 
 	}
 
+	public function delete_by_payroll()
+	{
+		$this->_ONLYSELECTED([1,2]);
+		$this->_isAjax();
+
+		$id = $this->input->post('id');
+
+		if($this->M_payroll->delete($id)){
+			$pc = $this->M_payroll_component->findByPayrollId_get($id);
+			if($pc) {
+				foreach ($pc as $paco) {
+					$this->M_payroll_component->delete($paco['id_payroll_component']);
+				}
+			}
+			$response = [
+				'status' => true,
+				'message' => 'Slip Gaji berhasil dihapus',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Slip Gaji gagal dihapus',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
 
 	public function detail_payroll(){
 		$this->_ONLYSELECTED([1,2]);

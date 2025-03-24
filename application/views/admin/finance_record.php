@@ -234,8 +234,8 @@
                             <span>Amount</span>
                         </div>
                         <div class="fv-row mb-8">
-                            <input type="number" placeholder="Amount" name="amount" autocomplete="off"
-                                class="form-control bg-transparent" />
+                            <input type="text" placeholder="Amount" name="amount" autocomplete="off"
+                                class="form-control bg-transparent" oninput="rupiahCurrency(this)" />
                         </div>
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
                             <span>Code</span>
@@ -324,8 +324,8 @@
                             <span>Amount</span>
                         </div>
                         <div class="fv-row mb-8">
-                            <input type="number" placeholder="Amount" id="amount" name="amount" autocomplete="off"
-                                class="form-control bg-transparent" />
+                            <input type="text" placeholder="Amount" id="amount" name="amount" autocomplete="off"
+                                class="form-control bg-transparent" oninput="rupiahCurrency(this)" />
                         </div>
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
                             <span>Code</span>
@@ -874,6 +874,27 @@
         $('#exportPDF').on('click', function () {
             table.button('.buttons-pdf').trigger(); 
         });
+
+
+		//convert currency
+		function rupiahCurrency(input) {
+			let value = input.value.replace(/[^0-9]/g, ""); // Hanya angka
+			if (value === "") {
+				input.value = "";
+				return;
+			}
+
+			let formatted = new Intl.NumberFormat("id-ID").format(value);
+			input.value = formatted;
+		}
+
+		document.getElementById("addproduct").addEventListener("submit", function() {
+			let input = document.querySelector("input[name='amount']");
+			if (input.value !== "") {
+				input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+			}
+		});
+
 
     </script>
 

@@ -180,10 +180,18 @@ class Finance_record extends MY_Controller{
             return;
         }
 
+		$amount = $this->input->post('amount');
+
+		if (!empty($amount)) {
+			$amount = str_replace('.', '', $amount); // Hapus titik
+			$amount = (int) $amount; // Pastikan tipe data integer
+		}
+
+
         $data = [
             'id_record' => $this->input->post('id_record', true),
             'product_id' => $this->input->post('product_id', true),
-            'amount' => $this->input->post('amount', true),
+            'amount' => $amount,
             'id_code' => $this->input->post('id_code', true),
             'description' => $this->input->post('description', true),
             'record_date' => $this->input->post('record_date', true)

@@ -73,7 +73,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'admin/purchases/delete',
+					url: base_url + 'admin/payroll/delete_by_payroll',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {

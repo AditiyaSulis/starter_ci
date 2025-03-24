@@ -365,15 +365,46 @@ class Uang_makan extends MY_Controller{
 		$id = $this->input->post('id');
 
 
-		if($this->M_payroll->delete($id)){
+		if($this->M_uang_makan->delete($id)){
 			$response = [
 				'status' => true,
-				'message' => 'Data lembur karyawan berhasil dihapus',
+				'message' => 'Uang makan karyawan berhasil dihapus',
 			];
 		} else {
 			$response = [
 				'status' => false,
-				'message' => 'Data lembur karyawan gagal dihapus',
+				'message' => 'Uang makan karyawan gagal dihapus'
+			];
+		}
+
+		echo json_encode($response);
+
+	}
+
+
+	public function delete_batch()
+	{
+		$this->_ONLYSELECTED([1,2]);
+		$this->_isAjax();
+
+		$id = $this->input->post('id');
+
+
+		if($this->M_batch_uang_makan->delete($id)){
+			$um = $this->M_uang_makan->findByBatchId_get($id);
+			if($um){
+				foreach ($um as $uma) {
+					$this->M_uang_makan->delete($uma['id_uang_makan']);
+				}
+			}
+			$response = [
+				'status' => true,
+				'message' => 'Batch Uang makan karyawan berhasil dihapus',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Batch Uang makan karyawan gagal dihapus'
 			];
 		}
 
@@ -395,7 +426,7 @@ class Uang_makan extends MY_Controller{
 		$data['divisions'] = $this->M_division->findAll_get();
 
 		$data['view_data'] = 'core/uang_makan/data_uang_makan';
-		//$data['view_components'] = 'core/uang_makan/data_uang_makan_components';
+		$data['view_components'] = 'core/uang_makan/data_uang_makan_components';
 
 
 		if($data['user']) {

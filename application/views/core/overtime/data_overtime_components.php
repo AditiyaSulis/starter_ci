@@ -32,7 +32,7 @@
 						<span>Upah</span>
 					</div>
 					<div class="fv-row mb-8">
-						<input type="number" id="pay" name="pay" class="form-control bg-transparent" />
+						<input type="text" id="pay" name="pay" class="form-control bg-transparent" oninput="rupiahCurrency(this)" />
 					</div>
 
 					<div class="d-grid mb-10">
@@ -82,6 +82,16 @@
 </div>
 
 <script>
+
+
+
+	//Menghapus titik sebelum form dikirim agar tidak error di PHP
+	document.getElementById("setStatusOvertimeForm").addEventListener("submit", function() {
+		let input = document.querySelector("input[name='pay']");
+		if (input.value !== "") {
+			input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+		}
+	});
 
 	function preventMultipleSubmit(form) {
 		const submitButton = form.querySelector('button[type="submit"]');

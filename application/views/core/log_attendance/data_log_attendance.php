@@ -133,7 +133,7 @@
 						<span>Potongan</span>
 					</div>
 					<div class="fv-row mb-8">
-						<input type="number" id="potongan_telat" name="potongan_telat" class="form-control bg-transparent" />
+						<input type="text" id="potongan_telat" name="potongan_telat" class="form-control bg-transparent" oninput="rupiahCurrency(this)"/>
 					</div>
 
 					<div class="d-grid mb-10">
@@ -285,6 +285,25 @@
 
 	callDT();
 
+
+	//convert currency
+	function rupiahCurrency(input) {
+		let value = input.value.replace(/[^0-9]/g, ""); // Hanya angka
+		if (value === "") {
+			input.value = "";
+			return;
+		}
+
+		let formatted = new Intl.NumberFormat("id-ID").format(value);
+		input.value = formatted;
+	}
+
+	document.getElementById("potonganTelatForm").addEventListener("submit", function() {
+		let input = document.querySelector("input[name='potongan_telat']");
+		if (input.value !== "") {
+			input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+		}
+	});
 
 
 </script>

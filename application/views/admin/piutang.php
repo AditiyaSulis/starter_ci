@@ -67,7 +67,7 @@
 							<span>Amount</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="number" name="amount_piutang" autocomplete="off" class="form-control bg-transparent" />
+							<input type="text" name="amount_piutang" autocomplete="off" class="form-control bg-transparent" />
 						</div>
                         <div id="tenor-form" style="display: none;">
                             <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -170,8 +170,6 @@
 				const tenor = parseFloat(tenorInput.value) || 0;
 				// const tenor_type = parseFloat(type.value) || 0;
 
-
-
 				if (tenor > 0 ) {
 					angsuranInput.value = (amount / tenor).toFixed(2);
 				} else {
@@ -219,6 +217,8 @@
 			amountInput.addEventListener("input", calculateAngsuran);
 			tenorInput.addEventListener("input", calculateAngsuran);
 		});
+
+		
 
 	</script>
 </main>

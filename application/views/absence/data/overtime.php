@@ -171,7 +171,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 							<span>Upah</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="number" id="upah" name="pay" class="form-control bg-transparent" />
+							<input type="text" id="upah" name="pay" class="form-control bg-transparent" oninput="rupiahCurrency(this)" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
@@ -332,5 +332,50 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 				width: '100%'
 			});
 		});
+
+		function rupiahCurrency(input) {
+			let value = input.value.replace(/[^0-9]/g, ""); // Hanya angka
+			if (value === "") {
+				input.value = "";
+				return;
+			}
+
+			let formatted = new Intl.NumberFormat("id-ID").format(value);
+			input.value = formatted;
+		}
+
+		document.getElementById("addproduct").addEventListener("submit", function() {
+			let input = document.querySelector("input[name='pay']");
+			if (input.value !== "") {
+				input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+			}
+		});
+
+		// document.addEventListener("DOMContentLoaded", function() {
+		// 	document.getElementById("addproduct").addEventListener("submit", function() {
+		// 		let input = document.querySelector("input[name='pay']");
+		// 		if (input && input.value !== "") {
+		// 			input.value = input.value.replace(/\./g, ""); // Hapus titik sebelum submit
+		// 		}
+		// 	});
+		//
+		// 	document.getElementById("setStatusOvertimeForm").addEventListener("submit", function() {
+		// 		let input = document.querySelector("input[name='pay']");
+		// 		if (input && input.value !== "") {
+		// 			input.value = input.value.replace(/\./g, ""); // Hapus titik sebelum submit
+		// 		}
+		// 	});
+		//
+		// 	// Format angka saat user mengetik
+		// 	document.querySelectorAll("input[name='pay'], input[name='bonus']").forEach(input => {
+		// 		input.addEventListener("input", function() {
+		// 			let value = this.value.replace(/[^0-9]/g, ""); // Hanya angka
+		// 			if (value !== "") {
+		// 				this.value = new Intl.NumberFormat("id-ID").format(value); // Format angka sebagai ribuan
+		// 			}
+		// 		});
+		// 	});
+		// });
+
 	</script>
 </main>

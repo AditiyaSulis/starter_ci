@@ -20,6 +20,11 @@ class M_payroll_component extends CI_Model
 		return $this->db->get_where('payroll_component', ['id_payroll_component' => $id])->row_array();
 	}
 
+	public function findByPayrollId_get($id)
+	{
+		return $this->db->get_where('payroll_component', ['id_payroll' => $id])->result_array();
+	}
+
 
 	public function findAllWithJoin_get()
 	{

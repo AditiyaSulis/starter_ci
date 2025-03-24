@@ -1350,56 +1350,184 @@
         
 
         //ADD EMPLOYEE 
-        $(document).ready(function () 
-        {
- 
-            $('#nextToAddSalary').on('click', function () {
-                if ($('#addEmployeeForm')[0].checkValidity()) {
-                    $('#addEmployeeModal').modal('hide');
-                    $('#addSalary').modal('show');
-                } else {
-                    $('#addEmployeeForm')[0].reportValidity();
-                }
-            });
-            $('#backToAddProduct').on('click', function () {
-                $('#addSalary').modal('hide');
-                $('#addEmployeeModal').modal('show');
-            })
+        //$(document).ready(function ()
+        //{
+		//
+        //    $('#nextToAddSalary').on('click', function () {
+        //        if ($('#addEmployeeForm')[0].checkValidity()) {
+        //            $('#addEmployeeModal').modal('hide');
+        //            $('#addSalary').modal('show');
+        //        } else {
+        //            $('#addEmployeeForm')[0].reportValidity();
+        //        }
+        //    });
+        //    $('#backToAddProduct').on('click', function () {
+        //        $('#addSalary').modal('hide');
+        //        $('#addEmployeeModal').modal('show');
+        //    })
+		//
+		//	$('#nextToAddAddress').on('click', function () {
+		//		if ($('#formAddSalary')[0].checkValidity()) {
+		//			$('#addSalary').modal('hide');
+		//			$('#addAddress').modal('show');
+		//		} else {
+		//			$('#formAddSalary')[0].reportValidity();
+		//		}
+		//	});
+		//	$('#backToAddSalary').on('click', function () {
+		//		$('#addAddress').modal('hide');
+		//		$('#addSalary').modal('show');
+		//	});
+		//
+		//	$('#nextToAddBankAccount').on('click', function () {
+		//		if ($('#addAddressForm')[0].checkValidity()) {
+		//			$('#addAddress').modal('hide');
+		//			$('#addBank').modal('show');
+		//		} else {
+		//			$('#addAddressForm')[0].reportValidity();
+		//		}
+		//	});
+		//	$('#backToAddAddress').on('click', function () {
+		//		$('#addBank').modal('hide');
+		//		$('#addAddress').modal('show');
+		//	});
+		//
+		//	$('#nextToAddEc').on('click', function () {
+		//		if ($('#addBankForm')[0].checkValidity()) {
+		//			$('#addBank').modal('hide');
+		//			$('#addEmergencyContact').modal('show');
+		//		} else {
+		//			$('#addBankForm')[0].reportValidity();
+		//		}
+		//	});
+		//	$('#backToAddBankAccount').on('click', function () {
+		//		$('#addEmergencyContact').modal('hide');
+		//		$('#addBank').modal('show');
+		//	});
+		//
+		//	$('#submitEmployee').on('click', function () {
+		//		const employeeData = $('#addEmployeeForm').serializeArray();
+		//		const salaryData = $('#formAddSalary').serializeArray();
+		//		const bankData = $('#addBankForm').serializeArray();
+		//		const ecData = $('#addEcForm').serializeArray();
+		//		const addressData = $('#addAddressForm').serializeArray();
+		//
+		//		const formData = {};
+		//
+		//		employeeData.concat(salaryData, bankData, ecData, addressData).forEach(field => {
+		//			formData[field.name] = field.value;
+		//		});
+		//
+		//		if ($('#addEmployeeForm')[0].checkValidity() && $('#formAddSalary')[0].checkValidity() && $('#addAddressForm')[0].checkValidity() && $('#addBankForm')[0].checkValidity() && $('#addEcForm')[0].checkValidity()) {
+		//			Swal.fire({
+		//				title: 'Apakah kamu yakin?',
+		//				text: "Pastikan data yang dimasukan sudah benar",
+		//				icon: 'question',
+		//				showCancelButton: true,
+		//				confirmButtonColor: '#3085d6',
+		//				cancelButtonColor: '#d33',
+		//				confirmButtonText: 'Ya'
+		//			}).then((result) => {
+		//				if (result.isConfirmed) {
+		//					$.ajax({
+		//						url: '<?php //= site_url("admin/employee/add_all_data_employee") ?>//',
+		//						type: 'POST',
+		//						data: formData,
+		//						dataType: 'json',
+		//						success: function (response) {
+		//							if (response.status) {
+		//								Swal.fire({
+		//									title: 'Success!',
+		//									text: 'Karyawan berhasil ditambahkan.',
+		//									icon: 'success',
+		//									timer: 2000,
+		//									showConfirmButton: false,
+		//								}).then(() => {
+		//									$('#addEmergencyContact').modal('hide');
+		//									location.reload();
+		//								});
+		//							} else {
+		//								Swal.fire({
+		//									title: 'Error!',
+		//									text: response.message || 'Gagal menambah karyawan.',
+		//									icon: 'error',
+		//								});
+		//							}
+		//						},
+		//						error: function () {
+		//							Swal.fire({
+		//								title: 'Error!',
+		//								text: 'An error occurred while adding the employee.',
+		//								icon: 'error',
+		//							});
+		//						}
+		//					});
+		//				}
+		//			});
+		//		} else {
+		//			$('#addEmployeeForm')[0].reportValidity();
+		//			$('#formAddSalary')[0].reportValidity();
+		//			$('#addAddressForm')[0].reportValidity();
+		//			$('#addBankForm')[0].reportValidity();
+		//			$('#addEcForm')[0].reportValidity();
+		//		}
+		//	});
+		//});
 
-			$('#nextToAddAddress').on('click', function () {
-				if ($('#formAddSalary')[0].checkValidity()) {
-					$('#addSalary').modal('hide');
-					$('#addAddress').modal('show');
-				} else {
-					$('#formAddSalary')[0].reportValidity();
+
+		$(document).ready(function () {
+			function validateForm(formId) {
+				const form = $(formId)[0];
+				if (!form.checkValidity()) {
+					form.reportValidity(); // Tampilkan pesan validasi
+					return false;
+				}
+				return true;
+			}
+
+			$('#nextToAddSalary').on('click', function () {
+				if (validateForm('#addEmployeeForm')) {
+					$('#addEmployeeModal').modal('hide');
+					$('#addSalary').modal('show');
 				}
 			});
+
+			$('#backToAddProduct').on('click', function () {
+				$('#addSalary').modal('hide');
+				$('#addEmployeeModal').modal('show');
+			});
+
+			$('#nextToAddAddress').on('click', function () {
+				if (validateForm('#formAddSalary')) {
+					$('#addSalary').modal('hide');
+					$('#addAddress').modal('show');
+				}
+			});
+
 			$('#backToAddSalary').on('click', function () {
 				$('#addAddress').modal('hide');
 				$('#addSalary').modal('show');
 			});
 
 			$('#nextToAddBankAccount').on('click', function () {
-				if ($('#addAddressForm')[0].checkValidity()) {
+				if (validateForm('#addAddressForm')) {
 					$('#addAddress').modal('hide');
 					$('#addBank').modal('show');
-				} else {
-					$('#addAddressForm')[0].reportValidity();
 				}
 			});
+
 			$('#backToAddAddress').on('click', function () {
 				$('#addBank').modal('hide');
 				$('#addAddress').modal('show');
 			});
 
 			$('#nextToAddEc').on('click', function () {
-				if ($('#addBankForm')[0].checkValidity()) {
+				if (validateForm('#addBankForm')) {
 					$('#addBank').modal('hide');
 					$('#addEmergencyContact').modal('show');
-				} else {
-					$('#addBankForm')[0].reportValidity();
 				}
 			});
+
 			$('#backToAddBankAccount').on('click', function () {
 				$('#addEmergencyContact').modal('hide');
 				$('#addBank').modal('show');
@@ -1413,15 +1541,19 @@
 				const addressData = $('#addAddressForm').serializeArray();
 
 				const formData = {};
-
 				employeeData.concat(salaryData, bankData, ecData, addressData).forEach(field => {
 					formData[field.name] = field.value;
 				});
 
-				if ($('#addEmployeeForm')[0].checkValidity() && $('#formAddSalary')[0].checkValidity() && $('#addAddressForm')[0].checkValidity() && $('#addBankForm')[0].checkValidity() && $('#addEcForm')[0].checkValidity()) {
+				if (validateForm('#addEmployeeForm') &&
+					validateForm('#formAddSalary') &&
+					validateForm('#addAddressForm') &&
+					validateForm('#addBankForm') &&
+					validateForm('#addEcForm')) {
+
 					Swal.fire({
 						title: 'Apakah kamu yakin?',
-						text: "Pastikan data yang dimasukan sudah benar",
+						text: "Pastikan data yang dimasukkan sudah benar",
 						icon: 'question',
 						showCancelButton: true,
 						confirmButtonColor: '#3085d6',
@@ -1464,18 +1596,12 @@
 							});
 						}
 					});
-				} else {
-					$('#addEmployeeForm')[0].reportValidity();
-					$('#formAddSalary')[0].reportValidity();
-					$('#addAddressForm')[0].reportValidity();
-					$('#addBankForm')[0].reportValidity();
-					$('#addEcForm')[0].reportValidity();
 				}
 			});
 		});
 
 
-         // ------------EDIT EMPLOYEE
+		// ------------EDIT EMPLOYEE
          function editEmployeeBtn(element) 
         {
             const id = $(element).data('edit_id');

@@ -316,6 +316,13 @@ class Overtime extends MY_Controller{
 			return;
 		}
 
+		$pay = $this->input->post('pay');
+
+
+		if (!empty($pay)) {
+			$pay = str_replace('.', '', $pay); // Hapus titik
+			$pay = (int) $pay; // Pastikan tipe data integer
+		}
 
 		$dataBatch = [];
 		foreach ($employees as $employeeId) {
@@ -326,7 +333,7 @@ class Overtime extends MY_Controller{
 				'time_spend' => $this->input->post('time_spend', true),
 				'start' => $this->input->post('start', true),
 				'end' => $this->input->post('end', true),
-				'pay' => $this->input->post('pay', true),
+				'pay' => $pay,
 				'status' => 2,
 				'description' => $this->input->post('description', true),
 			];

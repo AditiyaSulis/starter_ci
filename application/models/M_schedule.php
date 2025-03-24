@@ -289,16 +289,61 @@ class M_schedule extends CI_Model
 
 
 	public function mark_absent_if_no_checkin() {
-		//		$currentDate = date('Y-m-d', strtotime('-1 day'));
-		//
-		//		$this->db->where('status', 1);
-		//		$this->db->where('waktu <=', $currentDate);
-		//		$this->db->update('schedule', ['status' => 7]);
-		//
-		//		return $this->db->affected_rows();
+//				$currentDate = date('Y-m-d', strtotime('-1 day'));
+//
+//				$this->db->where('status', 1);
+//				$this->db->where('waktu <=', $currentDate);
+//				$this->db->update('schedule', ['status' => 7]);
+//
+//				return $this->db->affected_rows();
 		return 'test';
 	}
-	
+
+
+	//Must we Try
+	public function merk_absent_if_no_checkin() {
+		$currentDate = date('Y-m-d');
+		$currentTime = date('H:i:s');
+
+		// Ambil semua jadwal yang belum diabsenkan dan sudah terlewat tanpa check-in
+		$this->db->select('id_schedule');
+		$this->db->from('schedule');
+		$this->db->where('status', 1); // Status masih aktif
+		$this->db->where('waktu <', $currentDate); // Jadwal sudah lewat
+		$this->db->or_where('waktu', $currentDate);
+		$this->db->where('clock_out <=', $currentTime); // Workshift sudah selesai
+		$this->db->where_not_in('id_schedule', $this->get_checked_in_schedule_ids());
+
+		$query = $this->db->get();
+		$missedSchedules = $query->result();
+
+		if (!empty($missedSchedules)) {
+			foreach ($missedSchedules as $schedule) {
+				// Update status menjadi 7 (absen)
+				$this->db->where('id_schedule', $schedule->id_schedule);
+				$this->db->update('schedule', ['status' => 7]);
+			}
+		}
+
+		return count($missedSchedules); // Mengembalikan jumlah jadwal yang diperbarui
+	}
+
+	public function get_checked_in_schedule_ids() {
+		$this->db->select('id_schedule');
+		$this->db->from('attendance');
+		$this->db->where('check_in IS NOT NULL'); // Pastikan ada check-in
+		$query = $this->db->get();
+
+		$checked_in = [];
+		foreach ($query->result() as $row) {
+			$checked_in[] = $row->id_schedule;
+		}
+
+		return $checked_in;
+	}
+
+	//END
+
 
 	public function totalAbsentLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
@@ -316,6 +361,7 @@ class M_schedule extends CI_Model
 		return $count;
 	}
 
+	
 	public function totalAttendance($id, $tanggal1, $tanggal2)
 	{
 		$count = $this->db

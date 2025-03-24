@@ -21,7 +21,10 @@ class M_uang_makan extends CI_Model
 		return $this->db->get_where('uang_makan', ['id_uang_makan' => $id])->row_array();
 	}
 
-
+	public function findByBatchId_get($id)
+	{
+		return $this->db->get_where('uang_makan', ['id_batch_uang_makan' => $id])->result_array();
+	}
 	public function findAllWithJoin_get()
 	{
 		$this->db->select('uang_makan.id_uang_makan, uang_makan.id_batch_uang_makan, uang_makan.id_employee, uang_makan.total_izin, uang_makan.total_holiday, uang_makan.total_cuti, uang_makan.pot_izin, uang_makan.pot_cuti, uang_makan.pot_holiday, uang_makan.total_pot_uang_makan, uang_makan.total_uang_makan, uang_makan.input_at, employee.name, employee.id_product, employee.id_division,  employee.uang_makan, employee.type_uang_makan, products.name_product, division.name_division');

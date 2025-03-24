@@ -258,7 +258,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'absence/holyday/delete',
+					url: base_url + 'admin/payroll/delete',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {

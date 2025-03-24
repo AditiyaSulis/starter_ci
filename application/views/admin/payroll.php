@@ -92,13 +92,11 @@
 							</div>
 						</div>
 
-						<div class="col-md-5 col-5">
-							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-								<span>bonus</span>
-							</div>
-							<div class="fv-row mb-8">
-								<input type="number" name="bonus" autocomplete="off" class="form-control bg-transparent" />
-							</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>bonus</span>
+						</div>
+						<div class="fv-row mb-8">
+							<input type="text" name="bonus" autocomplete="off" class="form-control bg-transparent" oninput="formatRupiah(this)" />
 						</div>
 
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -268,6 +266,24 @@
 			});
 		}
 
+		function formatRupiah(input) {
+			let value = input.value.replace(/[^0-9]/g, ""); // Hanya angka
+			if (value === "") {
+				input.value = "";
+				return;
+			}
+
+			let formatted = new Intl.NumberFormat("id-ID").format(value);
+			input.value = formatted;
+		}
+
+		// Menghapus titik sebelum form dikirim agar tidak error
+		document.getElementById("addproduct").addEventListener("submit", function() {
+			let input = document.querySelector("input[name='bonus']");
+			if (input.value !== "") {
+				input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+			}
+		});
 
 		$(document).ready(function() {
 			$('#id_employee').select2({

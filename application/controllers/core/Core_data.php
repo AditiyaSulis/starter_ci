@@ -942,7 +942,7 @@ class Core_data extends MY_Controller{
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
-                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" onclick="handleDeletePayrollButton('.htmlspecialchars($item['id_payroll_component']).')" style="width : 70px">
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" onclick="handleDeletePayrollComponentButton('.htmlspecialchars($item['id_payroll_component']).')" style="width : 70px">
                             DELETE
                         </button>
                      ';
@@ -1241,7 +1241,7 @@ class Core_data extends MY_Controller{
 
                       
                          <button class="btn  gradient-btn-delete btn-sm rounded-pill" 
-								onclick="handleDeleteUangMakanButton('. htmlspecialchars($item['id_batch_uang_makan']) .')" 
+								onclick="handleDeleteBatchUangMakanButton('. htmlspecialchars($item['id_batch_uang_makan']) .')" 
 								style="width: 100px;">
 							DELETE
 						</button>
@@ -1312,7 +1312,7 @@ class Core_data extends MY_Controller{
                             data-code-payroll="'.htmlspecialchars($item['code_batch_uang_makan']).'">
                             RINCIAN
                         </button>
-                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" onclick="handleDeleteBatchUangMakanButton('.htmlspecialchars($item['id_batch_uang_makan']).')" style="width : 70px">
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-uang-makan" onclick="test('.htmlspecialchars($item['id_uang_makan']).')" style="width : 70px">
                             DELETE
                         </button>
                      ';
