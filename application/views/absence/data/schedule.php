@@ -117,10 +117,6 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 								<?php endforeach;?>
 							</select>
 						</div>
-<!--						<div class="fv-row mb-8">-->
-<!--							<select class="form-select select2-employees" name="id_employee[]" id="id_employee" multiple>-->
-<!--							</select>-->
-<!--						</div>-->
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Karyawan</span>
 						</div>
@@ -146,23 +142,44 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 								<?php endforeach; ?>
 							</select>
 						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Tanggal Mulai</span>
+						<div class="mb-2 fw-bolder text-gray-900">
+							<span>Set day</span>
 						</div>
-						<div class="fv-row mb-8">
-							<input type="date" id="start_date" value="<?= date("Y-m-d") ?>" name="start_date" autocomplete="off" class="form-control bg-transparent" />
+						<div class="mb-4">
+							<select class="form-select" name="set_day" id="set_day">
+								<option selected>- Pilih Type -</option>
+								<option value="2">Multiple Day</option>
+								<option value="3">Select Day</option>
+							</select>
 						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Selesai</span>
+						<div id="multiple_day" style="display : block;">
+							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+								<span>Tanggal Mulai</span>
+							</div>
+							<div class="fv-row mb-8">
+								<input type="date" id="start_date" value="<?= date("Y-m-d") ?>" name="start_date" autocomplete="off" class="form-control bg-transparent" />
+							</div>
+							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+								<span>Selesai</span>
+							</div>
+							<div class="fv-row mb-8">
+								<input type="date" id="end_date" value="<?= date("Y-m-d") ?>"  name="end_date" autocomplete="off" class="form-control bg-transparent" />
+							</div>
+							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+								<span>Total Hari</span>
+							</div>
+							<div class="fv-row mb-8">
+								<input type="number" id="total"  name="total" autocomplete="off" class="form-control bg-transparent" readonly />
+							</div>
 						</div>
-						<div class="fv-row mb-8">
-							<input type="date" id="end_date"  name="end_date" autocomplete="off" class="form-control bg-transparent" />
-						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Total Hari</span>
-						</div>
-						<div class="fv-row mb-8">
-							<input type="number" id="total"  name="total" autocomplete="off" class="form-control bg-transparent" readonly />
+
+						<div id="select_day" style="display: none;">
+							<div class="mb-2 fw-bolder text-gray-900">
+								<span>Pilih Hari Libur</span>
+							</div>
+							<div class="mb-4">
+								<input type="text" id="select_libur" name="select_libur" class="form-control bg-transparent"/>
+							</div>
 						</div>
 
 						<div class="d-grid mb-10">
@@ -412,6 +429,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 
 		callDT();
 
+		//FIND EMPLOYEE FORM
 		let selectedEmployeesMap = new Map();
 
 		$('#id_division, #id_product').on('change', function () {
@@ -502,6 +520,7 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			});
 		}
 
+		
 		$(document).ready(function () {
 			$('#id_employee').select2({
 				placeholder: "Select options",
@@ -509,11 +528,25 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 			});
 		});
 
+
 		document.addEventListener('DOMContentLoaded', function () {
 
 			const tglMulai = document.getElementById("start_date");
 			const tglSelesai = document.getElementById("end_date");
 			const totalHari = document.getElementById("total");
+			const setDay = document.getElementById("set_day");
+			const multipleDay = document.getElementById("multiple_day");
+			const selectDay = document.getElementById("select_day");
+
+			setDay.addEventListener('change', function () {
+				if (this.value === '2') {
+					multipleDay.style.display = 'block';
+					selectDay.style.display = 'none';
+				} else if(this.value === '3') {
+					multipleDay.style.display = 'none';
+					selectDay.style.display = 'block';
+				}
+			});
 
 			tglSelesai.addEventListener("input", function() {
 				const startDate = new Date(tglMulai.value);
@@ -528,6 +561,17 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 				}
 			});
 		})
+
+
+		//set datepickr
+		document.addEventListener("DOMContentLoaded", function() {
+			flatpickr("#select_libur", {
+				dateFormat: "Y-m-d",
+				allowInput: true,
+				mode: "multiple" // Bisa input manual
+			});
+		});
+
 
 		// Show Schedule
 		function showSchedule(id_employee) {

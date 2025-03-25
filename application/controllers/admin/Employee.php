@@ -582,6 +582,12 @@ class Employee extends MY_Controller{
             }
         }
 
+		$contract_expired = $this->input->post('contract_expired',true);
+
+		if($this->input->post('type_employee',true) == 3) {
+			$contract_expired = null;
+		}
+
         $data = [
             'id_product' => $this->input->post('id_product', true),
             'date_in' => $this->input->post('date_in', true),
@@ -596,9 +602,13 @@ class Employee extends MY_Controller{
             'uang_makan' => $this->input->post('uang_makan', true),
             'type_employee' => $this->input->post('type_employee', true),
             'type_uang_makan' => $this->input->post('type_uang_makan', true),
+            'contract_expired' => $contract_expired,
         ];
 
+
+
         $employee = $this->M_employees->update_post($id, $data);
+
 
         if ($employee) {
             $response = [
@@ -700,6 +710,7 @@ class Employee extends MY_Controller{
                             data-edit_uang_makan="'. htmlspecialchars($item['uang_makan']) .'"
                             data-edit_type_uang_makan="'. htmlspecialchars($item['type_uang_makan']) .'"
                             data-type_employee="'. htmlspecialchars($item['type_employee']) .'"
+                            data-contract_expired="'. htmlspecialchars($item['contract_expired']) .'"
                             data-edit_position="'. htmlspecialchars($item['id_position']) .'">
                                 EDIT
                         </a>

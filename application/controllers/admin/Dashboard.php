@@ -11,6 +11,7 @@ class Dashboard extends MY_Controller{
         $this->load->model('M_finance_records');
         $this->load->model('M_piutang');
         $this->load->model('M_schedule');
+        $this->load->model('M_izin');
     }
 
     public function dashboard_page()
@@ -33,6 +34,10 @@ class Dashboard extends MY_Controller{
 		$data['view_data'] = 'core/piutang/data_piutang';
 		$data['view_components'] = 'core/piutang/data_piutang_components';
 
+		$data['employee'] = 'false';
+		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
+		$data['izin_pending'] = $this->M_izin->count_pending_get();
+
 		$updatedRows = $this->M_schedule->mark_absent_if_no_checkin();
 
         $data['title'] = 'Admin';
@@ -44,7 +49,7 @@ class Dashboard extends MY_Controller{
             $this->load->view('templates/index' ,$data);
         } else {
             $this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
-            redirect('fetch/login');
+            redirect('panel');
         }
     }
 

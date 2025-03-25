@@ -11,11 +11,18 @@ class Fetch extends CI_Controller {
 
     public function login(){
         $id = $this->session->userdata('user');
+
         if(!$id) {
             $this->load->view('login/index');
         } else {
+			$emp = $this->M_admin->findById_get($id);
             $this->session->set_flashdata('authorize', 'Anda sudah login');
-            redirect('admin/dashboard/dashboard_page?with_alerts=1');
+			if($emp['role']==3){
+				redirect('absence/absence/absence_page');
+			} else {
+				redirect('admin/dashboard/dashboard_page?with_alerts=1');
+			}
+
         }
 
     }

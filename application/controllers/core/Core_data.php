@@ -911,7 +911,12 @@ class Core_data extends MY_Controller{
 		$data = [];
 		$no = $this->input->post('start');
 
+
+
 		foreach($list as $item) {
+
+			//$pesan = "https://wa.me/".$item['no_hp']."?text=Halo";
+
 			$action =
 					'    <button 
                             class="btn btn-warning btn-sm mb-2 rounded-pill btn-rincian-gaji" style="width : 90px"
@@ -942,9 +947,16 @@ class Core_data extends MY_Controller{
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
+                        
+                        <a class="btn btn-success btn-sm mb-2 rounded-pill btn-send-wa" href="" style="width : 50px">
+                            <span><i class="bi bi-whatsapp"></i></span>
+                        </a>
+                        
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" onclick="handleDeletePayrollComponentButton('.htmlspecialchars($item['id_payroll_component']).')" style="width : 70px">
                             DELETE
-                        </button>
+                        </button> 
+                        
+                         
                      ';
 
 

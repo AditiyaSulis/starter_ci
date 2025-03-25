@@ -188,6 +188,13 @@ class M_izin extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+
+	public function count_pending_get()
+	{
+		$this->db->where('status', 3);
+		return $this->db->count_all_results('izin');
+	}
+
 	public function setStatus_post($id, $status)
 	{
 

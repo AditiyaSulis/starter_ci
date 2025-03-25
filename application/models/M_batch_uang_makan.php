@@ -107,6 +107,7 @@ class M_batch_uang_makan extends CI_Model
 		$this->db->from('batch_uang_makan');
 		$this->db->join('uang_makan', 'uang_makan.id_batch_uang_makan = batch_uang_makan.id_batch_uang_makan', 'left');
 		$this->db->join('employee', 'employee.id_employee = uang_makan.id_employee', 'left');
+		$this->db->group_by('batch_uang_makan.id_batch_uang_makan');
 		if (!empty($option)) {
 			$this->_filterDATE($option);
 		}

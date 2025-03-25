@@ -41,7 +41,7 @@ class Uang_makan extends MY_Controller{
 			$this->load->view('templates/index' ,$data);
 		} else {
 			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
-			redirect('fetch/login');
+			redirect('panel');
 		}
 	}
 

@@ -70,6 +70,11 @@ class M_day_off extends CI_Model
 		}
 	}
 
+	public function create_batch_post($data)
+	{
+		return $this->db->insert_batch('day_off', $data);
+	}
+
 	private function _filterDATE($type)
 	{
 		switch ($type) {

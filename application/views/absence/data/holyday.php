@@ -164,6 +164,7 @@
 				mode: "multiple" // Bisa input manual
 			});
 		});
+		
 		document.addEventListener('DOMContentLoaded', function () {
 			const typeGroup = document.getElementById('type_group');
 			const selectDivision = document.getElementById('select_division');

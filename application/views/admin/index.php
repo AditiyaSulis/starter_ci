@@ -234,6 +234,14 @@
 
 	</div>
 
+	<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<?php $this->load->view($view_log_attendance)?>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal datatables -->
 	<div class="modal fade" id="jatuhTempoModal" tabindex="-1">
 		<div class="modal-dialog modal-xl">

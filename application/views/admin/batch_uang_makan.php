@@ -34,7 +34,7 @@
 							<span>Kode</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="text" name="code_batch_uang_makan" autocomplete="off" class="form-control bg-transparent" />
+							<input type="text" value="UM<?=date('md')?><?=date('His')?><?=mt_rand(1,99)?>" name="code_batch_uang_makan" autocomplete="off" class="form-control bg-transparent" />
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Tanggal</span>
@@ -240,4 +240,4 @@
 		});
 	</script>
 </main>
-testssssss
+

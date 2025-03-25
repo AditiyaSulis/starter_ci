@@ -498,11 +498,12 @@ class Schedule extends MY_Controller{
 
 		$dataBatch = [];
 
-		$totalDays = $this->input->post('total', true);
+
 		$product = $this->input->post('id_product', true);
 		$division = $this->input->post('id_division', true);
 		$employees = $this->input->post('id_employee', true);
 
+		$setDay = $this->input->post('set_day', true);
 
 		if(empty($employees) || $employees == null) {
 			echo json_encode([
@@ -525,46 +526,100 @@ class Schedule extends MY_Controller{
 		//		]);
 		//		die();
 
+		if($setDay == 2) {
+			$totalDays = $this->input->post('total', true);
+			for($i = 0; $i < $totalDays; $i++) {
+				foreach ($employees as $emp) {
+					$tanggal = date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_date', true))));
 
-		for($i = 0; $i < $totalDays; $i++) {
-			foreach ($employees as $emp) {
-				$tanggal = date('Y-m-d', strtotime("+$i day", strtotime($this->input->post('start_date', true))));
-
-				$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
-				$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
-				$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
-				$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
-				$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
+					$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
+					$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
+					$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
+					$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
+					$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
 
 
-				$status = 1;
+					$status = 1;
 
-				if(!empty($isDayoff)) {
-					$status=2;
-				} else if(!empty($isLeave)) {
-					$status=4;
-				} else if(!empty($isIzin)) {
-					$status=5;
-				} else if(!empty($isHolyday)) {
-					$status = 3;
-				} else if(!empty($isSunday)) {
-					$status = 8;
+					if(!empty($isDayoff)) {
+						$status=2;
+					} else if(!empty($isLeave)) {
+						$status=4;
+					} else if(!empty($isIzin)) {
+						$status=5;
+					} else if(!empty($isHolyday)) {
+						$status = 3;
+					} else if(!empty($isSunday)) {
+						$status = 8;
+					}
+
+
+
+
+					$dataBatch[] = [
+						'id_employee' => $emp,
+						'id_workshift' => $this->input->post('id_workshift', true),
+						'start_date' => $this->input->post('start_date', true),
+						'waktu' => $tanggal,
+						'end_date' =>  $this->input->post('end_date', true),
+						'status' =>  $status
+					];
 				}
 
-
-
-
-				$dataBatch[] = [
-					'id_employee' => $emp,
-					'id_workshift' => $this->input->post('id_workshift', true),
-					'start_date' => $this->input->post('start_date', true),
-					'waktu' => $tanggal,
-					'end_date' =>  $this->input->post('end_date', true),
-					'status' =>  $status
-				];
 			}
+		} else if($setDay == 3) {
+			$selectDate = $this->input->post('select_libur');
+			$tanggalArray = explode(',', $selectDate);
+			$totalDays = count($tanggalArray);
 
+			$dateObject= $dateObjects = array_map(fn($date) => new DateTime($date), $tanggalArray);
+
+			$minDate = min($dateObjects)->format("Y-m-d");
+			$maxDate = max($dateObjects)->format("Y-m-d");
+
+
+
+			for($i = 0; $i < $totalDays; $i++) {
+				foreach ($employees as $emp) {
+					$tanggal = date('Y-m-d', strtotime($tanggalArray[$i]));
+
+					$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
+					$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
+					$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
+					$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
+					$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
+
+
+					$status = 1;
+
+					if(!empty($isDayoff)) {
+						$status=2;
+					} else if(!empty($isLeave)) {
+						$status=4;
+					} else if(!empty($isIzin)) {
+						$status=5;
+					} else if(!empty($isHolyday)) {
+						$status = 3;
+					} else if(!empty($isSunday)) {
+						$status = 8;
+					}
+
+
+
+
+					$dataBatch[] = [
+						'id_employee' => $emp,
+						'id_workshift' => $this->input->post('id_workshift', true),
+						'start_date' => $minDate,
+						'waktu' => $tanggal,
+						'end_date' => $maxDate,
+						'status' =>  $status
+					];
+				}
+
+			}
 		}
+
 
 
 		$schedule = $this->M_schedule->create_batch_post($dataBatch);

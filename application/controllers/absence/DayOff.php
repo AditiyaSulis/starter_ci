@@ -10,6 +10,7 @@ class DayOff extends MY_Controller{
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_products');
+		$this->load->model('M_division');
 
 	}
 
@@ -50,6 +51,7 @@ class DayOff extends MY_Controller{
 		$data['breadcrumb'] = 'Data - Day Off';
 		$data['menu'] = 'Data';
 
+		$data['divisions'] = $this->M_division->findAll_get();
 		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = 'false';
 		$data['employees'] = $this->M_employees->findAll_get();
@@ -67,6 +69,7 @@ class DayOff extends MY_Controller{
 			redirect('fetch/login');
 		}
 	}
+
 
 	public function add_day_off(){
 		$this->_ONLYSELECTED([1,3]);
@@ -114,7 +117,7 @@ class DayOff extends MY_Controller{
 		} else {
 			$response = [
 				'status' => false,
-				'message' => 'Izin libur  ditambahkan',
+				'message' => 'Data libur gagal ditambahkan',
 			];
 		}
 
@@ -175,6 +178,84 @@ class DayOff extends MY_Controller{
 
 		echo json_encode($response);
 	}
+
+	public function su_add_batch_day_off(){
+		$this->_ONLYSELECTED([1,2,4]);
+		$this->_isAjax();
+
+		$this->form_validation->set_rules('input_at', 'input_at', 'required', [
+			'required' => 'Tanggal input harus diisi',
+		]);
+		$this->form_validation->set_rules('tgl_day_off', 'tgl_day_off', 'required', [
+			'required' => 'Tanggal lembur harus diisi',
+		]);
+		$this->form_validation->set_rules('description', 'description', 'required', [
+			'required' => 'Deskripsi harus diisi',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$dataBatch = [];
+		$employees = $this->input->post('id_employee', true);
+
+		if(empty($employees) || $employees == null) {
+			echo json_encode([
+				'status' => false,
+				'message' => 'Pilih minimal satu karyawan',
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			]);
+			return;
+		}
+
+		$selectDate = $this->input->post('tgl_day_off');
+		$tanggalArray = explode(',', $selectDate);
+		$totalDays = count($tanggalArray);
+
+		for($i = 0; $i < $totalDays; $i++) {
+			foreach ($employees as $emp) {
+				$tanggal = date('Y-m-d', strtotime($tanggalArray[$i]));
+
+				$dataBatch[] = [
+					'id_employee' => $emp,
+					'input_at' => $this->input->post('input_at',true),
+					'tgl_day_off' => $tanggal,
+					'description' => $this->input->post('description',true),
+					'status' => 2,
+				];
+				$this->M_schedule->setStatus_post($emp, $tanggal, 2);
+			}
+
+		}
+
+		$dayOffBatch = $this->M_day_off->create_batch_post($dataBatch);
+
+		if ($dayOffBatch) {
+			$response = [
+				'status' => true,
+				'message' => 'Data libur berhasil dibuat',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Data libur gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+	}
+
 
 	public function set_status()
 	{
