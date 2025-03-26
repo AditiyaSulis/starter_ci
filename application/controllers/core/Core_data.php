@@ -905,19 +905,54 @@ class Core_data extends MY_Controller{
 
 	public function data_payroll_component()
 	{
+
 		$payroll = $this->input->post('payroll', true);
+		$employee = $this->input->post('employee', true);
 		$list = $this->M_payroll_component->get_datatables();
+
 
 		$data = [];
 		$no = $this->input->post('start');
 
 
-
 		foreach($list as $item) {
 
-			//$pesan = "https://wa.me/".$item['no_hp']."?text=Halo";
+			$periode = date('d-m-Y', strtotime($item['periode_gajian'])) . ' sampai ' . date('d-m-Y', strtotime($item['tanggal_gajian']));
+			$jumlahGaji = 'Rp.' . number_format($item['gaji_bersih'], 0, ',', '.');
+			$link = base_url('admin/payroll/payroll_employee');
+			$nama = $item['name'];
+			$nomor = preg_replace('/[^0-9]/', '', $item['no_hp']); // Pastikan hanya angka
 
-			$action =
+// Format nomor HP ke format internasional
+			if (substr($nomor, 0, 1) == '0') {
+				$nomor = '62' . substr($nomor, 1);
+			}
+
+// Pesan WhatsApp dengan format yang terbukti berhasil
+			$pesan = "*Notifikasi | Penggajian | Sistem HR*\n\n"
+				. "Halo $nama,\n\n"
+				. "Gaji Anda untuk periode *$periode* sudah dikirim.\n\n"
+				. "💰 *Jumlah Gaji:* $jumlahGaji\n\n"
+				. "Silakan cek rekening Anda.\n\n"
+				. "Untuk rincian lengkap, login ke akun karyawan Anda di:\n$link\n\n"
+				. "Jika ada pertanyaan, hubungi HRD.\n\n"
+				. "Terima kasih.\n\n"
+				. "*Bagian Keuangan*";
+
+// Gunakan urlencode sesuai format yang terbukti berhasil
+			$pesanEncoded = urlencode($pesan);
+			$nomorEncoded = urlencode("+$nomor");
+
+// Buat URL WhatsApp
+			$url = "https://api.whatsapp.com/send/?phone=$nomorEncoded&text=$pesanEncoded&type=phone_number&app_absent=0";
+
+
+
+
+
+
+			if($employee == 'false') {
+				$action =
 					'    <button 
                             class="btn btn-warning btn-sm mb-2 rounded-pill btn-rincian-gaji" style="width : 90px"
                             data-bs-toggle="modal" 
@@ -948,7 +983,7 @@ class Core_data extends MY_Controller{
                             RINCIAN
                         </button>
                         
-                        <a class="btn btn-success btn-sm mb-2 rounded-pill btn-send-wa" href="" style="width : 50px">
+                        <a class="btn btn-success btn-sm mb-2 rounded-pill btn-send-wa" href="'.$url.'"  target="_blank" style="width : 50px">
                             <span><i class="bi bi-whatsapp"></i></span>
                         </a>
                         
@@ -958,6 +993,40 @@ class Core_data extends MY_Controller{
                         
                          
                      ';
+			} else {
+				$action =
+					'    <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-rincian-gaji" style="width : 90px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#rincianModal"
+                            data-id="'.htmlspecialchars($item['id_payroll_component']).'"
+                            data-total-absent="'.htmlspecialchars($item['total_absen']).'"
+                            data-total-lembur="'.htmlspecialchars($item['total_overtime']).'"
+                            data-basic-salary="'.htmlspecialchars($item['basic_salary']).'"
+                            data-total-dayoff="'.htmlspecialchars($item['total_dayoff']).'"
+                            data-uang-makan="'.htmlspecialchars($item['uang_makan']).'"
+                            data-nip="'.htmlspecialchars($item['nip']).'"
+                            data-name="'.htmlspecialchars($item['name']).'"
+                            data-product="'.htmlspecialchars($item['name_product']).'"
+                            data-divisi="'.htmlspecialchars($item['name_division']).'"
+                            data-position="'.htmlspecialchars($item['name_position']).'"
+                            data-tanggal-gajian="'.htmlspecialchars($item['tanggal_gajian']).'"
+                            data-potongan-absen="'.htmlspecialchars($item['potongan_absen']).'"
+                            data-absen-hari="'.htmlspecialchars($item['absen_hari']).'"
+                            data-total-potongan="'.htmlspecialchars($item['total_potongan']).'"
+                            data-gaji-bersih="'.htmlspecialchars($item['total']).'"
+                            data-piutang="'.htmlspecialchars($item['piutang']).'"
+                            data-periode-gajian="'.htmlspecialchars($item['periode_gajian']).'"
+                            data-total-potongan-telat="'.htmlspecialchars($item['total_potongan_telat']).'"
+                            data-pph="'.htmlspecialchars($item['hasil_pph']).'"
+                            data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
+                            data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
+                            data-bonus="'.htmlspecialchars($item['bonus']).'">
+                            RINCIAN
+                        </button>
+  
+                     ';
+			}
 
 
 			$row = [];

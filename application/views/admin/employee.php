@@ -50,6 +50,7 @@
 					<th>Gender</th>
 					<th class="px-2">Tempat Lahir</th>
 					<th class="px-2">Tanggal Lahir</th>
+					<th class="px-2">No.Hp</th>
 					<th class="px-2">Divisi</th>
 					<th class="px-2">Posisi</th>
 					<th class="px-2">Type</th>
@@ -441,6 +442,10 @@
                             <label for="edit_name" class="form-label">Name</label>
                             <input type="text" name="name" id="edit_name" class="form-control">
                         </div>
+						<div class="mb-3">
+							<label for="edit_no_hp" class="form-label">No.Hp (Whatsap)</label>
+							<input type="number" name="no_hp" id="edit_no_hp" class="form-control">
+						</div>
                         <div class="mb-3">
                             <label for="edit_gender" class="form-label">Jenis Kelamin</label>
                             <select class="form-select" name="gender" id="edit_gender" required>
@@ -1497,6 +1502,7 @@
             const position = $(element).data('edit_position');
             const type_employee = $(element).data('type_employee');
             const contract_expired = $(element).data('contract_expired');
+			const no_hp = $(element).data('edit_no_hp');
 
             $('#edit_employee_id').val(id);
             $('#edit_product').val(product);
@@ -1513,6 +1519,7 @@
             $('#edit_position').val(position);
             $('#type_employee_edit').val(type_employee);
             $('#edit_contract_expired').val(contract_expired);
+            $('#edit_no_hp').val(no_hp);
 
             $('#editProduct').modal('show');
         }

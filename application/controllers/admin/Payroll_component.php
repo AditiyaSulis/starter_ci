@@ -36,4 +36,30 @@ class Payroll_component extends MY_Controller
 			redirect('fetch/login');
 		}
 	}
+
+	public function payroll_employee_page()
+	{
+		$this->_ONLYSELECTED([1, 2]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Payroll Component';
+		$data['view_name'] = 'core/payroll_component/view_payroll_component';
+		$data['breadcrumb'] = 'Payroll Component';
+		$data['menu'] = '';
+
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
+		$data['employee'] = $id['id_employee'];
+
+		$data['products'] = $this->M_products->findAll_get();
+		$data['divisions'] = $this->M_division->findAll_get();
+
+
+
+		if ($data['user']) {
+			$this->load->view('core/payroll_component/data_payroll_component', $data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('fetch/login');
+		}
+	}
 }

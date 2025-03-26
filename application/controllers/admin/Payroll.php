@@ -609,6 +609,7 @@ class Payroll extends MY_Controller{
 		$data['breadcrumb'] = 'Detail Payroll';
 		$data['menu'] = '';
 
+		$data['employee'] = 'false';
 		$data['products'] = $this->M_products->findAll_get();
 		$data['divisions'] = $this->M_division->findAll_get();
 
@@ -624,6 +625,31 @@ class Payroll extends MY_Controller{
 		}
 	}
 
+
+	public function payroll_employee(){
+		$this->_ONLYSELECTED([3]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Payroll';
+		$data['view_name'] = 'employee/payroll_employee';
+		$data['breadcrumb'] = 'Detail Payroll';
+		$data['menu'] = '';
+
+		$data['products'] = $this->M_products->findAll_get();
+		$id = $this->M_employees->findByEmail_get($data['user']['email']);
+		$data['employee'] = $id['id_employee'];
+
+		$data['view_data'] = 'core/payroll_component/data_payroll_component';
+		$data['view_components'] = 'core/payroll_component/data_payroll_component_components';
+
+
+		if($data['user']) {
+			$this->load->view('templates/index' ,$data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('fetch/login');
+		}
+	}
 
 }
 

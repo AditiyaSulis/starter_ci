@@ -603,6 +603,7 @@ class Employee extends MY_Controller{
             'type_employee' => $this->input->post('type_employee', true),
             'type_uang_makan' => $this->input->post('type_uang_makan', true),
             'contract_expired' => $contract_expired,
+            'no_hp' => $this->input->post('no_hp', true),
         ];
 
 
@@ -711,6 +712,7 @@ class Employee extends MY_Controller{
                             data-edit_type_uang_makan="'. htmlspecialchars($item['type_uang_makan']) .'"
                             data-type_employee="'. htmlspecialchars($item['type_employee']) .'"
                             data-contract_expired="'. htmlspecialchars($item['contract_expired']) .'"
+                            data-edit_no_hp="'. htmlspecialchars($item['no_hp']) .'"
                             data-edit_position="'. htmlspecialchars($item['id_position']) .'">
                                 EDIT
                         </a>
@@ -792,9 +794,10 @@ class Employee extends MY_Controller{
             $row[] = $item['name'];  
             $row[] = $item['gender'] == 'L' ? 'Pria' : 'Wanita';  
             $row[] = $item['place_of_birth'];  
-            $row[] = date('d M Y', strtotime($item['date_of_birth']));  
+            $row[] = date('d M Y', strtotime($item['date_of_birth']));
+			$row[] = $item['no_hp'];
             $row[] = $item['name_division'];  
-            $row[] = $item['name_position'];  
+            $row[] = $item['name_position'];
             $row[] = $type;
             $row[] = $contract;
             $row[] = 'Rp.'. number_format($item['basic_salary'], 0 , ',', '.');

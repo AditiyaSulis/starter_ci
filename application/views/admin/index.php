@@ -235,6 +235,7 @@
 	</div>
 
 	<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
+		<h3>Log Kehadiran</h3>
 		<div class="row">
 			<div class="col-lg-12 col-md-12">
 				<?php $this->load->view($view_log_attendance)?>

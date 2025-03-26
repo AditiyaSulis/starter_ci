@@ -160,7 +160,7 @@
 	let endDate = '';
 	let timeManagement = 'all';
 	let employee = '<?= $employee;?>';
-	const base_urls = $('meta[name="base_url"]').attr('content');
+	const base_urla = $('meta[name="base_url"]').attr('content');
 
 
 
@@ -175,7 +175,7 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: base_urls + 'core/core_data/data_log_attendance',
+				url: base_urla + 'core/core_data/data_log_attendance',
 				type: 'POST',
 				data: function(d) {
 					d.option = $('#filterSelect').val();
@@ -246,12 +246,12 @@
 		$("#potonganTelatModal").modal("show");
 	}
 	$(document).ready(function() {
-		const base_url = $('meta[name="base_url"]').attr('content');
+		const base_urla = $('meta[name="base_url"]').attr('content');
 
 		$("#potonganTelatForm").on("submit", function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: base_url + "absence/attendance/set_potongan_telat",
+				url: base_urla + "absence/attendance/set_potongan_telat",
 				type: "POST",
 				data: $(this).serialize(),
 				dataType: "json",

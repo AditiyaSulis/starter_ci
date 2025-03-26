@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="id" data-bs-theme="light">
 
@@ -163,8 +166,10 @@
 			color: white;
 			cursor: pointer;
 		}
-        
 
+		/*body {*/
+		/*	font-family: 'Arr', sans-serif;*/
+		/*}*/
     </style>
 
 
@@ -359,6 +364,19 @@
 									</a>
 								</div>
 							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Payroll' ? "active": ""?>" href="<?=base_url('admin/payroll/payroll_employee')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-currency-exchange"></i>
+											</span>
+										</span>
+										<span class="menu-title">Payroll</span>
+									</a>
+								</div>
+							</div>
 
 						<?php endif;?>
 
@@ -410,12 +428,13 @@
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
 									<a class="menu-link <?= $title == 'Data Izin' ? "active": ""?>" href="<?=base_url('absence/data/DataIzin/data_izin_page?status_izin=3')?>">
-								<span class="menu-icon">
-									<span class="svg-icon svg-icon-2">
-										<i class="bi  bi-calendar-plus"></i>
-									</span>
-								</span>
-										<span class="menu-title">Izin</span>
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi  bi-calendar-plus"></i>
+											</span>
+										</span>
+										<span class="menu-title">Izin
+										</span>
 									</a>
 								</div>
 							</div>
@@ -708,6 +727,21 @@
 								</div>
 							</div>
 
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Add User' ? "active": ""?>" href="<?=base_url('admin/userdata/signup')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-person-plus"></i>
+											</span>
+										</span>
+										<span class="menu-title">Add User</span>
+									</a>
+								</div>
+							</div>
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -722,19 +756,7 @@
 								</div>
 							</div>
 
-							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-								 id="#kt_aside_menu" data-kt-menu="true">
-								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Add User' ? "active": ""?>" href="<?=base_url('admin/userdata/signup')?>">
-										<span class="menu-icon">
-											<span class="svg-icon svg-icon-2">
-												<i class="ti ti-settings"></i>
-											</span>
-										</span>
-										<span class="menu-title">Add User</span>
-									</a>
-								</div>
-							</div>
+
 						<?php endif;?>
 
                     </div>
