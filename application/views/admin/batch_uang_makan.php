@@ -10,6 +10,17 @@
 		Add Batch
 	</button>
 
+	<ul class="nav nav-tabs mt-8">
+		<li class="nav-item">
+			<a class="nav-link  <?= (isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark' ?>"
+			   href="<?=base_url('admin/uang_makan/batch_uang_makan_page?groupbycode=1')?>">Group By Code</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  <?= (!isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark' ?>"
+			   href="<?=base_url('admin/uang_makan/batch_uang_makan_page')?>">Group By Id</a>
+		</li>
+	</ul>
+
 	<?php $this->load->view($view_data); ?>
 	<?php $this->load->view($view_components); ?>
 
@@ -79,6 +90,12 @@
 						<div class="fv-row mb-8">
 							<textarea type="text" class="form-control" id="description" name="description"></textarea>
 						</div>--!>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Bonus</span>
+						</div>
+						<div class="fv-row mb-8">
+							<input type="number" value="0" name="bonus" autocomplete="off" class="form-control bg-transparent" />
+						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Insert Finance Record</span>
 						</div>

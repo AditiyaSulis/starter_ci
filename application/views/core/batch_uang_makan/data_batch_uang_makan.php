@@ -75,6 +75,7 @@
 		'option' :  option,
 		'startDate' :  startDate,
 		'endDate' :  endDate,
+		'groupbycode' :  para.get('groupbycode'),
 	}
 
 	function callDT1() {
@@ -94,6 +95,7 @@
 					d.option = $('#filterSelect').val();
 					d.startDate = data.startDate;
 					d.endDate = data.endDate;
+					d.groupbycode = data.groupbycode;
 				}
 			},
 			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +

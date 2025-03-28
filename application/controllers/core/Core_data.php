@@ -851,6 +851,7 @@ class Core_data extends MY_Controller{
 		$option = $this->input->post('option');
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
+		$groupByCode = $this->input->post('groupbycode');
 
 		$list = $this->M_payroll->get_datatables();
 
@@ -859,7 +860,22 @@ class Core_data extends MY_Controller{
 
 
 		foreach($list as $item) {
-			$action =
+			if(!empty($groupByCode) || $groupByCode != ''){
+				$action =
+					'   
+                      <a href="'. base_url('admin/payroll/detail_payroll?code='.$item['code_payroll']) .'" 
+						   class="btn btn-warning btn-sm rounded-pill mb-1" 
+						   style="width: 100px;">
+						   DETAIL
+						</a>
+                     ';
+				//                         <button class="btn  gradient-btn-delete btn-sm rounded-pill"
+				//								onclick="handleDeletePayrollButton('. htmlspecialchars($item['id_payroll']) .')"
+				//								style="width: 100px;">
+				//							DELETE
+				//						</button>
+			} else {
+				$action =
 					'   
                       <a href="'. base_url('admin/payroll/detail_payroll?payroll='.$item['id_payroll']) .'" 
 						   class="btn btn-warning btn-sm rounded-pill mb-1" 
@@ -872,15 +888,19 @@ class Core_data extends MY_Controller{
 							DELETE
 						</button>
                      ';
+			}
+
 
 			$piutang = $item['include_piutang'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$finance_record = $item['include_finance_record'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$telat = $item['include_potongan_telat'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
+			$uang_makan = $item['include_uang_makan'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 
 			$row = [];
 			$row[] = ++$no;
 			$row[] = date('d M Y', strtotime($item['input_at']));
 			$row[] = $item['code_payroll'];
+			$row[] = $uang_makan;
 			$row[] = $piutang;
 			$row[] = $finance_record;
 			$row[] = $telat;
@@ -923,12 +943,12 @@ class Core_data extends MY_Controller{
 			$nama = $item['name'];
 			$nomor = preg_replace('/[^0-9]/', '', $item['no_hp']); // Pastikan hanya angka
 
-// Format nomor HP ke format internasional
+		// Format nomor HP ke format internasional
 			if (substr($nomor, 0, 1) == '0') {
 				$nomor = '62' . substr($nomor, 1);
 			}
 
-// Pesan WhatsApp dengan format yang terbukti berhasil
+		// Pesan WhatsApp dengan format yang terbukti berhasil
 			$pesan = "*Notifikasi | Penggajian | Sistem HR*\n\n"
 				. "Halo $nama,\n\n"
 				. "Gaji Anda untuk periode *$periode* sudah dikirim.\n\n"
@@ -937,13 +957,13 @@ class Core_data extends MY_Controller{
 				. "Untuk rincian lengkap, login ke akun karyawan Anda di:\n$link\n\n"
 				. "Jika ada pertanyaan, hubungi HRD.\n\n"
 				. "Terima kasih.\n\n"
-				. "*Bagian Keuangan*";
+				. "*Admin Finance*";
 
-// Gunakan urlencode sesuai format yang terbukti berhasil
+		// Gunakan urlencode sesuai format yang terbukti berhasil
 			$pesanEncoded = urlencode($pesan);
 			$nomorEncoded = urlencode("+$nomor");
 
-// Buat URL WhatsApp
+		// Buat URL WhatsApp
 			$url = "https://api.whatsapp.com/send/?phone=$nomorEncoded&text=$pesanEncoded&type=phone_number&app_absent=0";
 
 
@@ -962,7 +982,7 @@ class Core_data extends MY_Controller{
                             data-total-lembur="'.htmlspecialchars($item['total_overtime']).'"
                             data-basic-salary="'.htmlspecialchars($item['basic_salary']).'"
                             data-total-dayoff="'.htmlspecialchars($item['total_dayoff']).'"
-                            data-uang-makan="'.htmlspecialchars($item['uang_makan']).'"
+                            data-uang-makan="'.htmlspecialchars($item['basic_uang_makan']).'"
                             data-nip="'.htmlspecialchars($item['nip']).'"
                             data-name="'.htmlspecialchars($item['name']).'"
                             data-product="'.htmlspecialchars($item['name_product']).'"
@@ -979,6 +999,7 @@ class Core_data extends MY_Controller{
                             data-pph="'.htmlspecialchars($item['hasil_pph']).'"
                             data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
                             data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
+                            data-logo="'.htmlspecialchars($item['logo']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -1004,7 +1025,7 @@ class Core_data extends MY_Controller{
                             data-total-lembur="'.htmlspecialchars($item['total_overtime']).'"
                             data-basic-salary="'.htmlspecialchars($item['basic_salary']).'"
                             data-total-dayoff="'.htmlspecialchars($item['total_dayoff']).'"
-                            data-uang-makan="'.htmlspecialchars($item['uang_makan']).'"
+                            data-uang-makan="'.htmlspecialchars($item['basic_uang_makan']).'"
                             data-nip="'.htmlspecialchars($item['nip']).'"
                             data-name="'.htmlspecialchars($item['name']).'"
                             data-product="'.htmlspecialchars($item['name_product']).'"
@@ -1021,6 +1042,7 @@ class Core_data extends MY_Controller{
                             data-pph="'.htmlspecialchars($item['hasil_pph']).'"
                             data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
                             data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
+                            data-logo="'.htmlspecialchars($item['logo']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -1034,7 +1056,7 @@ class Core_data extends MY_Controller{
 			$row[] = date('d M Y', strtotime($item['tanggal_gajian']));
 			$row[] = $item['name'];
 			$row[] = 'Rp.'.number_format($item['basic_salary'], 0 , ',', '.');
-			$row[] = 'Rp.'.number_format($item['uang_makan'], 0 , ',', '.');
+			$row[] = 'Rp.'.number_format($item['basic_uang_makan'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['bonus'], 0 , ',', '.');
 			$row[] = $item['total_dayoff'];
 			$row[] = $item['total_absen'];
@@ -1301,6 +1323,7 @@ class Core_data extends MY_Controller{
 		$option = $this->input->post('option');
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
+		$groupByCode = $this->input->post('groupbycode');
 
 		$list = $this->M_batch_uang_makan->get_datatables();
 
@@ -1313,20 +1336,36 @@ class Core_data extends MY_Controller{
 		//						</a>
 
 		foreach($list as $item) {
-			$action =
-				'   		<a href="'. base_url('admin/uang_makan/detail_uang_makan?uang_makan='.$item['id_batch_uang_makan']) .'"
+
+			if(!empty($groupByCode) || $groupByCode != ''){
+				$action =
+					'   		
+								<a href="'. base_url('admin/uang_makan/detail_uang_makan?code='.$item['code_batch_uang_makan']) .'"
+								   class="btn btn-warning btn-sm rounded-pill mb-1"
+								   style="width: 100px;">
+									   DETAIL
+								</a> 
+                      
+                      
+                     ';
+			} else {
+				$action =
+					'   		<a href="'. base_url('admin/uang_makan/detail_uang_makan?uang_makan='.$item['id_batch_uang_makan']) .'"
 							   class="btn btn-warning btn-sm rounded-pill mb-1"
 							   style="width: 100px;">
 								   DETAIL
-							</a>
-
-                      
-                         <button class="btn  gradient-btn-delete btn-sm rounded-pill" 
+								</a>
+								
+								 <button class="btn  gradient-btn-delete btn-sm rounded-pill" 
 								onclick="handleDeleteBatchUangMakanButton('. htmlspecialchars($item['id_batch_uang_makan']) .')" 
 								style="width: 100px;">
-							DELETE
-						</button>
+									DELETE
+								</button>
+
                      ';
+			}
+
+
 
 			$finance_record = $item['auto_finance_record'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$holiday = $item['include_holiday'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
@@ -1403,7 +1442,7 @@ class Core_data extends MY_Controller{
 			$row[] = ++$no;
 			$row[] = date('d M Y', strtotime($item['input_at']));
 			$row[] = $item['name'];
-			$row[] = 'Rp.'.number_format($item['uang_makan'], 0 , ',', '.');
+			$row[] = 'Rp.'.number_format($item['basic_uang_makan'], 0 , ',', '.');
 			$row[] = $item['total_izin'];
 			$row[] = 'Rp.'.number_format($item['pot_izin'], 0 , ',', '.');
 			$row[] = $item['total_cuti'];
@@ -1411,6 +1450,7 @@ class Core_data extends MY_Controller{
 			$row[] = $item['total_absen'];
 			$row[] = 'Rp.'.number_format($item['pot_absen'], 0 , ',', '.');
 			$row[] = $item['total_holiday'];
+			$row[] = $item['bonus'];
 			$row[] = 'Rp.'.number_format($item['pot_holiday'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['total_pot_uang_makan'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['total_uang_makan'], 0 , ',', '.');

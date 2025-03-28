@@ -36,7 +36,10 @@ if($schedule) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini adalah libur hari minggu.</p>';
 	}else if($schedule['status']== 6) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Anda Sudah melakukan absen hari ini pukul : '. date('H:i',strtotime($schedule['jam_masuk'])).' WIB </p>';
+	} else if($schedule['status']== 7) {
+		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Anda dinyatakan tidak hadir pada tanggal : '.date("d-m-Y", strtotime($schedule['waktu'])).', Absen selanjutnya akan dimulai pukul : '.date("H:i", strtotime($schedule['clock_out'])).' WIB </p>';
 	}
+
 } else {
 	$status = '<p class="card-text text-warning  fw-bolder mt-4">*Tidak ada jadwal hari ini </p>';
 }

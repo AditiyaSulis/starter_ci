@@ -85,8 +85,8 @@ class Payroll extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
-		$this->form_validation->set_rules('code_payroll', 'code_payroll', 'trim|required|is_unique[payroll.code_payroll]',[
-			'is_unique' => 'Kode sudah digunakan'
+		$this->form_validation->set_rules('code_payroll', 'code_payroll', 'required', [
+			'required' => 'Code payroll harus diisi',
 		]);
 		$this->form_validation->set_rules('input_at', 'input_at', 'required', [
 			'required' => 'Tanggal input harus diisi',
@@ -143,6 +143,7 @@ class Payroll extends MY_Controller{
 			'code_payroll' => $this->input->post('code_payroll', true),
 			'input_at' => $this->input->post('input_at', true),
 			'include_piutang' => $this->input->post('piutang', true),
+			'include_uang_makan' => $this->input->post('include_uang_makan', true) == 1 ? 1 : 0,
 			'include_finance_record' => $this->input->post('finance_record', true),
 			'include_potongan_telat' => $this->input->post('include_potongan_telat', true),
 			'include_bpjs' => $this->input->post('include_bpjs', true),
@@ -178,6 +179,7 @@ class Payroll extends MY_Controller{
 			$pot_ptkp = 0;
 			$pph_akumulatif = 0;
 			$pengurangan_pajak = 0;
+			$uang_makan = 0;
 			$bonus = $this->input->post('bonus');
 
 
@@ -195,6 +197,9 @@ class Payroll extends MY_Controller{
 
 
 
+			if($this->input->post('include_uang_makan',true) == 1) {
+				$uang_makan = $employee['uang_makan'];
+			}
 
 			if($this->input->post('include_potongan_telat', true) == 1) {
 				$totalTelat = $this->M_attendance->totalTelatLastMonthToNowByEmployeeId_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true));
@@ -342,7 +347,7 @@ class Payroll extends MY_Controller{
 					$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $jht + $jp;
 				}
 			}
-			$totalGaji = $employee['basic_salary']  + $totalOvertime - $totalPotongan + $bonus;
+			$totalGaji = $employee['basic_salary']  + $totalOvertime - $totalPotongan + $bonus + $uang_makan;
 			$totalGajiSetelahPph = $totalGaji - $totalPotPph;
 
 			//Finance record Insert
@@ -385,6 +390,7 @@ class Payroll extends MY_Controller{
 				'jp' => $jp,
 				'bonus' => $bonus,
 				'gaji_bersih' => $totalGajiSetelahPph,
+				'basic_uang_makan' => $uang_makan,
 				'gaji_pokok' => $employee['basic_salary'],
 			];
 

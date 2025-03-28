@@ -37,4 +37,9 @@ pw : zilong
 akun produk lainnya memiliki pola email dan pw yang sama dengan nama 
 
 
-url login : http://localhost/starter_ci/panel
+url login : http://localhost/starter_ci/panel 
+
+
+RBM TEST DEV
+fehoce3706@bankrau.com
+Liverpool009

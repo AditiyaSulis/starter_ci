@@ -5,85 +5,97 @@
 
 <!-- Modal Rincian Gaji -->
 <div class="modal fade" id="rincianModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-xl">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Slip Gaji Karyawan</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<div class="d-flex flex-column align-items-center text-center mb-10">
-					<h4 id="name_product"></h4>
-					<div class="d-flex">
-						<h6>Periode : &nbsp;</h6>
-						<h6 id="periode_gajian"></h6>
-						 <h6> - </h6>
-						<h6 id="tanggal_gajian"></h6>
-
-					</div>
-					<div class="d-flex">
-						<span id="kode" class="text-sm"></span>
+				<div class="d-flex flex-column align-items-center text-center mb-4">
+					<div class="row d-flex align-items-center justify-content-center">
+						<div class="col-auto">
+							<img id="logoProduct" src="<?= base_url('uploads/products/compressed/2aa82d30d575861616920a6ad9c99edd.png')?>" width="200px" height="140px" alt="">
+						</div>
+						<div class="col-auto text-start">
+							<h4 id="name_product"></h4>
+							<div class="d-flex">
+								<h6>Periode : &nbsp;</h6>
+								<h6 id="periode_gajian"></h6>
+								<h6> - </h6>
+								<h6 id="tanggal_gajian"></h6>
+							</div>
+							<div class="d-flex">
+								<span id="kode" class="text-sm"></span>
+							</div>
+						</div>
+						<br>
+						<hr>
 					</div>
 				</div>
-				<div class="row mb-1">
+				<div class="row mb-1 mt-10">
 					<div class="col-1 col-md-1"><span>NIP </span></div>
-					<div class="col-5 col-md-5"><span> : </span><span id="nip_employee" class="ms-4"></div>
+					<div class="col-6 col-md-6"><span> : </span><span id="nip_employee" class="ms-4"></div>
 				</div>
 				<div class="row mb-1">
 					<div class="col-1 col-md-1"><span>Nama </span></div>
-					<div class="col-5 col-md-5"><span> : </span><span id="name_employee" class="ms-4"></span></div>
+					<div class="col-6 col-md-6"><span> : </span><span id="name_employee" class="ms-4"></span></div>
 				</div>
 				<div class="row mb-1">
 					<div class="col-1 col-md-1"><span>Product </span></div>
-					<div class="col-5 col-md-5"><span> : </span><span id="product_employee" class="ms-4"></span></div>
+					<div class="col-6 col-md-6"><span> : </span><span id="product_employee" class="ms-4"></span></div>
 				</div>
 				<div class="row mb-1">
-					<div class="col-1 col-md-1"><span>Divisi </span></div>
-					<div class="col-5 col-md-5"><span> : </span><span id="division_employee" class="ms-4"></div>
+					<div class="col-1 col-m-1"><span>Divisi </span></div>
+					<div class="col-6 col-md-6"><span> : </span><span id="division_employee" class="ms-4"></div>
 				</div>
 				<div class="row mb-1">
 					<div class="col-1 col-md-1"><span>Position </span></div>
-					<div class="col-5 col-md-5"><span> : </span><span id="position_employee" class="ms-4"></div>
+					<div class="col-6 col-md-6"><span> : </span><span id="position_employee" class="ms-4"></div>
 				</div>
 
 				<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
 					<div class="row">
-						<div class="col-md-6 col-6">
+						<div class="col-md-5 col-5">
 							<h3>Penghasilan</h3>
 							<div class="row mb-1">
-								<div class="col-3 col-md-3"><span>Gaji Pokok </span></div>
-								<div class="col-4 col-md-4"><span> = </span><span id="gaji_pokok" class="ms-4"></div>
+								<div class="col-4 col-md-4"><span>Gaji Pokok </span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="gaji_pokok" class="ms-4"></div>
 							</div>
 							<div class="row mb-1">
-								<div class="col-3 col-md-3"><span>Lembur</span></div>
-								<div class="col-4 col-md-4"><span> = </span><span id="lembur" class="ms-4"></div>
+								<div class="col-4 col-md-4"><span>Uang Makan </span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="uang_makan" class="ms-4"></div>
 							</div>
 							<div class="row mb-1">
-								<div class="col-3 col-md-3"><span>Bonus</span></div>
-								<div class="col-4 col-md-4"><span> = </span><span id="bonus" class="ms-4"></div>
+								<div class="col-4 col-md-4"><span>Lembur</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="lembur" class="ms-4"></div>
 							</div>
 							<div class="row mb-1">
-								<div class="col-3 col-md-3"><span>Total Gaji</span></div>
-								<div class="col-4 col-md-4"><span> = </span><span id="total_gaji" class="ms-4"></div>
+								<div class="col-4 col-md-4"><span>Bonus</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="bonus" class="ms-4"></div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-4 col-md-4"><span>Total Gaji</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="total_gaji" class="ms-4"></div>
 							</div>
 						</div>
-						<div class="col-md-6 col-6">
+						<div class="col-md-7 col-7">
 							<h2>Potongan</h2>
 							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Potongan Tidak Hadir</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
+								<div class="col-5 col-md-5"><span>Potongan Tidak Hadir</span></div>
+								<div class="col-7 col-md-7"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
 							</div>
 							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Potongan Kasbon</span></div>
-								<div class="col-5 col-md-5"><span> = </span><span id="pot_kasbon" class="ms-4 fw-bolder"> </span></div>
+								<div class="col-5 col-md-5"><span>Potongan Kasbon</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="pot_kasbon" class="ms-4 fw-bolder"> </span></div>
 							</div>
 							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Keterlambatan</span></div>
-								<div class="col-5 col-md-5"><span> = </span><span id="pot_telat" class="ms-4 fw-bolder"> </span></div>
+								<div class="col-5 col-md-5"><span>Keterlambatan</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="pot_telat" class="ms-4 fw-bolder"> </span></div>
 							</div>
 							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Total Potongan</span></div>
-								<div class="col-5 col-md-5"><span> = </span><span id="total_potongan" class="ms-4"></div>
+								<div class="col-5 col-md-5"><span>Total Potongan</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="total_potongan" class="ms-4"></div>
 							</div>
 						</div>
 					</div>
@@ -138,17 +150,33 @@
 		}).then(canvas => {
 			const imgData = canvas.toDataURL('image/jpeg', 0.7);
 			const { jsPDF } = window.jspdf;
-			const pdf = new jsPDF('l', 'mm', 'a4');
+			const pdf = new jsPDF('p', 'mm', 'a4');
 
-			const imgWidth = 250;
+			const imgWidth = 190; // Sesuaikan agar hampir penuh lebar A4
 			const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-			const pageWidth = pdf.internal.pageSize.getWidth();
-			const pageHeight = pdf.internal.pageSize.getHeight();
-			const x = (pageWidth - imgWidth) / 2;
-			const y = (pageHeight - imgHeight) / 2;
+			const marginX = 10; // Margin kiri agar tidak menempel ke tepi
+			let posY = 10; // Mulai dari bagian atas halaman
 
-			pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight, '', 'FAST');
+			// Jika gambar lebih tinggi dari satu halaman, tambahkan fitur multi-halaman
+			if (imgHeight > pdf.internal.pageSize.getHeight() - 20) {
+				let remainingHeight = imgHeight;
+				let currentY = posY;
+
+				while (remainingHeight > 0) {
+					const sliceHeight = Math.min(remainingHeight, pdf.internal.pageSize.getHeight() - 20);
+					pdf.addImage(imgData, 'JPEG', marginX, currentY, imgWidth, sliceHeight, '', 'FAST');
+
+					remainingHeight -= sliceHeight;
+					if (remainingHeight > 0) {
+						pdf.addPage();
+						currentY = 10;
+					}
+				}
+			} else {
+				pdf.addImage(imgData, 'JPEG', marginX, posY, imgWidth, imgHeight, '', 'FAST');
+			}
+
 			pdf.save('Slip_Gaji.pdf');
 		});
 	});
@@ -157,6 +185,7 @@
 	const exampleModal = document.getElementById('rincianModal');
 	exampleModal.addEventListener('show.bs.modal', function (event) {
 		const button = event.relatedTarget;
+		const base = "<?= base_url('uploads/products/compressed/')?>"
 
 		const id = button.getAttribute('data-id-payroll-component');
 		const absen = parseFloat(button.getAttribute('data-total-absent')) || 0;
@@ -179,11 +208,14 @@
 		const total = button.getAttribute('data-gaji-bersih');
 		const total_gaji_bersih = button.getAttribute('data-total-gaji-bersih');
 		const code = button.getAttribute('data-code-payroll');
+		const logo = button.getAttribute('data-logo');
+		const uang_makan = parseFloat(button.getAttribute('data-uang-makan')) || 0;
 
 		const total_potongan_telat = button.getAttribute('data-total-potongan-telat');
 
+		document.getElementById('logoProduct').src = base+logo;
 
-		const gaji_kotor = gaji+lembur+bonus;
+		const gaji_kotor = gaji+lembur+bonus+uang_makan;
 		console.log("ID:", id);
 
 		// Fungsi format Rupiah
@@ -209,6 +241,7 @@
 
 
 		$('#pot_telat').text(formatToRupiah(total_potongan_telat));
+		$('#uang_makan').text(formatToRupiah(uang_makan));
 
 
 		$('#nip_employee').text(nip);

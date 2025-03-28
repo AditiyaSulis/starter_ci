@@ -289,14 +289,14 @@ class M_schedule extends CI_Model
 
 
 	public function mark_absent_if_no_checkin() {
-//				$currentDate = date('Y-m-d', strtotime('-1 day'));
-//
-//				$this->db->where('status', 1);
-//				$this->db->where('waktu <=', $currentDate);
-//				$this->db->update('schedule', ['status' => 7]);
-//
-//				return $this->db->affected_rows();
-		return 'test';
+				$currentDate = date('Y-m-d', strtotime('-1 day'));
+
+				$this->db->where('status', 1);
+				$this->db->where('waktu <=', $currentDate);
+				$this->db->update('schedule', ['status' => 7]);
+
+				return $this->db->affected_rows();
+		//return 'test';
 	}
 
 

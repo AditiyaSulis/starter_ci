@@ -109,14 +109,18 @@ class M_uang_makan extends CI_Model
 
 		$product = $this->input->post('product', true);
 		$uang_makan = $this->input->post('uang_makan',true);
+		$code = $this->input->post('code',true);
 
-		$this->db->select('uang_makan.id_uang_makan, uang_makan.id_batch_uang_makan, uang_makan.id_employee, uang_makan.total_izin, uang_makan.total_holiday, uang_makan.total_cuti, uang_makan.pot_izin, uang_makan.pot_cuti, uang_makan.pot_holiday, uang_makan.total_absen, uang_makan.pot_absen, uang_makan.total_pot_uang_makan, uang_makan.total_uang_makan, uang_makan.input_at, employee.name, employee.id_product, employee.id_division, employee.id_position, employee.uang_makan, employee.type_uang_makan, products.name_product, division.name_division, position.name_position, batch_uang_makan.code_batch_uang_makan');
+		$this->db->select('uang_makan.id_uang_makan, uang_makan.id_batch_uang_makan, uang_makan.id_employee, uang_makan.total_izin, uang_makan.basic_uang_makan, uang_makan.bonus, uang_makan.total_holiday, uang_makan.total_cuti, uang_makan.pot_izin, uang_makan.pot_cuti, uang_makan.pot_holiday, uang_makan.total_absen, uang_makan.pot_absen, uang_makan.total_pot_uang_makan, uang_makan.total_uang_makan, uang_makan.input_at, employee.name, employee.id_product, employee.id_division, employee.id_position, employee.uang_makan, employee.type_uang_makan, products.name_product, division.name_division, position.name_position, batch_uang_makan.code_batch_uang_makan');
 		$this->db->from('uang_makan');
 		if (!empty($uang_makan) ) {
 			$this->db->where('uang_makan.id_batch_uang_makan', $uang_makan);
 		}
 		if(!empty($product) && $product != 'all'){
 			$this->db->where('products.id_product', $product);
+		}
+		if (!empty($code) ) {
+			$this->db->where('batch_uang_makan.code_batch_uang_makan', $code);
 		}
 		$this->db->join('employee', 'employee.id_employee = uang_makan.id_employee', 'left');
 		$this->db->join('products', 'products.id_product = employee.id_product', 'left');

@@ -44,6 +44,10 @@
 
 
 
+
+
+
+
 	<style>
         #exportPDF {
             background-color: #17a2b8; 
@@ -364,19 +368,7 @@
 									</a>
 								</div>
 							</div>
-							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-								 id="#kt_aside_menu" data-kt-menu="true">
-								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Payroll' ? "active": ""?>" href="<?=base_url('admin/payroll/payroll_employee')?>">
-										<span class="menu-icon">
-											<span class="svg-icon svg-icon-2">
-												<i class="bi bi-currency-exchange"></i>
-											</span>
-										</span>
-										<span class="menu-title">Payroll</span>
-									</a>
-								</div>
-							</div>
+
 
 						<?php endif;?>
 
@@ -671,6 +663,19 @@
 						<?php endif;?>
 
 						<?php if($user['role'] == 3): ?>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Payroll' ? "active": ""?>" href="<?=base_url('admin/payroll/payroll_employee')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-currency-exchange"></i>
+											</span>
+										</span>
+										<span class="menu-title">Payroll</span>
+									</a>
+								</div>
+							</div>
 							<!-- EMPLOYEE-->
 							<!--							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"-->
 								<!--								 id="#kt_aside_menu" data-kt-menu="true">-->

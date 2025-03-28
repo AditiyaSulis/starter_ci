@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_admin extends CI_Model {
 
+	private $column_search = array('name', 'email', 'role', 'status', 'ip_address');
+	private $column_order = array('name', 'email', 'role', 'status', 'ip_address');
+	private $order = array('name' => 'asc');
+
+
    public function findByEmail_get($email, $password) 
    {
     
@@ -141,5 +146,63 @@ class M_admin extends CI_Model {
     {
         return $this->db->delete('admin', ['id' => $id]);
     }
+
+
+	public function getUserData($role = null)
+	{
+
+		$this->db->select('id, name, email, role, password, status, last_update, last_login, ip_address, avatar');
+		$this->db->from('admin');
+		if ($role && $role !== 'All') {
+			$this->db->where('role', $role);
+		}
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (@$_POST['search']['value']) {
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if (count($this->column_search) - 1 === $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else {
+			$this->db->order_by(key($this->order), $this->order[key($this->order)]);
+		}
+
+	}
+
+	public function get_datatables($role = null)
+	{
+		$this->getUserData($role);
+		if (@$_POST['length'] != -1) {
+			$this->db->limit(@$_POST['length'], @$_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+	public function count_filtered($role = null)
+	{
+		$this->getUserData($role);
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+
+	public function count_all()
+	{
+		$this->db->from('admin');
+		return $this->db->count_all_results();
+	}
 
 }

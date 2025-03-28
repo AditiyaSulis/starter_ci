@@ -38,7 +38,7 @@ class Dashboard extends MY_Controller{
 		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
 		$data['izin_pending'] = $this->M_izin->count_pending_get();
 
-		$updatedRows = $this->M_schedule->mark_absent_if_no_checkin();
+
 
         $data['title'] = 'Admin';
         $data['view_name'] = 'admin/index';

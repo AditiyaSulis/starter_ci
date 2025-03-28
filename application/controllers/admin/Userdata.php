@@ -7,6 +7,7 @@ class Userdata extends MY_Controller{
     {
         parent::__construct();
         $this->load->library('upload');
+        $this->load->model('M_employees');
 
     }
 
@@ -14,7 +15,7 @@ class Userdata extends MY_Controller{
     {
         $this->_ONLY_SU();
         $data = $this->_basicData();
-        $data['data_user'] = $this->m_Admin->findAll_get();
+        $data['data_user'] = $this->M_admin->findAll_get();
        
         $data['title'] = 'Data User';
         $data['view_name'] = 'admin/user_data';
@@ -91,7 +92,7 @@ class Userdata extends MY_Controller{
             'role' => $this->input->post('role'),
         ];
 
-        $usercreate = $this->m_Admin->create_post($data);
+        $usercreate = $this->M_admin->create_post($data);
 
         if ($usercreate) {
             $response = [
@@ -122,7 +123,7 @@ class Userdata extends MY_Controller{
             return;
         }
 
-        $account = $this->m_Admin->findById_get($id);
+        $account = $this->M_admin->findById_get($id);
 
         $old_email = $account['email'];
 
@@ -155,7 +156,7 @@ class Userdata extends MY_Controller{
         $new_email = $this->input->post('email', true);
 
         if($old_email != $new_email) {
-            $emailExist = $this->m_Admin->findByEmailForEdit_get($new_email);
+            $emailExist = $this->M_admin->findByEmailForEdit_get($new_email);
             if($emailExist){
                 $response = [
                     'status' => false,
@@ -176,7 +177,7 @@ class Userdata extends MY_Controller{
                 'role' => $this->input->post('role'),
             ];
     
-            if ($this->m_Admin->update_post($id, $data)) {
+            if ($this->M_admin->update_post($id, $data)) {
                 $response = [
                     'status' => true,
                     'message' => 'Account berhasil diperbarui.'
@@ -191,7 +192,7 @@ class Userdata extends MY_Controller{
             return;
         }
 
-        $data_account = $this->m_Admin->findById_get($id);
+        $data_account = $this->M_admin->findById_get($id);
         if ($data_account && !empty($data_account['avatar'])) {
             $old_logo_path = './uploads/avatar/' . $data_account['avatar'];
             if (file_exists($old_logo_path)) {
@@ -231,7 +232,7 @@ class Userdata extends MY_Controller{
 			'email' => $this->input->post('email')
 		];
 
-        $account_updated = $this->m_Admin->update_post($id, $data);
+        $account_updated = $this->M_admin->update_post($id, $data);
 
         if($account_updated) {
             $response = [
@@ -261,7 +262,7 @@ class Userdata extends MY_Controller{
             ];
         }
 
-        $account = $this->m_Admin->findById_get($id);
+        $account = $this->M_admin->findById_get($id);
 
         $old_email = $account['email'];
 
@@ -298,15 +299,12 @@ class Userdata extends MY_Controller{
             return;
         }
 
-        $password = $this->input->post('password', true);
 
-        $lb = new Opensslencryptdecrypt();
-        $encrypt = $lb->encrypt($password);
 
         $new_email = $this->input->post('email', true);
 
         if($old_email != $new_email) {
-            $emailExist = $this->m_Admin->findByEmailForEdit_get($new_email);
+            $emailExist = $this->M_admin->findByEmailForEdit_get($new_email);
             if($emailExist){
                 $response = [ 
                     'status' => false,
@@ -319,6 +317,11 @@ class Userdata extends MY_Controller{
             }
         }
 
+		$password = $this->input->post('password', true);
+
+		$lb = new Opensslencryptdecrypt();
+		$encrypt = $lb->encrypt($password);
+
         if(empty($_FILES['avatar']['name'])){
             $data = [
                 'name' => $this->input->post('name'),
@@ -327,7 +330,7 @@ class Userdata extends MY_Controller{
                 'role' => $this->input->post('role'),
                 'password'=> $encrypt
             ];
-            if ($this->m_Admin->update_post($id, $data)) {
+            if ($this->M_admin->update_post($id, $data)) {
                 $response = [
                     'status' => true,
                     'message' => 'Account berhasil diperbarui.'
@@ -374,9 +377,10 @@ class Userdata extends MY_Controller{
             'avatar' => $logo_name,
             'status' => $this->input->post('status'),
             'role' => $this->input->post('role'),
+			'password'=> $encrypt
         ];
 
-        $account_updated = $this->m_Admin->update_post($id, $data);
+        $account_updated = $this->M_admin->update_post($id, $data);
 
         if($account_updated) {
             $response = [
@@ -409,7 +413,7 @@ class Userdata extends MY_Controller{
             return;
         }
 
-        $account = $this->m_Admin->findById_get($id);
+        $account = $this->M_admin->findById_get($id);
 
         $old_email = $account['email'];
 
@@ -442,7 +446,7 @@ class Userdata extends MY_Controller{
         $new_email = $this->input->post('email', true);
 
         if($old_email != $new_email) {
-            $emailExist = $this->m_Admin->findByEmailForEdit_get($new_email);
+            $emailExist = $this->M_admin->findByEmailForEdit_get($new_email);
             if($emailExist){
                 $response = [
                     'status' => false,
@@ -455,15 +459,22 @@ class Userdata extends MY_Controller{
             }
         }
 
+		$password = $this->input->post('password', true);
+
+		$lb = new Opensslencryptdecrypt();
+		$encrypt = $lb->encrypt($password);
+
         if (empty($_FILES['avatar']['name'])) {
             $data = [
                 'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'status' => $this->input->post('status'),
                 'role' => $this->input->post('role'),
+				'password'=> $encrypt
             ];
     
-            if ($this->m_Admin->update_post($id, $data)) {
+            if ($this->M_admin->update_post($id, $data)) {
+				$this->M_employees->changeEmail_post($old_email, $new_email);
                 $response = [
                     'status' => true,
                     'message' => 'Account berhasil diperbarui.'
@@ -478,7 +489,7 @@ class Userdata extends MY_Controller{
             return;
         }
 
-        $data_account = $this->m_Admin->findById_get($id);
+        $data_account = $this->M_admin->findById_get($id);
         if ($data_account && !empty($data_account['avatar'])) {
             $old_logo_path = './uploads/avatar/' . $data_account['avatar'];
             if (file_exists($old_logo_path)) {
@@ -506,17 +517,25 @@ class Userdata extends MY_Controller{
 
         $logo_name = $upload_result['message'];
 
+		$password = $this->input->post('password', true);
+
+		$lb = new Opensslencryptdecrypt();
+		$encrypt = $lb->encrypt($password);
+
+
         $data = [
             'name' => $this->input->post('name'),
             'email' => $this->input->post('email'),
             'avatar' => $logo_name,
             'status' => $this->input->post('status'),
             'role' => $this->input->post('role'),
+            'password' => $encrypt,
         ];
 
-        $account_updated = $this->m_Admin->update_post($id, $data);
+        $account_updated = $this->M_admin->update_post($id, $data);
 
         if($account_updated) {
+			$this->M_employees->changeEmail_post($old_email, $new_email);
             $response = [
                 'status' => true,
                 'message' => 'Data Account berhasil diupdate',
@@ -539,7 +558,7 @@ class Userdata extends MY_Controller{
         
         $id = $this->input->post('id');
 
-        $user_data = $this->m_Admin->findById_get($id);
+        $user_data = $this->M_admin->findById_get($id);
 
         if ($user_data) {
 
@@ -553,7 +572,7 @@ class Userdata extends MY_Controller{
 
         }
 
-        if($this->m_Admin->delete($id)){
+        if($this->M_admin->delete($id)){
             $response = [
                 'status' => true,
                 'message' => 'User berhasil dihapus',
@@ -682,5 +701,97 @@ class Userdata extends MY_Controller{
 		}
 
 		echo json_encode($response);
+	}
+
+
+	public function dtSideServer()
+	{
+		$role = $this->input->post('role');
+
+		$list = $this->M_admin->get_datatables($role);
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach($list as $item) {
+
+			$lb = new Opensslencryptdecrypt();
+			$encrypt = $lb->decrypt($item['password']);
+
+			$action = ' <a href="javascript:void(0)" onclick="editUserBtn(this)" 
+                            class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-user"  
+                            style="width: 70px"
+                            data-edit_id="'. htmlspecialchars($item['id']) .'"
+                            data-edit_name="'. htmlspecialchars($item['name']) .'"
+                            data-edit_email="'. htmlspecialchars($item['email']) .'"
+                            data-edit_password="'. htmlspecialchars($encrypt) .'"
+                            data-edit_role="'. htmlspecialchars($item['role']) .'"
+                            data-edit_status="'. htmlspecialchars($item['status']) .'"
+                            data-edit_last_update="'. htmlspecialchars($item['last_update']) .'"
+                            data-edit_last_login="'. htmlspecialchars($item['last_login']) .'"
+                            data-edit_ip_address="'. htmlspecialchars($item['ip_address']) .'"
+                            data-edit_avatar="'. htmlspecialchars($item['avatar']) .'" >
+                                EDIT
+                        </a>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteUserButton('.htmlspecialchars($item['id']).')" style="width : 70px" disabled>
+                            DELETE
+                        </button>
+                     ';
+
+			$status = $item['status'] == 1 ?
+				'						  
+							  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
+								  Active
+							  </span>
+					    '
+				:
+				'
+							  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
+								  Banned
+							  </span>
+					   ';
+			$role = '';
+			if($item['role'] == 1) {
+				$role = 'Super User';
+			} else if($item['role'] == 2) {
+				$role = 'Admin';
+			} else if($item['role'] == 3) {
+				$role = 'Employee';
+			} else if($item['role'] == 4) {
+				$role = 'HRD';
+			}
+
+
+			$avatar = $item['avatar'] == '' || empty($item['avatar']) ? '<td>
+															<span> - </span>
+															</td>
+															':
+															'<td>
+																<img src="' . base_url('uploads/avatar/' . $item['avatar']) . '"  alt="Logo" width="50" style="cursor: pointer;"  onclick="showImageModal(\'' . base_url('uploads/avatar/' . $item['avatar']) . '\')">
+															</td>';
+
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = $item['name'];
+			$row[] = $item['email'];
+			$row[] = $role;
+			$row[] = $status;
+			$row[] = date('d M Y H:i', strtotime($item['last_update']));
+			$row[] = date('d M Y H:i', strtotime($item['last_login']));
+			$row[] = $item['ip_address'];
+			$row[] = $avatar;
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => $this->M_admin->count_all(),
+			"recordsFiltered" => $this->M_admin->count_filtered($this->input->post('role')),
+			"data" => $data,
+		];
+
+		echo json_encode($output);
 	}
 }

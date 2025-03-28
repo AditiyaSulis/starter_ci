@@ -76,9 +76,10 @@ class Uang_makan extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
-		$this->form_validation->set_rules('code_batch_uang_makan', 'code_batch_uang_makan', 'trim|required|is_unique[batch_uang_makan.code_batch_uang_makan]',[
-			'is_unique' => 'Kode sudah digunakan'
+		$this->form_validation->set_rules('code_batch_uang_makan', 'code_batch_uang_makan', 'required', [
+			'required' => 'Code harus diisi',
 		]);
+
 		$this->form_validation->set_rules('tanggal_batch_uang_makan', 'tanggal_batch_uang_makan', 'required', [
 			'required' => 'Tanggal input harus diisi',
 		]);
@@ -93,6 +94,9 @@ class Uang_makan extends MY_Controller{
 		]);
 		$this->form_validation->set_rules('include_absen', 'include_absen', 'required', [
 			'required' => 'Include Absen harus diisi',
+		]);
+		$this->form_validation->set_rules('bonus', 'bonus', 'required', [
+			'required' => 'Bonus harus diisi',
 		]);
 
 
@@ -192,7 +196,7 @@ class Uang_makan extends MY_Controller{
 			$potCuti = $potPerDay * $totalCuti;
 			$potHoliday = $potPerDay * $totalHolyday;
 			$totalPotUangMakan = $potIzin + $potAbsen + $potCuti + $potHoliday;
-			$uang_makan_bersih = $employee['uang_makan'] - $totalPotUangMakan;
+			$uang_makan_bersih = $employee['uang_makan'] - $totalPotUangMakan  + $this->input->post('bonus',true);
 
 
 			//Finance record Insert
@@ -218,9 +222,11 @@ class Uang_makan extends MY_Controller{
 				'pot_holiday' => $potHoliday,
 				'total_absen' => $totalAbsen,
 				'pot_absen' => $potAbsen,
+				'basic_uang_makan' => $employee['uang_makan'],
 				'total_pot_uang_makan' => $totalPotUangMakan,
 				'total_uang_makan' => $uang_makan_bersih,
 				'input_at' => $this->input->post('tanggal_batch_uang_makan', true),
+				'bonus' => $this->input->post('bonus', true),
 			];
 
 			$insertPayroll = $this->M_uang_makan->create_post($dataBatch);
@@ -417,7 +423,7 @@ class Uang_makan extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$data = $this->_basicData();
 
-		$data['title'] = 'Uang Makan';
+		$data['title'] = 'Batch Uang Makan';
 		$data['view_name'] = 'admin/uang_makan';
 		$data['breadcrumb'] = 'Detail Uang Makan';
 		$data['menu'] = '';

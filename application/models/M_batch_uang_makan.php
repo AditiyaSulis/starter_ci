@@ -102,12 +102,18 @@ class M_batch_uang_makan extends CI_Model
 	{
 
 		$option = $this->input->post('option', true);
+		$codeByGroup = $this->input->post('groupbycode', true);
 
 		$this->db->select('batch_uang_makan.id_batch_uang_makan, batch_uang_makan.code_batch_uang_makan, batch_uang_makan.auto_finance_record, batch_uang_makan.include_holiday, batch_uang_makan.include_leave, batch_uang_makan.include_absen, batch_uang_makan.total_uang_makan,batch_uang_makan.total_employee, batch_uang_makan.tanggal_batch_uang_makan, batch_uang_makan.tanggal_batch_uang_makan');
 		$this->db->from('batch_uang_makan');
 		$this->db->join('uang_makan', 'uang_makan.id_batch_uang_makan = batch_uang_makan.id_batch_uang_makan', 'left');
 		$this->db->join('employee', 'employee.id_employee = uang_makan.id_employee', 'left');
-		$this->db->group_by('batch_uang_makan.id_batch_uang_makan');
+		if(!empty($codeByGroup) || $codeByGroup != ''){
+			$this->db->group_by('batch_uang_makan.code_batch_uang_makan');
+		} else {
+			$this->db->group_by('batch_uang_makan.id_batch_uang_makan');
+		}
+
 		if (!empty($option)) {
 			$this->_filterDATE($option);
 		}

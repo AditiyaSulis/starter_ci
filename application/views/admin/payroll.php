@@ -1,14 +1,27 @@
 
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <main>
 	<h1>Payroll</h1>
 
+
 	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
 		<i class="bi bi-plus-circle"></i>
 		Add Payroll
 	</button>
+
+	<ul class="nav nav-tabs mt-8">
+		<li class="nav-item">
+			<a class="nav-link  <?= (isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark' ?>"
+			   href="<?=base_url('admin/payroll/payroll_page?groupbycode=1')?>">Group By Code</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  <?= (!isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark' ?>"
+			   href="<?=base_url('admin/payroll/payroll_page')?>">Group By Id</a>
+		</li>
+	</ul>
 
 	<?php $this->load->view($view_data); ?>
 	<?php $this->load->view($view_components); ?>
@@ -93,10 +106,10 @@
 						</div>
 
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>bonus</span>
+							<span>Bonus</span>
 						</div>
 						<div class="fv-row mb-8">
-							<input type="text" name="bonus" autocomplete="off" class="form-control bg-transparent" oninput="formatRupiah(this)" />
+							<input type="text" name="bonus" value="0" autocomplete="off" class="form-control bg-transparent" oninput="formatRupiah(this)" />
 						</div>
 
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -104,6 +117,15 @@
 						</div>
 						<div class="fv-row mb-8">
 							<textarea type="text" class="form-control" id="description" name="description"></textarea>
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Uang makan</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="include_uang_makan" id="include_uang_makan">
+								<option value="1">Yes</option>
+								<option value="0" selected>No</option>
+							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Insert Finance Record</span>

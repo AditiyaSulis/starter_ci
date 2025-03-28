@@ -111,10 +111,14 @@ class M_payroll_component extends CI_Model
 		$employee = $this->input->post('employee', true);
 		$product = $this->input->post('product', true);
 		$payroll = $this->input->post('payroll',true);
+		$code = $this->input->post('code',true);
 
-		$this->db->select('payroll_component.id_payroll_component, payroll_component.id_employee,  payroll_component.id_payroll, payroll_component.total_absen, payroll_component.id_payroll, payroll_component.total, payroll_component.total_overtime, payroll_component.total_dayoff, payroll_component.piutang, payroll_component.bonus,payroll_component.tanggal_gajian, payroll_component.potongan_absen,   payroll_component.absen_hari,   payroll_component.total_potongan, payroll_component.description, payroll_component.periode_gajian, payroll_component.total_potongan_telat,  payroll_component.gaji_bersih, employee.name, employee.id_product, employee.id_division, employee.basic_salary, employee.nip, employee.no_hp, employee.uang_makan, products.name_product, division.name_division, position.name_position, tax_config.hasil_pph, payroll.code_payroll');
+		$this->db->select('payroll_component.id_payroll_component, payroll_component.id_employee,  payroll_component.id_payroll, payroll_component.total_absen, payroll_component.total, payroll_component.total_overtime, payroll_component.total_dayoff, payroll_component.piutang, payroll_component.bonus,payroll_component.tanggal_gajian, payroll_component.potongan_absen,   payroll_component.absen_hari,   payroll_component.total_potongan, payroll_component.description, payroll_component.periode_gajian, payroll_component.total_potongan_telat,  payroll_component.gaji_bersih, payroll_component.basic_uang_makan, employee.name, employee.id_product, employee.id_division, employee.basic_salary, employee.nip, employee.no_hp, employee.uang_makan, products.name_product, products.logo, division.name_division, position.name_position, tax_config.hasil_pph, payroll.code_payroll');
 		if (!empty($payroll) ) {
 			$this->db->where('payroll_component.id_payroll', $payroll);
+		}
+		if (!empty($code) ) {
+			$this->db->where('payroll.code_payroll', $code);
 		}
 		if ($employee != 'false') {
 			$this->db->where('payroll_component.id_employee', $employee);

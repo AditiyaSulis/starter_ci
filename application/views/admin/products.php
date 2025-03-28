@@ -72,7 +72,7 @@
 						<td><?= $product['name_product']; ?></td>
 						<td><?= $product['description']; ?></td>
 						<td><?php if($product['url']):?>
-							<a href="<?= $product['url']; ?>">
+							<a href="<?= $product['url']; ?>" target="_blank">
 								<button class="btn btn-light btn-sm">
 									<i class="ti ti-link"></i>
 								</button>

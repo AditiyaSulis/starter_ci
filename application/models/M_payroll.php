@@ -99,11 +99,17 @@ class M_payroll extends CI_Model
 	{
 
 		$option = $this->input->post('option', true);
+		$codeByGroup = $this->input->post('groupbycode', true);
 
-		$this->db->select('payroll.id_payroll, payroll.code_payroll, payroll.input_at, payroll.total_salary, payroll.include_piutang, payroll.include_finance_record, payroll.include_potongan_telat, payroll.total_employee, MAX(payroll_component.tanggal_gajian) AS tanggal_gajian');
+		$this->db->select('payroll.id_payroll, payroll.code_payroll, payroll.input_at, payroll.total_salary, payroll.include_piutang, payroll.include_finance_record, payroll.include_potongan_telat, payroll.include_uang_makan, payroll.total_employee, MAX(payroll_component.tanggal_gajian) AS tanggal_gajian');
 		$this->db->from('payroll');
 		$this->db->join('payroll_component', 'payroll_component.id_payroll = payroll.id_payroll', 'left');
-		$this->db->group_by('payroll.id_payroll');
+		if(!empty($codeByGroup) || $codeByGroup != ''){
+			$this->db->group_by('payroll.code_payroll');
+		} else {
+			$this->db->group_by('payroll.id_payroll');
+		}
+
 		if (!empty($option)) {
 			$this->_filterDATE($option);
 		}

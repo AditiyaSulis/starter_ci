@@ -369,6 +369,7 @@ class Schedule extends MY_Controller{
 		$data['view_name'] = 'absence/data/schedule';
 		$data['breadcrumb'] = 'Data - Schedule';
 		$data['menu'] = 'Data';
+		$updatedRows = $this->M_schedule->mark_absent_if_no_checkin();
 
 		$data['employees'] = $this->M_employees->findAll_get();
 		$data['workshifts'] = $this->M_workshift->findAll_get();
