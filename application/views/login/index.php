@@ -143,9 +143,9 @@
                 </div>
                 <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(<?= base_url('asset/media/background/bg_blue_sea.jpg')?>)">
                     <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">          
-                        <a href="/metronic8/demo1/index.html" class="mb-0 mb-lg-4">
-                            <img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>"  width="400" height="350"/>
-                        </a>     
+                        
+                            <img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>"  width="350" height="350"/>
+                        
                         <!-- <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="<?= base_url('asset/media/logos/logo_mgr.jpeg')?>" alt=""/>                  -->
                         <h1 class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7"> 
                         CV Multi Graha Radhika

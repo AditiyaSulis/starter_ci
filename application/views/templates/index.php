@@ -787,8 +787,8 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            <a href="index.html" class="d-lg-none">
-                                <img alt="Logo" src="<?= base_url('asset/media/logos/Logo.png') ?>" class="h-15px" />
+                            <a href="<?= base_url('admin/dashboard/dashboard_page?with_alerts=1')?>" class="d-lg-none">
+                                <img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png') ?>" class="h-80px" />
                             </a>
                         </div>
                         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
