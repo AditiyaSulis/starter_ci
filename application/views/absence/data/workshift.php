@@ -1,56 +1,57 @@
 <main>
 	<h1>Workshift</h1>
 
-	<div class="row mt-12">
-		<div class="col-md-12 mb-4">
-			<h4>Position</h4>
+	<div class="row mt-3">
+		<div class="col-md-12">
 			<button type="button" class="btn gradient-btn rounded-pill mt-6 mb-6" data-bs-toggle="modal" data-bs-target="#addWorkshift">
 				<i class="bi bi-plus-circle"></i>
 				Add Workshift
 			</button>
 
-			<div class="table-responsive">
-				<table id="workshift_table" class="table table-bordered table-striped" style="width:100%">
-					<thead>
-					<?php $no = 1 ?>
-					<tr>
-						<th>No</th>
-						<th>Code</th>
-						<th>Name</th>
-						<th>Clock in</th>
-						<th>Clock Out</th>
-						<th>Description</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<?php foreach ($workshift as $shift): ?>
+			<div class=" mt-2  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+				<div class="table-responsive">
+					<table id="workshift_table" class="table table-bordered table-striped" style="width:100%">
+						<thead>
+						<?php $no = 1 ?>
 						<tr>
-							<td><?= $no; ?></td>
-							<td><?= $shift['code_workshift']; ?></td>
-							<td><?= $shift['name_workshift']; ?></td>
-							<td><?= $shift['clock_in']; ?></td>
-							<td><?= $shift['clock_out']; ?></td>
-							<td><?= $shift['description']; ?></td>
-							<td>
-								<a href="javascript:void(0)" onclick="editWorkshiftButton(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-shift" style="width : 70px"
-								   data-id_workshift="<?= $shift['id_workshift']; ?>"
-								   data-code_workshift="<?= $shift['code_workshift']; ?>"
-								   data-name_workshift="<?= $shift['name_workshift']; ?>"
-								   data-clock_in="<?= $shift['clock_in']; ?>"
-								   data-clock_out="<?= $shift['clock_out']; ?>"
-								   data-description="<?= $shift['description']; ?>">
-									EDIT
-								</a>
-								<button  class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-shift" data-id_workshift="<?= $shift['id_workshift']; ?>" style="width : 70px">
-									DELETE
-								</button>
-							</td>
+							<th>No</th>
+							<th>Code</th>
+							<th>Name</th>
+							<th>Clock in</th>
+							<th>Clock Out</th>
+							<th>Description</th>
+							<th>Action</th>
 						</tr>
-						<?php $no++ ?>
-					<?php endforeach; ?>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+						<?php foreach ($workshift as $shift): ?>
+							<tr>
+								<td><?= $no; ?></td>
+								<td><?= $shift['code_workshift']; ?></td>
+								<td><?= $shift['name_workshift']; ?></td>
+								<td><?= $shift['clock_in']; ?></td>
+								<td><?= $shift['clock_out']; ?></td>
+								<td><?= $shift['description']; ?></td>
+								<td>
+									<a href="javascript:void(0)" onclick="editWorkshiftButton(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-shift" style="width : 70px"
+									   data-id_workshift="<?= $shift['id_workshift']; ?>"
+									   data-code_workshift="<?= $shift['code_workshift']; ?>"
+									   data-name_workshift="<?= $shift['name_workshift']; ?>"
+									   data-clock_in="<?= $shift['clock_in']; ?>"
+									   data-clock_out="<?= $shift['clock_out']; ?>"
+									   data-description="<?= $shift['description']; ?>">
+										EDIT
+									</a>
+									<button  class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-shift" data-id_workshift="<?= $shift['id_workshift']; ?>" style="width : 70px">
+										DELETE
+									</button>
+								</td>
+							</tr>
+							<?php $no++ ?>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

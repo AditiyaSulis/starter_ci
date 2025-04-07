@@ -10,13 +10,13 @@
 		Add Batch
 	</button>
 
-	<ul class="nav nav-tabs mt-8">
+	<ul class="nav nav-tabs mt-8 ms-5">
 		<li class="nav-item">
-			<a class="nav-link  <?= (isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark' ?>"
+			<a class="nav-link  <?= (isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('admin/uang_makan/batch_uang_makan_page?groupbycode=1')?>">Group By Code</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= (!isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark' ?>"
+			<a class="nav-link  <?= (!isset($_GET['groupbycode'])) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('admin/uang_makan/batch_uang_makan_page')?>">Group By Id</a>
 		</li>
 	</ul>

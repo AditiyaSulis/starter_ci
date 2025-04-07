@@ -715,6 +715,7 @@ class Userdata extends MY_Controller{
 
 		foreach($list as $item) {
 
+			$lastLogin = $item['last_login'] == null ? 'Belum pernah login': date('d M Y H:i', strtotime($item['last_login']));
 			$lb = new Opensslencryptdecrypt();
 			$encrypt = $lb->decrypt($item['password']);
 
@@ -778,7 +779,7 @@ class Userdata extends MY_Controller{
 			$row[] = $role;
 			$row[] = $status;
 			$row[] = date('d M Y H:i', strtotime($item['last_update']));
-			$row[] = date('d M Y H:i', strtotime($item['last_login']));
+			$row[] = $lastLogin;
 			$row[] = $item['ip_address'];
 			$row[] = $avatar;
 			$row[] = $action;

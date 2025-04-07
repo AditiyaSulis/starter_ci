@@ -6,7 +6,7 @@
         Add Supplier
     </button>
 
-    <div class="mt-6">
+	<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
         <table id="supplier_table" class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <?php $no = 1 ?>

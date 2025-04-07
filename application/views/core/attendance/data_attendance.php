@@ -18,7 +18,8 @@
 </style>
 
 
-<div class="mt-6">
+
+<div class="shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
 	<div class="row mb-2">
 			<div class="col-auto mb-2">
 				<button type="button" class="btn btn-primary btn-sm  rounded-pill" data-bs-toggle="modal" data-bs-target="#customDateModal">
@@ -61,6 +62,7 @@
 		</tbody>
 	</table>
 </div>
+
 
 
 <!-- Modal untuk Custom Date -->

@@ -76,81 +76,83 @@
         </button>
     </div>
 
-    <div class="row g-3 align-items-center mt-4">
-        <div class="col-12 col-md-auto">
-            <label class="form-label">Date:</label>
-            <select id="filterSelect" class="form-select form-select-sm">
-                <option value="today">Today</option>
-                <option value="yesterday">Yesterday</option>
-                <option value="this_week">This Week</option>
-                <option value="last_week">Last Week</option>
-                <option value="this_month" selected>This Month</option>
-                <option value="last_month">Last Month</option>
-                <option value="this_year">This Year</option>
-                <option value="last_year">Last Year</option>
-                <option value="custom">Custom Range</option>
-            </select>
-        </div>
+	<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+		<div class="row g-3 align-items-center mt-4">
+			<div class="col-12 col-md-auto">
+				<label class="form-label">Date:</label>
+				<select id="filterSelect" class="form-select form-select-sm">
+					<option value="today">Today</option>
+					<option value="yesterday">Yesterday</option>
+					<option value="this_week">This Week</option>
+					<option value="last_week">Last Week</option>
+					<option value="this_month" selected>This Month</option>
+					<option value="last_month">Last Month</option>
+					<option value="this_year">This Year</option>
+					<option value="last_year">Last Year</option>
+					<option value="custom">Custom Range</option>
+				</select>
+			</div>
 
-        <div class="col-12 col-md-auto">
-            <label class="form-label">Product:</label>
-            <select id="filterProduct" class="form-select form-select-sm">
-                <option value="" selected>-</option>
-                <?php foreach($products as $product): ?>
-                <option value="<?= $product['id_product'] ?>"><?= $product['name_product'] ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+			<div class="col-12 col-md-auto">
+				<label class="form-label">Product:</label>
+				<select id="filterProduct" class="form-select form-select-sm">
+					<option value="" selected>-</option>
+					<?php foreach($products as $product): ?>
+					<option value="<?= $product['id_product'] ?>"><?= $product['name_product'] ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 
-        <div class="col-12 col-md-auto">
-            <label class="form-label">Type:</label>
-            <select id="filterCategory" class="form-select form-select-sm">
-                <option value="" selected>-</option>
-                <?php foreach($categories as $ct): ?>
-                <option value="<?= $ct['id_kategori'] ?>"><?= $ct['name_kategori']?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+			<div class="col-12 col-md-auto">
+				<label class="form-label">Type:</label>
+				<select id="filterCategory" class="form-select form-select-sm">
+					<option value="" selected>-</option>
+					<?php foreach($categories as $ct): ?>
+					<option value="<?= $ct['id_kategori'] ?>"><?= $ct['name_kategori']?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 
-        <div class="col-12 col-md-auto">
-            <label class="form-label">Code:</label>
-            <select id="filterCode" class="form-select form-select-sm">
-                <option value="" selected>-</option>
-            </select>
-        </div>
+			<div class="col-12 col-md-auto">
+				<label class="form-label">Code:</label>
+				<select id="filterCode" class="form-select form-select-sm">
+					<option value="" selected>-</option>
+				</select>
+			</div>
 
-        <div class="col-12 col-md-auto mt-8">
-            <button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
-                <i class="ti ti-reload"></i> Clear Filter
-            </button>
-        </div>
-        <div id="custom-button-container" class="col-12 col-md-auto mt-8">
-            <button id="exportPDF" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
-                <i class="ti ti-download"></i> Export to PDF
-            </button>
-        </div>
-       
-    </div>
+			<div class="col-12 col-md-auto mt-8">
+				<button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
+					<i class="ti ti-reload"></i> Clear Filter
+				</button>
+			</div>
+			<div id="custom-button-container" class="col-12 col-md-auto mt-8">
+				<button id="exportPDF" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
+					<i class="ti ti-download"></i> Export to PDF
+				</button>
+			</div>
 
-    <div class="table-responsive mt-4">
-        <table id="finances_table" class="table table-bordered table-striped w-100">
-            <thead class="table-primary">
-                <tr>
-                    <th class="no-print">Created At</th>
-                    <th>Record Date</th>
-                    <th>Type</th>
-                    <th>Product</th>
-                    <th>Amount</th>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th class="no-print">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+		</div>
 
-            </tbody>
-        </table>
-    </div>
+		<div class="table-responsive mt-4">
+			<table id="finances_table" class="table table-bordered table-striped w-100">
+				<thead class="table-primary">
+					<tr>
+						<th class="no-print">Created At</th>
+						<th>Record Date</th>
+						<th>Type</th>
+						<th>Product</th>
+						<th>Amount</th>
+						<th>Code</th>
+						<th>Description</th>
+						<th class="no-print">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
 
     <!-- Modal untuk Custom Date -->
     <div id="customDateModal" class="modal" tabindex="-1">

@@ -18,7 +18,7 @@
 
 </style>
 
-<div class="mt-6">
+<div class="shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
 	<div class="col-2 col-md-2 mb-3">
 		<label class="form-label">Input At:</label>
 		<select id="filterSelect" class="form-select form-select-sm">

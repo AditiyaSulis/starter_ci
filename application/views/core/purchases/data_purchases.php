@@ -20,7 +20,7 @@
 
 </style>
 
-<div class="mt-6">
+<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
 	<div class="col-3 col-md-2 mb-3">
 		<label class="form-label">Jatuh Tempo:</label>
 		<select id="filterSelect" class="form-select form-select-sm">

@@ -20,51 +20,52 @@
 
 </style>
 
-
-<div class="row g-3 align-items-center mt-4">
-	<div class="col-4 col-md-2">
-		<label class="form-label">Type Piutang :</label>
-		<select id="filter-type" class="form-select form-select-sm">
-			<option value="All" selected>All</option>
-			<option value="2">Kasbon</option>
-			<option value="1">Pinjaman</option>
-		</select>
+<div class="   shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+	<div class="row g-3 align-items-center mt-4">
+		<div class="col-4 col-md-2">
+			<label class="form-label">Type Piutang :</label>
+			<select id="filter-type" class="form-select form-select-sm">
+				<option value="All" selected>All</option>
+				<option value="2">Kasbon</option>
+				<option value="1">Pinjaman</option>
+			</select>
+		</div>
+		<div class="col-4 col-md-2">
+			<label class="form-label">Pelunasan :</label>
+			<select id="filter-tenor" class="form-select form-select-sm">
+				<option value="All" selected>All</option>
+				<option value="this_month">This month</option>
+				<option value="next_month">Next month</option>
+			</select>
+		</div>
 	</div>
-	<div class="col-4 col-md-2">
-		<label class="form-label">Pelunasan :</label>
-		<select id="filter-tenor" class="form-select form-select-sm">
-			<option value="All" selected>All</option>
-			<option value="this_month">This month</option>
-			<option value="next_month">Next month</option>
-		</select>
-	</div>
-</div>
 
 
-<div class="mt-6">
-	<div class="table-responsive">
-		<table id="piutang_table" class="table table-bordered table-striped border-primary w-100" style="width:100%">
-			<thead class="table-primary">
-			<tr>
-				<th>No</th>
-				<th>Tanggal</th>
-				<th>Karyawan</th>
-				<th>Type</th>
-				<th>Tenor</th>
-				<th>Jatuh Tempo</th>
-				<th>Tgl Lunas</th>
-				<th>Amount</th>
-				<th>Remaining</th>
-				<th>Status</th>
-				<th>Angsuran</th>
-				<th>Description</th>
-				<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
+	<div class="mt-6">
+		<div class="table-responsive">
+			<table id="piutang_table" class="table table-bordered table-striped border-primary w-100" style="width:100%">
+				<thead class="table-primary">
+				<tr>
+					<th>No</th>
+					<th>Tanggal</th>
+					<th>Karyawan</th>
+					<th>Type</th>
+					<th>Tenor</th>
+					<th>Jatuh Tempo</th>
+					<th>Tgl Lunas</th>
+					<th>Amount</th>
+					<th>Remaining</th>
+					<th>Status</th>
+					<th>Angsuran</th>
+					<th>Description</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
 
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 

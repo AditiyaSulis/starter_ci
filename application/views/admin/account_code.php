@@ -7,43 +7,45 @@
             <i class="bi bi-plus-circle"></i>
             Add Account Code
         </button>
-        <div class="table-responsive">
-            <table id="account_code_table" class="table table-bordered table-striped" style="width:100%">
-                <thead>
-                    <?php $no = 1 ?>
-                    <tr>
-                        <th>No</th>
-                        <th>Category</th>
-                        <th>Code</th>
-                        <th>Name Code</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($account_code as $ac): ?>
-                        <tr>
-                            <td><?= $no; ?></td>
-                            <td><?= $ac['name_kategori']; ?></td>
-                            <td><?= $ac['code']; ?></td>
-                            <td><?= $ac['name_code']; ?></td>
-                            <td> 
-                                <a href="javascript:void(0)" onclick="editAcButton(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-ac" style="width : 70px"
-                                        data-id_code="<?= $ac['id_code']; ?>"
-                                        data-kategori="<?= $ac['id_kategori']; ?>"
-                                        data-code="<?= $ac['code']; ?>"
-                                        data-name_code="<?= $ac['name_code']; ?>">
-                                    EDIT
-                                </a>
-                                <button  class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-ac" data-id="<?= $ac['id_code']; ?>" style="width : 70px">
-                                    DELETE
-                                </button>
-                            </td>
-                        </tr>
-                    <?php $no++ ?>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+		<div class=" mt-8  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+			<div class="table-responsive">
+				<table id="account_code_table" class="table table-bordered table-striped" style="width:100%">
+					<thead>
+						<?php $no = 1 ?>
+						<tr>
+							<th>No</th>
+							<th>Category</th>
+							<th>Code</th>
+							<th>Name Code</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($account_code as $ac): ?>
+							<tr>
+								<td><?= $no; ?></td>
+								<td><?= $ac['name_kategori']; ?></td>
+								<td><?= $ac['code']; ?></td>
+								<td><?= $ac['name_code']; ?></td>
+								<td>
+									<a href="javascript:void(0)" onclick="editAcButton(this)" class="btn gradient-btn-edit mb-2 btn-sm rounded-pill btn-edit-ac" style="width : 70px"
+											data-id_code="<?= $ac['id_code']; ?>"
+											data-kategori="<?= $ac['id_kategori']; ?>"
+											data-code="<?= $ac['code']; ?>"
+											data-name_code="<?= $ac['name_code']; ?>">
+										EDIT
+									</a>
+									<button  class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-ac" data-id="<?= $ac['id_code']; ?>" style="width : 70px">
+										DELETE
+									</button>
+								</td>
+							</tr>
+						<?php $no++ ?>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
     </div>
     
 </div>

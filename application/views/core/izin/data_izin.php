@@ -21,45 +21,45 @@
 </style>
 
 
-<div class="mt-6">
-	<div class="col-3 col-md-2 col-lg-1 mb-3">
-		<label class="form-label">Tanggal Izin:</label>
-		<select id="filterSelect" class="form-select form-select-sm">
-			<option value="" selected>All</option>
-			<option value="today">Today</option>
-			<option value="tomorrow">Tomorrow</option>
-			<option value="this_week">This Week</option>
-			<option value="next_week">Next Week</option>
-			<option value="this_month">This Month</option>
-			<option value="next_month">Next Month</option>
-			<option value="this_year">This Year</option>
-			<option value="next_year">Next Year</option>
-			<option value="custom">Custom Range</option>
-		</select>
-	</div>
-	<div style="overflow-x: auto; width: 100%;">
-		<table id="izin_table" class="table table-bordered table-striped" style="width:100%">
-			<thead class="table-primary">
-			<?php $no = 1 ?>
-			<tr>
-				<th>No</th>
-				<th>Tanggal Input</th>
-				<th>Nama</th>
-				<th>Produk</th>
-				<th>Divisi</th>
-				<th>Tanggal Izin</th>
-				<th>Alasan</th>
-				<th>Bukti</th>
-				<th>Status</th>
-				<th>Deskripsi</th>
-				<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
+<div class="shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+		<div class="col-3 col-md-2 col-lg-1 mb-3">
+			<label class="form-label">Tanggal Izin:</label>
+			<select id="filterSelect" class="form-select form-select-sm">
+				<option value="" selected>All</option>
+				<option value="today">Today</option>
+				<option value="tomorrow">Tomorrow</option>
+				<option value="this_week">This Week</option>
+				<option value="next_week">Next Week</option>
+				<option value="this_month">This Month</option>
+				<option value="next_month">Next Month</option>
+				<option value="this_year">This Year</option>
+				<option value="next_year">Next Year</option>
+				<option value="custom">Custom Range</option>
+			</select>
+		</div>
+		<div style="overflow-x: auto; width: 100%;">
+			<table id="izin_table" class="table table-bordered table-striped" style="width:100%">
+				<thead class="table-primary">
+				<?php $no = 1 ?>
+				<tr>
+					<th>No</th>
+					<th>Tanggal Input</th>
+					<th>Nama</th>
+					<th>Produk</th>
+					<th>Divisi</th>
+					<th>Tanggal Izin</th>
+					<th>Alasan</th>
+					<th>Bukti</th>
+					<th>Status</th>
+					<th>Deskripsi</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
 
-			</tbody>
-		</table>
-	</div>
+				</tbody>
+			</table>
+		</div>
 </div>
 
 

@@ -7,12 +7,12 @@
     <head>
         <title>Login</title>
         <meta charset="utf-8"/>
-    
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:url" content="https://keenthemes.com/metronic"/>
         <meta property="og:site_name" content="Metronic by Keenthemes" />
         <link rel="canonical" href="https://preview.keenthemes.com/metronic8/demo1/authentication/layouts/corporate/sign-in.html"/>
         <link rel="shortcut icon" href="/metronic8/demo1/assets/media/logos/favicon.ico"/>
-
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -41,6 +41,24 @@
                  window.top.location.replace(window.self.location.href);
                 }
         </script>
+
+
+
+		<style>
+			@media (max-width: 576px) {
+				#loginForm {
+					padding: 1rem;
+				}
+
+				.form-control {
+					font-size: 1rem;
+				}
+
+				h1 {
+					font-size: 1.5rem;
+				}
+			}
+		</style>
     </head>
 
     <body  id="kt_body"  class="app-blank" >
@@ -81,7 +99,7 @@
                                         Sign In
                                     </h1>
                                     <div class="text-gray-500 fw-semibold fs-6">
-                                        Your Social Campaigns
+                                        Human Resource Information System
                                     </div>
                                 </div>
                                 <div class="text-center mb-3">
@@ -109,7 +127,7 @@
                                     <input type="password" placeholder="Password" name="password"  id="password" autocomplete="true" class="form-control bg-transparent"/>
                                 </div>
 
-                                <div class="d-grid mb-10">
+                                <div class="d-grid mb-10 mt-8">
                                     <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
                                         <span class="indicator-label">
                                             Sign In
@@ -123,21 +141,18 @@
                         </div>
                     </div>     
                 </div>
-                <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(<?= base_url('asset/media/background/blue-light-bg.jpg')?>)">
+                <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(<?= base_url('asset/media/background/bg_blue_sea.jpg')?>)">
                     <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">          
-                        <a href="/metronic8/demo1/index.html" class="mb-0 mb-lg-12">
-                            <img alt="Logo" src="<?= base_url('asset/media/logos/lorem-ipsum.png')?>"  width="150" height="150"/>
+                        <a href="/metronic8/demo1/index.html" class="mb-0 mb-lg-4">
+                            <img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>"  width="400" height="350"/>
                         </a>     
-                        <!-- <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="<?= base_url('asset/media/misc/auth-screens.png')?>" alt=""/>                  -->
+                        <!-- <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="<?= base_url('asset/media/logos/logo_mgr.jpeg')?>" alt=""/>                  -->
                         <h1 class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7"> 
-                        Lorem Ipsum
-                        </h1>  
+                        CV Multi Graha Radhika
+                        </h1>
+
                         <div class="d-none d-lg-block text-white fs-base text-center">
-                            It is a long established fact that a reader will be distracted
-                            <a href="#" class="opacity-75-hover text-warning fw-bold me-1"> by the readable content</a> 
-                            of a page when looking at its layout. <br/> The point of using Lorem Ipsum       
-                            <a href="#" class="opacity-75-hover text-warning fw-bold me-1">the interviewee</a> 
-                                and their <br/>  as opposed to using 'Content here, content herem.  
+							 Jl. Munjul Jaya Cilengkeng Purwakarta, Munjuljaya, Kec. Purwakarta, Kabupaten Purwakarta, Jawa Barat
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-    <link rel="shortcut icon" href="<?= base_url('/asset/media/logos/Logo.png')?>" />
+    <link rel="shortcut icon" href="<?= base_url('/asset/media/logos/logo_transparent.png')?>" />
     <link href="<?=base_url('asset/plugins/global/plugins.bundle.css')?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('asset/css/style.bundle.css')?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?=base_url('asset/css/style-custom.css')?>" />
@@ -211,7 +211,7 @@
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                     <a href="<?= base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
-                        <img alt="Logo" src="<?= base_url('asset/media/logos/Logo.png')?>" class="h-15px logo" />
+                        <img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>" class="h-100px logo" />
                     </a>
                     <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
                         data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"

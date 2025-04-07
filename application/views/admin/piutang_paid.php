@@ -6,12 +6,12 @@
         Add Piutang
     </button>
 
-    <ul class="nav nav-tabs mt-8">
+    <ul class="nav nav-tabs mt-8 ms-5">
         <li class="nav-item">
             <a class="nav-link active text-info" aria-current="page" href="<?=base_url('admin/piutang/piutang_paid_page?status_piutang=1')?>">Paid</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="<?=base_url('admin/piutang/piutang_page?status_piutang=2')?>">Unpaid</a>
+            <a class="nav-link text-dark border border-bottom-0 rounded-top bg-hover-light" href="<?=base_url('admin/piutang/piutang_page?status_piutang=2')?>">Unpaid</a>
         </li>
     </ul>
 

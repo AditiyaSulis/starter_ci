@@ -46,35 +46,37 @@ $status_overtime = isset($_GET['status_overtime']) ? $_GET['status_overtime'] : 
 		Add Schedule
 	</button>
 
-	<div class="row g-3 align-items-center mt-4">
-		<div class="col-4 col-md-2">
-			<label class="form-label">Product:</label>
-			<select id="filter-product" class="form-select form-select-sm">
-				<option value="All" selected>All</option>
-				<?php foreach($products as $product):?>
-					<option value="<?= $product['id_product']?>"><?= $product['name_product']?></option>
-				<?php endforeach; ?>
-			</select>
+	<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+		<div class="row g-3 align-items-center mt-4">
+			<div class="col-4 col-md-2">
+				<label class="form-label">Product:</label>
+				<select id="filter-product" class="form-select form-select-sm">
+					<option value="All" selected>All</option>
+					<?php foreach($products as $product):?>
+						<option value="<?= $product['id_product']?>"><?= $product['name_product']?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 		</div>
-	</div>
 
-	<div class="mt-6">
-		<table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
-			<thead>
-			<?php $no = 1 ?>
-			<tr>
-				<th>No</th>
-				<th>NIP</th>
-				<th>Name</th>
-				<th>Produk</th>
-				<th>Divisi</th>
-				<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
+		<div class="mt-6">
+			<table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
+				<thead>
+				<?php $no = 1 ?>
+				<tr>
+					<th>No</th>
+					<th>NIP</th>
+					<th>Name</th>
+					<th>Produk</th>
+					<th>Divisi</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
 
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 

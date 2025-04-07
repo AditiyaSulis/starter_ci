@@ -26,52 +26,53 @@
         Add Employee
     </button>
 
-    <div class="row g-3 align-items-center mt-4">
-        <div class="col-6 col-md-3">
-            <label class="form-label">Product:</label>
-            <select id="filter-product" class="form-select form-select-sm">
-                <option value="All" selected>All</option>
-                <?php foreach($products as $product):?>
-                    <option value="<?= $product['id_product']?>"><?= $product['name_product']?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-    </div>
+	<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+		<div class="row g-3 align-items-center mt-4">
+			<div class="col-6 col-md-3">
+				<label class="form-label">Product:</label>
+				<select id="filter-product" class="form-select form-select-sm">
+					<option value="All" selected>All</option>
+					<?php foreach($products as $product):?>
+						<option value="<?= $product['id_product']?>"><?= $product['name_product']?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
 
-	<div class="mt-6">
-			<table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
-				<thead class="table-primary">
-				<tr>
-					<th>No</th>
-					<th>Produk</th>
-					<th>Date In</th>
-					<th>NIP</th>
-					<th>Name</th>
-					<th>Gender</th>
-					<th class="px-2">Tempat Lahir</th>
-					<th class="px-2">Tanggal Lahir</th>
-					<th class="px-2">No.Hp</th>
-					<th class="px-2">Divisi</th>
-					<th class="px-2">Posisi</th>
-					<th class="px-2">Type</th>
-					<th>Contract</th>
-					<th>Gaji</th>
-					<th class="px-2">Uang Makan</th>
-					<th>Account</th>
-					<th>BPJS</th>
-					<th>PPH 21</th>
-					<th>Address</th>
-					<th>Bank</th>
-					<th>EC</th>
-					<th>Action</th>
-				</tr>
-				</thead>
-				<tbody>
+		<div class="mt-6">
+				<table id="employees_table" class="table table-bordered table-striped border-primary" style="width:100%">
+					<thead class="table-primary">
+					<tr>
+						<th>No</th>
+						<th>Produk</th>
+						<th>Date In</th>
+						<th>NIP</th>
+						<th>Name</th>
+						<th>Gender</th>
+						<th class="px-2">Tempat Lahir</th>
+						<th class="px-2">Tanggal Lahir</th>
+						<th class="px-2">No.Hp</th>
+						<th class="px-2">Divisi</th>
+						<th class="px-2">Posisi</th>
+						<th class="px-2">Type</th>
+						<th>Contract</th>
+						<th>Gaji</th>
+						<th class="px-2">Uang Makan</th>
+						<th>Account</th>
+						<th>BPJS</th>
+						<th>PPH 21</th>
+						<th>Address</th>
+						<th>Bank</th>
+						<th>EC</th>
+						<th>Action</th>
+					</tr>
+					</thead>
+					<tbody>
 
-				</tbody>
-			</table>
+					</tbody>
+				</table>
+		</div>
 	</div>
-
 
 	<!-- Modal Add Product -->
     <div class="modal fade" tabindex="-1" id="addEmployeeModal" data-bs-backdrop="static">

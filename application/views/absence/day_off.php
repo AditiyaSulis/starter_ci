@@ -57,25 +57,26 @@
 		</div>
 	</div>
 
-	<ul class="nav nav-tabs mt-8">
-		<li class="nav-item">
-			<a class="nav-link <?= ($status_day_off == 3) ? 'active text-info' : ' text-dark' ?>"
-			   href="<?=base_url('absence/dayoff/day_off_page?status_day_off=3&is=3')?>">Pending</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link  <?= ($status_day_off == 1) ? 'active text-info' : 'text-dark' ?>"
-			   href="<?=base_url('absence/dayoff/day_off_page?status_day_off=1&is=3')?>">Disapproval</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link  <?= ($status_day_off == 2) ? 'active text-info' : ' text-dark' ?>"
-			   href="<?=base_url('absence/dayoff/day_off_page?status_day_off=2&is=3')?>">Approval</a>
-		</li>
-	</ul>
 
 	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
 		<i class="bi bi-plus-circle"></i>
 		Add Day Off
 	</button>
+
+	<ul class="nav nav-tabs mt-8 ms-5">
+		<li class="nav-item">
+			<a class="nav-link <?= ($status_day_off == 3) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
+			   href="<?=base_url('absence/dayoff/day_off_page?status_day_off=3&is=3')?>">Pending</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  <?= ($status_day_off == 1) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
+			   href="<?=base_url('absence/dayoff/day_off_page?status_day_off=1&is=3')?>">Disapproval</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link  <?= ($status_day_off == 2) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
+			   href="<?=base_url('absence/dayoff/day_off_page?status_day_off=2&is=3')?>">Approval</a>
+		</li>
+	</ul>
 
 	<?php $this->load->view($view_data);?>
 	<?php $this->load->view($view_components);?>

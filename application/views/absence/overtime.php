@@ -63,17 +63,17 @@
 		Add Overtime
 	</button>
 
-	<ul class="nav nav-tabs mt-8">
+	<ul class="nav nav-tabs mt-8 ms-5">
 		<li class="nav-item">
-			<a class="nav-link <?= ($status_overtime == 3) ? 'active text-info' : ' text-dark' ?>"
+			<a class="nav-link <?= ($status_overtime == 3) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('absence/overtime/overtime_page?status_overtime=3&is=3')?>">Pending</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_overtime == 1) ? 'active text-info' : 'text-dark' ?>"
+			<a class="nav-link  <?= ($status_overtime == 1) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('absence/overtime/overtime_page?status_overtime=1&is=3')?>">Disapproval</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_overtime == 2) ? 'active text-info' : ' text-dark' ?>"
+			<a class="nav-link  <?= ($status_overtime == 2) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('absence/overtime/overtime_page?status_overtime=2&is=3')?>">Approval</a>
 		</li>
 	</ul>

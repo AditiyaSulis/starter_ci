@@ -59,17 +59,17 @@ $status_izin = isset($_GET['status_izin']) ? $_GET['status_izin'] : 3;
 		</div>
 	</div>
 
-	<ul class="nav nav-tabs mt-8">
+	<ul class="nav nav-tabs mt-8 ms-5">
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_izin == 3) ? 'active text-info' : 'text-dark' ?>"
+			<a class="nav-link  <?= ($status_izin == 3) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('absence/data/dataizin/emp_data_izin_page?status_izin=3&is=3')?>">Pending</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_izin == 1) ? 'active text-info' : 'text-dark' ?>"
+			<a class="nav-link  <?= ($status_izin == 1) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('absence/data/dataizin/emp_data_izin_page?status_izin=1&is=3')?>">Disapproval</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link  <?= ($status_izin == 2) ? 'active text-info' : 'text-dark' ?>"
+			<a class="nav-link  <?= ($status_izin == 2) ? 'active text-info' : 'text-dark border border-bottom-0 rounded-top bg-hover-light' ?>"
 			   href="<?=base_url('absence/data/dataizin/emp_data_izin_page?status_izin=2&is=3')?>">Approval</a>
 		</li>
 	</ul>

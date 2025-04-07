@@ -50,83 +50,85 @@
     </button>
 
     <div class="mt-6">
-		<div style="overflow-x: auto; width: 100%;">
-			<table id="products_table" class="table table-bordered table-striped" style="width:100%">
-				<thead class="table-primary">
-					<?php $no = 1 ?>
-					<tr>
-						<th>No</th>
-						<th>Nama Produk</th>
-						<th>Deskripsi</th>
-						<th>Url</th>
-						<th>Location</th>
-						<th>Visibility</th>
-						<th>Logo</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($products as $product): ?>
-					<tr>
-						<td><?= $no; ?></td>
-						<td><?= $product['name_product']; ?></td>
-						<td><?= $product['description']; ?></td>
-						<td><?php if($product['url']):?>
-							<a href="<?= $product['url']; ?>" target="_blank">
-								<button class="btn btn-light btn-sm">
-									<i class="ti ti-link"></i>
-								</button>
-							</a>
-							<?php else:?>
+		<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
+			<div style="overflow-x: auto; width: 100%;">
+				<table id="products_table" class="table table-bordered table-striped" style="width:100%">
+					<thead class="table-primary">
+						<?php $no = 1 ?>
+						<tr>
+							<th>No</th>
+							<th>Nama Produk</th>
+							<th>Deskripsi</th>
+							<th>Url</th>
+							<th>Location</th>
+							<th>Visibility</th>
+							<th>Logo</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($products as $product): ?>
+						<tr>
+							<td><?= $no; ?></td>
+							<td><?= $product['name_product']; ?></td>
+							<td><?= $product['description']; ?></td>
+							<td><?php if($product['url']):?>
+								<a href="<?= $product['url']; ?>" target="_blank">
+									<button class="btn btn-light btn-sm">
+										<i class="ti ti-link"></i>
+									</button>
+								</a>
+								<?php else:?>
 
-							<?php endif; ?>
-						</td>
-						<td>
-							<button type="button" class="btn btn-warning btn-sm rounded-pill"
-									data-bs-toggle="modal"
-									data-bs-target="#updateLocationModal"
-									data-id_product="<?= $product['id_product'] ?>"
-									data-latitude="<?= $product['latitude'] ?>"
-									data-longitude="<?= $product['longitude'] ?>">
-								<i class="bi bi-pencil"></i> Edit Lokasi
-							</button>
-						</td>
-						<td><?php if($product['visibility'] == 1):?>
-								<button class="btn gradient-btn-active btn-sm rounded-pill btn-visibility" style="width : 90px"
-								data-id_product="<?= $product['id_product']; ?>"
-								data-visibility="<?= $product['visibility']; ?>">
-									<i class="bi bi-eye-fill"></i> Show
+								<?php endif; ?>
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning btn-sm rounded-pill"
+										data-bs-toggle="modal"
+										data-bs-target="#updateLocationModal"
+										data-id_product="<?= $product['id_product'] ?>"
+										data-latitude="<?= $product['latitude'] ?>"
+										data-longitude="<?= $product['longitude'] ?>">
+									<i class="bi bi-pencil"></i> Edit Lokasi
 								</button>
-							<?php else:?>
-								<button class="btn gradient-btn-inactive btn-sm rounded-pill btn-visibility" style="width : 90px"
-								data-id_product="<?= $product['id_product']; ?>"
-								data-visibility="<?= $product['visibility']; ?>">
-									<i class="bi bi-eye-slash-fill"></i> Hide
+							</td>
+							<td><?php if($product['visibility'] == 1):?>
+									<button class="btn gradient-btn-active btn-sm rounded-pill btn-visibility" style="width : 90px"
+									data-id_product="<?= $product['id_product']; ?>"
+									data-visibility="<?= $product['visibility']; ?>">
+										<i class="bi bi-eye-fill"></i> Show
+									</button>
+								<?php else:?>
+									<button class="btn gradient-btn-inactive btn-sm rounded-pill btn-visibility" style="width : 90px"
+									data-id_product="<?= $product['id_product']; ?>"
+									data-visibility="<?= $product['visibility']; ?>">
+										<i class="bi bi-eye-slash-fill"></i> Hide
+									</button>
+								<?php endif; ?>
+							</td>
+							<td>
+								<img src="<?= base_url('uploads/products/compressed/' . $product['logo']); ?>" alt="Logo" width="50" style="cursor: pointer;" onclick="showImageModal('<?= base_url('uploads/products/compressed/' . $product['logo']); ?>')">
+							</td>
+							<td>
+								<button
+									class="btn gradient-btn-edit btn-sm mb-2 rounded-pill btn-edit" style="width : 70px"
+									data-id="<?= $product['id_product']; ?>"
+									data-name="<?= $product['name_product']; ?>"
+									data-description="<?= $product['description']; ?>"
+									data-url="<?= $product['url']; ?>"
+									data-logo="<?= $product['logo']; ?>">
+									EDIT
 								</button>
-							<?php endif; ?>
-						</td>
-						<td>
-							<img src="<?= base_url('uploads/products/compressed/' . $product['logo']); ?>" alt="Logo" width="50" style="cursor: pointer;" onclick="showImageModal('<?= base_url('uploads/products/compressed/' . $product['logo']); ?>')">
-						</td>
-						<td>
-							<button
-								class="btn gradient-btn-edit btn-sm mb-2 rounded-pill btn-edit" style="width : 70px"
-								data-id="<?= $product['id_product']; ?>"
-								data-name="<?= $product['name_product']; ?>"
-								data-description="<?= $product['description']; ?>"
-								data-url="<?= $product['url']; ?>"
-								data-logo="<?= $product['logo']; ?>">
-								EDIT
-							</button>
-							<button class="btn gradient-btn-delete mb-2 btn-sm rounded-pill btn-delete-product" data-id_product="<?= $product['id_product']; ?>" style="width : 70px">
-								DELETE
-							</button>
-						</td>
-					</tr>
-					<?php $no++?>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+								<button class="btn gradient-btn-delete mb-2 btn-sm rounded-pill btn-delete-product" data-id_product="<?= $product['id_product']; ?>" style="width : 70px">
+									DELETE
+								</button>
+							</td>
+						</tr>
+						<?php $no++?>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
 		</div>
     </div>
 

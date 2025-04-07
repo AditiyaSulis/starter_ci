@@ -20,7 +20,7 @@
 
 </style>
 
-<div class="mt-6">
+<div class="shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
 	<div class="row">
 		<div class="col-4 col-md-2 mb-3">
 			<label class="form-label">Waktu :</label>
