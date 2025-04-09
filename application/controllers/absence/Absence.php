@@ -39,7 +39,7 @@ class Absence extends MY_Controller{
 			//Mencari jadwal kemarin apakah sudah membuat kehadiran?
 			$anyAttend = $this->M_attendance->anyAttendance_get($yesterdayAttend['id_schedule']);
 
-			if(!$anyAttend) {
+			if($anyAttend) {
 				//Apakah jam sekarang sudah melebihi waktu clock out?
 				$isOnSchedule = strtotime($current_time) <= strtotime($yesterdayAttend['clock_out']) && strtotime($current_time) <= strtotime($yesterdayAttend['clock_in']) ;
 				if($isOnSchedule){
@@ -48,21 +48,6 @@ class Absence extends MY_Controller{
 			}
 		}
 
-
-
-
-//		$response = [
-//
-//			'data' => $yesterdayAttend,
-//			//'on' => $isOnSchedule ,
-//			'schedule' => $data['schedule'],
-//			//any' => $anyAttend,
-//
-//		];
-//
-//		echo json_encode($response);
-//
-//		die();
 
 		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
 

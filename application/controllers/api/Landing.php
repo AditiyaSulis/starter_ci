@@ -11,6 +11,7 @@ class Landing extends RestController{
 	{
 		parent::__construct();
 		$this->load->model('M_setting');
+		$this->load->model('M_karir');
 		$this->load->model('M_product_homepage');
 		validate_header();
 
@@ -37,8 +38,6 @@ class Landing extends RestController{
 	}
 
 
-
-
 	//===========Product Homepage=============
 	public function product_get()
 	{
@@ -57,6 +56,41 @@ class Landing extends RestController{
 		}
 	}
 
+	//===========Carier=============
+	public function carier_get()
+	{
+		$products = $this->M_karir->findAllWithJoin_get();
+
+		if ($products) {
+			$this->response([
+				'status' => true,
+				'data' => $products
+			], 200);
+		} else {
+			$this->response([
+				'status' => false,
+				'message' => 'Data tidak ditemukan'
+			], 404);
+		}
+	} 
+
+
+	public function carierbyid_get($id)
+	{
+		$products = $this->M_karir->findById_get($id);
+
+		if ($products) {
+			$this->response([
+				'status' => true,
+				'data' => $products
+			], 200);
+		} else {
+			$this->response([
+				'status' => false,
+				'message' => 'Data tidak ditemukan'
+			], 404);
+		}
+	}
 
 
 

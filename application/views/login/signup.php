@@ -83,13 +83,22 @@
 				<div class=" mt-12  shadow-sm" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f5feff;">
 					<div class="row g-3 align-items-center mt-4">
 						<div class="col-6 col-md-3">
-							<label class="form-label">Role:</label>
+							<label class="form-label">Role :</label>
 							<select id="filter-role" class="form-select form-select-sm">
 								<option value="All" selected>All</option>
 								<option value="1">Super user</option>
 								<option value="2">Admin</option>
 								<option value="3">Employee</option>
 								<option value="4">HRD</option>
+							</select>
+						</div>
+						<div class="col-6 col-md-3">
+							<label class="form-label">Product :</label>
+							<select id="filter-product" class="form-select form-select-sm">
+								<option value="All" selected>All</option>
+								<?php foreach ($product as $products) : ?>
+									<option value="<?=$products['id_product']?>"><?=$products['name_product']?>></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -100,6 +109,7 @@
 								<th>No</th>
 								<th>Name</th>
 								<th>Email</th>
+								<th>Product</th>
 								<th>Role</th>
 								<th>Status</th>
 								<th class="px-15">Last Update</th>
@@ -228,6 +238,7 @@
 						type: 'POST',
 						data: function(d) {
 							d.role = $('#filter-role').val();
+							d.product = $('#filter-product').val();
 						}
 					},
 					dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
@@ -244,6 +255,10 @@
 				});
 
 				$('#filter-role').change(function() {
+					table.ajax.reload();
+				});
+
+				$('#filter-product').change(function() {
 					table.ajax.reload();
 				});
 			}

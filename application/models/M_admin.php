@@ -148,13 +148,18 @@ class M_admin extends CI_Model {
     }
 
 
-	public function getUserData($role = null)
+	public function getUserData($role = null, $product = null)
 	{
 
-		$this->db->select('id, name, email, role, password, status, last_update, last_login, ip_address, avatar');
+		$this->db->select('admin.id, admin.name, admin.email, admin.role, admin.password, admin.status, admin.last_update, admin.last_login, admin.ip_address, admin.avatar, employee.id_product, products.name_product');
+		$this->db->join('employee', 'employee.email = admin.email', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
 		$this->db->from('admin');
 		if ($role && $role !== 'All') {
 			$this->db->where('role', $role);
+		}
+		if ($product && $product !== 'All') {
+		$this->db->where('employee.id_product', $product);
 		}
 		$i = 0;
 		foreach ($this->column_search as $item) {
@@ -180,9 +185,9 @@ class M_admin extends CI_Model {
 
 	}
 
-	public function get_datatables($role = null)
+	public function get_datatables($role = null, $product = null)
 	{
-		$this->getUserData($role);
+		$this->getUserData($role, $product);
 		if (@$_POST['length'] != -1) {
 			$this->db->limit(@$_POST['length'], @$_POST['start']);
 		}
@@ -191,9 +196,9 @@ class M_admin extends CI_Model {
 	}
 
 
-	public function count_filtered($role = null)
+	public function count_filtered($role = null, $product = null)
 	{
-		$this->getUserData($role);
+		$this->getUserData($role, $product);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}

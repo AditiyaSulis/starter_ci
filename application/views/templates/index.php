@@ -724,6 +724,34 @@
 							<!--							</div>-->
 						<?php endif;?>
 
+						<?php if($user['role'] == 1 || $user['role'] == 2 || $user['role'] == 4) : ?>
+
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">CARIER CENTER</span>
+								</div>
+							</div>
+
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Carier' ? "active": ""?>" href="<?=base_url('karir/Karir/carier_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-person-plus"></i>
+											</span>
+										</span>
+										<span class="menu-title">Carier</span>
+									</a>
+								</div>
+							</div>
+
+
+
+
+						<?php endif;?>
+
 						<?php if($user['role'] == 1): ?>
 
 							<div  class="menu-item pt-5" >

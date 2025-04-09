@@ -132,7 +132,7 @@ class DayOff extends MY_Controller{
 			'required' => 'Tanggal input harus diisi',
 		]);
 		$this->form_validation->set_rules('tgl_day_off', 'tgl_day_off', 'required', [
-			'required' => 'Tanggal lembur harus diisi',
+			'required' => 'Tanggal day off harus diisi',
 		]);
 		$this->form_validation->set_rules('description', 'description', 'required', [
 			'required' => 'Deskripsi harus diisi',

@@ -4,7 +4,7 @@ $status = '';
 if($schedule) {
 	if($schedule['status']==1) {
 		$status = '<p class="card-text">Silahkan melakukan absen dengan menekan tombol dibawah.</p>
-						<form class="form w-100" id="addproduct" data-action="'.site_url("absence/absence/add_attendance") .'" enctype="multipart/form-data">
+						<form class="form w-100" id="addAttendance" data-action="'.base_url("absence/absence/add_attendance") .'" enctype="multipart/form-data">
 								<input type="hidden" value="'. $schedule['id_employee'].'" name="id_employee" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" value="'. $schedule['id_schedule'].'" name="id_schedule" autocomplete="off" class="form-control bg-transparent" />
 								<input type="hidden" value="'.date("H:i", strtotime($schedule['clock_in'])) .'" name="clock_in" autocomplete="off" class="form-control bg-transparent" />
@@ -12,7 +12,7 @@ if($schedule) {
 								<input type="hidden" id="latitude" name="latitude">
     							<input type="hidden" id="longitude" name="longitude">
 								<input type="hidden" value="'. date('Y-m-d').'" name="tanggal_masuk" autocomplete="off" class="form-control bg-transparent" />
-								<button type="submit" id="submit_product" class="btn gradient-btn rounded-pill mt-6 mb-6">
+								<button type="submit" id="submit_attendance" class="btn gradient-btn rounded-pill mt-6 mb-6">
 									<i class="bi bi-calendar-check"></i> CLOCK IN
 									<span class="indicator-progress">
 									Please wait...
@@ -36,7 +36,8 @@ if($schedule) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Hari ini adalah libur hari minggu.</p>';
 	}else if($schedule['status']== 6) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Anda Sudah melakukan absen hari ini pukul : '. date('H:i',strtotime($schedule['jam_masuk'])).' WIB </p>';
-	} else if($schedule['status']== 7) {
+	}
+	else if($schedule['status']== 7) {
 		$status = '<p class="card-text text-warning  fw-bolder mt-4">*Anda dinyatakan tidak hadir pada tanggal : '.date("d-m-Y", strtotime($schedule['waktu'])).', Absen selanjutnya akan dimulai pukul : '.date("H:i", strtotime($schedule['clock_out'])).' WIB </p>';
 	}
 
@@ -211,7 +212,56 @@ if($schedule) {
 			document.getElementById('latitude').value = position.coords.latitude;
 			document.getElementById('longitude').value = position.coords.longitude;
 		}, error => alert('Harap aktifkan GPS untuk melakukan absensi!'));
+
+
+		$(document).ready(function () {
+			$("#addAttendance").on("submit", function (e) {
+				e.preventDefault();
+
+				var formElement = this;
+				var formData = new FormData(formElement);
+
+				// Menonaktifkan tombol submit
+				$("#submit_attendance").prop("disabled", true);
+				$("#submit_attendance").text("Processing..."); // Opsional: menambahkan teks loading pada tombol
+
+				$.ajax({
+					url: $(formElement).data("action"),
+					type: "POST",
+					data: formData,
+					contentType: false,
+					processData: false,
+					dataType: "json",
+					success: function (response) {
+						if (response.status) {
+							swallMssg_s(response.message, false, 1500)
+								.then(() =>  {
+									location.reload();
+								});
+						} else {
+							swallMssg_e(response.message, true, 0).then(()=> {
+								$("#submit_attendance").prop("disabled", false);
+								$("#submit_attendance").text("Submit Attendance"); // Kembalikan teks tombol
+								location.reload();
+							});
+
+						}
+					},
+					error: function (xhr, status, error) {
+						// Mengaktifkan tombol submit setelah error terjadi
+						$("#submit_attendance").prop("disabled", false);
+						$("#submit_attendance").text("Submit Attendance"); // Kembalikan teks tombol
+
+						swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0)
+							.then(() =>  {
+								location.reload();
+							});
+					},
+				});
+			});
+		});
 	</script>
+
 
 </main>
 

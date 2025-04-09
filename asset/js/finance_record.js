@@ -71,6 +71,10 @@ function swallMssg_s(mssg, btnconf, timer){
 //     });
 //
 // });
+
+
+
+
 $(document).ready(function () {
 	$("#addproduct").on("submit", function (e) {
 		e.preventDefault();

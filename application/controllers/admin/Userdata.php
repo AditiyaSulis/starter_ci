@@ -8,6 +8,7 @@ class Userdata extends MY_Controller{
         parent::__construct();
         $this->load->library('upload');
         $this->load->model('M_employees');
+        $this->load->model('M_products');
 
     }
 
@@ -599,6 +600,7 @@ class Userdata extends MY_Controller{
 		$data['view_name'] = 'login/signup';
 		$data['menu'] = '';
 		$data['breadcrumb'] = 'Add Account';
+		$data['product'] = $this->M_products->findAll_get();
 		if($data['user']){
 			$this->load->view('templates/index', $data);
 		} else {
@@ -707,8 +709,9 @@ class Userdata extends MY_Controller{
 	public function dtSideServer()
 	{
 		$role = $this->input->post('role');
+		$product = $this->input->post('product');
 
-		$list = $this->M_admin->get_datatables($role);
+		$list = $this->M_admin->get_datatables($role, $product);
 
 		$data = [];
 		$no = $this->input->post('start');
@@ -776,6 +779,7 @@ class Userdata extends MY_Controller{
 			$row[] = ++$no;
 			$row[] = $item['name'];
 			$row[] = $item['email'];
+			$row[] = $item['name_product'];
 			$row[] = $role;
 			$row[] = $status;
 			$row[] = date('d M Y H:i', strtotime($item['last_update']));
@@ -789,10 +793,13 @@ class Userdata extends MY_Controller{
 		$output = [
 			"draw" =>@$_POST['draw'],
 			"recordsTotal" => $this->M_admin->count_all(),
-			"recordsFiltered" => $this->M_admin->count_filtered($this->input->post('role')),
+			"recordsFiltered" => $this->M_admin->count_filtered($this->input->post('role'), $product),
 			"data" => $data,
 		];
 
 		echo json_encode($output);
 	}
 }
+
+
+
