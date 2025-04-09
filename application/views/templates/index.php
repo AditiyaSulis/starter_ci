@@ -8,7 +8,7 @@
     <base href="">
     <meta charset="utf-8" />
     <meta name="base_url" content="<?= base_url(); ?>">
-    <title><?= $title?> - Administration System</title>
+    <title><?= $title?> - HRIS</title>
     <meta name="description" content="LPKS Borneo Flasher" />
     <meta name="keywords" content="LPKS Borneo Flasher" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -742,7 +742,21 @@
 												<i class="bi bi-person-plus"></i>
 											</span>
 										</span>
-										<span class="menu-title">Add User</span>
+										<span class="menu-title">Account Management</span>
+									</a>
+								</div>
+							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Product Homepage' ? "active": ""?>" href="<?=base_url('admin/Product_homepage/product_homepage_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-buildings"></i>
+											</span>
+										</span>
+										<span class="menu-title">Product Homepage</span>
 									</a>
 								</div>
 							</div>
