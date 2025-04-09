@@ -26,29 +26,32 @@ function validate_https()
 
 function validate_origin()
 {
-	header("Access-Control-Allow-Origin: *");
-	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-	header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
-	//	$allowed_origins = [
-	//		'*',
-	//	];
-	//
-	//	$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-	//	if (in_array($origin, $allowed_origins)) {
-	//		header("Access-Control-Allow-Origin: $origin");
-	//		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-	//		header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
-	//	} else {
-	//		responseApi(403, 'Access forbidden: Origin not allowed');
-	//	}
+
+	$allowed_origins = [
+		'*',
+	];
+
+	if (in_array($origin, $allowed_origins)) {
+		if ( $_SERVER[ 'REQUEST_METHOD' ] == "OPTIONS" ){
+			header("Access-Control-Allow-Origin: $origin");
+			header( 'Access-Control-Allow-Credentials: true' );
+			header( 'Access-Control-Allow-Methods: GET, ' );
+			header( 'Access-Control-Allow-Headers: ACCEPT, ORIGIN, X-REQUESTED-WITH, CONTENT-TYPE, X-API-KEY' );
+			header( 'Access-Control-Max-Age: 86400' );
+			header( 'Content-Length: 500' );
+			header( 'Content-Type: text/plain' );
+		}
+		
+	}
+
 }
 
 
 function validate_header()
 {
-	//validate_https();
-	//validate_origin();
-	//validate_key();
+	validate_https();
+	validate_origin();
+	validate_key();
 }
 
 
