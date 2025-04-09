@@ -26,26 +26,19 @@ function validate_https()
 
 function validate_origin()
 {
-
-	$allowed_origins = [
-		'*',
-	];
 	
-	$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-
-	if (in_array($origin, $allowed_origins)) {
-		if ( $_SERVER[ 'REQUEST_METHOD' ] == "OPTIONS" ){
-			header("Access-Control-Allow-Origin: $origin");
-			header( 'Access-Control-Allow-Credentials: true' );
-			header( 'Access-Control-Allow-Methods: GET, ' );
-			header( 'Access-Control-Allow-Headers: ACCEPT, ORIGIN, X-REQUESTED-WITH, CONTENT-TYPE, X-API-KEY' );
-			header( 'Access-Control-Max-Age: 86400' );
-			header( 'Content-Length: 500' );
-			header( 'Content-Type: text/plain' );
-		}
-		
+    header("Access-Control-Allow-Origin: *");
+	if ( $_SERVER[ 'REQUEST_METHOD' ] == "OPTIONS" ){
+		header( 'Access-Control-Allow-Credentials: true' );
+		header( 'Access-Control-Allow-Methods: GET, OPTIONS' );
+		header( 'Access-Control-Allow-Headers: ACCEPT, ORIGIN, X-REQUESTED-WITH, CONTENT-TYPE, X-API-KEY' );
+		header( 'Access-Control-Max-Age: 86400' );
+		header( 'Content-Length: 500' );
+		header( 'Content-Type: text/plain' );
+		exit();
 	}
-
+		
+	
 }
 
 
