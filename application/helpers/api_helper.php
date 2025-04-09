@@ -27,28 +27,28 @@ function validate_https()
 function validate_origin()
 {
 	header("Access-Control-Allow-Origin: *");
-	// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-	// header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
-//	$allowed_origins = [
-//		'*',
-//	];
-//
-//	$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-//	if (in_array($origin, $allowed_origins)) {
-//		header("Access-Control-Allow-Origin: $origin");
-//		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-//		header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
-//	} else {
-//		responseApi(403, 'Access forbidden: Origin not allowed');
-//	}
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+	header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
+	//	$allowed_origins = [
+	//		'*',
+	//	];
+	//
+	//	$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+	//	if (in_array($origin, $allowed_origins)) {
+	//		header("Access-Control-Allow-Origin: $origin");
+	//		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+	//		header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
+	//	} else {
+	//		responseApi(403, 'Access forbidden: Origin not allowed');
+	//	}
 }
 
 
 function validate_header()
 {
 	//validate_https();
-	validate_origin();
-	validate_key();
+	//validate_origin();
+	//validate_key();
 }
 
 
