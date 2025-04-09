@@ -30,6 +30,8 @@ function validate_origin()
 	$allowed_origins = [
 		'*',
 	];
+	
+	$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
 	if (in_array($origin, $allowed_origins)) {
 		if ( $_SERVER[ 'REQUEST_METHOD' ] == "OPTIONS" ){
