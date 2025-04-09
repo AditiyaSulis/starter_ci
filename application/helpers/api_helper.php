@@ -27,8 +27,8 @@ function validate_https()
 function validate_origin()
 {
 	header("Access-Control-Allow-Origin: *");
-	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-	header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
+	// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+	// header("Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY");
 //	$allowed_origins = [
 //		'*',
 //	];
@@ -46,7 +46,7 @@ function validate_origin()
 
 function validate_header()
 {
-	validate_https();
+	//validate_https();
 	validate_origin();
 	validate_key();
 }
