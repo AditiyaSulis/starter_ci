@@ -29,8 +29,25 @@ class M_karir extends CI_Model
 
 	public function findAllWithJoin_get()
 	{
+
+
 		$this->db->select('karir.id_karir, karir.id_product, karir.posisi, karir.lokasi_penempatan, karir.mulai_posting, karir.akhir_posting,  karir.whatsapp, karir.email, karir.kualifikasi, karir.benefit, karir.gaji, karir.jam_kerja, products.name_product, products.logo');
 		$this->db->from('karir');
+		$this->db->join('products', 'products.id_product = karir.id_product', 'left');
+		$this->db->order_by('karir.mulai_posting', 'ASC');
+
+		return $this->db->get()->result_array();
+	}
+
+
+	public function findAllAvailable_get()
+	{
+		$now = date('Y-m-d');
+
+		$this->db->select('karir.id_karir, karir.id_product, karir.posisi, karir.lokasi_penempatan, karir.mulai_posting, karir.akhir_posting,  karir.whatsapp, karir.email, karir.kualifikasi, karir.benefit, karir.gaji, karir.jam_kerja, products.name_product, products.logo');
+		$this->db->from('karir');
+		$this->db->where('karir.mulai_posting <=', $now);
+		$this->db->where('karir.akhir_posting >=', $now);
 		$this->db->join('products', 'products.id_product = karir.id_product', 'left');
 		$this->db->order_by('karir.mulai_posting', 'ASC');
 

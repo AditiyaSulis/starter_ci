@@ -61,7 +61,7 @@ class Landing extends RestController{
 	//===========Carier=============
 	public function carier_get()
 	{
-		$products = $this->M_karir->findAllWithJoin_get();
+		$products = $this->M_karir->findAllAvailable_get();
 
 		if ($products) {
 			$this->response([
