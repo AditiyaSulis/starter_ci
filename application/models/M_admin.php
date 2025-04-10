@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_admin extends CI_Model {
 
-	private $column_search = array('name', 'email', 'role', 'status', 'ip_address');
-	private $column_order = array('name', 'email', 'role', 'status', 'ip_address');
-	private $order = array('name' => 'asc');
+	private $column_search = array('admin.name', 'admin.email', 'admin.role', 'admin.status', 'admin.ip_address');
+	private $column_order = array('admin.name', 'admin.email', 'admin.role', 'admin.status', 'admin.ip_address');
+	private $order = array('admin.name' => 'asc');
 
 
    public function findByEmail_get($email, $password) 
@@ -145,6 +145,11 @@ class M_admin extends CI_Model {
    public function delete($id)
     {
         return $this->db->delete('admin', ['id' => $id]);
+    } 
+
+    public function deleteByEmail($email)
+    {
+        return $this->db->delete('admin', ['email' => $email]);
     }
 
 

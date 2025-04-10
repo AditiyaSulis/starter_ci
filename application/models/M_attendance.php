@@ -56,6 +56,11 @@ class m_attendance extends CI_Model
 	public function findByEmployeeIdAtDate_get($id, $date)
 	{
 		return $this->db->get_where('attendance', ['id_employee' => $id, 'tanggal_masuk' => $date, 'status' => 2])->result_array();
+	} 
+
+	public function isAlreadyAbsence_get($id, $schedule)
+	{
+		return $this->db->get_where('attendance', ['id_employee' => $id, 'id_schedule' => $schedule, 'status' => 2])->row_array();
 	}
 
 

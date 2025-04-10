@@ -673,7 +673,7 @@ class Userdata extends MY_Controller{
 			return;
 		}
 
-		$logo_name = $upload_result['message'];;
+		$logo_name = $upload_result['message'];
 
 
 		$lb = new Opensslencryptdecrypt();

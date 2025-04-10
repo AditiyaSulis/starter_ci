@@ -128,7 +128,7 @@ class M_karir extends CI_Model
 
 		$this->db->select('karir.id_karir, karir.id_product, karir.posisi, karir.lokasi_penempatan, karir.mulai_posting, karir.akhir_posting,  karir.whatsapp, karir.email, karir.kualifikasi, karir.benefit, karir.gaji, karir.jam_kerja, products.name_product, products.logo');
 		if($product != '' || !empty($product)) {
-			$this->db->where('employee.id_product', $product);
+			$this->db->where('karir.id_product', $product);
 		}
 		$this->db->from('karir');
 		$this->db->join('products', 'products.id_product = karir.id_product', 'left');

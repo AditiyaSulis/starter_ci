@@ -29,24 +29,23 @@ class Absence extends MY_Controller{
 		$data['employee'] = $id['id_employee'];
 
 		$today = date('Y-m-d');
-		$current_time = date('H:i:s');
-
+		//$current_time = date('H:i:s');
 
 		$data['schedule'] = $this->M_schedule->findScheduleToday_get($data['employee'], $today);
 		//Mencari jadwal
-		$yesterdayAttend = $this->M_schedule->findYesterdaySchedule_get($data['employee'], $today);
-		if($yesterdayAttend) {
-			//Mencari jadwal kemarin apakah sudah membuat kehadiran?
-			$anyAttend = $this->M_attendance->anyAttendance_get($yesterdayAttend['id_schedule']);
+		// $yesterdayAttend = $this->M_schedule->findYesterdaySchedule_get($data['employee'], $today);
+		// if($yesterdayAttend) {
+		// 	//Mencari jadwal kemarin apakah sudah membuat kehadiran?
+		// 	$anyAttend = $this->M_attendance->anyAttendance_get($yesterdayAttend['id_schedule']);
 
-			if($anyAttend) {
-				//Apakah jam sekarang sudah melebihi waktu clock out?
-				$isOnSchedule = strtotime($current_time) <= strtotime($yesterdayAttend['clock_out']) && strtotime($current_time) <= strtotime($yesterdayAttend['clock_in']) ;
-				if($isOnSchedule){
-					$data['schedule'] = $yesterdayAttend;
-				}
-			}
-		}
+		// 	if(!$anyAttend) {
+		// 		//Apakah jam sekarang sudah melebihi waktu clock out?
+		// 		$isOnSchedule = strtotime($current_time) <= strtotime($yesterdayAttend['clock_out']) && strtotime($current_time) <= strtotime($yesterdayAttend['clock_in']) ;
+		// 		if($isOnSchedule){
+		// 			$data['schedule'] = $yesterdayAttend;
+		// 		}
+		// 	}
+		// }
 
 
 		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
@@ -58,7 +57,6 @@ class Absence extends MY_Controller{
 			redirect('panel');
 		}
 	}
-
 
 
 
@@ -141,13 +139,10 @@ class Absence extends MY_Controller{
 		$this->load->helper('distance');
 		$distance =  haversine_distance_in_meter($latitudeDecimal, $longitudeDecimal, $latitude, $longitude);
 
-
 		if ($distance > 250) {
 			echo json_encode(['status' => false, 'message' => "Anda berjarak $distance meter dari lokasi tempat anda bekerja"]);
 			return;
 		}
-
-
 
 		$dataAtt = [
 			'id_employee' =>$idEmployee,
@@ -160,6 +155,16 @@ class Absence extends MY_Controller{
 			'status' => 2,
 		];
 
+		//Validasi agar tidak melakukan double absen
+		if($this->M_attendance->isAlreadyAbsence_get($idEmployee, $idSchedule)) {
+			$response = [
+				'status' => false,
+				'message' => 'Anda Sudah melakukan absen, silahkan refresh halaman.',
+			];
+			echo json_encode($response);
+			return;
+		}
+		//END
 
 		$attendance = $this->M_attendance->create_post($dataAtt);
 

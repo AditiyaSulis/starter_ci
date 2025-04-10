@@ -637,8 +637,18 @@ class Employee extends MY_Controller{
 
         $id = $this->input->post('id');
 
+		$employee = $this->M_employees->findById_get($id);
 
-        if($this->M_employees->delete($id) && $this->M_bank_account->deleteByEmployeeId_get($id) && $this->M_emergency_contact->deleteByEmployeeId_get($id)){
+		if(!$employee){
+			$response = [
+				'status' => false,
+				'message' => 'Data karyawan tidak ditemukan',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+        if($this->M_employees->delete($id) && $this->M_bank_account->deleteByEmployeeId_get($id) && $this->M_emergency_contact->deleteByEmployeeId_get($id) && $this->M_admin->deleteByEmail($employee['email'])) {
             $response = [
                 'status' => true,
                 'message' => 'Data karyawan berhasil dihapus',
