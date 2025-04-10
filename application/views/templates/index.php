@@ -736,7 +736,7 @@
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Carier' ? "active": ""?>" href="<?=base_url('karir/Karir/carier_page')?>">
+									<a class="menu-link <?= $title == 'Carier' ? "active": ""?>" href="<?=base_url('karir/Karir/carrier_page')?>">
 										<span class="menu-icon">
 											<span class="svg-icon svg-icon-2">
 												<i class="bi bi-person-plus"></i>

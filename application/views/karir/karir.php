@@ -1,7 +1,7 @@
 
 
 <main>
-	<h1 class="mb-4">Finance Record</h1>
+		<h1 class="mb-4">Carrier</h1>
 
 
 	<div class="d-flex justify-content-between flex-wrap mt-5">
@@ -238,7 +238,7 @@
 							<span>Product</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select id="product" class="form-select" aria-label="Default select example" id="edit_id_product" name="id_product">
+							<select class="form-select" aria-label="Default select example" id="edit_id_product" name="id_product">
 								<option selected>-Pilih product-</option>
 								<?php foreach ($product as $ctg): ?>
 									<option value="<?= $ctg['id_product'] ?>"><?= $ctg['name_product'] ?></option>
@@ -354,6 +354,7 @@
 
 
 
+			//console.log($element.data('mulai_posting'));
 			$("#editJobVacancyModal").modal("show");
 		}
 

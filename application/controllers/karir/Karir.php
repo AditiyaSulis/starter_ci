@@ -9,14 +9,14 @@ class Karir extends MY_Controller{
 	}
 
 
-	public function carier_page()
+	public function carrier_page()
 	{
 		$this->_ONLYSELECTED([1, 2]);
 		$data = $this->_basicData();
 
-		$data['title'] = 'Carier';
+		$data['title'] = 'Carrier';
 		$data['view_name'] = 'karir/karir';
-		$data['breadcrumb'] = 'Carier - Carier';
+		$data['breadcrumb'] = 'Carrier';
 		$data['menu'] = '';
 
 		$data['product'] = $this->M_products->findAll_get();
@@ -35,11 +35,11 @@ class Karir extends MY_Controller{
 		$this->_ONLYSELECTED([1, 2]);
 		$this->_isAjax();
 
-		$this->form_validation->set_rules('id_product', 'Product_id', 'required', [
+		$this->form_validation->set_rules('id_product', 'id_poduct', 'required', [
 			'required' => 'Product harus diisi',
 		]);
 
-		$this->form_validation->set_rules('posisi', 'Posisi', 'required', [
+		$this->form_validation->set_rules('posisi', 'posisi', 'required', [
 			'required' => 'posisi tidak boleh kosong',
 		]);
 		$this->form_validation->set_rules('lokasi_penempatan', 'lokasi_penempatan', 'required', [
@@ -124,12 +124,12 @@ class Karir extends MY_Controller{
 		$this->_ONLYSELECTED([1, 2]);
 		$this->_isAjax();
 
-		$this->_isAjax();
-		$this->form_validation->set_rules('id_product', 'Product_id', 'required', [
+
+		$this->form_validation->set_rules('id_product', 'id_product', 'required', [
 			'required' => 'Product harus diisi',
 		]);
 
-		$this->form_validation->set_rules('posisi', 'Posisi', 'required', [
+		$this->form_validation->set_rules('posisi', 'posisi', 'required', [
 			'required' => 'posisi tidak boleh kosong',
 		]);
 		$this->form_validation->set_rules('lokasi_penempatan', 'lokasi_penempatan', 'required', [
@@ -251,7 +251,7 @@ class Karir extends MY_Controller{
 			$action = '
                         <div class="no-print">
                             <a href="javascript:void(0)" onclick="editKarirBtn(this)" class="btn gradient-btn-edit btn-sm btn-sm mb-2 rounded-pill" style="width : 70px" 
-                                data-id="' . htmlspecialchars($item->id_karir) . '"
+                                data-id_karir="' . htmlspecialchars($item->id_karir) . '"
                                 data-id_product="' . htmlspecialchars($item->id_product) . '"
                                 data-posisi="' . htmlspecialchars($item->posisi) . '"
                                 data-lokasi_penempatan="' . htmlspecialchars($item->lokasi_penempatan) . '"

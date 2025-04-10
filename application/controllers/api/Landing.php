@@ -56,6 +56,8 @@ class Landing extends RestController{
 		}
 	}
 
+
+
 	//===========Carier=============
 	public function carier_get()
 	{
@@ -75,22 +77,6 @@ class Landing extends RestController{
 	} 
 
 
-	public function carierbyid_get($id)
-	{
-		$products = $this->M_karir->findById_get($id);
-
-		if ($products) {
-			$this->response([
-				'status' => true,
-				'data' => $products
-			], 200);
-		} else {
-			$this->response([
-				'status' => false,
-				'message' => 'Data tidak ditemukan'
-			], 404);
-		}
-	}
 
 
 
