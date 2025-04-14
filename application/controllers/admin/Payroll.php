@@ -137,6 +137,11 @@ class Payroll extends MY_Controller{
 			return;
 		}
 
+		$totalSalary = 0;
+
+		//Mencari total salary pada code yg sama yg diinput sebelumnya
+		$totalSalaryByCode = $this->M_payroll->getTotalSalaryByCode_get($this->input->post('code_payroll', true));
+
 		$this->db->trans_start();
 
 		$dataPayroll = [
@@ -177,9 +182,11 @@ class Payroll extends MY_Controller{
 			$biaya_jabatan = 0;
 			$netto = 0;
 			$pot_ptkp = 0;
+			$potUangMakan = 0;
 			$pph_akumulatif = 0;
 			$pengurangan_pajak = 0;
 			$uang_makan = 0;
+			$uang_makan_bersih = 0;
 			$bonus = $this->input->post('bonus');
 
 
@@ -198,7 +205,12 @@ class Payroll extends MY_Controller{
 
 
 			if($this->input->post('include_uang_makan',true) == 1) {
+				$totalIzin = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 5);
+				$totalCuti = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 4);
+				$potUangMakanPerDay = $employee['uang_makan'] / 24;
+				$potUangMakan = $potUangMakanPerDay * ($totalAbsent + $totalIzin + $totalCuti);
 				$uang_makan = $employee['uang_makan'];
+				$uang_makan_bersih = $employee['uang_makan'] - $potUangMakan;
 			}
 
 			if($this->input->post('include_potongan_telat', true) == 1) {
@@ -265,8 +277,6 @@ class Payroll extends MY_Controller{
 						$bruto = (float)$employee['basic_salary'];
 					}
 
-
-
 					$ptkp = $this->M_pph_config->findByEmployeeId_get($employeeId);
 
 
@@ -305,14 +315,11 @@ class Payroll extends MY_Controller{
 							$batas_bawah = $data_pkp[$i]['lapisan_pkp'];
 							$tarif_progressif = $data_pkp[$i]['tarif_pajak'];
 
-
 							if ($sisa_pkp  > 0) {
 								$batas_atas = isset($data_pkp[$i + 1]) ? (float)$data_pkp[$i + 1]['lapisan_pkp'] : $sisa_pkp + $batas_bawah;
 								$pkp_terkena_pajak = min($sisa_pkp, $batas_atas - $batas_bawah);
 								$totalPotPph += $pkp_terkena_pajak * $tarif_progressif;
 								$sisa_pkp -= $pkp_terkena_pajak;
-
-
 							}
 						}
 
@@ -332,12 +339,9 @@ class Payroll extends MY_Controller{
 
 					}
 				}
-
-
-
 			// Selesai PPH
 
-			$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat;
+			$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $potUangMakan;
 
 			if($this->input->post('include_bpjs', true) == 1 && $this->input->post('include_pph', true) == 2 ) {
 				$bpjs = $this->M_bpjs_config->findByEmployeeId_get($employeeId);
@@ -350,25 +354,7 @@ class Payroll extends MY_Controller{
 			$totalGaji = $employee['basic_salary']  + $totalOvertime - $totalPotongan + $bonus + $uang_makan;
 			$totalGajiSetelahPph = $totalGaji - $totalPotPph;
 
-			//Finance record Insert
-			if ($this->input->post('finance_record') == 1) {
-				$dataFinanceRecord[] = [
-					'record_date' => $this->input->post('tanggal_gajian', true),
-					'product_id' => $employee['id_product'],
-					'amount' => $totalGajiSetelahPph,
-					'id_code' => 22,
-					'description' => "Gaji ".$employee['name']." Dengan Code ".$this->input->post('code_payroll', true),
-				];
-				if( $this->input->post('include_pph', true) == 1) {
-					$dataFinanceRecordTax[] = [
-						'record_date' => $this->input->post('tanggal_gajian', true),
-						'product_id' => $employee['id_product'],
-						'amount' => $totalPotPph,
-						'id_code' => 32,
-						'description' => "Potongann PPH ".$employee['name']." Dengan Code ".$this->input->post('code_payroll', true),
-					];
-				}
-			}
+
 
 
 			$dataBatch = [
@@ -391,8 +377,12 @@ class Payroll extends MY_Controller{
 				'bonus' => $bonus,
 				'gaji_bersih' => $totalGajiSetelahPph,
 				'basic_uang_makan' => $uang_makan,
+				'pot_uang_makan' => $potUangMakan,
+				'uang_makan_bersih' => $uang_makan_bersih,
 				'gaji_pokok' => $employee['basic_salary'],
 			];
+
+			$totalSalary += $totalGajiSetelahPph;
 
 			$insertPayroll = $this->M_payroll_component->create_post($dataBatch);
 
@@ -418,6 +408,65 @@ class Payroll extends MY_Controller{
 					'hasil_pph' => $totalPotPph,
 				];
 			}
+
+
+
+		}
+
+		//Update Total Slary
+		$updateTotal = $this->M_payroll->setTotalSalary_post($idPayroll, $totalSalary);
+		if (!$updateTotal) {
+			$this->db->trans_rollback();
+			echo json_encode([
+				'status' => false,
+				'message' => 'Gagal mengupdate total uang makan.',
+			]);
+			return;
+		}
+		//End Update total salary
+
+		//Jika ada kode yg sama yg sudah di input sebelumnya maka uang makan di jumlahkan
+		if($totalSalaryByCode) {
+			$totalSalary += $totalSalaryByCode;
+		}
+		//End
+
+		//Finance record Insert
+		if ($this->input->post('finance_record') == 1) {
+			$updateFinance = $this->M_finance_records->findByDesc_get($this->input->post('code_payroll', true));
+			if($updateFinance) {
+				$this->M_finance_records->updateTotalUangMakan_post($this->input->post('code_payroll', true), $totalSalary);
+			} else {
+				$karyawan = $this->M_employees->findById_get($employees[0]);
+				$dataFinanceRecord = [
+					'record_date' => $this->input->post('tanggal_gajian', true),
+					'product_id' => $karyawan['id_product'],
+					'amount' => $totalSalary,
+					'id_code' => 22,
+					'description' => $this->input->post('code_payroll', true),
+				];
+				if( $this->input->post('include_pph', true) == 1) {
+					$dataFinanceRecordTax = [
+						'record_date' => $this->input->post('tanggal_gajian', true),
+						'product_id' => $karyawan['id_product'],
+						'amount' => $totalPotPph,
+						'id_code' => 32,
+						'description' => $this->input->post('code_payroll', true),
+					];
+				}
+
+				$insertFinanceRecord = $this->M_finance_records->create_post($dataFinanceRecord);
+				if (!$insertFinanceRecord) {
+					$this->db->trans_rollback();
+					echo json_encode([
+						'status' => false,
+						'message' => 'Gagal menambahkan data finance record.',
+					]);
+					return;
+				}
+
+
+			}
 		}
 
 		if($this->input->post('include_pph', true) == 1 ) {
@@ -434,18 +483,6 @@ class Payroll extends MY_Controller{
 			}
 		}
 
-
-		if (!empty($dataFinanceRecord)) {
-			$insertFinanceRecord = $this->M_finance_records->create_batch_post($dataFinanceRecord);
-			if (!$insertFinanceRecord) {
-				$this->db->trans_rollback();
-				echo json_encode([
-					'status' => false,
-					'message' => 'Gagal menambahkan data finance record.',
-				]);
-				return;
-			}
-		}
 
 		$this->db->trans_complete();
 

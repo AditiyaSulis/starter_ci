@@ -94,6 +94,10 @@
 								<div class="col-6 col-md-6"><span> = </span><span id="pot_telat" class="ms-4 fw-bolder"> </span></div>
 							</div>
 							<div class="row mb-1">
+								<div class="col-5 col-md-5"><span>Potongan Uang makan</span></div>
+								<div class="col-6 col-md-6"><span> = </span><span id="pot_uang_makan" class="ms-4 fw-bolder"> </span></div>
+							</div>
+							<div class="row mb-1">
 								<div class="col-5 col-md-5"><span>Total Potongan</span></div>
 								<div class="col-6 col-md-6"><span> = </span><span id="total_potongan" class="ms-4"></div>
 							</div>
@@ -210,6 +214,9 @@
 		const code = button.getAttribute('data-code-payroll');
 		const logo = button.getAttribute('data-logo');
 		const uang_makan = parseFloat(button.getAttribute('data-uang-makan')) || 0;
+		const pot_uang_makan = parseFloat(button.getAttribute('data-pot-uang-makan')) || 0;
+		const uang_makan_bersih = parseFloat(button.getAttribute('data-uang-makan-bersih')) || 0;
+		const pot_piutang = parseFloat(button.getAttribute('data-piutang')) || 0;
 
 		const total_potongan_telat = button.getAttribute('data-total-potongan-telat');
 
@@ -220,7 +227,12 @@
 
 		// Fungsi format Rupiah
 		function formatToRupiah(number) {
-			return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
+			return new Intl.NumberFormat('id-ID', {
+				style: 'currency',
+				currency: 'IDR',
+				minimumFractionDigits: 0,
+				maximumFractionDigits: 0
+			}).format(number);
 		}
 
 		// Fungsi format tanggal
@@ -242,6 +254,10 @@
 
 		$('#pot_telat').text(formatToRupiah(total_potongan_telat));
 		$('#uang_makan').text(formatToRupiah(uang_makan));
+		$('#pot_uang_makan').text(formatToRupiah(pot_uang_makan));
+		$('#uang_makan_bersih').text(formatToRupiah(uang_makan_bersih));
+		$('#pot_piutang').text(formatToRupiah(pot_piutang));
+
 
 
 		$('#nip_employee').text(nip);

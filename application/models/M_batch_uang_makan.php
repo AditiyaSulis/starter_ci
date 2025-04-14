@@ -7,7 +7,7 @@ class M_batch_uang_makan extends CI_Model
 
 	private $column_search = array('batch_uang_makan.code_batch_uang_makan','batch_uang_makan.auto_finance_record', 'batch_uang_makan.total_uang_makan','batch_uang_makan.total_employee', 'batch_uang_makan.tanggal_batch_uang_makan', 'batch_uang_makan.tanggal_batch_uang_makan');
 	private $column_order = array('batch_uang_makan.code_batch_uang_makan','batch_uang_makan.auto_finance_record', 'batch_uang_makan.total_uang_makan','batch_uang_makan.total_employee', 'batch_uang_makan.tanggal_batch_uang_makan' ,'batch_uang_makan.tanggal_batch_uang_makan');
-	private $order = array('batch_uang_makan.tanggal_batch_uang_makan' => 'asc');
+	private $order = array('batch_uang_makan.id_batch_uang_makan' => 'asc');
 
 
 	public function findAll_get()
@@ -19,6 +19,12 @@ class M_batch_uang_makan extends CI_Model
 	public function findById_get($id)
 	{
 		return $this->db->get_where('batch_uang_makan', ['id_batch_uang_makan' => $id])->row_array();
+	}
+
+
+	public function findByCode_get($code)
+	{
+		return $this->db->get_where('batch_uang_makan', ['code_batch_uang_makan' => $code])->result_array();
 	}
 
 
@@ -47,10 +53,12 @@ class M_batch_uang_makan extends CI_Model
 		return $this->db->delete('batch_uang_makan', ['id_batch_uang_makan' => $id]);
 	}
 
+
 	public function findByUangMakanId_get($id)
 	{
 		return $this->db->get_where('batch_uang_makan', ['id_batch_uang_makan' => $id])->result_array();
 	}
+
 
 	private function _filterDATE($type)
 	{
@@ -98,6 +106,7 @@ class M_batch_uang_makan extends CI_Model
 		}
 	}
 
+
 	public function getBatchUangMakanDataCore_get()
 	{
 
@@ -113,6 +122,7 @@ class M_batch_uang_makan extends CI_Model
 		} else {
 			$this->db->group_by('batch_uang_makan.id_batch_uang_makan');
 		}
+		//$this->db->group_by('batch_uang_makan.code_batch_uang_makan');
 
 		if (!empty($option)) {
 			$this->_filterDATE($option);
@@ -179,5 +189,31 @@ class M_batch_uang_makan extends CI_Model
 	}
 
 
+	public function setTotalUangMakan_post($id, $uang_makan)
+	{
 
+		$this->db->set('total_uang_makan', $uang_makan);
+		$this->db->where('id_batch_uang_makan', $id);
+		$this->db->update('batch_uang_makan');
+
+		return true;
+
+	}
+
+
+	public function getTotalUangMakanByCode_get($code)
+	{
+		$totalUangMakan = 0;
+		$data = $this->findByCode_get($code);
+
+		if($data) {
+			foreach ($data as $item) {
+				$totalUangMakan += $item['total_uang_makan'];
+			}
+
+			return $totalUangMakan;
+		} else {
+			return false;
+		}
+	}
 }

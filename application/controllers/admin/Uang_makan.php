@@ -111,8 +111,10 @@ class Uang_makan extends MY_Controller{
 			return;
 		}
 
+		$totalUangMakan = 0;
 
 		$employees = $this->input->post('id_employee', true);
+
 
 		if (empty($employees)) {
 			echo json_encode([
@@ -122,8 +124,13 @@ class Uang_makan extends MY_Controller{
 			return;
 		}
 
-		$this->db->trans_start();
+		//Mencari total uang makan pada code yg sama yg diinput sebelumnya
+		$totalUangMakanByCode = $this->M_batch_uang_makan->getTotalUangMakanByCode_get($this->input->post('code_batch_uang_makan', true));
+		//End
 
+
+		$this->db->trans_start();
+		//input data batch
 		$dataPayroll = [
 			'code_batch_uang_makan' => $this->input->post('code_batch_uang_makan', true),
 			'tanggal_batch_uang_makan' => $this->input->post('tanggal_batch_uang_makan', true),
@@ -143,8 +150,9 @@ class Uang_makan extends MY_Controller{
 			]);
 			return;
 		}
+		//End data Batch
 
-		//		$dataBatch = [];
+		//Input uang makan
 		$dataFinanceRecord = [];
 
 		foreach ($employees as $employeeId) {
@@ -189,27 +197,12 @@ class Uang_makan extends MY_Controller{
 				}
 			}
 
-
-
 			$potIzin = $potPerDay * $totalIzin;
 			$potAbsen = $potPerDay * $totalAbsen;
 			$potCuti = $potPerDay * $totalCuti;
 			$potHoliday = $potPerDay * $totalHolyday;
 			$totalPotUangMakan = $potIzin + $potAbsen + $potCuti + $potHoliday;
 			$uang_makan_bersih = $employee['uang_makan'] - $totalPotUangMakan  + $this->input->post('bonus',true);
-
-
-			//Finance record Insert
-			if ($this->input->post('auto_finance_record') == 1) {
-				$dataFinanceRecord[] = [
-					'record_date' => $this->input->post('tanggal_batch_uang_makan', true),
-					'product_id' => $employee['id_product'],
-					'amount' => $uang_makan_bersih,
-					'id_code' => 22,
-					'description' => $this->input->post('code_batch_uang_makan', true),
-				];
-			}
-
 
 			$dataBatch = [
 				'id_employee' => $employeeId,
@@ -229,6 +222,8 @@ class Uang_makan extends MY_Controller{
 				'bonus' => $this->input->post('bonus', true),
 			];
 
+			$totalUangMakan += $uang_makan_bersih;
+			
 			$insertPayroll = $this->M_uang_makan->create_post($dataBatch);
 
 			if (!$insertPayroll) {
@@ -241,23 +236,58 @@ class Uang_makan extends MY_Controller{
 			}
 
 		}
+		//End Uang makan
 
+		//Update Total Uang Makan
+		$updateTotal = $this->M_batch_uang_makan->setTotalUangMakan_post($idBatchUangMakan, $totalUangMakan);
+		if (!$updateTotal) {
+			$this->db->trans_rollback();
+			echo json_encode([
+				'status' => false,
+				'message' => 'Gagal mengupdate total uang makan.',
+			]);
+			return;
+		}
+		//End Update total uang makan
 
+		//Jika ada kode yg sama yg sudah di input sebelumnya maka uang makan di jumlahkan
+		if($totalUangMakanByCode) {
+			$totalUangMakan += $totalUangMakanByCode;
+		}
+		//End
 
+		//Finance record Insert
+		if ($this->input->post('auto_finance_record') == 1) {
+			$updateFinance = $this->M_finance_records->findByDesc_get($this->input->post('code_batch_uang_makan', true));
+			if($updateFinance) {
+				$this->M_finance_records->updateTotalUangMakan_post($this->input->post('code_batch_uang_makan', true), $totalUangMakan);
+			} else {
+				$karyawan = $this->M_employees->findById_get($employees[0]);
+				$dataFinanceRecord = [
+					'record_date' => $this->input->post('tanggal_batch_uang_makan', true),
+					'product_id' => $karyawan['id_product'],
+					'amount' => $totalUangMakan,
+					'id_code' => 22,
+					'description' => $this->input->post('code_batch_uang_makan', true),
+				];
 
-		if (!empty($dataFinanceRecord)) {
-			$insertFinanceRecord = $this->M_finance_records->create_batch_post($dataFinanceRecord);
-			if (!$insertFinanceRecord) {
-				$this->db->trans_rollback();
-				echo json_encode([
-					'status' => false,
-					'message' => 'Gagal menambahkan data finance record.',
-				]);
-				return;
+				$insertFinanceRecord = $this->M_finance_records->create_post($dataFinanceRecord);
+				if (!$insertFinanceRecord) {
+					$this->db->trans_rollback();
+					echo json_encode([
+						'status' => false,
+						'message' => 'Gagal menambahkan data finance record.',
+					]);
+					return;
+				}
 			}
+
 		}
 
+
 		$this->db->trans_complete();
+        //End Finance Record
+
 
 		if ($this->db->trans_status() === FALSE) {
 			echo json_encode([

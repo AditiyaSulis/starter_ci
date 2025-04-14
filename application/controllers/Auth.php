@@ -206,10 +206,6 @@ class Auth extends CI_Controller{
         $account = $this->M_admin->findById_get($id);
         $accountDto = [
             'id' => $account['id'],
-            'name' => $account['name'],
-            'email' => $account['email'],
-           
-
         ];
 
         if($accountDto) {
@@ -237,104 +233,178 @@ class Auth extends CI_Controller{
                 'status' => false,
                 'message' => 'ID tidak valid'
             ];
-            return;
-        }
-
-        $account = $this->M_admin->findById_get($id);
-
-        $old_email = $account['email'];
-
-
-        $this->form_validation->set_rules('name', 'name', 'required|max_length[60]|min_length[3]',[
-            'required' => 'Nama harus diisi',
-            'max_length' => 'Nama tidak boleh melebihi 60 karakter',
-            'min_length' => 'Nama minimal memiliki 3 karakter',
-        ]);
-
-        if($this->form_validation->run()==false) {
-            $response = [
-                'status' => false,
-                'message' => validation_errors('<p>', '</p>'),
-                'confirmationbutton' => true,
-                'timer' => 0,
-                'icon' => 'error'
-            ];
-            echo json_encode($response);
+			echo json_encode($response);
 
             return;
         }
 
-        $new_email = $this->input->post('email', true);
 
-        if($old_email != $new_email) {
-            $emailExist = $this->M_admin->findByEmailForEdit_get($new_email);
-            if($emailExist){
-                $response = [
-                    'status' => false,
-                    'message' => 'Email sudah digunakan'
-                ];
 
-                echo json_encode($response);
 
-                return;
-            }
-        }
+		$account = $this->M_admin->findById_get($id);
+		$lb = new Opensslencryptdecrypt();
+		$password = $lb->decrypt($account['password']);
 
-        if (empty($_FILES['avatar']['name'])) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'email' => $this->input->post('email'),
-            ];
-    
-            if ($this->M_admin->update_post($id, $data)) {
-                $response = [
-                    'status' => true,
-                    'message' => 'Account berhasil diperbarui.'
-                ];
-            } else {
-                $response = [
-                    'status' => false,
-                    'message' => 'Gagal memperbarui account.'
-                ];
-            }
-            echo json_encode($response);
-            return;
-        }
+		$old_password = '';
+		$new_password = '';
+		$confirm_password = '';
 
-        $data_account = $this->M_admin->findById_get($id);
-        if ($data_account && !empty($data_account['avatar'])) {
-            $old_logo_path = './uploads/avatar/' . $data_account['avatar'];
-            if (file_exists($old_logo_path)) {
-                unlink($old_logo_path); 
-            }
-         }
-    
-    
-        $this->load->helper('image_helper');
-        $upload_path = 'avatar/';
-        $resize_width = 500;
-        $resize_height = 500;
-        $resize_quality = 60;
-    
-        $upload_result = upload_and_resize('avatar', $upload_path, $resize_width, $resize_height, $resize_quality);
-    
-        if (!$upload_result['status']) {
-            $response = [
-                'status' => false,
-                'message' => $upload_result['message'],
-            ];
-            echo json_encode($response);
-            return;
-        }
+		if(empty($_FILES['avatar']['name']) && ($this->input->post('old_password', true) == '' || empty($this->input->post('old_password',true)) )){
+			$response = [
+				'status' => false,
+				'message' => 'Tidak ada data yg diperbarui'
+			];
 
-        $logo_name = $upload_result['message'];
+			echo json_encode($response);
+			return;
+		}
+		if($this->input->post('old_password', true) != '' || !empty($this->input->post('old_password', true))) {
 
-        $data = [
-            'name' => $this->input->post('name'),
-            'email' => $this->input->post('email'),
-            'avatar' => $logo_name,
-            
-        ];
+			$old_password = $this->input->post('old_password', true);
+			$new_password = $this->input->post('new_password', true);
+			$confirm_password = $this->input->post('confirm_password', true);
+
+			if ($old_password != $password) {
+				$response = [
+					'status' => false,
+					'message' => 'Password Lama yang anda masukan salah.',
+				];
+				echo json_encode($response);
+				return;
+			}
+
+
+			$this->form_validation->set_rules('old_password', 'old_password', 'required|max_length[32]|min_length[4]',[
+				'required' => 'Password harus diisi',
+				'max_length' => 'Password tidak boleh melebihi 32 karakter',
+				'min_length' => 'Password minimal memiliki 4 karakter',
+			]);
+			$this->form_validation->set_rules('new_password', 'new_password', 'required|max_length[32]|min_length[4]',[
+				'required' => 'New Password harus diisi',
+				'max_length' => 'New Password tidak boleh melebihi 32 karakter',
+				'min_length' => 'New Password minimal memiliki 4 karakter',
+			]);
+			$this->form_validation->set_rules('confirm_password', 'confirm_password', 'required|max_length[32]|min_length[4]',[
+				'required' => 'Konfirmasi Password harus diisi',
+				'max_length' => 'Konfirmasi Password tidak boleh melebihi 32 karakter',
+				'min_length' => 'Konfirmasi Password minimal memiliki 4 karakter',
+			]);
+
+			if($this->form_validation->run()==false) {
+				$response = [
+					'status' => false,
+					'message' => validation_errors('<p>', '</p>'),
+					'confirmationbutton' => true,
+					'timer' => 0,
+					'icon' => 'error'
+				];
+				echo json_encode($response);
+
+				return;
+			}
+
+
+			if($confirm_password != $new_password) {
+				$response = [
+					'status' => false,
+					'message' => 'Password Baru dan konfirmasi Password tidak sesuai',
+				];
+				echo json_encode($response);
+				return;
+			}
+
+
+			$new_password = $lb->encrypt($new_password);
+
+
+			if (empty($_FILES['avatar']['name'])) {
+				$data = [
+					'password' => $new_password,
+				];
+
+				if ($this->M_admin->update_post($id, $data)) {
+					$response = [
+						'status' => true,
+						'message' => 'Account berhasil diperbarui.'
+					];
+				} else {
+					$response = [
+						'status' => false,
+						'message' => 'Gagal memperbarui account.'
+					];
+				}
+				echo json_encode($response);
+				return;
+			}
+
+			$data_account = $this->M_admin->findById_get($id);
+			if ($data_account && !empty($data_account['avatar'])) {
+				$old_logo_path = './uploads/avatar/' . $data_account['avatar'];
+				if (file_exists($old_logo_path)) {
+					unlink($old_logo_path);
+				}
+			}
+
+
+			$this->load->helper('image_helper');
+			$upload_path = 'avatar/';
+			$resize_width = 500;
+			$resize_height = 500;
+			$resize_quality = 60;
+
+			$upload_result = upload_and_resize('avatar', $upload_path, $resize_width, $resize_height, $resize_quality);
+
+			if (!$upload_result['status']) {
+				$response = [
+					'status' => false,
+					'message' => $upload_result['message'],
+				];
+				echo json_encode($response);
+				return;
+			}
+
+			$logo_name = $upload_result['message'];
+
+			$data = [
+				'password' => $new_password,
+				'avatar' => $logo_name,
+
+			];
+		} else {
+			$data_account = $this->M_admin->findById_get($id);
+			if ($data_account && !empty($data_account['avatar'])) {
+				$old_logo_path = './uploads/avatar/' . $data_account['avatar'];
+				if (file_exists($old_logo_path)) {
+					unlink($old_logo_path);
+				}
+			}
+
+
+			$this->load->helper('image_helper');
+			$upload_path = 'avatar/';
+			$resize_width = 500;
+			$resize_height = 500;
+			$resize_quality = 60;
+
+			$upload_result = upload_and_resize('avatar', $upload_path, $resize_width, $resize_height, $resize_quality);
+
+			if (!$upload_result['status']) {
+				$response = [
+					'status' => false,
+					'message' => $upload_result['message'],
+				];
+				echo json_encode($response);
+				return;
+			}
+
+			$logo_name = $upload_result['message'];
+
+			$data = [
+				'avatar' => $logo_name,
+
+			];
+		}
+
 
         $account_updated = $this->M_admin->update_post($id, $data);
 

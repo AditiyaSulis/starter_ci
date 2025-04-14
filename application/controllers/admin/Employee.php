@@ -666,6 +666,21 @@ class Employee extends MY_Controller{
     }
 
 
+	public function data_employee($id){
+		$this->_ONLYSELECTED([1,2]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Employee';
+		$data['view_name'] = 'admin/employee_data';
+		$data['breadcrumb'] = 'Employee';
+		$data['menu'] = '';
+
+		if($data['user']){
+			$this->load->view('templates/index',$data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+		}
+	}
     public function dtSideServer() 
     {
         $product = $this->input->post('product'); 

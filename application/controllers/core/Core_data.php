@@ -1000,6 +1000,8 @@ class Core_data extends MY_Controller{
                             data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
                             data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
                             data-logo="'.htmlspecialchars($item['logo']).'"
+                            data-uang-makan-bersih="'.htmlspecialchars($item['uang_makan_bersih']).'"
+                            data-pot-uang-makan="'.htmlspecialchars($item['pot_uang_makan']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -1043,6 +1045,8 @@ class Core_data extends MY_Controller{
                             data-total-gaji-bersih="'.htmlspecialchars($item['gaji_bersih']).'"
                             data-code-payroll="'.htmlspecialchars($item['code_payroll']).'"
                             data-logo="'.htmlspecialchars($item['logo']).'"
+                            data-uang-makan-bersih="'.htmlspecialchars($item['uang_makan_bersih']).'"
+                            data-pot-uang-makan="'.htmlspecialchars($item['pot_uang_makan']).'"
                             data-bonus="'.htmlspecialchars($item['bonus']).'">
                             RINCIAN
                         </button>
@@ -1060,7 +1064,7 @@ class Core_data extends MY_Controller{
 			$row[] = 'Rp.'.number_format($item['bonus'], 0 , ',', '.');
 			$row[] = $item['total_dayoff'];
 			$row[] = $item['total_absen'];
-			$row[] = 'Rp.'.number_format($item['potongan_absen'], 0 , ',', '.');
+			$row[] = 'Rp.'.number_format($item['total_potongan'], 0 , ',', '.');
 			$row[] = $item['hasil_pph'];
 			$row[] = 'Rp.'.number_format($item['total_overtime'], 0 , ',', '.');
 			$row[] = 'Rp.'.number_format($item['total'], 0 , ',', '.');
@@ -1460,8 +1464,8 @@ class Core_data extends MY_Controller{
 
 		$output = [
 			"draw" =>@$_POST['draw'],
-			"recordsTotal" => $this->M_batch_uang_makan->count_all(),
-			"recordsFiltered" => $this->M_batch_uang_makan->count_filtered(),
+				"recordsTotal" => $this->M_uang_makan->count_all(),
+			"recordsFiltered" => $this->M_uang_makan->count_filtered(),
 			"data" => $data,
 		];
 

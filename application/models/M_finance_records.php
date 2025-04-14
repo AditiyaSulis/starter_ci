@@ -266,4 +266,21 @@ class M_finance_records extends CI_Model {
         }
     }
 
+
+	public function updateTotalUangMakan_post($desc, $uang_makan)
+	{
+
+		$this->db->set('amount', $uang_makan);
+		$this->db->where('description', $desc);
+		$this->db->update('finance_records');
+
+		return true;
+
+	}
+
+	public function findByDesc_get($desc)
+	{
+		return $this->db->get_where('finance_records', ['description' => $desc])->row_array();
+	}
+
 }

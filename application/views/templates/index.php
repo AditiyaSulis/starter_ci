@@ -391,20 +391,6 @@
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>" href="<?=base_url('absence/DayOff/su_day_off_page?status_day_off=3&is=1')?>">
-										<span class="menu-icon">
-											<span class="svg-icon svg-icon-2">
-												<i class="bi bi-calendar-x"></i>
-											</span>
-										</span>
-										<span class="menu-title">Day Off</span>
-									</a>
-								</div>
-							</div>
-
-							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-								 id="#kt_aside_menu" data-kt-menu="true">
-								<div class="menu-item">
 									<a class="menu-link <?= $title == 'Data Holyday' ? "active": ""?>" href="<?=base_url('absence/holyday/holyday_page')?>">
 									<span class="menu-icon">
 										<span class="svg-icon svg-icon-2">
@@ -419,14 +405,32 @@
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Data Day Off' ? "active": ""?>" href="<?=base_url('absence/DayOff/su_day_off_page?status_day_off=3&is=1')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-calendar-x"></i>
+											</span>
+										</span>
+										<span class="menu-title">Day Off</span>
+										<?php if($info_attendance['infoDayOff'] > 0):?>
+											<span class="badge bg-danger" style="color : white;"> <?= $info_attendance['infoDayOff'] ?></span>
+										<?php endif;?>
+									</a>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
 									<a class="menu-link <?= $title == 'Data Izin' ? "active": ""?>" href="<?=base_url('absence/data/DataIzin/data_izin_page?status_izin=3')?>">
 										<span class="menu-icon">
 											<span class="svg-icon svg-icon-2">
 												<i class="bi  bi-calendar-plus"></i>
 											</span>
 										</span>
-										<span class="menu-title">Izin
-										</span>
+										<span class="menu-title">Izin</span>
+										<?php if($info_attendance['infoIzin'] > 0):?>
+											<span class="badge bg-danger" style="color : white;"> <?= $info_attendance['infoIzin'] ?></span>
+										<?php endif;?>
 									</a>
 								</div>
 							</div>
@@ -441,6 +445,9 @@
 									</span>
 								</span>
 										<span class="menu-title">Leave</span>
+										<?php if($info_attendance['infoLeave'] > 0):?>
+											<span class="badge bg-danger" style="color : white;"> <?= $info_attendance['infoLeave'] ?></span>
+										<?php endif;?>
 									</a>
 								</div>
 							</div>
@@ -656,6 +663,9 @@
 												</span>
 											</span>
 										<span class="menu-title">Overtime</span>
+										<?php if($info_attendance['infoOvertime'] > 0):?>
+											<span class="badge bg-danger" style="color : white;"> <?= $info_attendance['infoOvertime'] ?></span>
+										<?php endif;?>
 									</a>
 								</div>
 							</div>
@@ -921,7 +931,7 @@
                                                 <span class="menu-icon">
                                                     <i class="ti ti-user-circle"></i>
                                                 </span>
-                                                Profil</a>
+                                                Account Setting</a>
                                         </div>
                                         <div class="menu-item  px-5">
                                             <a href="<?= base_url('auth/logout') ?>" 
@@ -949,8 +959,8 @@
                         <div
                             class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-end">
                             <div class="text-dark order-2 order-md-1">
-                                <span class="text-muted fw-bold me-1">2024 ©</span>
-                                <a href="" target="_blank" class="text-gray-800 text-hover-primary">test</a>
+                                <span class="text-muted fw-bold me-1">2025 ©</span>
+                                <a href="" target="_blank" class="text-gray-800 text-hover-primary">HRIS</a>
                             </div>
                         </div>
                     </div>
@@ -983,20 +993,31 @@
                                 <input type="file" placeholder="avatar" id="avatar" name="avatar" autocomplete="off"
                                     class="form-control bg-transparent" />
                             </div>
+
+							<hr style="height: 5px">
+							<h5 class="mb-10">Change Password</h5>
                             <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                <span>Name</span>
+                                <span>Old Password</span>
                             </div>
-                            <div class="fv-row mb-8">
-                                <input type="text" placeholder="Name" id="name" name="name" autocomplete="off"
+                            <div class="fv-row mb-5">
+                                <input type="password" placeholder="Old Password" id="old_password" name="old_password" autocomplete="off"
                                     class="form-control bg-transparent" />
                             </div>
-                            <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                                <span>Email</span>
-                            </div>
-                            <div class="fv-row mb-8">
-                                <input type="email" placeholder="Email" id="email" name="email"
-                                    autocomplete="off" class="form-control bg-transparent" />
-                            </div>
+							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+								<span>New Password</span>
+							</div>
+							<div class="fv-row mb-5">
+								<input type="password" placeholder="New Password" id="new_password" name="new_password" autocomplete="off"
+									   class="form-control bg-transparent" />
+							</div>
+							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+								<span>Confirm Password</span>
+							</div>
+							<div class="fv-row mb-5">
+								<input type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" autocomplete="off"
+									   class="form-control bg-transparent" />
+							</div>
+
                             <div class="d-grid mb-10 mt-10">
                                 <button type="submit" class="btn btn-primary"><span class="indicator-label">
                                         Save Changes

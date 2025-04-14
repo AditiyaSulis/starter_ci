@@ -371,13 +371,11 @@ $(document).ready(function () {
                         success: function (response) {
                             if (response.status) {
                                 var id = response.account.id;
-                                var name = response.account.name;
-                                var email = response.account.email;
+                                var password = response.account.password;
                                
     
                                 $("#id").val(id);
-                                $("#name").val(name);
-                                $("#email").val(email);
+                                $("#password").val(password);
                                 
     
     

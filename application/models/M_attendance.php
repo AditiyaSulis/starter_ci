@@ -256,4 +256,6 @@ class m_attendance extends CI_Model
 		return $this->db->delete('attendance', ['id_schedule' => $id_schedule, 'id_employee' => $id_employee]);
 	}
 
+
+
 }

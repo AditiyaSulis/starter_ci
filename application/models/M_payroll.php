@@ -20,6 +20,11 @@ class M_payroll extends CI_Model
 		return $this->db->get_where('payroll', ['id_payroll' => $id])->row_array();
 	}
 
+	public function findByCode_get($code)
+	{
+		return $this->db->get_where('payroll', ['code_payroll' => $code])->result_array();
+	}
+
 	public function findAllWithJoin_get()
 	{
 		$this->db->select('payroll.id_payroll','payroll.code_payroll', 'payroll.input_at','payroll.total_salary', 'payroll.code_payroll', 'payroll.total_employee','payroll_component.id_payroll', 'payroll_component.tanggal_gajian');
@@ -172,6 +177,32 @@ class M_payroll extends CI_Model
 		}
 	}
 
+	public function setTotalSalary_post($id, $salary)
+	{
 
+		$this->db->set('total_salary', $salary);
+		$this->db->where('id_payroll', $id);
+		$this->db->update('payroll');
+
+		return true;
+
+	}
+
+
+	public function getTotalSalaryByCode_get($code)
+	{
+		$totalSalary = 0;
+		$data = $this->findByCode_get($code);
+
+		if($data) {
+			foreach ($data as $item) {
+				$totalSalary += $item['total_salary'];
+			}
+
+			return $totalSalary;
+		} else {
+			return false;
+		}
+	}
 
 }

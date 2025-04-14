@@ -65,6 +65,9 @@ class MY_Controller extends CI_Controller
 		$data['idUser']     = $this->idUSER;
 		$data['user']       = $this->arrUSER;
 		$data['role']       = $this->roleUSER;
+		$data['info_attendance'] = $this->M_admin->count_info_data_get();
 		return $data;
 	}
+
+
 }

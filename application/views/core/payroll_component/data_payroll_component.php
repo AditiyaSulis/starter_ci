@@ -69,7 +69,7 @@
 				<th>Bonus</th>
 				<th>Day Off</th>
 				<th>Absen</th>
-				<th>Pot Absen</th>
+				<th>Total Potongan</th>
 				<th>Pot PPH</th>
 				<th>Lembur</th>
 				<th>Total</th>
@@ -140,7 +140,7 @@
 					customize: function(doc) {
 						doc.defaultStyle.fontSize = 9;
 						doc.styles.tableHeader.fontSize = 10;
-						doc.pageMargins = [20, 30, 20, 30];
+						doc.pageMargins = [30, 30, 20, 30];
 
 						// Cek apakah ada tabel sebelum mengaksesnya
 						if (!doc.content || doc.content.length < 2 || !doc.content[1].table) {
@@ -156,6 +156,7 @@
 							paddingTop: function(i, node) { return 6; },
 							paddingBottom: function(i, node) { return 6; }
 						};
+
 
 						// Hitung total gaji bersih
 						let totalGajiBersih = table
@@ -181,6 +182,39 @@
 						if (doc.content[1].table.body.length > 1) {
 							doc.content[1].table.body.push(totalRow);
 						}
+
+						doc.content.push({
+							columns: [
+								{
+									width: '50%',
+									text: '\n\n\nMengetahui,\nHRD',
+									alignment: 'center',
+									margin: [20, 40, 0, 0],
+								},
+								{
+									width: '50%',
+									text: '\n\n\nDibuat oleh,\nStaf Keuangan',
+									alignment: 'center',
+									margin: [0, 40, 80, 0],
+								}
+							]
+						});
+						doc.content.push({
+							columns: [
+								{
+									width: '50%',
+									text: '\n\n( Ara Suhara )',
+									alignment: 'center',
+									margin: [20, 40, 0, 0],
+								},
+								{
+									width: '50%',
+									text: '\n\n( Amel )',
+									alignment: 'center',
+									margin: [0, 40, 80, 0],
+								}
+							]
+						});
 					}
 				}
 			],

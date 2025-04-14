@@ -483,7 +483,7 @@
             $("#id_record").val($element.data('id'));
             $("#kategori").val($element.data('kategori')).trigger("change");
             $("#product_id").val($element.data('product'));
-            $("#amount").val($element.data('amount'));
+            $("#amount").val(formatRupiahFromNumber($element.data('amount')));
             $("#description").val($element.data('description'));
             $("#record_date").val($element.data('record_date'));
 
@@ -609,7 +609,21 @@
             return 'Rp. ' + rupiah;
         }
 
-        //-----------------------DATATABLE
+
+		function formatRupiahFromNumber(angka) {
+			var number_string = angka.toString(),
+				sisa = number_string.length % 3,
+				rupiah = number_string.substr(0, sisa),
+				ribuan = number_string.substr(sisa).match(/\d{3}/gi);
+
+			if (ribuan) {
+				var separator = sisa ? '.' : '';
+				rupiah += separator + ribuan.join('.');
+			}
+
+			return rupiah;
+		}
+		//-----------------------DATATABLE
         //--------TEST FILTER
 
         function callDT() {
@@ -647,36 +661,94 @@
                             doc.styles.tableHeader.fontSize = 10;
                             doc.styles.tableBodyOdd.fontSize = 8;
                             doc.styles.tableBodyEven.fontSize = 8;
+							// doc.pageMargins = [20, 30, 20, 30];
                             doc.content[1].margin = [10, 15, 10, 10];
 
+							// Format tabel dengan garis
+							doc.content[1].layout = {
+								hLineWidth: function(i, node) { return 0.8; },
+								vLineWidth: function(i, node) { return 0.8; },
+								hLineColor: function(i, node) { return '#000000'; },
+								vLineColor: function(i, node) { return '#000000'; },
+								paddingTop: function(i, node) { return 6; },
+								paddingBottom: function(i, node) { return 6; }
+							};
 
                             let currentDate = new Date();
-                            let titleDate = '';
+							const formatDate = (date) => new Intl.DateTimeFormat('id-ID', {
+								day: '2-digit',
+								month: 'long',
+								year: 'numeric'
+							}).format(date);
 
-                            if (option === 'this_month') {
-                                titleDate = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(currentDate);
-                            } else if (option === 'last_month') {
-                                currentDate.setMonth(currentDate.getMonth() - 1);
-                                titleDate = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(currentDate);
-                            } else if (option === 'this_year') {
-                                titleDate = `Tahun ${currentDate.getFullYear()}`;
-                            } else if (option === 'last_year') {
-                                titleDate = `Tahun ${currentDate.getFullYear() - 1}`;
-                            } else if (option === 'today') {
-                                titleDate = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(currentDate);
-                            } else if (option === 'yesterday') {
-                                currentDate.setDate(currentDate.getDate() - 1);
-                                titleDate = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(currentDate);
-                            } else if (option === 'this_week') {
-                                titleDate = `Minggu ini (${startDate} - ${endDate})`;
-                            } else if (option === 'last_week') {
-                                titleDate = `Minggu lalu (${startDate} - ${endDate})`;
-                            } else if (option === 'custom' && startDate && endDate) {
-                                titleDate = `${startDate} - ${endDate}`;
-                            }
+							let end = new Date();
+							let start = new Date();
+							let titleDate = '';
+
+							switch (option) {
+								case 'this_month':
+									start = new Date();
+									end = new Date();
+									start.setMonth(start.getMonth() - 1);
+									titleDate = `${formatDate(start)} - ${formatDate(end)}`;
+									break;
+
+								case 'last_month':
+									end = new Date();
+									end.setMonth(end.getMonth() - 1);
+									start = new Date(end); // clone
+									start.setMonth(start.getMonth() - 1);
+									titleDate = `${formatDate(start)} - ${formatDate(end)}`;
+									break;
+
+								case 'this_year':
+									start = new Date(end.getFullYear(), 0, 1);
+									titleDate = `${formatDate(start)} - ${formatDate(end)}`;
+									break;
+
+								case 'last_year':
+									const lastYear = end.getFullYear() - 1;
+									start = new Date(lastYear, 0, 1);
+									end = new Date(lastYear, 11, 31);
+									titleDate = `${formatDate(start)} - ${formatDate(end)}`;
+									break;
+
+								case 'today':
+									titleDate = formatDate(end);
+									break;
+
+								case 'yesterday':
+									end.setDate(end.getDate() - 1);
+									titleDate = formatDate(end);
+									break;
+
+								case 'this_week':
+									start = new Date(end);
+									start.setDate(end.getDate() - end.getDay() + 1); // Mulai dari Senin
+									titleDate = `${formatDate(start)} - ${formatDate(end)}`;
+									break;
+
+								case 'last_week':
+									end.setDate(end.getDate() - 7); // ke minggu lalu
+									start = new Date(end);
+									start.setDate(end.getDate() - end.getDay() + 1); // Senin minggu lalu
+									titleDate = `${formatDate(start)} - ${formatDate(end)}`;
+									break;
+
+								case 'custom':
+									if (startDate && endDate) {
+										titleDate = `${startDate} - ${endDate}`;
+									} else {
+										titleDate = 'Rentang tidak ditentukan';
+									}
+									break;
+
+								default:
+									titleDate = 'Periode Tidak Dikenal';
+							}
 
                             doc.content.unshift({
-                                text: titleDate,
+                                text: 'Periode : ' + titleDate,
                                 alignment: 'right',
                                 margin: [0, 0, 10, 20], 
                                 style: 'subheader',
@@ -766,6 +838,39 @@
                                 layout: 'lightHorizontalLines',
                                 margin: [10, 5, 0, 10],
                             });
+
+							doc.content.push({
+								columns: [
+									{
+										width: '50%',
+										text: '\n\n\nMengetahui,\nHRD',
+										alignment: 'center',
+										margin: [20, 40, 0, 0],
+									},
+									{
+										width: '50%',
+										text: '\n\n\nDibuat oleh,\nStaf Keuangan',
+										alignment: 'center',
+										margin: [0, 40, 80, 0],
+									}
+								]
+							});
+							doc.content.push({
+								columns: [
+									{
+										width: '50%',
+										text: '\n\n( Ara Suhara )',
+										alignment: 'center',
+										margin: [20, 40, 0, 0],
+									},
+									{
+										width: '50%',
+										text: '\n\n( Amel )',
+										alignment: 'center',
+										margin: [0, 40, 80, 0],
+									}
+								]
+							});
                         }
 
 

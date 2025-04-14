@@ -174,6 +174,40 @@
 						if (doc.content[1].table.body.length > 1) {
 							doc.content[1].table.body.push(totalRow);
 						}
+
+						doc.content.push({
+							columns: [
+								{
+									width: '50%',
+									text: '\n\n\nMengetahui,\nHRD',
+									alignment: 'center',
+									margin: [20, 40, 0, 0],
+								},
+								{
+									width: '50%',
+									text: '\n\n\nDibuat oleh,\nStaf Keuangan',
+									alignment: 'center',
+									margin: [0, 40, 80, 0],
+								}
+							]
+						});
+						doc.content.push({
+							columns: [
+								{
+									width: '50%',
+									text: '\n\n( Ara Suhara )',
+									alignment: 'center',
+									margin: [20, 40, 0, 0],
+								},
+								{
+									width: '50%',
+									text: '\n\n( Amel )',
+									alignment: 'center',
+									margin: [0, 40, 80, 0],
+								}
+							]
+						});
+
 					}
 				}
 			],

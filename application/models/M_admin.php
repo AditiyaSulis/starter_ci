@@ -215,4 +215,30 @@ class M_admin extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+
+
+	public function count_info_data_get()
+	{
+		$this->db->where('status', 3);
+		$infoIzin =  $this->db->count_all_results('izin');
+
+		$this->db->where('status', 3);
+		$infoDayOff =  $this->db->count_all_results('day_off');
+
+		$this->db->where('status', 3);
+		$infoLeave = $this->db->count_all_results('cuti');
+
+		$this->db->where('status', 3);
+		$infoOvertime = $this->db->count_all_results('overtime');
+
+		$data = [
+			'infoIzin' => $infoIzin,
+			'infoDayOff' => $infoDayOff,
+			'infoLeave' => $infoLeave,
+			'infoOvertime' => $infoOvertime
+		];
+
+		return $data;
+	}
+
 }
