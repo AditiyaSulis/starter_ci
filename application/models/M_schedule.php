@@ -73,8 +73,6 @@ class M_schedule extends CI_Model
 	}
 
 
-
-
 	public function findAllWithJoin_get()
 	{
 		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.id_employee, employee.name_employee');
@@ -134,32 +132,28 @@ class M_schedule extends CI_Model
 			case 'today':
 				$this->db->where('DATE(schedule.waktu) = CURDATE()');
 				break;
-			case 'tomorrow':
-				$this->db->where('DATE(schedule.waktu) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)');
+			case 'yesterday':
+				$this->db->where('DATE(schedule.waktu) = CURDATE() - INTERVAL 1 DAY');
 				break;
 			case 'this_week':
 				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday this week')));
 				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday this week')));
 				break;
-			case 'next_week':
-				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday next week')));
-				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday next week')));
+			case 'last_week':
+				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday last week')));
+				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday last week')));
 				break;
 			case 'this_month':
-				$this->db->where('schedule.waktu >=', date('Y-m-01'));
-				$this->db->where('schedule.waktu <=', date('Y-m-t'));
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
 				break;
-			case 'next_month':
-				$this->db->where('schedule.waktu >=', date('Y-m-01', strtotime('+1 month')));
-				$this->db->where('schedule.waktu <=', date('Y-m-t', strtotime('+1 month')));
+			case 'last_month':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
 				break;
 			case 'this_year':
-				$this->db->where('schedule.waktu >=', date('Y-01-01'));
-				$this->db->where('schedule.waktu <=', date('Y-12-31'));
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
 				break;
-			case 'next_year':
-				$this->db->where('schedule.waktu >=', date('Y-01-01', strtotime('+1 year')));
-				$this->db->where('schedule.waktu <=', date('Y-12-31', strtotime('+1 year')));
+			case 'last_year':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-01-01") AND DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-12-31")');
 				break;
 			case 'custom':
 				$startDate = $this->input->post('startDate');
@@ -301,7 +295,7 @@ class M_schedule extends CI_Model
 
 
 	//Must we Try
-	public function merk_absent_if_no_checkin() {
+	/*public function merk_absent_if_no_checkin() {
 		$currentDate = date('Y-m-d');
 		$currentTime = date('H:i:s');
 
@@ -326,7 +320,7 @@ class M_schedule extends CI_Model
 		}
 
 		return count($missedSchedules); // Mengembalikan jumlah jadwal yang diperbarui
-	}
+	}*/
 
 	public function get_checked_in_schedule_ids() {
 		$this->db->select('id_schedule');
@@ -344,7 +338,6 @@ class M_schedule extends CI_Model
 
 	//END
 
-
 	public function totalAbsentLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{
 		$today = $tanggal;
@@ -360,7 +353,6 @@ class M_schedule extends CI_Model
 
 		return $count;
 	}
-
 	
 	public function totalAttendance($id, $tanggal1, $tanggal2)
 	{
@@ -385,7 +377,6 @@ class M_schedule extends CI_Model
 
 		return $count;
 	}
-
 
 	public function totalScheduleByStatusV2_get($id,  $tanggal1, $tanggal2, $status)
 	{
@@ -418,9 +409,6 @@ class M_schedule extends CI_Model
 		return $count;
 	}
 
-
-
-
 	public function totalAbsentThisMonthByEmployeeId_get($id)
 	{
 		$currentMonth = date('m');
@@ -448,4 +436,247 @@ class M_schedule extends CI_Model
 		return $count;
 	}
 
+
+	//===========================================SCHEDULE UNATTENDANCE ======================
+
+
+	private function _filterUnAttendanceDATE($type)
+	{
+		switch ($type) {
+			case 'today':
+				$this->db->where('DATE(schedule.waktu) = CURDATE()');
+				break;
+			case 'yesterday':
+				$this->db->where('DATE(schedule.waktu) = CURDATE() - INTERVAL 1 DAY');
+				break;
+			case 'this_week':
+				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday this week')));
+				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday this week')));
+				break;
+			case 'last_week':
+				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday last week')));
+				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday last week')));
+				break;
+			case 'this_month':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
+				break;
+			case 'last_month':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
+				break;
+			case 'this_year':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
+				break;
+			case 'last_year':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-01-01") AND DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-12-31")');
+				break;
+			case 'custom':
+				$startDate = $this->input->post('startDate1');
+				$endDate = $this->input->post('endDate1');
+				if ($startDate && $endDate) {
+					$this->db->where('schedule.waktu >=', $startDate);
+					$this->db->where('schedule.waktu <=', $endDate);
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	public function getUnAttendanceDataCore_get()
+	{
+
+		$option = $this->input->post('option1', true);
+		$product = $this->input->post('product1', true);
+
+		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.name, employee.id_product, products.name_product, employee.id_division, division.name_division, employee.id_position, position.name_position');
+
+
+		$this->db->where('schedule.status', 1);
+
+		if($product != '' || !empty($product)) {
+			$this->db->where('employee.id_product', $product);
+		}
+		$this->db->from('schedule');
+		$this->db->join('employee', 'employee.id_employee = schedule.id_employee', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('position', 'position.id_position = employee.id_position', 'left');
+		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		if(!empty($option) ){
+			$this->_filterUnAttendanceDATE($option);
+		}
+
+
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (@$_POST['search']['value']) {
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if (count($this->column_search) - 1 === $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else {
+			$this->db->order_by(key($this->order), $this->order[key($this->order)]);
+		}
+
+
+	}
+
+	public function get_datatables1()
+	{
+		$this->getUnAttendanceDataCore_get();
+		if (@$_POST['length'] != -1) {
+			$this->db->limit(@$_POST['length'], @$_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+	public function count_filtered1()
+	{
+		$this->getUnAttendanceDataCore_get();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+
+	public function count_all1()
+	{
+		$this->db->from('schedule');
+		return $this->db->count_all_results();
+	}
+
+
+	//===========================================SCHEDULE DAYOFF ================================
+
+	private function _filterDayOffDATE($type)
+	{
+		switch ($type) {
+			case 'today':
+				$this->db->where('DATE(schedule.waktu) = CURDATE()');
+				break;
+			case 'yesterday':
+				$this->db->where('DATE(schedule.waktu) = CURDATE() - INTERVAL 1 DAY');
+				break;
+			case 'this_week':
+				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday this week')));
+				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday this week')));
+				break;
+			case 'last_week':
+				$this->db->where('schedule.waktu >=', date('Y-m-d', strtotime('monday last week')));
+				$this->db->where('schedule.waktu <=', date('Y-m-d', strtotime('sunday last week')));
+				break;
+			case 'this_month':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
+				break;
+			case 'last_month':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
+				break;
+			case 'this_year':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
+				break;
+			case 'last_year':
+				$this->db->where('schedule.waktu BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-01-01") AND DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-12-31")');
+				break;
+			case 'custom':
+				$startDate = $this->input->post('startDate2');
+				$endDate = $this->input->post('endDate2');
+				if ($startDate && $endDate) {
+					$this->db->where('schedule.waktu >=', $startDate);
+					$this->db->where('schedule.waktu <=', $endDate);
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	public function getDayOffDataCore_get()
+	{
+
+		$option = $this->input->post('option2', true);
+		$product = $this->input->post('product2', true);
+		$status = $this->input->post('status', true);
+
+		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.name, employee.id_product, products.name_product, employee.id_division, division.name_division, employee.id_position, position.name_position');
+
+
+		if($product != '' || !empty($product)) {
+			$this->db->where('employee.id_product', $product);
+		}
+		if($product != '' || !empty($status)) {
+			$this->db->where('schedule.status', $status);
+		} else {
+			$this->db->where_in('schedule.status', [2, 4, 5]);
+		}
+		$this->db->from('schedule');
+		$this->db->join('employee', 'employee.id_employee = schedule.id_employee', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('position', 'position.id_position = employee.id_position', 'left');
+		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		if(!empty($option) ){
+			$this->_filterDayOffDATE($option);
+		}
+
+
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (@$_POST['search']['value']) {
+				if ($i === 0) {
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if (count($this->column_search) - 1 === $i) {
+					$this->db->group_end();
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} else {
+			$this->db->order_by(key($this->order), $this->order[key($this->order)]);
+		}
+
+
+	}
+
+	public function get_datatables2()
+	{
+		$this->getDayOffDataCore_get();
+		if (@$_POST['length'] != -1) {
+			$this->db->limit(@$_POST['length'], @$_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+	public function count_filtered2()
+	{
+		$this->getDayOffDataCore_get();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+
+	public function count_all2()
+	{
+		$this->db->from('schedule');
+		return $this->db->count_all_results();
+	}
 }

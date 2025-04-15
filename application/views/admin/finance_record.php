@@ -784,7 +784,7 @@
 
                             var totalAmountTable = [
                                 [
-                                    { text: 'Product Type', style: 'tableHeader', alignment: 'left', fontSize: '10' },
+                                    { text: 'Record Type', style: 'tableHeader', alignment: 'left', fontSize: '10' },
                                     { text: 'Product', style: 'tableHeader', alignment: 'left', fontSize: '10' },
                                     { text: 'Total Amount', style: 'tableHeader', alignment: 'left', fontSize: '10' },
                                 ]
@@ -849,7 +849,7 @@
 									},
 									{
 										width: '50%',
-										text: '\n\n\nDibuat oleh,\nStaf Keuangan',
+										text: '\n\n\nDibuat oleh,\nBagian Keuangan',
 										alignment: 'center',
 										margin: [0, 40, 80, 0],
 									}
@@ -859,13 +859,13 @@
 								columns: [
 									{
 										width: '50%',
-										text: '\n\n( Ara Suhara )',
+										text: '\n\n( Ara Suhara Sudrajat S.H )',
 										alignment: 'center',
 										margin: [20, 40, 0, 0],
 									},
 									{
 										width: '50%',
-										text: '\n\n( Amel )',
+										text: '\n\n( Amelia Gita Rahayu	 )',
 										alignment: 'center',
 										margin: [0, 40, 80, 0],
 									}

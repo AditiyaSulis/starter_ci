@@ -210,9 +210,15 @@
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
-                    <a href="<?= base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
-                        <img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>" class="h-100px logo" />
-                    </a>
+					<?php if($user['role'] != 3): ?>
+						<a href="<?= base_url('admin/dashboard/dashboard_page?with_alerts=1')?>">
+							<img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>" class="h-100px logo" />
+						</a>
+					<?php else:?>
+						<a href="<?= base_url('admin/absence/absence/absence_page')?>">
+							<img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>" class="h-100px logo" />
+						</a>
+					<?php endif;?>
                     <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
                         data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
                         data-kt-toggle-name="aside-minimize">

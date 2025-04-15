@@ -24,6 +24,8 @@
 								</div>
 								<div class="fw-bold text-gray-800">
 									This Month</div>
+								<div class="fw-bold text-active-gray-100 text-sm">
+									Maxs 2/month</div>
 							</div>
 
 							<div class="col-md-6  d-flex justify-content-center align-items-center">
@@ -46,6 +48,8 @@
 								</div>
 								<div class="fw-bold text-gray-800">
 									This Year</div>
+								<div class="fw-bold text-gray-800">
+									Maxs 12/year</div>
 							</div>
 							<div class="col-md-6  d-flex justify-content-center align-items-center">
 								<h1><i class="bi bi-calendar-month-fill" style="color:cornflowerblue; font-size: 3rem;" ></i></h1>

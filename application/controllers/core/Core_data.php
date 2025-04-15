@@ -20,7 +20,9 @@ class Core_data extends MY_Controller{
         $this->load->model('M_attendance');
         $this->load->model('M_service_teknisi');
         $this->load->model('M_batch_uang_makan');
+        $this->load->model('M_products');
         $this->load->model('M_uang_makan');
+        $this->load->model('M_schedule');
     }
 
 	public function data_piutang()
@@ -904,7 +906,7 @@ class Core_data extends MY_Controller{
 			$row[] = $piutang;
 			$row[] = $finance_record;
 			$row[] = $telat;
-			$row[] = date('d M Y', strtotime($item['tanggal_gajian']));
+			$row[] = date('d M Y', strtotime($item['periode_gajian'])) . '-' . date('d M Y', strtotime($item['tanggal_gajian']));
 			$row[] = $action;
 			$data[] = $row;
 		}
@@ -1159,7 +1161,8 @@ class Core_data extends MY_Controller{
 									Potong
 							</a>
 								 ';
-			}
+			} 
+
 
 			$time_management = $item['time_management'] == true ? '<span class="badge bg-success"  style="width: 70px;">On Time</span>' : '<span class="badge bg-warning"  style="width: 70px;">Telat</span>';
 
@@ -1470,6 +1473,108 @@ class Core_data extends MY_Controller{
 		];
 
 		echo json_encode($output);
+	}
+
+
+	public function data_unattendance()
+	{
+		$startDate = $this->input->post('startDate1', true);
+		$endDate = $this->input->post('endDate1', true);
+		
+
+		$list = $this->M_schedule->get_datatables1();
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach ($list as $item) {
+
+			
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = $item['name'];
+			$row[] = $item['name_product'];
+			$row[] = $item['name_workshift'].' ';
+			$row[] = $item['clock_in'];
+			$row[] =  date('d M Y', strtotime($item['waktu']));
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" => @$_POST['draw'],
+			"recordsTotal" => $this->M_schedule->count_all1(),
+			"recordsFiltered" => $this->M_schedule->count_filtered1(),
+			"startDate" => $startDate,
+			"endDate" => $endDate,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+
+	}
+
+	public function data_schedule_dayoff()
+	{
+		$startDate = $this->input->post('startDate2', true);
+		$endDate = $this->input->post('endDat2', true);
+
+		$list = $this->M_schedule->get_datatables2();
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach ($list as $item) {
+			$status_type = '';
+
+			if($item['status'] == 2 ) {
+				$status_type = '
+							 
+								  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
+									  Day Off
+								  </span>
+							 
+							';
+			} else if($item['status'] == 4 ) {
+				$status_type = '
+							 
+								  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
+									  Cuti
+								  </span>
+							 
+							';
+			} else if($item['status' ]== 5 ) {
+				$status_type = '
+							  
+								  <span class="badge btn-info btn-sm " style="width : 50px">
+									  Izin
+								  </span>
+							 
+							';
+			}
+
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = $item['name'];
+			$row[] = $item['name_product'];
+			$row[] = $item['name_division'].' ';
+			$row[] = $status_type;
+			$row[] =  date('d M Y', strtotime($item['waktu']));
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" => @$_POST['draw'],
+			"recordsTotal" => $this->M_schedule->count_all2(),
+			"recordsFiltered" => $this->M_schedule->count_filtered2(),
+			"startDate" => $startDate,
+			"endDate" => $endDate,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+
 	}
 
 }

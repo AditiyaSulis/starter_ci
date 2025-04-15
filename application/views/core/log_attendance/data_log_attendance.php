@@ -44,7 +44,7 @@
 				<option value="telat_masuk">Telat masuk</option>
 			</select>
 		</div>
-		<?php if($employee == '' || empty($employee) ): ?>
+		<?php if($employee == 'false' ): ?>
 		<div class="col-sm-4 col-md-2 mb-3">
 			<label class="form-label">Product :</label>
 			<select id="filterProduct" class="form-select form-select-sm">

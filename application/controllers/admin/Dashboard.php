@@ -36,7 +36,10 @@ class Dashboard extends MY_Controller{
 
 		$data['employee'] = 'false';
 		$data['view_log_attendance'] = 'core/log_attendance/data_log_attendance';
+		$data['view_unattendance'] = 'core/unattendance/data_unattendance';
+		$data['view_schedule_dayoff'] = 'core/schedule_dayoff/data_schedule_dayoff';
 		$data['izin_pending'] = $this->M_izin->count_pending_get();
+		$data['products'] = $this->M_products->findAll_get();
 
 
 

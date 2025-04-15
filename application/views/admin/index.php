@@ -241,6 +241,29 @@
 				<?php $this->load->view($view_log_attendance)?>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="row">
+					<h3 class="mt-8">Data Karyawan Belum Hadir</h3>
+					<div class="row ">
+						<div class="col-lg-12 col-md-12">
+							<?php $this->load->view($view_unattendance)?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="row">
+					<h3 class="mt-8">Data Libur Karyawan</h3>
+					<div class="row ">
+						<div class="col-lg-12 col-md-12">
+							<?php $this->load->view($view_schedule_dayoff)?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<!-- Modal datatables -->
