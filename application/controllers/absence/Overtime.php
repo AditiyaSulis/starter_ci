@@ -240,10 +240,7 @@ class Overtime extends MY_Controller{
 		$this->form_validation->set_rules('status', 'status', 'required', [
 			'required' => 'Status harus diisi',
 		]);
-		$this->form_validation->set_rules('pay', 'pay', 'required', [
-			'required' => 'Status harus diisi',
-		]);
-
+	
 
 		if ($this->form_validation->run() == false) {
 			$response = [

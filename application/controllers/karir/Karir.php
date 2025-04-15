@@ -280,8 +280,8 @@ class Karir extends MY_Controller{
 			$row[] = $item->posisi;
 			$row[] = $item->lokasi_penempatan;
 			$row[] = $item->gaji;
-			$row[] = $item->kualifikasi;
-			$row[] = $item->benefit;
+			$row[] = substr($item->kualifikasi,0, 15).'. . .';
+			$row[] = substr($item->benefit, 0,15).'. . .';
 			$row[] = $item->jam_kerja;
 			$row[] = $item->whatsapp;
 			$row[] = $item->email;

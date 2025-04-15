@@ -104,8 +104,6 @@
 	let endDate1 = '';
 
 
-
-
 	function callDT1() {
 		const base_urla = $('meta[name="base_url"]').attr('content');
 		table1 = $('#unattendance_table').DataTable({
