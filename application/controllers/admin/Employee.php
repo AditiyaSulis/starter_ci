@@ -45,6 +45,24 @@ class Employee extends MY_Controller{
 
     }
 
+	public function employee_data_page($id)
+	{
+		$this->_ONLYSELECTED([1,2]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Employee Data';
+		$data['view_name'] = 'admin/employee_data';
+		$data['breadcrumb'] = 'Employee - Employee Data';
+		$data['menu'] = '';
+
+		$data['employees'] = $this->M_employees->findByIdJoin_get($id);
+
+		if($data['user']){
+			$this->load->view('templates/index',$data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+		}
+	}
 
     public function add_employees()
     {
@@ -681,6 +699,8 @@ class Employee extends MY_Controller{
 			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
 		}
 	}
+
+
     public function dtSideServer() 
     {
         $product = $this->input->post('product'); 
@@ -743,7 +763,11 @@ class Employee extends MY_Controller{
                         </a>
                         <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-emp" onclick="handleDeleteButton('.htmlspecialchars($item['id_employee']).')" style="width : 70px">
                             DELETE
-                        </button>
+                        </button> 
+                    
+                         <a href="'.base_url('admin/employee/employee_data_page/'.$item['id_employee']).'" class="btn btn-info btn-sm mb-2 rounded-pill btn-employee-data" style="width : 70px">
+                            DETAIL
+                        </a>
                      ';   
 
             $bank_info = '<button 

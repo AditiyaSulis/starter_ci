@@ -249,6 +249,32 @@ class M_overtime extends CI_Model
 
 		return $query->total_overtime ?? 0;
 	}
-	
+
+	public function totalOvertimeByEmployeeId_get($id)
+	{
+		$curentDate = date('Y');
+
+		$this->db->select_sum('time_spend', 'total_overtime');
+		$this->db->where('status', 2);
+		$this->db->where('YEAR(tanggal)', $curentDate);
+		$this->db->where('id_employee', $id);
+		$query = $this->db->get('overtime')->row();
+
+		return $query->total_overtime ?? 0;
+	}
+
+
+	public function totalOvertimeThisMonthByEmployeeId_get($id)
+	{
+		$curentDate = date('m');
+
+		$this->db->select_sum('time_spend', 'total_overtime');
+		$this->db->where('status', 2);
+		$this->db->where('MONTH(tanggal)', $curentDate);
+		$this->db->where('id_employee', $id);
+		$query = $this->db->get('overtime')->row();
+
+		return $query->total_overtime ?? 0;
+	}
 
 }

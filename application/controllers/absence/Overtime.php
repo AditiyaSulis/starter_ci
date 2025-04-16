@@ -27,6 +27,8 @@ class Overtime extends MY_Controller{
 		$data['employee'] = $id['id_employee'];
 		$data['view_data'] = 'core/overtime/data_overtime';
 		$data['view_components'] = 'core/overtime/data_overtime_components';
+		$data['total_overtime_this_month'] = $this->M_overtime->totalOvertimeThisMonthByEmployeeId_get($id['id_employee']);
+		$data['total_overtime'] = $this->M_overtime->totalOvertimeByEmployeeId_get($id['id_employee']);
 
 		if($data['user']) {
 			$this->load->view('templates/index' ,$data);

@@ -172,19 +172,29 @@
 
 			<div class="modal-body">
 				<!-- Header Info -->
-				<div class="text-center mb-4">
-					<div class="row justify-content-center align-items-center">
-						<div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
-							<img id="logoProduct" src="<?= base_url('uploads/products/compressed/2aa82d30d575861616920a6ad9c99edd.png') ?>" class="img-fluid" style="max-height: 120px;" alt="Logo Produk">
-						</div>
-						<div class="col-12 col-sm-8 text-start">
-							<h4 id="name_product" class="mb-1 fw-bold"></h4>
-							<div><strong>Periode:</strong> <span id="periode_gajian"></span> - <span id="tanggal_gajian"></span></div>
-							<div><small id="kode" class="text-muted"></small></div>
-						</div>
+				<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-align: left;">
+					<!-- Logo -->
+					<div style="flex: 0 0 auto; margin-right: 20px;">
+						<img id="logoProduct"
+							 src="<?= base_url('uploads/products/compressed/2aa82d30d575861616920a6ad9c99edd.png') ?>"
+							 style="max-height: 100px;"
+							 alt="Logo Produk">
 					</div>
-					<hr class="mt-4">
+
+					<!-- Teks -->
+					<div>
+						<h4 id="name_product" style="margin: 0 0 5px 0; font-weight: bold;"></h4>
+						<div style="margin-bottom: 4px;">
+							<strong>Periode:</strong> <span id="periode_gajian"></span> - <span id="tanggal_gajian"></span>
+						</div>
+						<div><small id="kode" style="color: #888;"></small></div>
+					</div>
 				</div>
+
+				<hr>
+
+
+
 
 				<!-- Employee Info -->
 				<div class="mb-4">
@@ -252,7 +262,7 @@
 
 					<!-- Gaji Bersih -->
 					<div class="mt-5 bg-primary bg-opacity-25 p-3 rounded">
-					<table class="table table-bordered text-center align-middle table-striped">
+						<table class="table table-bordered text-center align-middle table-striped">
 							<thead class="table-light">
 							<tr>
 								<th>Perhitungan Gaji Bersih</th>
@@ -277,6 +287,23 @@
 						</table>
 					</div>
 				</div>
+
+				<!-- Tanda Tangan -->
+				<div class="mt-15">
+					<div class="row text-center">
+						<div class="col-md-6">
+							<p class="mb-15">Mengetahui,<br><strong>HRD</strong></p>
+							<hr style="width: 60%; margin: 0 auto;">
+							<span class="text-sm">Ara Suhara Sudrajat S.H</span>
+						</div>
+						<div class="col-md-6">
+							<p class="mb-15">Disetujui,<br><strong>Bagian Keuangan</strong></p>
+							<hr class="mt-10" style="width: 60%; margin: 0 auto;">
+							<span class="text-sm">Amelia Gita Rahayu</span>
+						</div>
+					</div>
+				</div>
+
 			</div>
 
 			<!-- Footer -->

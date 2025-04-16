@@ -1,3 +1,30 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<style>
+	/* Select2 custom style biar mirip Bootstrap 5 */
+	.select2-container .select2-selection--single {
+		height: calc(2.5rem + 2px); /* Tinggi seperti form-control */
+		padding: 0.375rem 0.75rem;
+		font-size: 1rem;
+		line-height: 1.5;
+		color: #212529;
+		background-color: #fff;
+		border: 1px solid #ced4da;
+		border-radius: 0.375rem;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__rendered {
+		color: #212529;
+		line-height: 2.4rem;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__arrow {
+		height: 100%;
+		right: 10px;
+	}
+
+</style>
+
 <?php
 $status_leave = isset($_GET['status_leave']) ? $_GET['status_leave'] : 3;
 ?>
@@ -101,11 +128,12 @@ $status_leave = isset($_GET['status_leave']) ? $_GET['status_leave'] : 3;
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Karyawan</span>
 						</div>
+
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="id_employee" id="id_employee">
-								<option selected>-pilih karyawan-</option>
+							<select class="form-control select2 w-100" aria-label="Default select example" name="id_employee" id="id_employee" >
+								<option></option> <!-- kosong untuk placeholder -->
 								<?php foreach($employees as $emp):?>
-								<option value="<?=$emp['id_employee'];?>"><?=$emp['name'];?></option>
+									<option value="<?=$emp['id_employee'];?>"><?=$emp['name'];?>  (<?=$emp['name_product']?>)</option>
 								<?php endforeach;?>
 							</select>
 						</div>
@@ -213,5 +241,12 @@ $status_leave = isset($_GET['status_leave']) ? $_GET['status_leave'] : 3;
 			});
 		})
 
+
+		$('#id_employee').select2({
+			placeholder: "-pilih karyawan-",
+			allowClear: true,
+			width: '100%',
+			dropdownParent: $('#addproduct') // atau parent lain yang sesuai
+		});
 	</script>
 </main>

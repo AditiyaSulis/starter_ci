@@ -287,4 +287,30 @@ class M_izin extends CI_Model {
 		return $count;
 	}
 
+
+	public function totalIzin_get()
+	{
+		$currentYear = date('Y');
+
+		$count = $this->db
+			->where('status', 2)
+			->where('YEAR(tanggal_izin)', $currentYear)
+			->count_all_results('day_off');
+
+
+		return $count;
+	}
+	public function totalIzinThisMonth_get()
+	{
+		$currentYear = date('m');
+
+		$count = $this->db
+			->where('status', 2)
+			->where('MONTH(tanggal_izin)', $currentYear)
+			->count_all_results('day_off');
+
+
+		return $count;
+	}
+
 }

@@ -18,8 +18,8 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="S">
-												3
+											<span class="text-success" data-category-id="<?=$total_cuti_this_month?>">
+												<?=$total_cuti_this_month?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">

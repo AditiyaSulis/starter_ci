@@ -19,7 +19,7 @@
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
 											<span class="text-success" data-category-id="">
-												0
+												<?=$this_month?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">
@@ -41,7 +41,7 @@
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
 											<span class="text-success" data-category-id="0">
-												0
+												<?=$this_year?>
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">

@@ -59,21 +59,22 @@ if($schedule) {
 
 	<h1>Absence</h1>
 
-	<ul class="nav nav-tabs mt-8">
-		<li class="nav-item">
-			<a class="nav-link active text-info" aria-current="page" href="<?=base_url('absence/absence/absence_page')?>">Kehadiran</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link  text-dark" href="<?=base_url('absence/attendance/attendance_page')?>">Rekap Kehadiran</a>
-		</li>
-	</ul>
+
 
 	<div class="row mt-12">
-		<div class="col-md-8 mb-4 col-sm-12">
+		<ul class="nav nav-tabs mb-8 order-md-1 order-2 mt-sm-8">
+			<li class="nav-item">
+				<a class="nav-link active text-info" aria-current="page" href="<?=base_url('absence/absence/absence_page')?>">Kehadiran</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link  text-dark" href="<?=base_url('absence/attendance/attendance_page')?>">Rekap Kehadiran</a>
+			</li>
+		</ul>
+		<div class="col-md-8 mb-4 col-sm-12 order-md-1 order-3">
 			<h4>Data Kehadiran Hari Ini</h4>
 				<?php $this->load->view($view_log_attendance); ?>
 		</div>
-		<div class="col-md-4 mb-4 col-sm-12">
+		<div class="col-md-4 mb-4 col-sm-12 order-md-2 order-1">
 			<div class="card text-center">
 				<div class="card-header d-flex justify-content-center pt-4">
 					<h5 class="card-title">Attendance</h5>

@@ -865,7 +865,7 @@
 									},
 									{
 										width: '50%',
-										text: '\n\n( Amelia Gita Rahayu	 )',
+										text: '\n\n( Amelia Gita Rahayu )',
 										alignment: 'center',
 										margin: [0, 40, 80, 0],
 									}

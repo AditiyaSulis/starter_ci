@@ -18,8 +18,8 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="S">
-												3 Hours
+											<span class="text-success" data-category-id="<?=$total_overtime_this_month?>">
+												<?=$total_overtime_this_month?> Hours
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">
@@ -40,8 +40,8 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="">
-												4 Hours
+											<span class="text-success" data-category-id="<?=$total_overtime?>">
+												<?=$total_overtime?> Hours
 											</span>
 								</div>
 								<div class="fw-bold text-gray-800">

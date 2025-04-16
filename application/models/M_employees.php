@@ -17,8 +17,7 @@ class M_employees extends CI_Model {
             employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee,
             employee.contract_expired, employee.gender, employee.place_of_birth, employee.date_of_birth,
             employee.basic_salary, employee.uang_makan, employee.type_uang_makan, employee.email, employee.id_position, employee.id_division,
-            division.id_division, division.code_division, position.id_position, division.name_division, position.name_position,
-            employee.status, products.id_product, products.name_product,
+            employee.status, division.name_division, position.name_position, admin.avatar, products.id_product, products.name_product,
             address.id_address, address.kabupaten, address.desa, address.kecamatan, address.blok, address.spesifik, address.kode_pos,
             domisili.id_domisili, domisili.kabupaten_domisili, domisili.desa_domisili, domisili.kecamatan_domisili,
             domisili.blok_domisili, domisili.spesifik_domisili, domisili.kode_pos_domisili
@@ -29,10 +28,10 @@ class M_employees extends CI_Model {
         $this->db->join('products', 'products.id_product = employee.id_product', 'left');
         $this->db->join('position', 'position.id_position = employee.id_position', 'left');
         $this->db->join('division', 'division.id_division = employee.id_division', 'left');
-        $this->db->join('domisili', 'domisili.id_employee = employee.id_employee', 'left');  // Menggunakan RIGHT JOIN
-        $this->db->join('address', 'address.id_employee = employee.id_employee', 'left');  // Menggunakan RIGHT JOIN
-        $this->db->order_by('products.name_product', 'ASC');  
-        $this->db->order_by('employee.name', 'ASC');  
+        $this->db->join('domisili', 'domisili.id_employee = employee.id_employee', 'left');
+        $this->db->join('address', 'address.id_employee = employee.id_employee', 'left');
+        $this->db->join('admin', 'admin.email = employee.email', 'left');
+
         
         return $this->db->get()->row_array();
     }

@@ -81,7 +81,7 @@
 							<span>Karyawan</span>
 						</div>
 						<div class="fv-row mb-8">
-							<select class="form-select" aria-label="Default select example" name="id_employee[]" id="id_employee" multiple>
+							<select class="form-select overflow-auto" aria-label="Default select example" name="id_employee[]" id="id_employee" multiple>
 
 							</select>
 						</div>

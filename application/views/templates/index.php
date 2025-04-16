@@ -215,7 +215,7 @@
 							<img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>" class="h-100px logo" />
 						</a>
 					<?php else:?>
-						<a href="<?= base_url('admin/absence/absence/absence_page')?>">
+						<a href="<?= base_url('absence/absence/absence_page')?>">
 							<img alt="Logo" src="<?= base_url('asset/media/logos/logo_transparent.png')?>" class="h-100px logo" />
 						</a>
 					<?php endif;?>

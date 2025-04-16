@@ -29,6 +29,7 @@ class Leave extends MY_Controller{
 		$emp = $this->M_employees->findByEmail_get($email);
 		$data['employee'] = $emp['id_employee'];
 		$data['total_cuti'] = $this->M_leave->totalLeaveByEmployeeId_get($emp['id_employee']);
+		$data['total_cuti_this_month'] = $this->M_leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
 
 		$data['view_data'] = 'core/leave/data_leave';
 		$data['view_components'] = 'core/leave/data_leave_components';
@@ -54,7 +55,7 @@ class Leave extends MY_Controller{
 
 		$data['products'] = $this->M_products->findAll_get();
 		$data['employee'] = 'false';
-		$data['employees'] = $this->M_employees->findAll_get();
+		$data['employees'] = $this->M_employees->findAllJoin_get();
 
 		$data['this_month'] = $this->M_leave->totalLeaveThisMonth_get();
 		$data['this_year'] = $this->M_leave->totalLeave_get();

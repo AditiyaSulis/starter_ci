@@ -9,47 +9,47 @@
 		<div class="row">
 			<div class="col-lg-1 col-md-1 ms-10 me-10 mt-14">
 				<div class="image-input image-input-outline shadow" data-kt-image-input="true">
-					<div class="image-input-wrapper w-125px h-125px bgi-position-center" style="background-size: 95%; background-image: url('<?=base_url('asset/media/background/bg_blue_sea.jpg')?>')"></div>
+					<div class="image-input-wrapper w-125px h-125px bgi-position-center" style="background-size: 95%; background-image: url('<?=base_url('uploads/avatar/'.$employees['avatar'] ==null || empty($employees['avatar']) ? '20fa8f15cecb411184ecb29b07b84a83.jpg' : $employees['avatar'])?>')"></div>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 ms-6 px-10 py-lg-10 py-md-10">
 				<div class="mb-3">
 					<label for="nama" class="form-label small">Nama :</label>
-					<input type="text" class="form-control form-control-sm" id="nama">
+					<input type="text" value="<?=$employees['name']?>" disabled class="form-control form-control-sm" id="nama" >
 				</div>
 
 				<div class="mb-4">
 					<label for="tempat_lahir" class="form-label small">Tempat & tanggal lahir :</label>
-					<input type="text" class="form-control form-control-sm" id="tempat_lahir">
+					<input type="text" value="<?=$employees['place_of_birth'].' '.date('d M Y', strtotime($employees['date_of_birth']));?>" disabled class="form-control form-control-sm" id="tempat_lahir">
 				</div>
 
 				<div class="mb-4">
 					<label for="gender" class="form-label small">Gender :</label>
-					<input type="text" class="form-control form-control-sm" id="gender">
+					<input type="text" value="<?= $employees['gender'] == 'L'? 'Pria' : 'Wanita' ?>" disabled class="form-control form-control-sm" id="gender">
 				</div>
 				<div class="mb-4">
 					<label for="product" class="form-label small">Product :</label>
-					<input type="text" class="form-control form-control-sm" id="product">
+					<input type="text" value="<?=$employees['name_product']?>" disabled class="form-control form-control-sm" id="product">
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 ms-6 px-10 py-md-10 py-lg-10">
 				<div class="mb-4">
 					<label for="tanggal_masuk" class="form-label small">Tanggal Masuk :</label>
-					<input type="text" class="form-control form-control-sm" id="tanggal_masak">
+					<input type="text" value="<?= $employees['date_in'] ==null? '-' : $employees['date_in'] ?>" disabled class="form-control form-control-sm" id="tanggal_masak">
 				</div>
 
 				<div class="mb-4">
 					<label for="nip" class="form-label small">NIP :</label>
-					<input type="text" class="form-control form-control-sm" id="nip">
+					<input type="text" value="<?= $employees['nip'] ==null? '-' : $employees['nip'] ?>" disabled class="form-control form-control-sm" id="nip">
 				</div>
 
 				<div class="mb-4">
 					<label for="divisi" class="form-label small">Divisi :</label>
-					<input type="text" class="form-control form-control-sm" id="divisi">
+					<input type="text" value="<?= $employees['name_division'] ==null? '-' : $employees['name_division'] ?>" disabled class="form-control form-control-sm" id="divisi">
 				</div>
 				<div class="mb-4">
 					<label for="posisi" class="form-label small">Posisi :</label>
-					<input type="text" class="form-control form-control-sm" id="posisi">
+					<input type="text" value="<?= $employees['name_position'] ==null? '-' : $employees['name_position'] ?>" disabled class="form-control form-control-sm" id="posisi">
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 ms-6 px-10 py-md-10 py-lg-10">
@@ -188,6 +188,8 @@
 				</div>
 			</div>
 		</div>
+
+
 
 
 	</div>

@@ -36,7 +36,7 @@
 					</div>
 
 					<div class="d-grid mb-10">
-						<button type="submit" id="submit_product" class="btn btn-primary">
+						<button type="submit" id="submit_status" class="btn btn-primary">
                                             <span class="indicator-label">
                                                     Set Status
                                             </span>
