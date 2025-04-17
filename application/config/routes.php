@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 // $route['admin/product/delete'] = 'admin/products/delete';
 $route['panel'] = 'fetch/login';
+$route['absence/dayoff/set_status'] = 'absence/DayOff/set_status';
 $route['absence/dayoff/day_off_page'] = 'absence/DayOff/day_off_page';
 $route['absence/dayoff/su_day_off_page'] = 'absence/DayOff/su_day_off_page';
 $route['absence/data/dataizin/emp_data_izin_page'] = 'absence/data/DataIzin/emp_data_izin_page';
