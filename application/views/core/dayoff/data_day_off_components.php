@@ -118,7 +118,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'absence/dayoff/delete',
+					url: base_url + 'absence/DayOff/delete',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {

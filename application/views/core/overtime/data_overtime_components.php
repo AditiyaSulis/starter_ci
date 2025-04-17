@@ -135,7 +135,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'absence/overtime/delete',
+					url: base_url + 'absence/Overtime/delete',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {
@@ -179,7 +179,7 @@
 		$("#setStatusOvertimeForm").on("submit", function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: base_url + "absence/overtime/set_status",
+				url: base_url + "absence/Overtime/set_status",
 				type: "POST",
 				data: $(this).serialize(),
 				dataType: "json",

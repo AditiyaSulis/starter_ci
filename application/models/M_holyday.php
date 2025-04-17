@@ -27,7 +27,7 @@ class M_holyday extends CI_Model
 
 	public function findAllWithJoin_get()
 	{
-		$this->db->select('holyday.id_holyday, holyday.id_division, holyday.id_product, holyday.start_day, holyday.type_group, holyday.date, holyday.code_holyday, holyday.type_day, holyday.end_day, division.id_division, division.name_division, products.id_product, products.name_product');
+		$this->db->select('holyday.id_holyday, holyday.id_division, holyday.id_product, holyday.start_day, holyday.type_group, holyday.date, holyday.status_day, holyday.code_holyday, holyday.type_day, holyday.end_day, division.id_division, division.name_division, products.id_product, products.name_product');
 		$this->db->from('holyday');
 		$this->db->join('division', 'division.id_division = holyday.id_division', 'left');
 		$this->db->join('products', 'products.id_product = holyday.id_product', 'left');
@@ -121,7 +121,7 @@ class M_holyday extends CI_Model
 		$option = $this->input->post('option', true);
 		$product = $this->input->post('product', true);
 
-		$this->db->select('holyday.id_holyday, holyday.id_division, holyday.id_product, holyday.start_day, holyday.type_group, holyday.type_day, holyday.date, holyday.code_holyday, holyday.end_day, division.id_division, division.name_division, products.id_product, products.name_product');
+		$this->db->select('holyday.id_holyday, holyday.id_division, holyday.id_product, holyday.start_day, holyday.type_group, holyday.type_day, holyday.date, holyday.status_day, holyday.code_holyday, holyday.end_day, division.id_division, division.name_division, products.id_product, products.name_product');
 		$this->db->from('holyday');
 		$this->db->join('division', 'division.id_division = holyday.id_division', 'left');
 		$this->db->join('products', 'products.id_product = holyday.id_product', 'left');

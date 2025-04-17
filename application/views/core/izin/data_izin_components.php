@@ -167,7 +167,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'absence/data/dataizin/delete',
+					url: base_url + 'absence/data/DataIzin/delete',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {
@@ -212,7 +212,7 @@
 		$("#setStatusIzinForm").on("submit", function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: base_url + "absence/data/dataizin/set_status",
+				url: base_url + "absence/data/DataIzin/set_status",
 				type: "POST",
 				data: $(this).serialize(),
 				dataType: "json",
@@ -263,7 +263,7 @@
 			var formData = new FormData(formElement);
 
 			$.ajax({
-				url: base_url + "absence/data/dataizin/update_bukti",
+				url: base_url + "absence/data/DataIzin/update_bukti",
 				type: "POST",
 				data: formData,
 				dataType: "json",

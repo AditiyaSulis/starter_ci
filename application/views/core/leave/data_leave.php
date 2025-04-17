@@ -111,7 +111,7 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: base_urls + 'core/core_data/data_leave',
+				url: base_urls + 'core/Core_data/data_leave',
 				type: 'POST',
 				data: function(d) {
 					d.option = $('#filterSelect').val();

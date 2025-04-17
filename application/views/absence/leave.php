@@ -101,7 +101,7 @@
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/leave/add_leave') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/Leave/add_leave') ?>" enctype="multipart/form-data">
 						<input type="hidden" value="<?= $user['email']?>" name="id_employee" autocomplete="off" class="form-control bg-transparent"/>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Tanggal Input</span>

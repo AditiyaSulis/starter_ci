@@ -124,7 +124,7 @@ $status_leave = isset($_GET['status_leave']) ? $_GET['status_leave'] : 3;
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/leave/su_add_leave') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/Leave/su_add_leave') ?>" enctype="multipart/form-data">
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Karyawan</span>
 						</div>

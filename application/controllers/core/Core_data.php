@@ -774,7 +774,7 @@ class Core_data extends MY_Controller{
                      ';
 
 			$type_day =  $item['type_day'] == 1 ? 'Single Day' : 'Multiple Days';
-			$jenis_libur =  $item['type_day'] == 2 ? 'Libur Minggu' : 'Libur Nasional';
+			$jenis_libur =  $item['status_day'] == 2 ? 'Libur Minggu' : 'Libur Nasional';
 			$end_day =  $item['type_day'] == 1 ? '-' : date('d M Y', strtotime($item['end_day']));
 
 			$row = [];

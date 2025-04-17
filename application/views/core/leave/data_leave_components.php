@@ -122,7 +122,7 @@
 			if (result.isConfirmed) {
 				const base_url = $('meta[name="base_url"]').attr('content');
 				$.ajax({
-					url: base_url + 'absence/leave/delete',
+					url: base_url + 'absence/Leave/delete',
 					type: 'POST',
 					data: { id: id },
 					success: function(response) {
@@ -168,7 +168,7 @@
 		$("#setStatusLeaveForm").on("submit", function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: base_url + "absence/leave/set_status",
+				url: base_url + "absence/Leave/set_status",
 				type: "POST",
 				data: $(this).serialize(),
 				dataType: "json",
