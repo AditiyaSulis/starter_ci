@@ -31,7 +31,7 @@
             <h2 class="accordion-header" id="kt_accordion_1_header_1">
                 <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#kt_accordion_1_body_1" aria-expanded="false" aria-controls="kt_accordion_1_body_1">
-                    <span class="fw-bolder">Summary Total Amount By Category</span>
+                    <span class="fw-bolder">Summary of Total Amount by Category</span>
                 </button>
             </h2>
             <div id="kt_accordion_1_body_1" class="accordion-collapse collapse"
@@ -839,38 +839,54 @@
                                 margin: [10, 5, 0, 10],
                             });
 
-							doc.content.push({
-								columns: [
-									{
-										width: '50%',
-										text: '\n\n\nMengetahui,\nHRD',
-										alignment: 'center',
-										margin: [20, 40, 0, 0],
-									},
-									{
-										width: '50%',
-										text: '\n\n\nDibuat oleh,\nBagian Keuangan',
-										alignment: 'center',
-										margin: [0, 40, 80, 0],
-									}
-								]
-							});
-							doc.content.push({
-								columns: [
-									{
-										width: '50%',
-										text: '\n\n( Ara Suhara Sudrajat S.H )',
-										alignment: 'center',
-										margin: [20, 40, 0, 0],
-									},
-									{
-										width: '50%',
-										text: '\n\n( Amelia Gita Rahayu )',
-										alignment: 'center',
-										margin: [0, 40, 80, 0],
-									}
-								]
-							});
+							// Baris jabatan
+doc.content.push({
+	columns: [
+		{
+			width: '33.3%',
+			text: '\n\n\nMengetahui,\nHRD',
+			alignment: 'center',
+			margin: [0, 40, 0, 0], // Atas 40, posisi rata
+		},
+		{
+			width: '33.3%',
+			text: '\n\n\nDisetujui oleh,\nPimpinan',
+			alignment: 'center',
+			margin: [0, 40, 0, 0],
+		},
+		{
+			width: '33.3%',
+			text: '\n\n\nDibuat oleh,\nBagian Keuangan',
+			alignment: 'center',
+			margin: [0, 40, 0, 0],
+		}
+	]
+});
+
+// Baris tanda tangan
+doc.content.push({
+	columns: [
+		{
+			width: '33.3%',
+			text: '\n\n( Ara Suhara Sudrajat S.H )',
+			alignment: 'center',
+			margin: [0, 60, 0, 0], // Atas 60 agar ada jarak tanda tangan
+		},
+		{
+			width: '33.3%',
+			text: '\n\n( Ari Hermawan )',
+			alignment: 'center',
+			margin: [0, 60, 0, 0],
+		},
+		{
+			width: '33.3%',
+			text: '\n\n( Amelia Gita Rahayu )',
+			alignment: 'center',
+			margin: [0, 60, 0, 0],
+		}
+	]
+});
+
                         }
 
 
