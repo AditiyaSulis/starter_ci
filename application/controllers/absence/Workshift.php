@@ -19,7 +19,7 @@ class Workshift extends MY_Controller{
 		$data['title'] = 'Workshift';
 		$data['view_name'] = 'absence/data/workshift';
 		$data['breadcrumb'] = 'Workshift';
-		$data['menu'] = 'Data';
+		$data['menu'] = '';
 
 
 		$data['workshift'] = $this->M_workshift->findAll_get();
@@ -201,14 +201,14 @@ class Workshift extends MY_Controller{
 
 		$id = $this->input->post('id');
 
-//		if($this->M_workshift->findByWorkshiftId_get($id) ){
-//			$response = [
-//				'status' => false,
-//				'message' => 'Code ini tidak bisa dihapus karena memiliki relasi dengan tabel lain '
-//			];
-//			echo json_encode($response);
-//			return;
-//		}
+		//		if($this->M_workshift->findByWorkshiftId_get($id) ){
+		//			$response = [
+		//				'status' => false,
+		//				'message' => 'Code ini tidak bisa dihapus karena memiliki relasi dengan tabel lain '
+		//			];
+		//			echo json_encode($response);
+		//			return;
+		//		}
 
 
 		if($this->M_workshift->delete($id)){

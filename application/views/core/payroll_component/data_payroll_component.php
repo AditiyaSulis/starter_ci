@@ -187,7 +187,7 @@
 							columns: [
 								{
 									width: '50%',
-									text: '\n\n\nMengetahui,\nHRD',
+									text: '\n\n\nDisetujui,\nPimpinan',
 									alignment: 'center',
 									margin: [20, 40, 0, 0],
 								},
@@ -203,7 +203,7 @@
 							columns: [
 								{
 									width: '50%',
-									text: '\n\n( Ara Suhara Sudrajat S.H )',
+									text: '\n\n( Ari Hermawan)',
 									alignment: 'center',
 									margin: [20, 40, 0, 0],
 								},

@@ -714,11 +714,11 @@ class Employee extends MY_Controller{
 
 			$type = '';
 			if ($item['type_employee'] == 1) {
-				$type = 'Kontrak';
+				$type = '<span class="badge bg-success"  style="width: 80px;">Kontrak</span>';
 			} else if ($item['type_employee'] == 2) {
-				$type = 'Magang';
+				$type = '<span class="badge bg-info"  style="width: 80px;">Magang</span>';
 			} else {
-				$type = 'Permanent';
+				$type = '<span class="badge bg-primary"  style="width: 80px;">Permanent</span>';
 			}
 
 			$type_uang_makan = '';
@@ -730,7 +730,7 @@ class Employee extends MY_Controller{
 				$type_uang_makan = 'Bulan';
 			}
 
-
+			
 			$contract = $item['contract_expired'] == null ? '-' : '<button 
                             class="btn btn-warning btn-sm rounded-pill btn-ec" 
                             data-bs-toggle="modal" 

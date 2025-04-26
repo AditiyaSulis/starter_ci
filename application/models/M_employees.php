@@ -14,13 +14,13 @@ class M_employees extends CI_Model {
 
     public function findByIdJoin_get($id) {
         $this->db->select('
-            employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee,
+            employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee, employee.no_hp,
             employee.contract_expired, employee.gender, employee.place_of_birth, employee.date_of_birth,
             employee.basic_salary, employee.uang_makan, employee.type_uang_makan, employee.email, employee.id_position, employee.id_division,
             employee.status, division.name_division, position.name_position, admin.avatar, products.id_product, products.name_product,
             address.id_address, address.kabupaten, address.desa, address.kecamatan, address.blok, address.spesifik, address.kode_pos,
             domisili.id_domisili, domisili.kabupaten_domisili, domisili.desa_domisili, domisili.kecamatan_domisili,
-            domisili.blok_domisili, domisili.spesifik_domisili, domisili.kode_pos_domisili
+            domisili.blok_domisili, domisili.spesifik_domisili, domisili.kode_pos_domisili, pph_config.id_ptkp, pph_config.nik, pph_config.npwp, ptkp.code_ptkp, ptkp.keterangan_ptkp, ptkp.pot_ptkp, bpjs_config.no_bpjs
         ');
     
         $this->db->from('employee');
@@ -31,6 +31,9 @@ class M_employees extends CI_Model {
         $this->db->join('domisili', 'domisili.id_employee = employee.id_employee', 'left');
         $this->db->join('address', 'address.id_employee = employee.id_employee', 'left');
         $this->db->join('admin', 'admin.email = employee.email', 'left');
+        $this->db->join('pph_config', 'pph_config.id_employee = employee.id_employee', 'left');
+        $this->db->join('ptkp', 'ptkp.id_ptkp = pph_config.id_ptkp', 'left');
+        $this->db->join('bpjs_config', 'bpjs_config.id_employee =  employee.id_employee', 'left');
 
         
         return $this->db->get()->row_array();
@@ -172,7 +175,7 @@ class M_employees extends CI_Model {
     {
 		$employee = $this->input->post('employee');
 
-        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee, employee.no_hp , employee.contract_expired, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.type_uang_makan, employee.email, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility, address.id_address, address.kabupaten, address.desa, address.kecamatan, address.blok, address.spesifik, address.kode_pos,
+        $this->db->select('employee.id_employee, employee.date_in, employee.nip, employee.name, employee.type_employee, employee.no_hp, employee.contract_expired, employee.gender, employee.place_of_birth, employee.date_of_birth, employee.basic_salary, employee.uang_makan, employee.type_uang_makan, employee.email, employee.id_position, employee.id_division, division.id_division, position.id_position, division.name_division, position.name_position, employee.status, products.id_product, products.name_product, products.visibility, address.id_address, address.kabupaten, address.desa, address.kecamatan, address.blok, address.spesifik, address.kode_pos,
             domisili.id_domisili, domisili.kabupaten_domisili, domisili.desa_domisili, domisili.kecamatan_domisili,
             domisili.blok_domisili, domisili.spesifik_domisili, domisili.kode_pos_domisili, pph_config.id_pph_config, pph_config.nik, pph_config.npwp, pph_config.id_ptkp, bpjs_config.id_bpjs_config, bpjs_config.no_bpjs, ptkp.code_ptkp, ptkp.keterangan_ptkp, ptkp.pot_ptkp');
 

@@ -1,3 +1,38 @@
+<?php 
+
+	switch($employees['type_employee']){
+		case 1: 
+			$empType = 'Kontrak';
+			break;
+		case 2:
+			$empType = 'Magang';
+			break;
+		case 3: 
+			$empType ='Permanent';
+			break;
+		default:
+			$empType = 'Tidak diketahui';
+			break;
+	}
+	switch($employees['type_uang_makan']){
+		case 1: 
+			$empUangMakanType = 'Hari';
+			break;
+		case 2:
+			$empUangMakanType = 'Minggu';
+			break;
+		case 3: 
+			$empUangMakanType ='Bulan';
+			break;
+		default:
+			$empUangMakanType = 'Tidak diketahui';
+			break;
+	}
+
+	$avatar = $employees['avatar'] =='' || empty($employees['avatar']) ? '20fa8f15cecb411184ecb29b07b84a83.jpg' : $employees['avatar'];
+
+?>
+
 <main>
 	<h1>Employee</h1>
 
@@ -9,7 +44,7 @@
 		<div class="row">
 			<div class="col-lg-1 col-md-1 ms-10 me-10 mt-14">
 				<div class="image-input image-input-outline shadow" data-kt-image-input="true">
-					<div class="image-input-wrapper w-125px h-125px bgi-position-center" style="background-size: 95%; background-image: url('<?=base_url('uploads/avatar/'.$employees['avatar'] ==null || empty($employees['avatar']) ? '20fa8f15cecb411184ecb29b07b84a83.jpg' : $employees['avatar'])?>')"></div>
+					<div class="image-input-wrapper w-125px h-125px bgi-position-center" style="background-size: 95%; background-image: url('<?=base_url('uploads/avatar/'.$avatar)?>')"></div>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 ms-6 px-10 py-lg-10 py-md-10">
@@ -54,22 +89,20 @@
 			</div>
 			<div class="col-lg-3 col-md-3 ms-6 px-10 py-md-10 py-lg-10">
 				<div class="mb-4">
-					<label for="tanggal_masuk" class="form-label small">Type:</label>
-					<input type="text" class="form-control form-control-sm" id="type">
+					<label for="type" class="form-label small">Type:</label>
+					<input type="text"  value="<?= $empType ?>" class="form-control form-control-sm" id="type">
 				</div>
-
 				<div class="mb-4">
 					<label for="nip" class="form-label small">Contract :</label>
-					<input type="text" class="form-control form-control-sm" id="nip">
+					<input type="text" value="<?= $employees['contract_expired'] ==null? '-' : $employees['contract_expired'] ?>" class="form-control form-control-sm" id="nip">
 				</div>
-
 				<div class="mb-4">
 					<label for="gender" class="form-label small">Gaji :</label>
-					<input type="text" class="form-control form-control-sm" id="gender">
+					<input type="text" value="Rp.<?= $employees['basic_salary'] ==null? '-' : number_format($employees['basic_salary'], 0 , ',', '.') ?>"  class="form-control form-control-sm" id="basic_salary">
 				</div>
 				<div class="mb-4">
 					<label for="uang_makan" class="form-label small">Uang Makan :</label>
-					<input type="text" class="form-control form-control-sm" id="uang_makan">
+					<input type="text" value="Rp.<?= $employees['uang_makan'] ==null? '-' : number_format($employees['uang_makan'], 0 , ',', '.') ?>/<?=$empUangMakanType?>"  class="form-control form-control-sm" id="uang_makan">
 				</div>
 			</div>
 		</div>
@@ -82,32 +115,32 @@
 			<div class="col-md-5 col-lg-5 ms-6 px-10 pb-md-5 pb-lg-5">
 				<div class="mb-3">
 					<label for="kabupaten_asal" class="form-label small">Kabupaten/Kota :</label>
-					<input type="text" class="form-control form-control-sm" id="kabupaten_asal">
+					<input type="text" value="<?= $employees['kabupaten'] ==null? '-' : $employees['kabupaten'] ?>"  class="form-control form-control-sm" id="kabupaten_asal">
 				</div>
 
 				<div class="mb-4">
 					<label for="kecamatan_asal" class="form-label small">Kecamatan :</label>
-					<input type="text" class="form-control form-control-sm" id="kecamatan_asal">
+					<input type="text" value="<?= $employees['kecamatan'] ==null? '-' : $employees['kecamatan'] ?>" class="form-control form-control-sm" id= "kecamatan_asal">
 				</div>
 
 				<div class="mb-4">
 					<label for="desa" class="form-label small">Desa :</label>
-					<input type="text" class="form-control form-control-sm" id="desa">
+					<input type="text" value="<?= $employees['desa'] ==null? '-' : $employees['desa'] ?>"   class="form-control form-control-sm" id="desa">
 				</div>
 				<div class="mb-4">
 					<label for="blok" class="form-label small">Blok :</label>
-					<input type="text" class="form-control form-control-sm" id="blok">
+					<input type="text" value="<?= $employees['blok'] ==null? '-' : $employees['blok'] ?>" class="form-control form-control-sm" id="blok">
 				</div>
 			</div>
 			<div class="col-md-5 col-lg-5 ms-6 px-2 pb-md-5 pb-lg-5">
 				<div class="mb-3">
 					<label for="nama" class="form-label small">Kode Pos :</label>
-					<input type="text" class="form-control form-control-sm" id="type">
+					<input type="text" value="<?= $employees['kode_pos'] ==null? '-' : $employees['kode_pos'] ?>" class="form-control form-control-sm" id="type">
 				</div>
 
 				<div class="mb-4">
 					<label for="contract" class="form-label small">Alamat Lengkap :</label>
-					<textarea class="form-control form-control-sm" id="spesifik" style="height: 100px" > </textarea>
+					<textarea class="form-control form-control-sm" id="spesifik" style="height: 100px" ><?= $employees['spesifik'] ==null? '-' : $employees['spesifik'] ?></textarea>
 				</div>
 
 			</div>
@@ -122,32 +155,32 @@
 			<div class="col-md-5 col-lg-5 ms-6 px-10 pb-md-5 pb-lg-5">
 				<div class="mb-3">
 					<label for="kabupaten_asal" class="form-label small">Kabupaten/Kota :</label>
-					<input type="text" class="form-control form-control-sm" id="kabupaten_domisili">
+					<input type="text" value="<?= $employees['kabupaten_domisili'] ==null? '-' : $employees['kabupaten_domisili'] ?>" class="form-control form-control-sm" id="kabupaten_domisili">
 				</div>
 
 				<div class="mb-4">
 					<label for="kecamatan_asal" class="form-label small">Kecamatan :</label>
-					<input type="text" class="form-control form-control-sm" id="kecamatan_domisili">
+					<input type="text" value="<?= $employees['kecamatan_domisili'] ==null? '-' : $employees['kecamatan_domisili'] ?>" class="form-control form-control-sm" id="kecamatan_domisili">
 				</div>
 
 				<div class="mb-4">
 					<label for="desa" class="form-label small">Desa :</label>
-					<input type="text" class="form-control form-control-sm" id="desadomisili">
+					<input type="text" value="<?= $employees['desa_domisili'] ==null? '-' : $employees['desa_domisili'] ?>" class="form-control form-control-sm" id="desadomisili">
 				</div>
 				<div class="mb-4">
 					<label for="blok" class="form-label small">Blok :</label>
-					<input type="text" class="form-control form-control-sm" id="blokdomisili">
+					<input type="text" value="<?= $employees['blok_domisili'] ==null? '-' : $employees['blok_domisili'] ?>" class="form-control form-control-sm" id="blokdomisili">
 				</div>
 			</div>
 			<div class="col-md-5 col-lg-5 ms-6 px-2 pb-md-5 pb-lg-5">
 				<div class="mb-3">
 					<label for="nama" class="form-label small">Kode Pos :</label>
-					<input type="text" class="form-control form-control-sm" id="kodeposdomisili">
+					<input type="text" value="<?= $employees['kode_pos_domisili'] ==null? '-' : $employees['kode_pos_domisili'] ?>" class="form-control form-control-sm" id="kodeposdomisili">
 				</div>
 
 				<div class="mb-4">
 					<label for="contract" class="form-label small">Alamat Lengkap :</label>
-					<textarea class="form-control form-control-sm" id="spesifik" style="height: 100px" > </textarea>
+					<textarea class="form-control form-control-sm" id="spesifik" style="height: 100px" > <?= $employees['spesifik_domisili'] ==null? '-' : $employees['spesifik_domisili'] ?> </textarea>
 				</div>
 
 			</div>
@@ -162,29 +195,29 @@
 			<div class="col-md-5 col-lg-5 ms-6 px-10 pb-md-5 pb-lg-5">
 				<div class="mb-3">
 					<label for="kabupaten_asal" class="form-label small">No.Hp:</label>
-					<input type="text" class="form-control form-control-sm" id="no_hp">
+					<input type="text" value="<?= $employees['no_hp'] ==null? '-' : $employees['no_hp'] ?>" class="form-control form-control-sm" id="no_hp">
 				</div>
 				<div class="mb-4">
 					<label for="kecamatan_asal" class="form-label small">Email :</label>
-					<input type="text" class="form-control form-control-sm" id="email">
+					<input type="text" value="<?= $employees['email'] ==null? '-' : $employees['email'] ?>" class="form-control form-control-sm" id="email">
 				</div>
 				<div class="mb-4">
 					<label for="desa" class="form-label small">BPJS :</label>
-					<input type="text" class="form-control form-control-sm" id="BPJS">
+					<input type="text"  value="<?= $employees['no_bpjs'] ==null? '-' : $employees['no_bpjs'] ?>" class="form-control form-control-sm" id="BPJS">
 				</div>
 				<div class="mb-4">
 					<label for="blok" class="form-label small">Jenis PPH :</label>
-					<input type="text" class="form-control form-control-sm" id="jenis_pph">
-				</div>
+					<input type="text"  value="<?= $employees['code_ptkp'] ==null? '-' : $employees['code_ptkp'] ?> - <?= $employees['keterangan_ptkp'] ==null? '-' : $employees['keterangan_ptkp'] ?>" class="form-control form-control-sm" id="jenis_pph">
+				</div> 
 			</div>
 			<div class="col-md-5 col-lg-5 ms-6 px-2 pb-md-5 pb-lg-5">
 				<div class="mb-3">
 					<label for="nama" class="form-label small">NIK :</label>
-					<input type="text" class="form-control form-control-sm" id="NIK">
+					<input type="text" value="<?= $employees['nik'] ==null? '-' : $employees['nik'] ?>" class="form-control form-control-sm" id="NIK">
 				</div>
 				<div class="mb-4">
 					<label for="contract" class="form-label small">NPWP :</label>
-					<input type="text" class="form-control form-control-sm" id="NPWWP">
+					<input type="text" value="<?= $employees['npwp'] ==null? '-' : $employees['no_bpjs'] ?>" class="form-control form-control-sm" id="NPWWP">
 				</div>
 			</div>
 		</div>

@@ -82,14 +82,15 @@ class M_admin extends CI_Model {
    }
 
 
-   public function createuser_post($data)
-    {
-        if ($this->db->insert('admin', $data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+  
+    public function createuser_post($data)
+	{
+		if ($this->db->insert('admin', $data)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
    public function findById_get($id)
@@ -142,10 +143,11 @@ class M_admin extends CI_Model {
    }
    
 
-   public function delete($id)
+    public function delete($id)
     {
         return $this->db->delete('admin', ['id' => $id]);
     } 
+
 
     public function deleteByEmail($email)
     {
@@ -189,6 +191,7 @@ class M_admin extends CI_Model {
 		}
 
 	}
+
 
 	public function get_datatables($role = null, $product = null)
 	{

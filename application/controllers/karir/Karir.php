@@ -38,7 +38,6 @@ class Karir extends MY_Controller{
 		$this->form_validation->set_rules('id_product', 'id_poduct', 'required', [
 			'required' => 'Product harus diisi',
 		]);
-
 		$this->form_validation->set_rules('posisi', 'posisi', 'required', [
 			'required' => 'posisi tidak boleh kosong',
 		]);

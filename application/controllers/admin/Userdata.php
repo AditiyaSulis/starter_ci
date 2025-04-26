@@ -596,10 +596,10 @@ class Userdata extends MY_Controller{
 		$data = $this->_basicData();
 
 
-		$data['title'] = 'Add Account';
+		$data['title'] = 'Account Management';
 		$data['view_name'] = 'login/signup';
 		$data['menu'] = '';
-		$data['breadcrumb'] = 'Add Account';
+		$data['breadcrumb'] = 'Account Management';
 		$data['product'] = $this->M_products->findAll_get();
 		if($data['user']){
 			$this->load->view('templates/index', $data);

@@ -46,10 +46,6 @@ if($schedule) {
 }
 
 
-
-
-
-
 ?>
 
 
@@ -58,8 +54,6 @@ if($schedule) {
 
 
 	<h1>Absence</h1>
-
-
 
 	<div class="row mt-12">
 		<ul class="nav nav-tabs mb-8 order-md-1 order-2 mt-sm-8">

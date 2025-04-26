@@ -475,7 +475,7 @@
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Data Workshift' ? "active": ""?>" href="<?=base_url('absence/workshift/workshift_page')?>">
+									<a class="menu-link <?= $title == 'Workshift' ? "active": ""?>" href="<?=base_url('absence/workshift/workshift_page')?>">
 								<span class="menu-icon">
 									<span class="svg-icon svg-icon-2">
 										<i class="bi bi-calendar-range"></i>
@@ -490,6 +490,7 @@
 						<?php endif;?>
 
 
+						
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
 									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">TRANSACTION</span>
@@ -564,7 +565,21 @@
 						</div>
 						<?php endif;?>
 
-						<?php if($user['role'] == 1||$user['role'] == 2): ?>
+						<?php if($user['role'] == 1||$user['role'] == 2): ?> 
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Cashflow' ? "active": ""?>" href="<?=base_url('admin/Cashflow/cashflow_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-currency-exchange"></i>
+											</span>
+										</span>
+										<span class="menu-title">Kas Kecil</span>
+									</a>
+								</div>
+							</div>
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
@@ -744,7 +759,7 @@
 
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
-									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">CARIER CENTER</span>
+									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">CARRIER CENTER</span>
 								</div>
 							</div>
 
@@ -752,13 +767,13 @@
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Carier' ? "active": ""?>" href="<?=base_url('karir/Karir/carrier_page')?>">
+									<a class="menu-link <?= $title == 'Carrier' ? "active": ""?>" href="<?=base_url('karir/Karir/carrier_page')?>">
 										<span class="menu-icon">
 											<span class="svg-icon svg-icon-2">
 												<i class="bi bi-person-plus"></i>
 											</span>
 										</span>
-										<span class="menu-title">Carier</span>
+										<span class="menu-title">Carrier</span>
 									</a>
 								</div>
 							</div>
@@ -776,11 +791,10 @@
 								</div>
 							</div>
 
-
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Add User' ? "active": ""?>" href="<?=base_url('admin/userdata/signup')?>">
+									<a class="menu-link <?= $title == 'Account Management' ? "active": ""?>" href="<?=base_url('admin/userdata/signup')?>">
 										<span class="menu-icon">
 											<span class="svg-icon svg-icon-2">
 												<i class="bi bi-person-plus"></i>
@@ -966,7 +980,7 @@
                             class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-end">
                             <div class="text-dark order-2 order-md-1">
                                 <span class="text-muted fw-bold me-1">2025 ©</span>
-                                <a href="" target="_blank" class="text-gray-800 text-hover-primary">HRIS</a>
+                                <a href="" target="_blank" class="text-gray-800 text-hover-primary">HRIS CV Multi Graha Radhika</a>
                             </div>
                         </div>
                     </div>

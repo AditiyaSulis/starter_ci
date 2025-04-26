@@ -288,7 +288,7 @@
 	<?php $this->load->view($view_components);?>
 
 	<script>
-		const base_url = $('meta[name="base_url"]').attr('content');
+		const base_url = $('meta[name="base_url"]').attr('content'); 
 
 		function showJatuhTempo(){
 

@@ -20,147 +20,10 @@
 		width: auto !important;
 		max-width: none !important;
 	}
-	}
+	
 </style>
 
-<!-- Modal Rincian Gaji -->
-<!--MODAL LAMA :-->
-<!-- <div class="modal fade" id="rincianModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Slip Gaji Karyawan</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="d-flex flex-column align-items-center text-center mb-4">
-					<div class="row d-flex align-items-center justify-content-center">
-						<div class="col-auto">
-							<img id="logoProduct" src="<?= base_url('uploads/products/compressed/2aa82d30d575861616920a6ad9c99edd.png')?>" width="200px" height="140px" alt="">
-						</div>
-						<div class="col-auto text-start">
-							<h4 id="name_product"></h4>
-							<div class="d-flex">
-								<h6>Periode : &nbsp;</h6>
-								<h6 id="periode_gajian"></h6>
-								<h6> - </h6>
-								<h6 id="tanggal_gajian"></h6>
-							</div>
-							<div class="d-flex">
-								<span id="kode" class="text-sm"></span>
-							</div>
-						</div>
-						<br>
-						<hr>
-					</div>
-				</div>
-				<div class="row mb-1 mt-10">
-					<div class="col-1 col-md-1"><span>NIP </span></div>
-					<div class="col-6 col-md-6"><span> : </span><span id="nip_employee" class="ms-4"></div>
-				</div>
-				<div class="row mb-1">
-					<div class="col-1 col-md-1"><span>Nama </span></div>
-					<div class="col-6 col-md-6"><span> : </span><span id="name_employee" class="ms-4"></span></div>
-				</div>
-				<div class="row mb-1">
-					<div class="col-1 col-md-1"><span>Product </span></div>
-					<div class="col-6 col-md-6"><span> : </span><span id="product_employee" class="ms-4"></span></div>
-				</div>
-				<div class="row mb-1">
-					<div class="col-1 col-m-1"><span>Divisi </span></div>
-					<div class="col-6 col-md-6"><span> : </span><span id="division_employee" class="ms-4"></div>
-				</div>
-				<div class="row mb-1">
-					<div class="col-1 col-md-1"><span>Position </span></div>
-					<div class="col-6 col-md-6"><span> : </span><span id="position_employee" class="ms-4"></div>
-				</div>
 
-				<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
-					<div class="row">
-						<div class="col-md-5 col-5">
-							<h3>Penghasilan</h3>
-							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Gaji Pokok </span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="gaji_pokok" class="ms-4"></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Uang Makan </span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="uang_makan" class="ms-4"></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Lembur</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="lembur" class="ms-4"></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Bonus</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="bonus" class="ms-4"></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-4 col-md-4"><span>Total Gaji</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="total_gaji" class="ms-4"></div>
-							</div>
-						</div>
-						<div class="col-md-7 col-7">
-							<h2>Potongan</h2>
-							<div class="row mb-1">
-								<div class="col-5 col-md-5"><span>Potongan Tidak Hadir</span></div>
-								<div class="col-7 col-md-7"><span> = </span><span id="total_pot_absen" class="ms-4 fw-bolder"> </span>(<span id="pot_absen"> </span> x <span id="absen_pc"></span>)</div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-5 col-md-5"><span>Potongan Kasbon</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="pot_kasbon" class="ms-4 fw-bolder"> </span></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-5 col-md-5"><span>Keterlambatan</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="pot_telat" class="ms-4 fw-bolder"> </span></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-5 col-md-5"><span>Potongan Uang makan</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="pot_uang_makan" class="ms-4 fw-bolder"> </span></div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-5 col-md-5"><span>Total Potongan</span></div>
-								<div class="col-6 col-md-6"><span> = </span><span id="total_potongan" class="ms-4"></div>
-							</div>
-						</div>
-					</div>
-
-					<div class="table-responsive mt-5">
-						<table id="table" class="table table-bordered table-striped text-center align-middle table-success" style="width:100%">
-							<thead class="bg-light-primary">
-								<tr>
-									<th>Gaji Bersih</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										Total Gaji - Total Potongan - PPH = Gaji Bersih
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<span id="rms_total_gaji"></span> - <span id="rms_potongan_gaji"> </span> -  <span id="pot_pph"> </span> = <span id="gaji_bersih"></span>
-									</td>
-								</tr>
-								<tr>
-									<td id="gaji_bersih_anda" class="fw-bolder">
-
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-			</div>
-			<div class="modal-footer">
-				<button id="downloadPdfBtn" class="btn btn-primary">Download PDF</button>
-			</div>
-		</div>
-	</div>
-</div> -->
-<!--END MODAL LAMA-->
 <!--MODAL BARU-->
 <div class="modal fade" id="rincianModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
@@ -292,12 +155,12 @@
 				<div class="mt-15">
 					<div class="row text-center">
 						<div class="col-md-6">
-							<p class="mb-15">Mengetahui,<br><strong>HRD</strong></p>
+							<p class="mb-15">Disetujui,<br><strong>Pimpinan</strong></p>
 							<hr style="width: 60%; margin: 0 auto;">
-							<span class="text-sm">Ara Suhara Sudrajat S.H</span>
+							<span class="text-sm">Arti Herrmawan</span>
 						</div>
 						<div class="col-md-6">
-							<p class="mb-15">Disetujui,<br><strong>Bagian Keuangan</strong></p>
+							<p class="mb-15">Dibuat oleh,<br><strong>Bagian Keuangan</strong></p>
 							<hr class="mt-10" style="width: 60%; margin: 0 auto;">
 							<span class="text-sm">Amelia Gita Rahayu</span>
 						</div>

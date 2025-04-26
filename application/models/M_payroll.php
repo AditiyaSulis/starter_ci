@@ -20,10 +20,12 @@ class M_payroll extends CI_Model
 		return $this->db->get_where('payroll', ['id_payroll' => $id])->row_array();
 	}
 
+
 	public function findByCode_get($code)
 	{
 		return $this->db->get_where('payroll', ['code_payroll' => $code])->result_array();
 	}
+
 
 	public function findAllWithJoin_get()
 	{
@@ -31,7 +33,6 @@ class M_payroll extends CI_Model
 		$this->db->from('payroll');
 		$this->db->join('payroll_component', 'payroll_component.id_payroll = payroll.id_payroll', 'left');
 		$this->db->order_by('payroll.input_at', 'ASC');
-
 
 		return $this->db->get()->result_array();
 	}

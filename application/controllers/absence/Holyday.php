@@ -52,11 +52,7 @@ class Holyday extends MY_Controller{
 			'required' => 'Type day harus diisi',
 			'is_unique' => 'Kode telah digunakan',
 		]);
-		//		$this->form_validation->set_rules('start_day', 'start_day', 'required', [
-		//			'required' => 'Tanggal Mulai harus diisi',
-		//		]);
-
-
+	
 
 		if ($this->form_validation->run() == FALSE) {
 			echo json_encode([

@@ -632,6 +632,7 @@
                 autoWidth: false,
                 processing: true,
                 serverSide: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 order: [],
                 ajax: {
                     url: base + 'admin/finance_record/dtSideServer',
@@ -840,52 +841,43 @@
                             });
 
 							// Baris jabatan
-doc.content.push({
-	columns: [
-		{
-			width: '33.3%',
-			text: '\n\n\nMengetahui,\nHRD',
-			alignment: 'center',
-			margin: [0, 40, 0, 0], // Atas 40, posisi rata
-		},
-		{
-			width: '33.3%',
-			text: '\n\n\nDisetujui oleh,\nPimpinan',
-			alignment: 'center',
-			margin: [0, 40, 0, 0],
-		},
-		{
-			width: '33.3%',
-			text: '\n\n\nDibuat oleh,\nBagian Keuangan',
-			alignment: 'center',
-			margin: [0, 40, 0, 0],
-		}
-	]
-});
+                           // Baris jabatan
+                            doc.content.push({ 
+                                unbreakable: true,
+                                columns: [
+                                    {
+                                        width: '50%',
+                                        text: '\n\n\nDisetujui oleh,\nPimpinan',
+                                        alignment: 'center',
+                                        margin: [0, 40, 0, 0],
+                                    },
+                                    {
+                                        width: '50%',
+                                        text: '\n\n\nDibuat oleh,\nBagian Keuangan',
+                                        alignment: 'center',
+                                        margin: [0, 40, 0, 0],
+                                    }
+                                ]
+                            });
 
-// Baris tanda tangan
-doc.content.push({
-	columns: [
-		{
-			width: '33.3%',
-			text: '\n\n( Ara Suhara Sudrajat S.H )',
-			alignment: 'center',
-			margin: [0, 60, 0, 0], // Atas 60 agar ada jarak tanda tangan
-		},
-		{
-			width: '33.3%',
-			text: '\n\n( Ari Hermawan )',
-			alignment: 'center',
-			margin: [0, 60, 0, 0],
-		},
-		{
-			width: '33.3%',
-			text: '\n\n( Amelia Gita Rahayu )',
-			alignment: 'center',
-			margin: [0, 60, 0, 0],
-		}
-	]
-});
+                            // Baris tanda tangan
+                            doc.content.push({
+                                columns: [
+                                    {
+                                        width: '50%',
+                                        text: '\n\n( Ari Hermawan )',
+                                        alignment: 'center',
+                                        margin: [0, 60, 0, 0],
+                                    },
+                                    {
+                                        width: '50%',
+                                        text: '\n\n( Amelia Gita Rahayu )',
+                                        alignment: 'center',
+                                        margin: [0, 60, 0, 0],
+                                    }
+                                ]
+                            });
+
 
                         }
 

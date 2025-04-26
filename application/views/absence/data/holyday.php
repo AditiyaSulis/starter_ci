@@ -34,7 +34,7 @@
 							<span>Kode Libur</span>
 						</div>
 						<div class="mb-4">
-							<input type="text" id="code_holyday" name="code_holyday" class="form-control bg-transparent"/>
+							<input type="text" id="code_holyday" value="HD<?=date('md')?><?=date('His')?><?=mt_rand(1,99)?>" name="code_holyday" class="form-control bg-transparent"/>
 						</div>
 
 						<div class="mb-2 fw-bolder text-gray-900">
@@ -196,8 +196,12 @@
 			typeHolyday.addEventListener('change', function () {
 				if (this.value === '1') {
 					endDate.style.display = 'none';
+					start.style.display = 'block';
+					selectDate.style.display = 'none'
 				} else if(this.value === '2') {
 					endDate.style.display = 'block';
+					start.style.display = 'block';
+					selectDate.style.display = 'none'
 					totalHari.value = 1;
 				} else {
 					selectDate.style.display = 'block'
