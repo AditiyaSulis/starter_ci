@@ -16,6 +16,7 @@ class Cashflow extends MY_Controller{
 	}
 
 
+
 	public function cashflow_page()
 	{
 		$this->_ONLYSELECTED([1,2]);
@@ -26,7 +27,7 @@ class Cashflow extends MY_Controller{
 		$data['breadcrumb'] = 'Kas Kecil';
 		$data['menu'] = '';
 
-		$data['categories'] = $this->M_categories->findAll_get();
+		$data['categories'] = $this->M_categories->findCashflow_get();
         $data['products'] = $this->M_products->findAll_get();
         $data['products_show'] = $this->M_products->findAllShow_get();
         $data['account_code'] = $this->M_account_code->findAll_get();
@@ -89,7 +90,7 @@ class Cashflow extends MY_Controller{
 		}
 
 
-		$kode = $this->M_cashflow->generateKode();
+		$kode = 'KAS-'. date('md').''.date('Hs').''.mt_rand(1,99);
 
 
 		$this->db->trans_start();
@@ -247,6 +248,26 @@ class Cashflow extends MY_Controller{
 
 
 
+	public function getFilteredSummary()
+    {
+        $filter = $this->input->post('option');
+        $startDate = $this->input->post('startDate');
+        $endDate = $this->input->post('endDate');
+        if($filter){
+            $categories = $this->M_cashflow->getTotalAmountByCategory($filter, $startDate, $endDate);
+            $products = $this->M_cashflow->getTotalAmountByProductAndCategory($filter, $startDate, $endDate);
+        } else {
+            $categories = $this->M_cashflow->getTotalAmountByCategory('this_month', $startDate, $endDate);
+            $products = $this->M_cashflow->getTotalAmountByProductAndCategory('this_month', $startDate, $endDate);
+        }
+        
+
+        echo json_encode([
+            'status' => true,
+            'categories' => $categories,
+            'products' => $products
+        ]);
+    }
 
 }
 

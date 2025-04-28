@@ -39,6 +39,68 @@
 	<h1>Kas</h1>
 
 
+    <div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 mt-3" id="card-container1">
+        <?php foreach ($categories as $category): ?>
+        <div class="col">
+            <div class="card bg-body ">
+                <div class="card-body py-4 ">
+                    <div class="text-gray-900 fw-bolder fs-2">
+                        <span class="text-success" data-category-id="<?= $category['id_kategori'] ?>">
+                            Rp.<?= isset($category['total_amount']) ? number_format($category['total_amount'], 0, ',', '.') : '0' ?>
+                        </span>
+                    </div>
+                    <div class="fw-bold text-gray-800">
+                        Total <?= $category['name_kategori'] ?></div>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+    <!--begin::Accordion-->
+    <div class="accordion" id="kt_accordion_1">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="kt_accordion_1_header_1">
+                <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#kt_accordion_1_body_1" aria-expanded="false" aria-controls="kt_accordion_1_body_1">
+                    <span class="fw-bolder">Summary of Total Amount by Category</span>
+                </button>
+            </h2>
+            <div id="kt_accordion_1_body_1" class="accordion-collapse collapse"
+                aria-labelledby="kt_accordion_1_header_1" data-bs-parent="#kt_accordion_1">
+                <div class="accordion-body">
+                    <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5" id="cardContainer1">
+                        <?php foreach ($products as $product): ?>
+                        <div class="col">
+                            <div class="card card-flush h-lg-100 ">
+                                <div class="card-header px-5 mb-0" style="min-height:55px !important">
+                                    <h3 class="card-title align-items-start flex-column mb-0">
+                                        <p class="fw-bold mb-0 text-primary"><?= $product['name_product'] ?></p>
+                                    </h3>
+                                </div>
+                                <div class="card-body px-5 pb-4 pt-0">
+                                    <?php foreach ($categories as $category): ?>
+                                    <div class="d-flex flex-stack">
+                                        <div class="text-gray-700 fw-semibold fs-6 me-2">
+                                            <?= $category['name_kategori'] ?>:</div>
+                                        <div class="d-flex align-items-senter">
+                                            <span class=" fw-bold fs-6 text-success"
+                                                data-product-id="<?= $product['id_product'] ?>"
+                                                data-category-id="<?= $category['id_kategori'] ?>">Rp.<?= number_format(0, 0, ',', '.') ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
 		<i class="bi bi-plus-circle"></i>
 		Tambah Kas
@@ -276,6 +338,51 @@
         let accID = '';
 
 
+        //MENAMPILKAN DATA KE CARD
+        function updateCards(filter, startdate, enddate) {
+            $.ajax({
+                url: base_url + 'admin/Cashflow/getFilteredSummary',
+                type: 'POST',
+                data: {
+                    option: filter,
+                    startDate: startdate,
+                    endDate: enddate
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status) {
+
+                        $('#card-container1 span').text('Rp.0');
+
+                        response.categories.forEach(category => {
+                            const span = $(`[data-category-id="${category.id_kategori}"]`);
+                            if (span.length) {
+                                span.text(`Rp.${(category.total_amount || 0).toLocaleString('id-ID')}`);
+                            }
+                        });
+
+                        $('#cardContainer1 span').text('Rp.0');
+
+                        // Perbarui produk untuk setiap kategori
+                        response.products.forEach(product => {
+                            const span = $(
+                                `[data-product-id="${product.id_product}"][data-category-id="${product.id_kategori}"]`
+                            );
+                            if (span.length) {
+                                span.text(`Rp.${(product.total_amount || 0).toLocaleString('id-ID')}`);
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', error, 'XHR:', xhr);
+                }
+            });
+        }
+
+        //INISIALISASI NILAI AWAL CARD
+        updateCards('this_month', null, null);
+
         ///DELETE 
          function handleDeleteKasButton(id) {
             console.log(id)
@@ -458,6 +565,16 @@
                             doc.styles.tableBodyOdd.fontSize = 8;
                             doc.styles.tableBodyEven.fontSize = 8;
                             doc.content[1].margin = [10, 15, 10, 10];
+
+                            // Format tabel dengan garis
+                            doc.content[1].layout = {
+								hLineWidth: function(i, node) { return 0.8; },
+								vLineWidth: function(i, node) { return 0.8; },
+								hLineColor: function(i, node) { return '#000000'; },
+								vLineColor: function(i, node) { return '#000000'; },
+								paddingTop: function(i, node) { return 6; },
+								paddingBottom: function(i, node) { return 6; }
+							};
 
                             // Tambahkan periode
                             let currentDate = new Date();
@@ -657,6 +774,7 @@
             $('#filterCode').html('<option value="" selected>-</option>');
            
             table.ajax.reload();
+            updateCards(option)
         });
 
 
@@ -693,6 +811,9 @@
 			allowClear: true,
 			width: '100%',
 			dropdownParent: $('#addproduct') // atau parent lain yang sesuai
-		});
+		}); 
+
+
+        
 	</script>
 </main>
