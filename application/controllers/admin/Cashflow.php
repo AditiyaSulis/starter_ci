@@ -12,7 +12,7 @@ class Cashflow extends MY_Controller{
 		$this->load->model('M_account_code');
 		$this->load->model('M_cashflow');
 		$this->load->model('M_finance_records');
-		$this->load->model('M_saldo');
+		
 	}
 
 
@@ -93,7 +93,7 @@ class Cashflow extends MY_Controller{
 
 
 		$this->db->trans_start();
-		//input data batch
+		//input data cashflow
 		$kas = [
 			'kode_cash_flow' => $kode,
 			'id_product' => $this->input->post('id_product', true),
@@ -143,7 +143,9 @@ class Cashflow extends MY_Controller{
 			}
 
 		}
+ 
 
+		
 
 		$this->db->trans_complete();
         //End Finance Record
