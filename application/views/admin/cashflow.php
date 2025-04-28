@@ -655,7 +655,7 @@
             $('#filterProduct').val('');
             $('#filterCategory').val('');
             $('#filterCode').html('<option value="" selected>-</option>');
-            updateCards(option)
+           
             table.ajax.reload();
         });
 

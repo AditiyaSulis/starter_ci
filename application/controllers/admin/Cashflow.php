@@ -21,9 +21,9 @@ class Cashflow extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$data = $this->_basicData();
 
-		$data['title'] = 'Cash Flow';
+		$data['title'] = 'Kas Kecil';
 		$data['view_name'] = 'admin/cashflow';
-		$data['breadcrumb'] = 'Cash Flow';
+		$data['breadcrumb'] = 'Kas Kecil';
 		$data['menu'] = '';
 
 		$data['categories'] = $this->M_categories->findAll_get();
