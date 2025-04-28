@@ -110,16 +110,14 @@ class Cashflow extends MY_Controller{
 			$this->db->trans_rollback();
 			echo json_encode([ 
 				'status' => false,
-				'message' => 'Gagal menginput data ke kas.',
+				'message' => 'Gagal menyimpan data ke kas',
 			]);
 			return;
 		}
-		
 
 		
 		$dataFinanceRecord = [];
 
-		
 
 		//Finance record Insert
 		if ($this->input->post('auto_finance_record') == 1) {
@@ -154,12 +152,12 @@ class Cashflow extends MY_Controller{
 		if ($this->db->trans_status() === FALSE) {
 			echo json_encode([
 				'status' => false,
-				'message' => 'Gagal menginput data ke kas kecil.',
+				'message' => 'Gagal menyimpan data ke kas kecil.',
 			]);
 		} else {
 			echo json_encode([
 				'status' => true,
-				'message' => 'Kas kecil berhasil dibuat',
+				'message' => 'Kas kecil berhasil dsimpan',
 			]);
 		}
 	}
@@ -172,8 +170,8 @@ class Cashflow extends MY_Controller{
 
 		$kas =$this->M_cashflow->findById_get($this->input->post('id', true)); 
 
-		if($this->M_cashflow->delete($kas['id_kas_kecil'])){
-			$finance_record = $this->M_finance_records->findByDesc_get($kas['kode_kas']);
+		if($this->M_cashflow->delete($kas['id_cash_flow'])){
+			$finance_record = $this->M_finance_records->findByDesc_get($kas['kode_cash_flow']);
 			if($finance_record){
 				$this->M_finance_records->delete($finance_record['id_record']);
 			}
