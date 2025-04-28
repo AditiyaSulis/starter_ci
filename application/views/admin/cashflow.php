@@ -3,8 +3,37 @@
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script> 
 
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+<style>
+	/* Select2 custom style biar mirip Bootstrap 5 */
+	.select2-container .select2-selection--single {
+		height: calc(2.5rem + 10px); /* Tinggi seperti form-control */
+		padding: 0.375rem 0.75rem;
+		font-size: 1rem;
+		line-height: 1.5;
+		color: #212529;
+		background-color: #fff;
+		border: 1px solid #ced4da;
+		border-radius: 0.375rem;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__rendered {
+		color: #212529;
+		line-height: 2.4rem;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__arrow {
+		height: 100%;
+		right: 10px;
+	}
+
+</style>
 
 <main>
 	<h1>Kas</h1>
@@ -131,14 +160,16 @@
                             </select>
                         </div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-                            <span>Code</span>
-                        </div>
-                        <div class="fv-row mb-8">
-                            <select class="form-select" id="account" aria-label="Default select example" name="id_code">
-                                <option selected>-Pilih Code-</option>
+							<span>Account</span>
+						</div>
+						<div class="fv-row mb-8">
+							<div class="input-group">
+								<select class="form-control bg-transparent" id="account" name="id_code">
+									<option selected>-Pilih Account-</option>
+								</select>
+							</div>
+						</div>
 
-                            </select>
-                        </div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Product</span>
 						</div>
@@ -200,7 +231,33 @@
 		</div>
 	</div>
 
-
+  <!-- Modal untuk Custom Date -->
+  <div id="customDateModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Date Range</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="customDateForm">
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label">Start Date</label>
+                            <input type="date" id="startDate" name="start_date" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">End Date</label>
+                            <input type="date" id="endDate" name="end_date" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="applyCustomDate">Apply</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 	<script>
@@ -630,5 +687,12 @@
 			}
 		});
 
+
+        $('#account').select2({
+			placeholder: "-pilih code-",
+			allowClear: true,
+			width: '100%',
+			dropdownParent: $('#addproduct') // atau parent lain yang sesuai
+		});
 	</script>
 </main>

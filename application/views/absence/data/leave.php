@@ -3,7 +3,7 @@
 <style>
 	/* Select2 custom style biar mirip Bootstrap 5 */
 	.select2-container .select2-selection--single {
-		height: calc(2.5rem + 2px); /* Tinggi seperti form-control */
+		height: calc(2.5rem + 10px); /* Tinggi seperti form-control */
 		padding: 0.375rem 0.75rem;
 		font-size: 1rem;
 		line-height: 1.5;
