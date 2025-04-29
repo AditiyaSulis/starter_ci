@@ -43,7 +43,7 @@
         <?php foreach ($categories as $category): ?>
         <div class="col">
             <div class="card bg-body ">
-                <div class="card-body py-4 ">
+                 <div class="card-body py-4 ">
                     <div class="text-gray-900 fw-bolder fs-2">
                         <span class="text-success" data-category-id="<?= $category['id_kategori'] ?>">
                             Rp.<?= isset($category['total_amount']) ? number_format($category['total_amount'], 0, ',', '.') : '0' ?>
@@ -63,7 +63,7 @@
             <h2 class="accordion-header" id="kt_accordion_1_header_1">
                 <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#kt_accordion_1_body_1" aria-expanded="false" aria-controls="kt_accordion_1_body_1">
-                    <span class="fw-bolder">Summary of Total Amount by Category</span>
+                    <span class="fw-bolder">Ringkasan Penghasilan dan Pengeluaran Tiap Produk</span>
                 </button>
             </h2>
             <div id="kt_accordion_1_body_1" class="accordion-collapse collapse"

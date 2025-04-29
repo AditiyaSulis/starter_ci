@@ -207,5 +207,50 @@ class M_cashflow extends CI_Model
     }
 
 
+	public function getTotalAmountByCategory($filter, $startDate, $endDate) {
+        $this->_filterDATE($filter);  
+
+        $this->db->select('C.id_kategori, C.name_kategori, SUM(cash_flow.jumlah) AS total_amount');
+        $this->db->from('cash_flow');
+        $this->db->join('account_code A', 'cash_flow.id_code = A.id_code');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
+		$this->db->where_in('C.id_kategori' , [1,2]);
+        $this->db->group_by('C.id_kategori');
+
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+		foreach ($result as &$product) { 
+            $product['total_amount'] = (float) $product['total_amount'];
+        }
+		
+
+
+        return $result;
+    } 
+
+	
+	public function getTotalAmountByProductAndCategory($filter, $startDate, $endDate) {
+
+        $this->_filterDATE($filter);  
+
+        $this->db->select('P.id_product, P.name_product, C.id_kategori, SUM(cash_flow.jumlah) AS total_amount');
+        $this->db->from('cash_flow');
+        $this->db->join('account_code A', 'cash_flow.id_code = A.id_code');
+        $this->db->join('products P', 'P.id_product = cash_flow.id_product');
+        $this->db->join('categories C', 'C.id_kategori = A.id_kategori');
+		$this->db->where_in('C.id_kategori' , [1,2]);
+        $this->db->group_by(['P.id_product', 'C.id_kategori']);
+    
+        $query = $this->db->get();
+        $result = $query->result_array();
+ 
+        
+		foreach ($result as &$product) {
+            $product['total_amount'] = (float) $product['total_amount'];
+        } 
+		
+        return $result;
+    }
 
 }

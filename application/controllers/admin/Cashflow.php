@@ -89,9 +89,7 @@ class Cashflow extends MY_Controller{
 			return;
 		}
 
-
 		$kode = 'KAS-'. date('md').''.date('Hs').''.mt_rand(1,99);
-
 
 		$this->db->trans_start();
 		//input data cashflow
@@ -115,10 +113,8 @@ class Cashflow extends MY_Controller{
 			]);
 			return;
 		}
-
 		
 		$dataFinanceRecord = [];
-
 
 		//Finance record Insert
 		if ($this->input->post('auto_finance_record') == 1) {
@@ -142,13 +138,9 @@ class Cashflow extends MY_Controller{
 			}
 
 		}
- 
-
-		
 
 		$this->db->trans_complete();
         //End Finance Record
-
 
 		if ($this->db->trans_status() === FALSE) {
 			echo json_encode([
