@@ -287,7 +287,7 @@
 							<input type="text" class="form-control" id="kode_pos" placeholder="Kode pos" name="kode_pos" required>
 						</div>
 						<div class="mb-3">
-							<label for="form_text2" class="form-label">Spesifik</label>
+							<label for="form_text2" class="form-label">Alamat Lengkap</label>
 							<textarea  class="form-control" id="spesifik" placeholder="Spesifik" name="spesifik" required> </textarea>
 						</div>
 						<h5 class="mt-8">Domisili : </h5>
@@ -313,7 +313,7 @@
 							<input type="text" class="form-control" id="kode_pos_domisili" placeholder="Kode pos" name="kode_pos_domisili" required>
 						</div>
 						<div class="mb-3">
-							<label for="form_text2" class="form-label">Spesifik</label>
+							<label for="form_text2" class="form-label">Alamat Lengkap</label>
 							<textarea  class="form-control" id="spesifik_domisili" placeholder="Spesifik" name="spesifik_domisili" required> </textarea>
 						</div>
 					</form>
@@ -422,6 +422,7 @@
                     </div>
                     <form id="formEditProduct" enctype="multipart/form-data">
                         <input type="hidden" name="id_employee" id="edit_employee_id">
+                        <input type="hidden" name="email" id="edit_email_emp">
                         <div class="mb-3">
                             <label for="edit_product" class="form-label">Product</label>
                             <select class="form-select" name="id_product" id="edit_product">
@@ -692,7 +693,7 @@
 								<input type="hidden" id="edit_id_contract" name="id_employee">
 								<input type="hidden" id="edit_old_contract" name="old_contract">
 								<div class="mb-5">
-									<la for="form_text1" class="form-label">New Contract</la
+									<label for="form_text1" class="form-label">New Contract</label
 										bel>
 									<input type="date" class="form-control" id="new_contract" placeholder="Name contact" name="new_contract" required>
 								</div>
@@ -770,7 +771,7 @@
 							<input type="text" class="form-control" id="edit_kode_pos" placeholder="Kode pos" name="kode_pos" required>
 						</div>
 						<div class="mb-3">
-							<label for="form_text2" class="form-label">Spesifik</label>
+							<label for="form_text2" class="form-label">Alamat Lengkap</label>
 							<textarea  class="form-control" id="edit_spesifik" placeholder="Spesifik" name="spesifik" required> </textarea>
 						</div>
 						<h5 class="mt-8">Domisili : </h5>
@@ -796,7 +797,7 @@
 							<input type="text" class="form-control" id="edit_kode_pos_domisili" placeholder="Kode pos" name="kode_pos_domisili" required>
 						</div>
 						<div class="mb-3">
-							<label for="form_text2" class="form-label">Spesifik</label>
+							<label for="form_text2" class="form-label">Alamat Lengkap</label>
 							<textarea  class="form-control" id="edit_spesifik_domisili" placeholder="Spesifik" name="spesifik_domisili" required> </textarea>
 						</div>
 							<button type="submit" class="btn btn-primary">
@@ -1354,8 +1355,6 @@
                     }
                 });
         }); 
-        
-
 
 
 		//ADD EMPLOYEE
@@ -1504,6 +1503,7 @@
             const type_employee = $(element).data('type_employee');
             const contract_expired = $(element).data('contract_expired');
 			const no_hp = $(element).data('edit_no_hp');
+			const email_emp = $(element).data('edit_email_emp');
 
             $('#edit_employee_id').val(id);
             $('#edit_product').val(product);
@@ -1521,6 +1521,7 @@
             $('#type_employee_edit').val(type_employee);
             $('#edit_contract_expired').val(contract_expired);
             $('#edit_no_hp').val(no_hp);
+            $('#edit_email_emp').val(email_emp);
 
             $('#editProduct').modal('show');
         }

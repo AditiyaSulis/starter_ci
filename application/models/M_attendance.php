@@ -23,11 +23,11 @@ class m_attendance extends CI_Model
 
 	public function findAllWithJoin_get()
 	{
-		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule, attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out, employee.id_employee, employee.name');
+		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule, attendance.jam_masuk, attendance.status, attendance.tanggal_masuk,  schedule.id_workshift, workshift.clock_in, workshift.clock_out,  employee.name');
 		$this->db->from('attendance');
 		$this->db->join('employee', 'employee.id_employee = attendance.id_employee', 'left');
 		$this->db->join('schedule', 'schedule.id_schedule = attendance.id_schedule', 'left');
-		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshify', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
 		$this->db->order_by('attendance.tanggal_masuk', 'ASC');
 
 		return $this->db->get()->result_array();

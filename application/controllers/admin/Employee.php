@@ -584,6 +584,19 @@ class Employee extends MY_Controller{
             return;
         }
 
+		$account = $this->M_admin->findByEmailForEdit_get($this->input->post('email', true));
+
+		if(!$account) {
+			$response = [
+				'status' => false,
+				'message' => 'Email tidak ditemukan',
+			];
+
+			echo json_encode($response);
+
+			return;
+		}
+
         $newNip = $this->input->post('nip',true);
 
         if($oldNip != $newNip){
@@ -624,12 +637,24 @@ class Employee extends MY_Controller{
             'no_hp' => $this->input->post('no_hp', true),
         ];
 
-
+		$update_account = [
+			'name' => $data['name']
+		];
 
         $employee = $this->M_employees->update_post($id, $data);
 
-
         if ($employee) {
+			$update_acc = $this->M_admin->update($update_account, $account['id']);
+			if(!$update_acc) {
+				$response = [
+					'status' => false,
+					'message' => 'Email tidak ditemukan',
+				];
+
+				echo json_encode($response);
+
+				return;
+			}
             $response = [
                 'status' => true,
                 'message' => 'Data karyawan berhasil diupdate',
@@ -642,8 +667,6 @@ class Employee extends MY_Controller{
         }
 
         echo json_encode($response);
-
-
         
     }
     
@@ -758,6 +781,7 @@ class Employee extends MY_Controller{
                             data-type_employee="'. htmlspecialchars($item['type_employee']) .'"
                             data-contract_expired="'. htmlspecialchars($item['contract_expired']) .'"
                             data-edit_no_hp="'. htmlspecialchars($item['no_hp']) .'"
+                            data-edit_email_emp="'. htmlspecialchars($item['email']) .'"
                             data-edit_position="'. htmlspecialchars($item['id_position']) .'">
                                 EDIT
                         </a>
