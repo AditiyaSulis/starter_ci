@@ -280,6 +280,7 @@ class Core_data extends MY_Controller{
 								data-id_izin="'. $item['id_izin'].'"
 								data-id_employee="'. $item['id_employee'].'"
 								data-tanggal_izin="'. $item['tanggal_izin'].'"
+								data-end_date="'. $item['end_date'].'"
 								data-status="'. $item['status'].'">
 									<i class="bi bi-x-lg"></i> Disapprove
 								</a>
@@ -293,6 +294,7 @@ class Core_data extends MY_Controller{
 								data-id_izin="'. $item['id_izin'].'"
 								data-id_employee="'. $item['id_employee'].'"
 								data-tanggal_izin="'. $item['tanggal_izin'].'"
+								data-end_date="'. $item['end_date'].'"
 								data-status="'. $item['status'].'">
 									<i class="ti ti-check"></i> Approve
 								</a>
@@ -306,6 +308,7 @@ class Core_data extends MY_Controller{
 								data-id_izin="'. $item['id_izin'].'"
 								data-id_employee="'. $item['id_employee'].'"
 								data-tanggal_izin="'. $item['tanggal_izin'].'"
+								data-end_date="'. $item['end_date'].'"
 								data-status="'. $item['status'].'">
 									<i class="bi bi-clock-history"></i> Pending
 								</a>
@@ -355,7 +358,7 @@ class Core_data extends MY_Controller{
 			$row[] = $item['name'];
 			$row[] = $item['name_product'];
 			$row[] = $item['name_division'];
-			$row[] = date('d M Y', strtotime($item['tanggal_izin']));
+			$row[] = $item['type_day'] == 2 ? date('d M Y', strtotime($item['tanggal_izin'])).' - '.date('d M Y', strtotime($item['end_date'])) : date('d M Y', strtotime($item['tanggal_izin']));
 			$row[] = $item['alasan_izin'];
 			$row[] = $bukti;
 			$row[] = $status;

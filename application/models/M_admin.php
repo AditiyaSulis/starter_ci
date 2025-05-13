@@ -66,13 +66,20 @@ class M_admin extends CI_Model {
     return $this->db->get('admin')->result_array();
    }
 
+	public function update($data, $id)
+	{
+		$this->db->where('id', $id);
+		$result = $this->db->update('admin', $data);
 
-    public function update($data, $id)
-    {
-        $this->db->where('id', $id);
-        $this->db->update('admin', $data);
-        return $this->db->affected_rows();
-    } 
+		// Jika query gagal, kembalikan false
+		if (!$result) {
+			return false;
+		}
+
+		// Jika query sukses, tetap kembalikan true meskipun tidak ada perubahan data
+		return true;
+	}
+
 
 
    public function create_post($data)

@@ -54,6 +54,25 @@ class M_izin extends CI_Model {
 	{
 		return $this->db->get_where('izin', ['id_employee' => $id, 'tanggal_izin' => $date, 'status' => 2])->result_array();
 	}
+	public function findByEmployeeIdAtRange_get($id_employee, $tanggal)
+	{
+		$this->db->from('izin');
+		$this->db->where('id_employee', $id_employee);
+
+		$this->db->group_start(); // buka grup kondisi
+		$this->db->where('tanggal_izin <=', $tanggal);
+		$this->db->where('end_date >=', $tanggal);
+		$this->db->group_end();
+
+		// Tambahkan kondisi jika end_date bernilai NULL, cocokkan langsung dengan tanggal_izin
+		$this->db->or_group_start();
+		$this->db->where('end_date IS NULL', null, false); // end_date NULL
+		$this->db->where('tanggal_izin', $tanggal); // izin 1 hari
+		$this->db->group_end();
+
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 
 	public function create_post($data)
 	{
@@ -121,7 +140,7 @@ class M_izin extends CI_Model {
 
 
 		if(!empty($status_izin)){
-			$this->db->select('izin.id_izin, izin.id_employee, izin.alasan_izin, izin.input_at, izin.tanggal_izin, izin.bukti_surat_sakit, izin.description, izin.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
+			$this->db->select('izin.id_izin, izin.id_employee, izin.type_day, izin.end_date, izin.alasan_izin, izin.input_at, izin.tanggal_izin, izin.bukti_surat_sakit, izin.description, izin.status, employee.id_employee, employee.name, employee.id_division, employee.id_product, division.id_division, division.name_division, products.id_product, products.name_product');
 			$this->db->where('izin.status', $status_izin);
 			if($id != 'false') {
 				$this->db->where('izin.id_employee', $id);

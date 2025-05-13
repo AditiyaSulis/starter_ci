@@ -586,6 +586,11 @@ class Employee extends MY_Controller{
 
 		$account = $this->M_admin->findByEmailForEdit_get($this->input->post('email', true));
 
+
+//		echo '<pre>';
+//		print_r($account);
+//		echo '</pre>';
+//		die();
 		if(!$account) {
 			$response = [
 				'status' => false,

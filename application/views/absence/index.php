@@ -1,3 +1,4 @@
+
 <?php
 $status = '';
 
@@ -80,7 +81,7 @@ if($schedule) {
 
 				</div>
 				<div class="card-footer justify-content-start">
-					<button type="button" class="btn bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#addProduct">
+					<button type="button" class="btn bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#addIzinModal">
 						<span class="text-primary">Ajukan Izin</span>
 					</button>
 				</div>
@@ -90,11 +91,11 @@ if($schedule) {
 
 
 	<!-- Modal Izin Modal-->
-	<div class="modal fade" tabindex="-1" id="addProduct">
+	<div class="modal fade" tabindex="-1" id="addIzinModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Izin</h3>
+					<h3 class="modal-title">Ajukan Izin</h3>
 					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-2">
@@ -105,7 +106,7 @@ if($schedule) {
 				</div>
 
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('absence/data/DataIzin/add_izin') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addIzin" data-action="<?= site_url('absence/data/DataIzin/add_izin') ?>" enctype="multipart/form-data">
 							<input type="hidden" value="<?= $user['email'] ?>" name="id_employee" autocomplete="off" class="form-control bg-transparent"/>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Izin Dibuat</span>
@@ -135,11 +136,31 @@ if($schedule) {
 								<input type="file" name="bukti_surat_sakit" autocomplete="off" class="form-control bg-transparent" />
 							</div>
 						</div>
-						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
-							<span>Tanggal Izin</span>
+						<div class="mb-2 fw-bolder text-gray-900">
+							<span>Type</span>
 						</div>
-						<div class="fv-row mb-8">
-							<input type="date" id="tgl_lunas" value="<?= date("Y-m-d") ?>" name="tanggal_izin" autocomplete="off" class="form-control bg-transparent" />
+						<div class="mb-8">
+							<select class="form-select" name="type_day" id="type_izin">
+								<option selected>- Pilih Type -</option>
+								<option value="1">Single Day</option>
+								<option value="2">Multiple Days</option>
+							</select>
+						</div>
+						<div id="start" style="display: none;">
+							<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+								<span>Tanggal Izin</span>
+							</div>
+							<div class="fv-row mb-8">
+								<input type="date" value="<?= date("Y-m-d") ?>" name="tanggal_izin" autocomplete="off" class="form-control bg-transparent" />
+							</div>
+						</div>
+						<div id="select_date" style="display: none;">
+							<div class="mb-2 fw-bolder text-gray-900">
+								<span>Sampai dengan tanggal :</span>
+							</div>
+							<div class="mb-4">
+								<input type="date" name="end_date" class="form-control bg-transparent"/>
+							</div>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Deskripsi</span>
@@ -147,9 +168,8 @@ if($schedule) {
 						<div class="fv-row mb-8">
 							<textarea type="text" class="form-control" id="description" name="description"></textarea>
 						</div>
-
 						<div class="d-grid mb-10">
-							<button type="submit" id="submit_product" class="btn btn-primary">
+							<button type="submit" id="submit_izin" class="btn btn-primary">
                                 <span class="indicator-label">
                                     Buat Izin
                                 </span>
@@ -170,6 +190,9 @@ if($schedule) {
 	</div>
 
 	<script>
+
+
+
 		$('#position_table').DataTable();
 
 		//time
@@ -255,7 +278,78 @@ if($schedule) {
 				});
 			});
 		});
+
+		$(document).ready(function () {
+			$("#addIzin").on("submit", function (e) {
+				e.preventDefault();
+
+				var formElement = this;
+				var formData = new FormData(formElement);
+
+				// Menonaktifkan tombol submit
+				$("#submit_izin").prop("disabled", true);
+				$("#submit_izin").text("Processing..."); // Opsional: menambahkan teks loading pada tombol
+
+				$.ajax({
+					url: $(formElement).data("action"),
+					type: "POST",
+					data: formData,
+					contentType: false,
+					processData: false,
+					dataType: "json",
+					success: function (response) {
+						if (response.status) {
+							swallMssg_s(response.message, false, 1500)
+								.then(() =>  {
+									location.reload();
+								});
+						} else {
+							swallMssg_e(response.message, true, 0).then(()=> {
+								$("#submit_izin").prop("disabled", false);
+								$("#submit_izin").text("Submit Izin"); // Kembalikan teks tombol
+								location.reload();
+							});
+
+						}
+					},
+					error: function (xhr, status, error) {
+						// Mengaktifkan tombol submit setelah error terjadi
+						$("#submit_izin").prop("disabled", false);
+						$("#submit_izin").text("Submit Attendance"); // Kembalikan teks tombol
+
+						swallMssg_e('Terjadi kesalahan: Silahkan login menggunakan akun super user untuk menambah data ' + xhr.response, true, 0)
+							.then(() =>  {
+								location.reload();
+							});
+					},
+				});
+			});
+		});
+
+
+		document.addEventListener('DOMContentLoaded', function () {
+
+			const typeIzin = document.getElementById('type_izin');
+			const selectDate = document.getElementById("select_date");
+			const start = document.getElementById("start");
+
+
+			typeIzin.addEventListener('change', function () {
+				if (this.value === '1') {
+
+					start.style.display = 'block';
+					selectDate.style.display = 'none'
+				} else if (this.value === '2') {
+
+					start.style.display = 'block';
+					selectDate.style.display = 'block'
+
+				}
+			});
+		});
 	</script>
+
+
 
 
 </main>

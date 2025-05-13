@@ -59,7 +59,6 @@ class M_schedule extends CI_Model
 	}
 
 
-
 	public function findYesterdaySchedule_get($id, $today)
 	{
 		$yesterday = date('Y-m-d', strtotime('-1 day', strtotime($today)));
@@ -102,6 +101,13 @@ class M_schedule extends CI_Model
 	{
 		return $this->db->get_where('schedule', ['id_employee' => $id])->result_array();
 	}
+
+	public function findByEmplooyeeIdAndDate_get($id, $current_date)
+	{
+
+		return $this->db->get_where('schedule', ['id_employee' => $id, 'waktu' => $current_date ])->row_array();
+	}
+
 
 	
 	public function findByWorkshiftId_get($id)
@@ -257,6 +263,91 @@ class M_schedule extends CI_Model
 		return true;
 	}
 
+	public function setStatusFromIzin_post($id, $tanggal, $end_date, $status)
+	{
+		if($end_date == null) {
+			$this->db->set(['status' => $status]);
+
+			$this->db->where('id_employee', $id);
+			$this->db->where('waktu', $tanggal);
+			$this->db->update('schedule');
+		} else {
+			// Konversi string tanggal ke objek DateTime
+
+			$start = new DateTime($tanggal);
+			$end = new DateTime($end_date);
+
+			$selisih = $start->diff($end);
+			$range_izin = $selisih->days + 1; // +1 jika ingin termasuk tanggal awal
+
+			// Loop update setiap hari dalam rentang izin
+			for ($i = 0; $i < $range_izin; $i++) {
+				$currentDate = $start->format('Y-m-d');
+
+				if($schedule_by_date = $this->findByEmplooyeeIdAndDate_get($id, $currentDate)) {
+					if($schedule_by_date['status'] != 1 ) {
+						$start->modify('+1 day');
+						continue;
+					}
+				}
+				$this->db->set(['status' => $status]);
+				$this->db->where('id_employee', $id);
+				$this->db->where('waktu', $currentDate);
+				$this->db->update('schedule');
+
+				$start->modify('+1 day');
+			}
+
+		}
+
+
+		return true;
+	}
+
+	public function unsetStatusFromIzin_post($id, $tanggal, $end_date)
+	{
+		if ($end_date == null) {
+			// Update untuk satu tanggal
+			$this->db->set(['status' => 1]);
+			$this->db->where('id_employee', $id);
+			$this->db->where('waktu', $tanggal);
+			$this->db->update('schedule');
+		} else {
+			// Konversi string tanggal ke objek DateTime
+			$start = new DateTime($tanggal);
+			$end = new DateTime($end_date);
+
+			$selisih = $start->diff($end);
+			$range_izin = $selisih->days + 1; // +1 jika ingin termasuk tanggal awal
+
+			// Loop untuk update setiap hari dalam rentang izin
+			for ($i = 0; $i < $range_izin; $i++) {
+				$currentDate = $start->format('Y-m-d');
+
+				// Periksa apakah ada data jadwal pada tanggal tersebut
+				$schedule_by_date = $this->findByEmplooyeeIdAndDate_get($id, $currentDate);
+
+				// Jika ada data, dan status bukan 5, skip
+				if ($schedule_by_date && $schedule_by_date['status'] != 5) {
+					$start->modify('+1 day');
+					continue;
+				}
+
+				// Update status menjadi 5
+				$this->db->set(['status' => 1]);
+				$this->db->where('id_employee', $id);
+				$this->db->where('waktu', $currentDate);
+				$this->db->update('schedule');
+
+				// Modifikasi tanggal untuk iterasi berikutnya
+				$start->modify('+1 day');
+			}
+		}
+
+		return true;
+	}
+
+
 
 	public function setStatusById_post($id, $status)
 	{
@@ -293,34 +384,6 @@ class M_schedule extends CI_Model
 		//return 'test';
 	}
 
-
-	//Must we Try
-	/*public function merk_absent_if_no_checkin() {
-		$currentDate = date('Y-m-d');
-		$currentTime = date('H:i:s');
-
-		// Ambil semua jadwal yang belum diabsenkan dan sudah terlewat tanpa check-in
-		$this->db->select('id_schedule');
-		$this->db->from('schedule');
-		$this->db->where('status', 1); // Status masih aktif
-		$this->db->where('waktu <', $currentDate); // Jadwal sudah lewat
-		$this->db->or_where('waktu', $currentDate);
-		$this->db->where('clock_out <=', $currentTime); // Workshift sudah selesai
-		$this->db->where_not_in('id_schedule', $this->get_checked_in_schedule_ids());
-
-		$query = $this->db->get();
-		$missedSchedules = $query->result();
-
-		if (!empty($missedSchedules)) {
-			foreach ($missedSchedules as $schedule) {
-				// Update status menjadi 7 (absen)
-				$this->db->where('id_schedule', $schedule->id_schedule);
-				$this->db->update('schedule', ['status' => 7]);
-			}
-		}
-
-		return count($missedSchedules); // Mengembalikan jumlah jadwal yang diperbarui
-	}*/
 
 	public function get_checked_in_schedule_ids() {
 		$this->db->select('id_schedule');

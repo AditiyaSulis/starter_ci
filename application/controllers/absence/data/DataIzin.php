@@ -72,7 +72,7 @@ class DataIzin extends MY_Controller{
 
 	public function add_izin()
 	{
-		$this->_ONLYSELECTED([1,2,3,4]);
+		$this->_ONLYSELECTED([1, 2, 3, 4]);
 		$this->_isAjax();
 		$this->form_validation->set_rules('alasan_izin', 'alasan_izin', 'required', [
 			'required' => 'Alasan Izin harus diisi',
@@ -103,7 +103,7 @@ class DataIzin extends MY_Controller{
 		$email = $this->input->post('id_employee');
 		$id = $this->M_employees->findByEmail_get($email);
 
-		if(!$id) {
+		if (!$id) {
 			$response = [
 				'status' => false,
 				'message' => 'Data tidak ditemukan',
@@ -135,14 +135,32 @@ class DataIzin extends MY_Controller{
 			$surat_sakit = $upload_result['message'];
 		}
 
-		$data = [
-			'input_at' => $this->input->post('input_at', true),
-			'id_employee' => $id['id_employee'],
-			'description' => $this->input->post('description', true),
-			'alasan_izin' => $this->input->post('alasan_izin', true),
-			'tanggal_izin' => $this->input->post('tanggal_izin', true),
-			'bukti_surat_sakit' => $surat_sakit,
-		];
+		$type_day = $this->input->post('type_day', true);
+
+		if ($type_day == '1') {
+			$data = [
+				'input_at' => $this->input->post('input_at', true),
+				'id_employee' => $id['id_employee'],
+				'description' => $this->input->post('description', true),
+				'alasan_izin' => $this->input->post('alasan_izin', true),
+				'tanggal_izin' => $this->input->post('tanggal_izin', true),
+				'type_day' => $type_day,
+				'end_date' => null,
+				'bukti_surat_sakit' => $surat_sakit,
+			];
+		} else {
+			$data = [
+				'input_at' => $this->input->post('input_at', true),
+				'id_employee' => $id['id_employee'],
+				'description' => $this->input->post('description', true),
+				'alasan_izin' => $this->input->post('alasan_izin', true),
+				'tanggal_izin' => $this->input->post('tanggal_izin', true),
+				'type_day' => $type_day,
+				'end_date' => $this->input->post('end_date', true),
+				'bukti_surat_sakit' => $surat_sakit,
+			];
+		}
+
 
 		$product = $this->M_izin->create_post($data);
 
@@ -163,13 +181,14 @@ class DataIzin extends MY_Controller{
 
 	public function set_status()
 	{
-
 		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
 		$id = $this->input->post('id_izin', true);
 		$idEmployee = $this->input->post('id_employee', true);
 		$tanggal = $this->input->post('tanggal_izin', true);
+		$end_date = $this->input->post('end_date', true);
+
 
 		$this->form_validation->set_rules('status', 'status', 'required', [
 			'required' => 'Status harus diisi',
@@ -192,11 +211,20 @@ class DataIzin extends MY_Controller{
 		$setstatus = $this->input->post('status', true);
 
 		if($setstatus == 2) {
-			$setStatus1 = $this->M_schedule->setStatus_post($idEmployee, $tanggal, 5);
+			$setStatus1 = $this->M_schedule->setStatusFromIzin_post($idEmployee, $tanggal, $end_date, 5);
 		} else {
-			$setStatus1 = $this->M_schedule->setStatus_post($idEmployee, $tanggal, 1);
+			$setStatus1 = $this->M_schedule->unsetStatusFromIzin_post($idEmployee, $tanggal,  $end_date);
 		}
 
+		if(!$setStatus1) {
+			$response = [
+				'status' => false,
+				'message' => 'Gagal memperbarui status dan mengubah jadwal.'
+			];
+
+			echo $response;
+			return;
+		}
 		if ($this->M_izin->setStatus_post($id, $setstatus)) {
 			$response = [
 				'status' => true,

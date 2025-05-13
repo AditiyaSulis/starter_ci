@@ -535,10 +535,9 @@ class Schedule extends MY_Controller{
 
 					$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
 					$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
-					$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
+					$isIzin = $this->M_izin->findByEmployeeIdAtRange_get($emp,$tanggal);
 					$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
 					$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
-
 
 					$status = 1;
 
@@ -553,9 +552,6 @@ class Schedule extends MY_Controller{
 					} else if(!empty($isSunday)) {
 						$status = 8;
 					}
-
-
-
 
 					$dataBatch[] = [
 						'id_employee' => $emp,
@@ -586,7 +582,7 @@ class Schedule extends MY_Controller{
 
 					$isDayoff = $this->M_day_off->findByEmployeeIdAtDate_get($emp, $tanggal);
 					$isLeave = $this->M_leave->findByEmployeeIdAtDate_get($emp, $tanggal);
-					$isIzin = $this->M_izin->findByEmployeeIdAtDate_get($emp,$tanggal);
+					$isIzin = $this->M_izin->findByEmployeeIdAtRange_get($emp,$tanggal);
 					$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
 					$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
 

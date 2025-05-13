@@ -23,6 +23,8 @@
 					<input type="hidden" id="id_izin" name="id_izin">
 					<input type="hidden" id="employee" name="id_employee">
 					<input type="hidden" id="tanggal" name="tanggal_izin">
+					<input type="hidden" id="end_date" name="end_date">
+					<input type="hidden" id="type_day" name="type_day">
 					<div class="fv-row mb-8">
 						<select class="form-select" aria-label="Default select example" id="status" name="status">
 							<option value="1">Dissaprove</option>
@@ -199,6 +201,8 @@
 		let $element = $(element);
 
 		$("#id_izin").val($element.data('id_izin'));
+		$("#end_date").val($element.data('end_date'));
+		$("#type_day").val($element.data('type_day'));
 		$("#status").val($element.data('status'));
 		$("#tanggal").val($element.data('tanggal_izin'));
 		$("#employee").val($element.data('id_employee'));
