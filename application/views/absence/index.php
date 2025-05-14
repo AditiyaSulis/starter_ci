@@ -119,7 +119,7 @@ if($schedule) {
 						</div>
 						<div class="fv-row mb-8">
 							<select class="form-select" aria-label="Default select example" name="alasan_izin" id="alasan_izin">
-								<option selected>-pilih alasan izin-</option>
+								<option value="" selected>-pilih alasan izin-</option>
 								<option value="Izin Keluarga Melahirkan">Izin Keluarga Melahirkan</option>
 								<option value="Izin Menghadiri Acara Keagamaan">Izin Menghadiri Acara Keagamaan</option>
 								<option value="Izin Sakit">Izin Sakit</option>
@@ -299,15 +299,14 @@ if($schedule) {
 					dataType: "json",
 					success: function (response) {
 						if (response.status) {
-							swallMssg_s(response.message, false, 1500)
-								.then(() =>  {
-									location.reload();
-								});
+							swallMssg_s(response.message, false, 1500).then(()=> {
+								location.reload();
+							});
 						} else {
 							swallMssg_e(response.message, true, 0).then(()=> {
 								$("#submit_izin").prop("disabled", false);
 								$("#submit_izin").text("Submit Izin"); // Kembalikan teks tombol
-								location.reload();
+								
 							});
 
 						}

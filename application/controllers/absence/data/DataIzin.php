@@ -74,8 +74,9 @@ class DataIzin extends MY_Controller{
 	{
 		$this->_ONLYSELECTED([1, 2, 3, 4]);
 		$this->_isAjax();
-		$this->form_validation->set_rules('alasan_izin', 'alasan_izin', 'required', [
+		$this->form_validation->set_rules('alasan_izin', 'alasan_izin', 'required|min_length[1]', [
 			'required' => 'Alasan Izin harus diisi',
+			'min_length' => 'Alasan Izin harus diisi',
 		]);
 		$this->form_validation->set_rules('tanggal_izin', 'tanggal_izin', 'required', [
 			'required' => 'Tanggal Izin harus diisi',
@@ -98,6 +99,7 @@ class DataIzin extends MY_Controller{
 			return;
 		}
 
+	
 		$surat_sakit = '-';
 		$alasan_izin = $this->input->post('alasan_izin');
 		$email = $this->input->post('id_employee');
