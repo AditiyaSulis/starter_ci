@@ -197,8 +197,37 @@ class m_attendance extends CI_Model
 
 
 	public function count_all()
-	{
+	{ 
+		$option = $this->input->post('option', true);
+		$product = $this->input->post('product', true);
+		$timeManagement = $this->input->post('timeManagement', true);
+
+		$id = $this->input->post('employee', true);
+
+		$this->db->select('attendance.id_attendance, attendance.id_employee, attendance.id_schedule,  attendance.jam_masuk, attendance.status, attendance.tanggal_masuk, attendance.time_management, attendance.potongan_telat,  schedule.id_workshift, schedule.waktu, workshift.clock_in, workshift.clock_out,  workshift.name_workshift, employee.id_employee, employee.name, employee.id_product, products.name_product');
+		if($id != 'false') {
+			$this->db->where('attendance.id_employee', $id);
+		}
+		if($timeManagement != 'all') {
+			if($timeManagement == 'on_time') {
+				$this->db->where('attendance.time_management', true);
+			}
+			else if($timeManagement == 'telat_masuk') {
+				$this->db->where('attendance.time_management', false);
+			}
+		}
+		if($product != '' || !empty($product)) {
+			$this->db->where('employee.id_product', $product);
+		}
 		$this->db->from('attendance');
+		$this->db->join('employee', 'employee.id_employee = attendance.id_employee', 'left');
+		$this->db->join('schedule', 'schedule.id_schedule = attendance.id_schedule', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		if(!empty($option) ){
+			$this->_filterDATE($option);
+		}
+		
 		return $this->db->count_all_results();
 	}
 

@@ -54,10 +54,13 @@ class M_izin extends CI_Model {
 	{
 		return $this->db->get_where('izin', ['id_employee' => $id, 'tanggal_izin' => $date, 'status' => 2])->result_array();
 	}
+
+
 	public function findByEmployeeIdAtRange_get($id_employee, $tanggal)
 	{
 		$this->db->from('izin');
 		$this->db->where('id_employee', $id_employee);
+		$this->db->where('status', 2);
 
 		$this->db->group_start(); // buka grup kondisi
 		$this->db->where('tanggal_izin <=', $tanggal);
@@ -74,6 +77,7 @@ class M_izin extends CI_Model {
 		return $query->row_array();
 	}
 
+
 	public function create_post($data)
 	{
 		if ($this->db->insert('izin', $data)) {
@@ -83,6 +87,7 @@ class M_izin extends CI_Model {
 		}
 	}
 
+	
 	private function _filterDATE($type)
 	{
 		switch ($type) {

@@ -252,8 +252,6 @@ class M_schedule extends CI_Model
 
 	public function setStatus_post($id, $tanggal, $status)
 	{
-
-
 		$this->db->set(['status' => $status]);
 
 		$this->db->where('id_employee', $id);
@@ -304,6 +302,7 @@ class M_schedule extends CI_Model
 		return true;
 	}
 
+	
 	public function unsetStatusFromIzin_post($id, $tanggal, $end_date)
 	{
 		if ($end_date == null) {
@@ -616,7 +615,27 @@ class M_schedule extends CI_Model
 
 	public function count_all1()
 	{
+		$option = $this->input->post('option1', true);
+		$product = $this->input->post('product1', true);
+
+		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.name, employee.id_product, products.name_product, employee.id_division, division.name_division, employee.id_position, position.name_position');
+
+
+		$this->db->where('schedule.status', 1);
+
+		if($product != '' || !empty($product)) {
+			$this->db->where('employee.id_product', $product);
+		}
 		$this->db->from('schedule');
+		$this->db->join('employee', 'employee.id_employee = schedule.id_employee', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('position', 'position.id_position = employee.id_position', 'left');
+		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		if(!empty($option) ){
+			$this->_filterUnAttendanceDATE($option);
+		}
+
 		return $this->db->count_all_results();
 	}
 
@@ -739,7 +758,31 @@ class M_schedule extends CI_Model
 
 	public function count_all2()
 	{
+		
+		$option = $this->input->post('option2', true);
+		$product = $this->input->post('product2', true);
+		$status = $this->input->post('status', true);
+
+		$this->db->select('schedule.id_schedule, schedule.id_employee, schedule.id_workshift, schedule.status, schedule.waktu, workshift.id_workshift, workshift.name_workshift, workshift.clock_in, workshift.clock_out, employee.name, employee.id_product, products.name_product, employee.id_division, division.name_division, employee.id_position, position.name_position');
+
+
+		if($product != '' || !empty($product)) {
+			$this->db->where('employee.id_product', $product);
+		}
+		if($product != '' || !empty($status)) {
+			$this->db->where('schedule.status', $status);
+		} else {
+			$this->db->where_in('schedule.status', [2, 4, 5]);
+		}
 		$this->db->from('schedule');
+		$this->db->join('employee', 'employee.id_employee = schedule.id_employee', 'left');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('position', 'position.id_position = employee.id_position', 'left');
+		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
+		$this->db->join('workshift', 'workshift.id_workshift = schedule.id_workshift', 'left');
+		if(!empty($option) ){
+			$this->_filterDayOffDATE($option);
+		}
 		return $this->db->count_all_results();
 	}
 }

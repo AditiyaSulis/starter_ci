@@ -157,7 +157,7 @@
 						<div class="col-md-6">
 							<p class="mb-15">Disetujui,<br><strong>Pimpinan</strong></p>
 							<hr style="width: 60%; margin: 0 auto;">
-							<span class="text-sm">Arti Herrmawan</span>
+							<span class="text-sm">Ari Hermawan</span>
 						</div>
 						<div class="col-md-6">
 							<p class="mb-15">Dibuat oleh,<br><strong>Bagian Keuangan</strong></p>

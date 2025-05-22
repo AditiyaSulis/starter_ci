@@ -383,7 +383,7 @@
         //MENAMPILKAN DATA KE CARD
         function updateCards(filter, startdate, enddate) {
             $.ajax({
-                url: base_url + 'admin/finance_record/getFilteredSummary',
+                url: base_url + 'admin/Finance_record/getFilteredSummary',
                 type: 'POST',
                 data: {
                     option: filter,

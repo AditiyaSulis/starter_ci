@@ -474,7 +474,6 @@ class Schedule extends MY_Controller{
 		$this->_ONLYSELECTED([1,2,4]);
 		$this->_isAjax();
 
-
 		$this->form_validation->set_rules('start_date', 'start_date', 'required', [
 			'required' => 'Tanggal Mulai harus diisi',
 		]);
@@ -574,8 +573,6 @@ class Schedule extends MY_Controller{
 			$minDate = min($dateObjects)->format("Y-m-d");
 			$maxDate = max($dateObjects)->format("Y-m-d");
 
-
-
 			for($i = 0; $i < $totalDays; $i++) {
 				foreach ($employees as $emp) {
 					$tanggal = date('Y-m-d', strtotime($tanggalArray[$i]));
@@ -585,7 +582,6 @@ class Schedule extends MY_Controller{
 					$isIzin = $this->M_izin->findByEmployeeIdAtRange_get($emp,$tanggal);
 					$isHolyday = $this->M_holyday->findByProductNDivisionIdAtDate_get($product, $division, $tanggal);
 					$isSunday = $this->M_holyday->isSunday_get($product, $division, $tanggal);
-
 
 					$status = 1;
 
@@ -600,9 +596,6 @@ class Schedule extends MY_Controller{
 					} else if(!empty($isSunday)) {
 						$status = 8;
 					}
-
-
-
 
 					$dataBatch[] = [
 						'id_employee' => $emp,
