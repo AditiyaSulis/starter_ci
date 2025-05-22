@@ -85,7 +85,17 @@ class DataIzin extends MY_Controller{
 		$this->form_validation->set_rules('description', 'Description', 'trim|required|min_length[4]', [
 			'required' => 'Deskripsi harus diisi',
 			'min_length' => 'Deskripsi minimal 4 huruf',
+		]); 
+		
+		$this->form_validation->set_rules('type_day', 'type_day', 'required', [
+			'required' => 'Pilih jenis izin harus diisi',
 		]);
+
+		if($this->input->post('type_day',true) == 2) {
+			$this->form_validation->set_rules('end_date', 'end_date', 'required', [
+				'required' => 'Isi sampai dengan tanggal berapa.',
+			]);
+		}
 
 		if ($this->form_validation->run() == FALSE) {
 			$response = [

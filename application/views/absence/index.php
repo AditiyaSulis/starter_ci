@@ -137,13 +137,13 @@ if($schedule) {
 							</div>
 						</div>
 						<div class="mb-2 fw-bolder text-gray-900">
-							<span>Type</span>
+							<span>Jenis Izin</span>
 						</div>
 						<div class="mb-8">
 							<select class="form-select" name="type_day" id="type_izin">
-								<option selected>- Pilih Type -</option>
-								<option value="1">Single Day</option>
-								<option value="2">Multiple Days</option>
+								<option value="" selected>- Pilih Jenis Izin -</option>
+								<option value="1">Izin Harian</option>
+								<option value="2">Izin Lebih dari 1 hari</option>
 							</select>
 						</div>
 						<div id="start" style="display: none;">
