@@ -154,7 +154,7 @@
 						let tableIndex = doc.content.findIndex(item => item.table);
 
 						if (tableIndex !== -1) {
-							doc.content[tableIndex].table.widths = ['5%', '20%', '20%', '15%', '10%', '10%', '10%', '10%'];
+							doc.content[tableIndex].table.widths = ['5%', '15%', '20%', '15%', '8%', '10%', '8%', '8%', '8%', '8%'];
 
 							doc.content[tableIndex].layout = {
 								hLineWidth: function(i, node) { return 1; },
