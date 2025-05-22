@@ -224,7 +224,7 @@ class DataIzin extends MY_Controller{
 				'message' => 'Gagal memperbarui status dan mengubah jadwal.'
 			];
 
-			echo $response;
+			echo json_encode($response);
 			return;
 		}
 		if ($this->M_izin->setStatus_post($id, $setstatus)) {

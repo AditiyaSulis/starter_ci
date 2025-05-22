@@ -51,7 +51,9 @@
 			<th>Nama</th>
 			<th>Product</th>
 			<th>Divisi</th>
+			<th>Hadir</th>
 			<th>Tidak Hadir</th>
+			<th>Telat</th>
 			<th>Day Off</th>
 			<th>Izin</th>
 			<th>Cuti</th>

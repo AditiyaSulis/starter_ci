@@ -1107,6 +1107,9 @@ class Core_data extends MY_Controller{
 				$totalDayOff = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 2);
 				$totalIzin = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 5);
 				$totalCuti = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 4);
+				$totalHadir = $this->M_schedule->totalScheduleByStatus_get($item['id_employee'], $startDate, $endDate, 6);
+				$totalTelat = $this->M_attendance->totalTelatByAttendance_get($item['id_employee'], $startDate, $endDate);
+
 
 
 				$action =
@@ -1122,7 +1125,9 @@ class Core_data extends MY_Controller{
 				$row[] = $item['name'];
 				$row[] = $item['name_product'];
 				$row[] = $item['name_division'];
+				$row[] = $totalHadir;
 				$row[] = $totalAbsent;
+				$row[] = $totalTelat;
 				$row[] = $totalDayOff;
 				$row[] = $totalIzin;
 				$row[] = $totalCuti;
