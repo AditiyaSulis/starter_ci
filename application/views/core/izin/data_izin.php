@@ -79,12 +79,10 @@
 
 	let params = new URLSearchParams(window.location.search);
 	data =  {
-		'option' :  option,
-		'startDate' :  startDate,
-		'endDate' :  endDate,
-		'employee' : employee,
+
 		'status_izin' :  params.get('status_izin'),
 		'with_alerts' :  params.get('with_alerts'),
+		'is' :  params.get('is'),
 	}
 
 	function callDT() {
@@ -104,9 +102,10 @@
 					d.option = $('#filterSelect').val();
 					d.startDate = $('#startDate').val();
 					d.endDate = $('#endDate').val();
-					d.employee = data.employee;
+					d.employee ='<?= $employee;?>';
 					d.status_izin = data.status_izin;
 					d.with_alerts = data.with_alerts;
+					d.is = data.is;
 				}
 			},
 			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +
