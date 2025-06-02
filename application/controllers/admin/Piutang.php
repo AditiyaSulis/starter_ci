@@ -620,6 +620,7 @@ class Piutang extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
+		$data['saldo'] = $this->M_saldo_piutang->saldo_get();
 		$data['view_component_table'] = 'core/piutang/data_piutang';
 		$data['view_components'] = 'core/piutang/data_piutang_components';
 

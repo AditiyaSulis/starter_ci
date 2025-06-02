@@ -1,5 +1,35 @@
+<style>
+	.custom-card {
+		background: linear-gradient(135deg, #1cb5e0, #000851);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.custom-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+	}
+</style>
 <main>
     <h1>Piutang</h1>
+
+	<div class="col-md-2 mt-10">
+		<div class="card position-relative custom-card shadow-lg border-0 rounded-4 overflow-hidden">
+			<div class="card-body py-4">
+				<div class="text-white fw-bolder fs-3 mb-2">
+                    <span class="text-white" data-category-id="jj">
+                        Rp.<?= isset($saldo) ? number_format($saldo, 0, ',', '.') : '0' ?>
+                    </span>
+				</div>
+				<div class="fw-semibold text-white opacity-75">Saldo</div>
+			</div>
+
+			<!-- Tombol dengan ikon + di pojok kanan bawah -->
+			<button type="button" class="btn btn-light btn-sm rounded-circle position-absolute bottom-0 end-0 m-3 shadow-sm"
+					data-bs-toggle="modal" data-bs-target="#addSaldoModal" title="Tambah Saldo">
+				<i class="bi bi-plus-lg"></i>
+			</button>
+		</div>
+	</div>
 
     <button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
         <i class="bi bi-plus-circle"></i>
@@ -133,6 +163,48 @@
 		</div>
 	</div>
 
+	<!-- Modal Add Saldo -->
+	<div class="modal fade" id="addSaldoModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+
+					<h5 class="modal-title" id="exampleModalLabel">Saldo</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col">
+							<form id="addSaldoForm">
+								<div class="mb-3">
+									<label for="form_text1" class="form-label">Saldo</label>
+									<input type="text" class="form-control" id="saldo" placeholder="Rp.1xxxx" name="saldo" oninput="rupiahCurrency(this)">
+								</div>
+								<div class="d-grid mb-10 mt-10">
+									<button type="submit" class="btn btn-primary">
+                                            <span class="indicator-label">
+                                                Tambah Saldo
+                                            </span>
+										<span class="indicator-progress">
+                                                Please wait...
+                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+									</button>
+								</div>
+							</form>
+						</div>
+						<div class="row">
+							<div class="col mb-2">
+								<a href="<?= base_url('admin/Piutang/riwayat_saldo')?>">Riwayat Saldo <i class="bi bi-box-arrow-up-right ms-1" style="color: #0d6efd"></i></a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal Pay-->
 	<?php $this->load->view($view_components);?>
 
@@ -223,6 +295,74 @@
 			tenorInput.addEventListener("input", calculateAngsuran);
 		})
 
+
+		$(document).ready(function() {
+			const base_url = $('meta[name="base_url"]').attr('content');
+
+			$("#addSaldoForm").on("submit", function (e) {
+				e.preventDefault();
+
+				const submitButton = $("#addSaldoForm button[type=submit]");
+				submitButton.prop("disabled", true).text("Processing...");
+
+				Swal.fire({
+					title: 'Apakah Anda yakin?',
+					text: "Agar tidak terjadi kesalahan, cek kembali saldo yang anda input!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Bayar',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							url: base_urls + "admin/Piutang/add_saldo",
+							type: "POST",
+							data: $(this).serialize(),
+							dataType: "json",
+							success: function (response) {
+								if (response.status) {
+									swallMssg_s(response.message, false, 1500)
+										.then(() => {
+											location.reload();
+										});
+								} else {
+									swallMssg_e(response.message, true, 0);
+									submitButton.prop("disabled", false).text("Submit");
+								}
+							},
+							error: function (xhr, status, error) {
+								swallMssg_e('Terjadi kesalahan: ' + error, true, 0)
+									.then(() => {
+										location.reload();
+									});
+								submitButton.prop("disabled", false).text("Submit");
+							}
+						});
+					}
+				});
+			});
+		});
+
+		function rupiahCurrency(input) {
+			let value = input.value.replace(/[^0-9]/g, ""); // Hanya angka
+			if (value === "") {
+				input.value = "";
+				return;
+			}
+
+			let formatted = new Intl.NumberFormat("id-ID").format(value);
+			input.value = formatted;
+		}
+
+
+		document.getElementById("addSaldoForm").addEventListener("submit", function() {
+			let input = document.querySelector("input[name='saldo']");
+			if (input.value !== "") {
+				input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+			}
+		});
 	</script>
 </main>
 
