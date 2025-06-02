@@ -86,8 +86,6 @@ class Attendance extends MY_Controller{
 		}
 	}
 
-
-
 	//TEST GEO GPS
 	public function test_geoPHP()
 	{
@@ -113,7 +111,6 @@ class Attendance extends MY_Controller{
 
 		echo "Jarak antara Jakarta dan Bandung: " . round($distance, 2) . " km";
 	}
-
 
 	public function set_potongan_telat()
 	{
@@ -160,6 +157,61 @@ class Attendance extends MY_Controller{
 
 		echo json_encode($response);
 
+
+	}
+
+	public function set_time_management()
+	{
+		$this->_ONLYSELECTED([1,2,4]);
+		$this->_isAjax();
+
+		$id = $this->input->post('id_attendance', true);
+
+
+		$this->form_validation->set_rules('time_management', 'time_management', 'required', [
+			'required' => 'Status Kehadiran harus diisi',
+		]);
+
+		$this->form_validation->set_rules('jam_masuk', 'jam_masuk', 'required', [
+			'required' => 'Jam Masuk harus diisi',
+		]);
+
+		if ($this->form_validation->run() == false) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error'
+			];
+
+			echo json_encode($response);
+
+			return;
+		}
+
+		$setstatus = $this->input->post('time_management', true);
+		$jamMasuk = $this->input->post('jam_masuk', true);
+
+		if($setstatus == 1) {
+			$setStatus1 = $this->M_attendance->setTimeManagement_post($id, 1, $jamMasuk);
+		} else {
+			$setStatus1 = $this->M_attendance->setTimeManagement_post($id, 0, $jamMasuk);
+		}
+
+		if ($setStatus1) {
+			$response = [
+				'status' => true,
+				'message' => 'Status kehadiran berhasil diperbarui.'
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Gagal memperbarui Status kehadiran.'
+			];
+		}
+
+		echo json_encode($response);
 
 	}
 }

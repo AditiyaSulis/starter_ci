@@ -257,6 +257,7 @@ class m_attendance extends CI_Model
 
 	}
 
+
 	public function anyAttendance_get($id){
 
 			$this->db->select('*');
@@ -294,11 +295,22 @@ class m_attendance extends CI_Model
 		return $query->total_telat ?? 0;
 	}
 
+
 	public function deleteByScheduleNEmployee($id_schedule, $id_employee)
 	{
 		return $this->db->delete('attendance', ['id_schedule' => $id_schedule, 'id_employee' => $id_employee]);
 	}
 
 
+	public function setTimeManagement_post($id, $status, $jamMasuk)
+	{
+
+		$this->db->set(['time_management' => $status, 'jam_masuk' => $jamMasuk]);
+		$this->db->where('id_attendance', $id);
+		$this->db->update('attendance');
+
+		return true;
+
+	}
 
 }

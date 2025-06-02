@@ -96,7 +96,6 @@
 </div>
 
 
-
 <!-- Modal  Custom Date -->
 <div id="customDateModal" class="modal" tabindex="-1">
 	<div class="modal-dialog">

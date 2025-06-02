@@ -25,6 +25,7 @@ class Core_data extends MY_Controller{
         $this->load->model('M_schedule');
     }
 
+
 	public function data_piutang()
 	{
 		$tenor = $this->input->post('tanggal_pelunasan');
@@ -1162,14 +1163,32 @@ class Core_data extends MY_Controller{
 		foreach ($list as $item) {
 
 			$action = '-';
-			if($item['time_management'] == false && $employee == 'false'){
-				$action = ' <a href="javascript:void(0)" onclick="setPotonganTelat(this)" class="btn btn-info btn-sm rounded-pill btn-ptng-telat" style="width : 120px"
+
+//			if($item['time_management'] == false && $employee == 'false'){
+//				$action = ' <a href="javascript:void(0)" onclick="setPotonganTelat(this)" class="btn btn-info btn-sm rounded-pill 	 	  			btn-ptng-telat" style="width : 120px"
+//								data-id_attendance="'. $item['id_attendance'].'"
+//								data-potongan_telat="'. $item['potongan_telat'].'">
+//									Potong
+//							</a>
+//							 ';
+//			}
+
+			if($employee == 'false'){
+				$action = '<a href="javascript:void(0)" onclick="setTimeManagement(this)" class="btn btn-success btn-sm rounded-pill 	 	  			btn-ptng-telat" style="width : 120px"
+								data-id_attendance="'. $item['id_attendance'].'"
+								data-time_management="'. $item['time_management'].'"
+								data-jam_masuk="'. date('H:i', strtotime($item['jam_masuk'])).'">
+									Edit
+							</a>	';
+				if($item['time_management'] == false){
+					$action .= ' <a href="javascript:void(0)" onclick="setPotonganTelat(this)" class="btn btn-info btn-sm rounded-pill 	 	  			btn-ptng-telat" style="width : 120px"
 								data-id_attendance="'. $item['id_attendance'].'"
 								data-potongan_telat="'. $item['potongan_telat'].'">
 									Potong
 							</a>
-								 ';
-			} 
+							 ';
+				}
+			}
 
 
 			$time_management = $item['time_management'] == true ? '<span class="badge bg-success"  style="width: 70px;">On Time</span>' : '<span class="badge bg-warning"  style="width: 70px;">Telat</span>';
@@ -1521,6 +1540,7 @@ class Core_data extends MY_Controller{
 		echo json_encode($output);
 
 	}
+
 
 	public function data_schedule_dayoff()
 	{

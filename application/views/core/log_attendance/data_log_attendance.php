@@ -110,6 +110,53 @@
 	</div>
 </div>
 
+<div class="modal fade" tabindex="-1" id="setTimeManagementModal">
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Set Status Kehadiran</h4>
+
+
+				<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<i class="ti ti-minus"></i>
+							</span>
+                        </span>
+				</div>
+
+			</div>
+
+			<div class="modal-body">
+				<form class="form w-100" id="setTimeManagementForm" enctype="multipart/form-data">
+					<input type="hidden" id="id_attendance_time_management" name="id_attendance">
+					<div class="fv-row mb-8">
+						<label for="logo" class="form-label">Status Kehadiran</label>
+						<select class="form-select" aria-label="Default select example" id="set_time_management" name="time_management">
+							<option value="0">Telat</option>
+							<option value="1">On Time</option>
+						</select>
+					</div>
+					<div class="fv-row mb-8">
+						<label for="logo" class="form-label">Waktu</label>
+						<input type="time" id="jam_masuk_time_management" name="jam_masuk" class="form-control" step="60">
+					</div>
+					<div class="d-grid mb-10">
+						<button type="submit" id="submit_time_management" class="btn btn-primary">
+                                            <span class="indicator-label">
+                                                    Save Changes
+                                            </span>
+							<span class="indicator-progress">
+                                                     Please wait...
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            </span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div class="modal fade" tabindex="-1" id="potonganTelatModal">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -154,6 +201,8 @@
 		</div>
 	</div>
 </div>
+
+
 <script>
 	let table;
 	let option = '';
@@ -239,6 +288,7 @@
 	}
 
 
+	//Potongan Telat
 	function setPotonganTelat(element) {
 		let $element = $(element);
 
@@ -254,6 +304,54 @@
 			e.preventDefault();
 			$.ajax({
 				url: base_urla + "absence/attendance/set_potongan_telat",
+				type: "POST",
+				data: $(this).serialize(),
+				dataType: "json",
+				success: function(response) {
+					if (response.status) {
+						Swal.fire({
+							icon: "success",
+							title: "Berhasil",
+							text: response.message,
+							timer: 1500,
+							showConfirmButton: false
+						}).then(() => location.reload());
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Gagal",
+							text: response.message
+						});
+					}
+				},
+				error: function(xhr, status, error) {
+					Swal.fire({
+						icon: "error",
+						title: "Error",
+						text: "Terjadi kesalahan, silahkan coba lagi."
+					});
+				}
+			});
+		});
+	});
+	//End Potongan Telat
+
+	function setTimeManagement(element) {
+		let $element = $(element);
+
+		$("#id_attendance_time_management").val($element.data('id_attendance'));
+		$("#set_time_management").val($element.data('time_management'));
+		$("#jam_masuk_time_management").val($element.data('jam_masuk'));
+
+		$("#setTimeManagementModal").modal("show");
+	}
+	$(document).ready(function() {
+		const base_urla = $('meta[name="base_url"]').attr('content');
+
+		$("#setTimeManagementForm").on("submit", function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: base_urla + "absence/Attendance/set_time_management",
 				type: "POST",
 				data: $(this).serialize(),
 				dataType: "json",
