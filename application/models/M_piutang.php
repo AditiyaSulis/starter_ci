@@ -53,7 +53,7 @@ class M_piutang extends CI_Model {
     public function create_post($data)
     {
         if ($this->db->insert('piutang', $data)) {
-            return true;
+            return $this->db->insert_id();
         } else {
             return false;
         }
@@ -533,5 +533,7 @@ class M_piutang extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+
 
 }

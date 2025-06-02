@@ -7,6 +7,7 @@ class Piutang extends MY_Controller{
         $this->load->model('M_employees');
         $this->load->model('M_piutang');
         $this->load->model('M_purchase_piutang');
+        $this->load->model('M_saldo_piutang');
     }
 
     public function piutang_page()
@@ -19,6 +20,7 @@ class Piutang extends MY_Controller{
         $data['breadcrumb'] = 'Piutang';
         $data['menu'] = '';
 
+		$data['saldo'] = $this->M_saldo_piutang->saldo_get();
         $data['employee'] = $this->M_employees->findAll_get();
         $data['piutang'] = $this->M_piutang->findAllJoin_get();
 
@@ -85,6 +87,19 @@ class Piutang extends MY_Controller{
 		$angsuran = $this->input->post('angsuran',true);
 
 		$tgl_lunas = $this->input->post('tgl_lunas',true);
+
+		//Jika pengeluaran lebih besar dari saldo maka input gagal
+		$saldo = $this->M_saldo_piutang->saldo_get();
+		if($amount_piutang > $saldo) {
+			$response = [
+				'status' => false,
+				'message' => 'Amount tidak boleh melebihi saldo',
+			];
+
+			echo json_encode($response);
+			return;
+		}
+		//End
 
 		//validasi jika type piutang kasbon
 		if($type_piutang == 2) {
@@ -156,21 +171,30 @@ class Piutang extends MY_Controller{
 			'jatuh_tempo' => $this->input->post('jatuh_tempo', true),
 		];
 
-		$employee = $this->M_piutang->create_post($data);
 
-		if ($employee) {
-			$response = [
-				'status' => true,
-				'message' => 'Piutang berhasil ditambahkan',
-			];
-		} else {
-			$response = [
+
+		$this->db->trans_start();
+		$idPiutang = $this->M_piutang->create_post($data);
+		$dataSaldo = [
+			'id_piutang' => $idPiutang,
+			'saldo' => $data['amount_piutang'],
+			'status' => 3,
+		];
+		$this->M_saldo_piutang->create_post($dataSaldo);
+		$this->db->trans_complete();
+
+
+		if ($this->db->trans_status() === FALSE) {
+			echo json_encode([
 				'status' => false,
-				'message' => 'Piutang gagal ditambahkan',
-			];
+				'message' => 'Gagal menginput piutang.',
+			]);
+		} else {
+			echo json_encode([
+				'status' => true,
+				'message' => 'Piutang berhasil dibuat',
+			]);
 		}
-
-		echo json_encode($response);
 	}
 
     public function add_piutangS()
@@ -464,21 +488,31 @@ class Piutang extends MY_Controller{
             'description' => $this->input->post('description', true),
         ];
 
-        $piutang_payment = $this->M_purchase_piutang->create_post($data);
 
-        if ($piutang_payment) {
-            $response = [
-                'status' => true,
-                'message' => 'Pembayaran berhasil ditambahkan',
-            ];
-        } else {
-            $response = [
-                'status' => false,
-                'message' => 'Pembayaran gagal ditambahkan',
-            ];
-        }
 
-        echo json_encode($response);
+
+		$this->db->trans_start();
+		$piutang_payment = $this->M_purchase_piutang->create_post($data);
+		$dataSaldo = [
+			'id_piutang' => $id_piutang,
+			'saldo' => $data['pay_amount'],
+			'status' => 2,
+		];
+		$this->M_saldo_piutang->create_post($dataSaldo);
+		$this->db->trans_complete();
+
+
+		if ($this->db->trans_status() === FALSE) {
+			echo json_encode([
+				'status' => false,
+				'message' => 'Gagal membayar piutang.',
+			]);
+		} else {
+			echo json_encode([
+				'status' => true,
+				'message' => 'Piutang berhasil dibayar',
+			]);
+		}
     }
 
     public function set_progress()
@@ -530,6 +564,50 @@ class Piutang extends MY_Controller{
       return;
   
     }
+
+	public function add_saldo()
+	{
+		$this->_isAjax();
+		$this->_ONLY_SU();
+
+
+		$this->form_validation->set_rules('saldo', 'saldo', 'required', [
+			'required' => 'Saldo harus diisi',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$dataSaldo = [
+			'saldo' => $this->input->post('saldo', true),
+			'status' => 1,
+		];
+
+		$saldo = $this->M_saldo_piutang->create_post($dataSaldo);
+
+		if ($saldo) {
+			$response = [
+				'status' => true,
+				'message' => 'Saldo berhasil ditambahkan',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Saldo gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+	}
 
 	//-------------------------------PAID
     public function piutang_paid_page()
@@ -1135,5 +1213,65 @@ class Piutang extends MY_Controller{
     
         echo json_encode($output);
     }
+
+
+	//------------------------SALDO----------
+
+	public function riwayat_saldo(){
+		$this->_ONLYSELECTED([1,2,3,4]);
+		$data = $this->_basicData();
+
+		$data['title'] = 'Riwayat Saldo';
+		$data['view_name'] = 'admin/riwayat_saldo';
+		$data['breadcrumb'] = 'Piutang';
+		$data['menu'] = '';
+
+
+
+		if($data['user']){
+			$this->load->view('templates/index',$data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+		}
+	}
+	public function riwayat_saldo_ssr()
+	{
+		$option = $this->input->post('option');
+		$startDate = $this->input->post('startDate');
+		$endDate = $this->input->post('endDate');
+
+		$list = $this->M_saldo_piutang->get_datatables($option, $startDate, $endDate);
+		$data = array();
+		$no = @$_POST['start'];
+
+		foreach ($list as $item) {
+
+			$keterangan = '';
+			if($item->status == 2) {
+				$keterangan = "$item->name dari $item->name_product melakukan pinjaman sebesar <span style='color : forestgreen'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+			} else if($item->status == 1) {
+				$keterangan = "Admin melakukan penambahan saldo sebesar <span style='color : yellow'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+			} else if ($item->status == 3) {
+				$keterangan = "$item->name dari $item->name_product melakukan pengembalian pinjaman sebesar <span style='color : red'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+			} else {
+				$keterangan = 'not found';
+			}
+
+			$row = array();
+			$row[] = date('d/m/Y - H:i', strtotime($item->tanggal_saldo));
+			$row[] = $keterangan;
+
+			$data[] = $row;
+		}
+
+		$output = array(
+			"draw" => @$_POST['draw'],
+			"recordsTotal" => $this->M_saldo_piutang->count_all($option, $startDate, $endDate),
+			"recordsFiltered" => $this->M_saldo_piutang->count_filtered($option, $startDate, $endDate),
+			"data" => $data,
+		);
+
+		echo json_encode($output);
+	}
    
 }

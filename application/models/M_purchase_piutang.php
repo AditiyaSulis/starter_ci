@@ -17,7 +17,7 @@ class M_purchase_piutang extends CI_Model {
     public function create_post($data)
     {
         if ($this->db->insert('purchase_piutang', $data)) {
-            return true;
+            return $this->db->insert_id();
         } else {
             return false;
         }
