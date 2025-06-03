@@ -1249,11 +1249,11 @@ class Piutang extends MY_Controller{
 
 			$keterangan = '';
 			if($item->status == 2) {
-				$keterangan = "$item->name dari $item->name_product melakukan pinjaman sebesar <span style='color : forestgreen'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+				$keterangan = "$item->name dari $item->name_product melakukan pengembalian sebesar <span style='color : forestgreen'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
 			} else if($item->status == 1) {
-				$keterangan = "Admin melakukan penambahan saldo sebesar <span style='color : yellow'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+				$keterangan = "Admin melakukan penambahan saldo sebesar <span style='color : orange'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
 			} else if ($item->status == 3) {
-				$keterangan = "$item->name dari $item->name_product melakukan pengembalian pinjaman sebesar <span style='color : red'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+				$keterangan = "$item->name dari $item->name_product melakukan pinjaman sebesar <span style='color : red'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
 			} else {
 				$keterangan = 'not found';
 			}

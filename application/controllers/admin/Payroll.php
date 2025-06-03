@@ -25,6 +25,7 @@ class Payroll extends MY_Controller{
 		$this->load->model('M_pph_config');
 		$this->load->model('M_bpjs_config');
 		$this->load->model('M_tax_config');
+		$this->load->model('M_saldo_piutang');
 		$this->load->model('M_pkp');
 		$this->load->model('M_ptkp');
 	}
@@ -236,6 +237,14 @@ class Payroll extends MY_Controller{
 						'pay_amount' => $piutang['angsuran'],
 						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
 					];
+
+					$dataSaldo = [
+						'id_piutang' => $piutang['id_piutang'],
+						'saldo' =>  $piutang['angsuran'],
+						'status' => 2,
+					];
+
+					$this->M_saldo_piutang->create_post($dataSaldo);
 
 					$piutang_payment = $this->M_purchase_piutang->create_post($dataPiutang);
 

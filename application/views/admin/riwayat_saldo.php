@@ -25,7 +25,8 @@
 	<div class="col-3 col-md-3 col-lg-3 mb-3">
 		<label class="form-label">Tanggal :</label>
 		<select id="filterSelect" class="form-select form-select-sm">
-			<option value="today" selected>Today</option>
+			<option value="" selected>All</option>
+			<option value="today" >Today</option>
 			<option value="yesterday">Yesterday</option>
 			<option value="this_week">This Week</option>
 			<option value="last_week">Last Week</option>
