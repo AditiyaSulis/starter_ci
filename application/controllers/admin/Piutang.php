@@ -88,18 +88,21 @@ class Piutang extends MY_Controller{
 
 		$tgl_lunas = $this->input->post('tgl_lunas',true);
 
-		//Jika pengeluaran lebih besar dari saldo maka input gagal
-		$saldo = $this->M_saldo_piutang->saldo_get();
-		if($amount_piutang > $saldo) {
-			$response = [
-				'status' => false,
-				'message' => 'Amount tidak boleh melebihi saldo',
-			];
+        if($type_piutang == 1) {
+        //Jika pengeluaran lebih besar dari saldo maka input gagal
+            $saldo = $this->M_saldo_piutang->saldo_get();
+            if($amount_piutang > $saldo) {
+                $response = [
+                    'status' => false,
+                    'message' => 'Amount tidak boleh melebihi saldo',
+                ];
 
-			echo json_encode($response);
-			return;
-		}
+                echo json_encode($response);
+                return;
+            }
 		//End
+        }
+		
 
 		//validasi jika type piutang kasbon
 		if($type_piutang == 2) {
@@ -137,15 +140,15 @@ class Piutang extends MY_Controller{
 		}
 
 		//validasi peminjaman tidak melebihi gaji
-		if($amount_piutang > $emp['basic_salary']) {
-			$response = [
-				'status' => false,
-				'message' => 'Piutang tidak boleh lebih dari saldo',
-			];
+		// if($amount_piutang > $emp['basic_salary']) {
+		// 	$response = [
+		// 		'status' => false,
+		// 		'message' => 'Piutang tidak boleh lebih dari saldo',
+		// 	];
 
-			echo json_encode($response);
-			return;
-		}
+		// 	echo json_encode($response);
+		// 	return;
+		// }
 
 		if($this->input->post('jatuh_tempo',true) > 31) {
 			$response = [
@@ -180,7 +183,11 @@ class Piutang extends MY_Controller{
 			'saldo' => $data['amount_piutang'],
 			'status' => 3,
 		];
-		$this->M_saldo_piutang->create_post($dataSaldo);
+
+        if($type_piutang == 1) {
+            $this->M_saldo_piutang->create_post($dataSaldo);
+        }
+		
 		$this->db->trans_complete();
 
 
@@ -424,7 +431,7 @@ class Piutang extends MY_Controller{
     }
 
     public function add_pay()
-    {
+    { 
         $this->_isAjax();
 		$this->_ONLYSELECTED([1,2]);
 
@@ -498,7 +505,10 @@ class Piutang extends MY_Controller{
 			'saldo' => $data['pay_amount'],
 			'status' => 2,
 		];
-		$this->M_saldo_piutang->create_post($dataSaldo);
+        if($piutang['type_piutang'] == 1) {
+            $this->M_saldo_piutang->create_post($dataSaldo);
+        }
+		
 		$this->db->trans_complete();
 
 

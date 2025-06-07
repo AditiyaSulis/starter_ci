@@ -70,7 +70,7 @@
                         </div>
                         <div class="fv-row mb-8">
                             <select class="form-select" aria-label="Default select example" name="id_employee">
-                                <option selected>-Karyawan-</option>
+                                <option value='' selected>-Karyawan-</option>
                                 <?php foreach($employee as $emp):?>
                                     <option value="<?=$emp['id_employee']?>"><?=$emp['name']?></option>
                                 <?php endforeach;?>
@@ -119,7 +119,7 @@
 								<span>Angsuran</span>
 							</div>
 							<div class="fv-row mb-8">
-								<input type="number" name="angsuran" autocomplete="off" class="form-control bg-transparent" />
+								<input type="text" name="angsuran" autocomplete="off" class="form-control bg-transparent" />
 							</div>
                         </div>
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
