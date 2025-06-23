@@ -13,14 +13,14 @@ class Cronjob extends CI_Controller{
 	}
 
     public function sync_kehadiran($pwd = null) {
-        if($pwd = null) {
+        if(empty($pwd) || $pwd !== $this->pwd) {
             echo 'Unauthorized';
             exit();
         }
 
-        if($pwd == $this->pwd) {
-            $this->M_cronjob->mark_absent_if_no_checkin();
-        }
+        
+         $this->M_cronjob->mark_absent_if_no_checkin();
+        
     }
 
 }
