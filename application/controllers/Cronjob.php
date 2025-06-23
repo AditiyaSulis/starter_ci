@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cronjob extends MY_Controller{
+class Cronjob extends CI_Controller{
 
     protected $pwd = 'mgrf22s2';
 
@@ -17,7 +17,7 @@ class Cronjob extends MY_Controller{
             echo 'Unauthorized';
             exit();
         }
-         
+
         if($pwd == $this->pwd) {
             $this->M_cronjob->mark_absent_if_no_checkin();
         }
