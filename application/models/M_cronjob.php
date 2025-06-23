@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class M_schedule extends CI_Model
+class M_cronjob extends CI_Model
 {
 
 public function mark_absent_if_no_checkin() {
