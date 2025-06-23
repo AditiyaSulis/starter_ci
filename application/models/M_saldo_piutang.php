@@ -75,7 +75,7 @@ class M_saldo_piutang extends CI_Model
 
 		// Jumlah saldo_piutang untuk status 3
 		$this->db->select_sum('saldo');
-		$this->db->where('status', 3);
+		$this->db->where_in('status', [3,4]);
 		$query2 = $this->db->get('saldo_piutang');
 		$total_3 = $query2->row()->saldo ?? 0;
 

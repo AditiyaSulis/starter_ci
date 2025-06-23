@@ -33,6 +33,47 @@
 		right: 10px;
 	}
 
+    .gradient-btn-edit-admin {
+        background: linear-gradient(to right,rgb(180, 197, 22), rgb(239, 63, 251));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-edit-admin:hover {
+        background: linear-gradient(to right,rgb(161, 24, 147),rgb(183, 97, 174));
+    }
+
+    .gradient-btn-delete-admin {
+        background: linear-gradient(to right,rgb(97, 6, 6),rgb(244, 49, 221));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-delete-admin:hover {
+        background: linear-gradient(to right,rgb(244, 49, 221),rgb(97, 6, 6));
+    }
+
+
+    .gradient-btn-add-admin {
+        background: linear-gradient(to right,rgb(23, 14, 205), rgb(251, 66, 186));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-add-admin:hover {
+        background: linear-gradient(to right,rgb(251, 66, 186),rgb(110, 103, 232));
+    } 
+
+    .gradient-btn-clear-admin {
+        background: linear-gradient(to right,rgb(139, 4, 212), rgb(251, 66, 186));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-clear-admin:hover {
+        background: linear-gradient(to right,rgb(251, 66, 186),rgb(189, 101, 237));
+    } 
+
 </style>
 
 <main>
@@ -101,7 +142,7 @@
         </div>
     </div>
 
-	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">
+	<button type="button" class="btn gradient-btn-add-admin rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addFinanceModal">
 		<i class="bi bi-plus-circle"></i>
 		Tambah Kas
 	</button>
@@ -150,7 +191,7 @@
 			</div>
 
 			<div class="col-12 col-md-auto mt-8">
-				<button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
+				<button id="clearFilter" type="button" class="btn gradient-btn-clear-admin btn-sm rounded-pill mt-3">
 					<i class="ti ti-reload"></i> Clear Filter
 				</button>
 			</div>
@@ -186,7 +227,7 @@
 	
 	
 	<!-- Modal  Kas -->
-	<div class="modal fade" tabindex="-1" id="addProduct">
+	<div class="modal fade" tabindex="-1" id="addFinanceModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -202,7 +243,7 @@
 
 				
 				<div class="modal-body">
-					<form class="form w-100" id="addproduct" data-action="<?= site_url('admin/Cashflow/add_cashflow') ?>" enctype="multipart/form-data">
+					<form class="form w-100" id="addFinanceForm" data-action="<?= site_url('admin/Cashflow/add_cashflow') ?>" enctype="multipart/form-data">
 						
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Tanggal Input</span>
@@ -275,7 +316,7 @@
 							</select>
 						</div>
 						<div class="d-grid mb-10">
-							<button type="submit" id="submit_product" class="btn btn-primary">
+							<button type="submit" id="submit_finance" class="btn btn-primary">
 								<span class="indicator-label">Insert Kas</span>
 								<span class="indicator-progress">
 									Please wait...
@@ -323,7 +364,7 @@
 
 
 	<script>
-		  let base = '<?= base_url()?>';
+		let base = '<?= base_url()?>';
 		const base_url = $('meta[name="base_url"]').attr('content');
 		let table;
         let option = 'this_month';
@@ -799,21 +840,66 @@
 			input.value = formatted;
 		}
 
-		document.getElementById("addproduct").addEventListener("submit", function() {
-			let input = document.querySelector("input[name='jumlah']");
-			if (input.value !== "") {
-				input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
-			}
-		});
-
 
         $('#account').select2({
 			placeholder: "-pilih code-",
 			allowClear: true,
 			width: '100%',
-			dropdownParent: $('#addproduct') // atau parent lain yang sesuai
+			dropdownParent: $('#addFinanceForm') // atau parent lain yang sesuai
 		}); 
+ 
 
+        //add
+        $(document).ready(function () {
+            $("#addFinanceForm").on("submit", function (e) {
+                e.preventDefault();
+
+                let input = document.querySelector("input[name='jumlah']");
+                if (input.value !== "") {
+                    input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
+                }
+
+                var formElement = this;
+                var formData = new FormData(formElement);
+
+                $("#submit_finance").prop("disabled", true);
+                $("#submit_finance .indicator-label").hide();
+                $("#submit_finance .indicator-progress").show();
+
+                $.ajax({
+                    url: $(formElement).data("action"),
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (response) {
+                        $("#submit_finance").prop("disabled", false);
+                        $("#submit_finance .indicator-label").show();
+                        $("#submit_finance .indicator-progress").hide();
+
+                        if (response.status) {
+                            swallMssg_s(response.message, false, 1500)
+                                .then(() =>  {
+                                    location.reload();
+                                });
+                        } else {
+                            swallMssg_e(response.message, true, 0);
+                        }
+                    },
+                    error: function (xhr) {
+                        $("#submit_finance").prop("disabled", false);
+                        $("#submit_finance .indicator-label").show();
+                        $("#submit_finance .indicator-progress").hide();
+
+                        swallMssg_e('Terjadi kesalahan: ', true, 0)
+                            .then(() => {
+                                location.reload();
+                            });
+                    },
+                });
+            });
+        });
 
         
 	</script>

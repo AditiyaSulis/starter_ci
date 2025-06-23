@@ -341,7 +341,7 @@ class M_piutang extends CI_Model {
         $this->db->or_where('YEAR(purchase_piutang.pay_date) !=', $year);
         $this->db->group_end();
 
-        return $this->db->get()->row_array(); // Mengembalikan array data
+        return $this->db->get()->result_array(); // Mengembalikan array data
 	}
 
 

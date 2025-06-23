@@ -415,8 +415,8 @@
 	}
 
 	// Fungsi Hapus
-	function handleDeletePayrollComponentButton(id) {
-		console.log('ID yang akan dihapus:', id);
+	function handleDeletePayrollComponentButton(id, id_employee, code, amount) {
+		console.log('ID yang akan dihapus:', id,id_employee, code);
 		Swal.fire({
 			title: 'Apakah Anda yakin?',
 			text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -432,7 +432,11 @@
 				$.ajax({
 					url: base_url + 'admin/payroll/delete',
 					type: 'POST',
-					data: { id: id },
+					data: { id: id,
+						code:code, 
+						amount:amount,
+						id_employee:id_employee,
+					 },
 					success: function(response) {
 						console.log(response);
 						var res = JSON.parse(response);

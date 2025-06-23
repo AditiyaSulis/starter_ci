@@ -257,7 +257,7 @@ class Finance_record extends MY_Controller{
         foreach ($list as $item) {
             $action = '
                         <div class="no-print">
-                            <a href="javascript:void(0)" onclick="editFinanceBtn(this)" class="btn gradient-btn-edit btn-sm btn-sm mb-2 rounded-pill" style="width : 70px" 
+                            <a href="javascript:void(0)" onclick="editFinanceBtn(this)" class="btn gradient-btn-edit-admin btn-sm btn-sm mb-2 rounded-pill" style="width : 70px" 
                                 data-id="' . htmlspecialchars($item->id_record) . '"
                                 data-id_code="' . htmlspecialchars($item->id_code) . '"
                                 data-product="' . htmlspecialchars($item->product_id) . '"
@@ -269,7 +269,7 @@ class Finance_record extends MY_Controller{
                             </a>
 
                             <button 
-                                class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-finrec" style="width : 70px"
+                                class="btn gradient-btn-delete-admin btn-sm mb-2 rounded-pill btn-delete-finrec" style="width : 70px"
                                 onClick="handleDeleteButton(' . htmlspecialchars($item->id_record) . ')">
                                 DELETE
                             </button>

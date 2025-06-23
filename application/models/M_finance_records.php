@@ -35,6 +35,11 @@ class M_finance_records extends CI_Model {
         return $this->db->get_where('finance_records', ['id_record' => $id])->row_array();
     }
 
+    public function findByCodePayroll_get($id)
+    {
+        return $this->db->get_where('finance_records', ['code_payroll' => $id])->row_array();
+    }
+
 
     public function create_post($data)
     {
@@ -70,6 +75,9 @@ class M_finance_records extends CI_Model {
         return $this->db->delete('finance_records', ['id_record' => $id]);
     }
 
+    public function DeleteByCodePayroll($code){
+        return $this->db->delete('finance_records', ['code_payroll' => $code]);
+    }
 
     public function totalFinanceRecords_get()
     {
@@ -272,6 +280,17 @@ class M_finance_records extends CI_Model {
 
 		$this->db->set('amount', $uang_makan);
 		$this->db->where('description', $desc);
+		$this->db->update('finance_records');
+
+		return true;
+
+	} 
+
+    public function updatePayroll_post($code, $payroll)
+	{
+
+		$this->db->set('amount', $payroll);
+		$this->db->where('code_payroll', $code);
 		$this->db->update('finance_records');
 
 		return true;

@@ -207,7 +207,7 @@ class Cashflow extends MY_Controller{
 
             $action = '
                             <button 
-                                class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-kas" style="width : 70px"
+                                class="btn gradient-btn-delete-admin btn-sm mb-2 rounded-pill btn-delete-kas" style="width : 70px"
                                 onClick="handleDeleteKasButton(' . htmlspecialchars($item['id_cash_flow']) . ')">
                                 DELETE
                             </button>

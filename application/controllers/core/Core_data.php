@@ -954,7 +954,6 @@ class Core_data extends MY_Controller{
 				$nomor = '62' . substr($nomor, 1);
 			}
 
-		// Pesan WhatsApp dengan format yang terbukti berhasil
 			$pesan = "*Notifikasi | Penggajian | Sistem HR*\n\n"
 				. "Halo $nama,\n\n"
 				. "Gaji Anda untuk periode *$periode* sudah dikirim.\n\n"
@@ -973,10 +972,6 @@ class Core_data extends MY_Controller{
 			$url = "https://api.whatsapp.com/send/?phone=$nomorEncoded&text=$pesanEncoded&type=phone_number&app_absent=0";
 
 
-
-
-
-
 			if($employee == 'false') {
 				$action =
 					'    <button 
@@ -986,7 +981,7 @@ class Core_data extends MY_Controller{
                             data-id="'.htmlspecialchars($item['id_payroll_component']).'"
                             data-total-absent="'.htmlspecialchars($item['total_absen']).'"
                             data-total-lembur="'.htmlspecialchars($item['total_overtime']).'"
-                            data-basic-salary="'.htmlspecialchars($item['basic_salary']).'"
+                            data-basic-salary="'.htmlspecialchars($item['gaji_pokok']).'"
                             data-total-dayoff="'.htmlspecialchars($item['total_dayoff']).'"
                             data-uang-makan="'.htmlspecialchars($item['basic_uang_makan']).'"
                             data-nip="'.htmlspecialchars($item['nip']).'"
@@ -1016,9 +1011,16 @@ class Core_data extends MY_Controller{
                             <span><i class="bi bi-whatsapp"></i></span>
                         </a>
                         
-                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" onclick="handleDeletePayrollComponentButton('.htmlspecialchars($item['id_payroll_component']).')" style="width : 70px">
-                            DELETE
-                        </button> 
+                       <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-payroll-component" 
+							onclick="handleDeletePayrollComponentButton(\'' . 
+								htmlspecialchars($item['id_payroll_component']) . '\', \'' . 
+								htmlspecialchars($item['id_employee']) . '\', \'' . 
+								htmlspecialchars($item['code_payroll']) . '\', \'' . 
+								htmlspecialchars($item['gaji_bersih']) . '\')" 
+							style="width: 70px">
+							DELETE
+						</button>
+
                         
                          
                      ';

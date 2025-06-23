@@ -48,7 +48,13 @@ class M_payroll extends CI_Model
 	public function delete($id)
 	{
 		return $this->db->delete('payroll', ['id_payroll' => $id]);
+	} 
+
+	public function delete_by_code($code)
+	{
+		return $this->db->delete('payroll', ['code_payroll' => $code]);
 	}
+
 
 	public function findByPayrollComponentId_get($id)
 	{

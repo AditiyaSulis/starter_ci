@@ -224,31 +224,35 @@ class Payroll extends MY_Controller{
 
 				$piutang = $this->M_piutang->findPiutangThisMonthByEmployeeId_get($employeeId, $thisMonth, $thisYear);
 				if ($piutang) {
-					$changeStatus = $piutang['remaining_piutang'] - $piutang['angsuran'];
+					foreach($piutang as $piu) {
+						$changeStatus = $piu['remaining_piutang'] - $piu['angsuran'];
 
-					if($changeStatus == 0 || $changeStatus < 1 ) {
-						$this->M_piutang->setStatus_post($piutang['id_piutang'], 1);
+						if($changeStatus == 0 || $changeStatus < 1 ) {
+							$this->M_piutang->setStatus_post($piu['id_piutang'], 1);
+						}
+						$this->M_piutang->updateRemaining_post($piu['id_piutang'], $changeStatus);
+
+						$dataPiutang = [
+							'id_piutang' => $piu['id_piutang'],
+							'pay_date' =>$this->input->post('tanggal_gajian', true),
+							'pay_amount' => $piu['angsuran'],
+							'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
+							'code_payroll' => $this->input->post('code_payroll'),
+						];
+
+						$dataSaldo = [
+							'id_piutang' => $piu['id_piutang'],
+							'saldo' =>  $piu['angsuran'],
+							'status' => 2,
+						];
+
+						$this->M_saldo_piutang->create_post($dataSaldo);
+
+						$piutang_payment = $this->M_purchase_piutang->create_post($dataPiutang);
+
+						$potPiutang += $piu['angsuran'];
 					}
-					$this->M_piutang->updateRemaining_post($piutang['id_piutang'], $changeStatus);
-
-					$dataPiutang = [
-						'id_piutang' => $piutang['id_piutang'],
-						'pay_date' =>$this->input->post('tanggal_gajian', true),
-						'pay_amount' => $piutang['angsuran'],
-						'description' => $this->input->post('tanggal_gajian', true) . "-" . $this->input->post('description', true) . "-" . $this->input->post('code_payroll', true),
-					];
-
-					$dataSaldo = [
-						'id_piutang' => $piutang['id_piutang'],
-						'saldo' =>  $piutang['angsuran'],
-						'status' => 2,
-					];
-
-					$this->M_saldo_piutang->create_post($dataSaldo);
-
-					$piutang_payment = $this->M_purchase_piutang->create_post($dataPiutang);
-
-					$potPiutang = $piutang['angsuran'];
+					
 				}
 			}
 
@@ -453,6 +457,7 @@ class Payroll extends MY_Controller{
 					'amount' => $totalSalary,
 					'id_code' => 22,
 					'description' => $this->input->post('code_payroll', true),
+					'code_payroll' => $this->input->post('code_payroll', true),
 				];
 				if( $this->input->post('include_pph', true) == 1) {
 					$dataFinanceRecordTax = [
@@ -605,36 +610,46 @@ class Payroll extends MY_Controller{
 		$this->_isAjax();
 
 		$id = $this->input->post('id');
-
+		$code = $this->input->post('code');
+		$amount = $this->input->post('amount');
 
 		if($this->M_payroll_component->delete($id)){
-			$response = [
-				'status' => true,
-				'message' => 'Slip Gaji berhasil dihapus',
-			];
-		} else {
-			$response = [
-				'status' => false,
-				'message' => 'Slip Gaji gagal dihapus',
-			];
-		}
+			$payroll = $this->M_payroll->findByCode_get($code);
+			if($payroll) {
+				$payroll_component = $this->M_payroll_component->findByPayrollId_get($payroll[0]['id_payroll']);
+				if(!$payroll_component) {
+					$this->M_payroll->delete_by_code($code);
+					$fr = $this->M_finance_records->DeleteByCodePayroll($code);
+				} else {
+					$fr = $this->M_finance_records->findByCodePayroll_get($code); 
+					if($fr) {
+						$updateAmount =  $fr['amount'] - $amount;
+						$this->M_finance_records->updatePayroll_post($code, $updateAmount);
+					}
+				} 
 
-		echo json_encode($response);
+				$purchase_piutang = $this->M_purchase_piutang->findByCodePayroll_get($code, $this->input->post('id_employee'));
+				if($purchase_piutang) {
+					foreach($purchase_piutang as $bayar) {
+						$this->M_purchase_piutang->delete_purchase($bayar['id_purchase_piutang']);
+						$piutang = $this->M_piutang->findById_get($bayar['id_piutang']);
+						if($piutang){
+							$dataPiutang = [
+								'remaining_piutang' => $piutang['remaining_piutang'] + $bayar['pay_amount'],
+								'status_piutang' => 2
+							];
+							$this->M_piutang->update_post($piutang['id_piutang'], $dataPiutang); 
 
-	}
+							$dataSaldo = [
+								'id_piutang' => $piutang['id_piutang'],
+								'saldo' =>  $bayar['pay_amount'],
+								'status' => 4,
+							];
 
-	public function delete_by_payroll()
-	{
-		$this->_ONLYSELECTED([1,2]);
-		$this->_isAjax();
-
-		$id = $this->input->post('id');
-
-		if($this->M_payroll->delete($id)){
-			$pc = $this->M_payroll_component->findByPayrollId_get($id);
-			if($pc) {
-				foreach ($pc as $paco) {
-					$this->M_payroll_component->delete($paco['id_payroll_component']);
+							$this->M_saldo_piutang->create_post($dataSaldo);
+						}
+					}
+					
 				}
 			}
 			$response = [
@@ -652,6 +667,73 @@ class Payroll extends MY_Controller{
 
 	}
 
+
+	public function delete_by_payroll()
+	{
+		$this->_ONLYSELECTED([1,2]);
+		$this->_isAjax();
+
+		$id = $this->input->post('id');
+		$payroll = $this->M_payroll->findById_get($id);
+		if(!$payroll) {
+			$response = [
+				'status' => false,
+				'message' => 'Payroll tidak ada dihapus',
+			];
+
+			echo json_encode($response);
+
+			return;
+
+		} 
+
+		if($this->M_payroll->delete($id)){
+			$pc = $this->M_payroll_component->findByPayrollId_get($id);
+			if($pc) {
+				foreach ($pc as $paco) {
+					$this->M_payroll_component->delete($paco['id_payroll_component']);
+				}
+			} 
+
+			$fr = $this->M_finance_records->DeleteByCodePayroll($payroll['code_payroll']);
+
+			$purchase = $this->M_purchase_piutang->findByCodePayroll_get($payroll['code_payroll']);
+			if($purchase) {
+				foreach($purchase as $purchases) { 
+					$piutang = $this->M_piutang->findById_get($purchases['id_piutang']);
+					$dataPiutang = [
+								'remaining_piutang' => $piutang['remaining_piutang'] + $purchases['pay_amount'],
+								'status_piutang' => 2
+							];
+
+					$this->M_piutang->update_post($piutang['id_piutang'], $dataPiutang); 
+
+					$dataSaldo = [
+						'id_piutang' => $piutang['id_piutang'],
+						'saldo' =>  $purchases['pay_amount'],
+						'status' => 4,
+					];
+
+					$this->M_saldo_piutang->create_post($dataSaldo);	
+					$this->M_purchase_piutang->delete_purchase($purchases['id_purchase_piutang']);
+				}
+			}
+			$response = [
+				'status' => true,
+				'message' => 'Slip Gaji berhasil dihapus',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Slip Gaji gagal dihapus',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
+
+	
 	public function detail_payroll(){
 		$this->_ONLYSELECTED([1,2]);
 		$data = $this->_basicData();

@@ -739,7 +739,8 @@ class Piutang extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 
         $id = $this->input->post('id');
-        
+
+        // $riwayatBayar $this->M_saldo_piutang->
 
 
         if($this->M_piutang->delete($id) && $this->M_purchase_piutang->deleteByPiutangId_get($id) ){
@@ -1264,6 +1265,8 @@ class Piutang extends MY_Controller{
 				$keterangan = "Admin melakukan penambahan saldo sebesar <span style='color : orange'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
 			} else if ($item->status == 3) {
 				$keterangan = "$item->name dari $item->name_product melakukan pinjaman sebesar <span style='color : red'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
+			} else if ($item->status == 4) {
+				$keterangan = "$item->name dari $item->name_product pembatalan pembayaran <span style='color : red'>Rp.". number_format($item->saldo, 0 , ',', '.').".</span>";
 			} else {
 				$keterangan = 'not found';
 			}

@@ -14,6 +14,21 @@ class M_purchase_piutang extends CI_Model {
         return $this->db->get_where('purchase_piutang', ['id_piutang' => $id])->result_array();
     }
 
+
+    public function findByCodePayroll_get($code, $id =null)
+    {
+        $this->db->select('purchase_piutang.*, piutang.id_employee');
+        $this->db->from('purchase_piutang');
+        $this->db->where('purchase_piutang.code_payroll', $code);
+        $this->db->join('piutang' , 'piutang.id_piutang = purchase_piutang.id_piutang');
+        if($id !== null) {
+            $this->db->where('piutang.id_employee', $id); 
+        }
+     
+        return $this->db->get()->result_array();
+    }
+
+
     public function create_post($data)
     {
         if ($this->db->insert('purchase_piutang', $data)) {
@@ -23,10 +38,23 @@ class M_purchase_piutang extends CI_Model {
         }
     }
 
+
     public function delete($id)
     {
         return $this->db->delete('purchase_piutang', ['id_piutang' => $id]);
+    }  
+
+     public function delete_purchase($id)
+    {
+        return $this->db->delete('purchase_piutang', ['id_purchase_piutang' => $id]);
+    } 
+
+
+    public function delete_by_code_payroll($code)
+    {
+        return $this->db->delete('purchase_piutang', ['code_payroll' => $code]);
     }
+
 
     public function getTotalPaymentAmount_get()
     {
@@ -36,10 +64,12 @@ class M_purchase_piutang extends CI_Model {
         return $query->row()->payment_amount; 
     }
 
+
     public function deleteByPiutangId_get($id)
     {
         return $this->db->delete('purchase_piutang', ['id_piutang' => $id]);
     }
+
 
     //========================V2
     public function findByPiutangIdV2_get($id)
@@ -52,6 +82,7 @@ class M_purchase_piutang extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+
 
     public function pay_post($id, $data)
     {

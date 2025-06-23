@@ -4,6 +4,50 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
+<style>
+
+    .gradient-btn-edit-admin {
+        background: linear-gradient(to right,rgb(180, 197, 22), rgb(239, 63, 251));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-edit-admin:hover {
+        background: linear-gradient(to right,rgb(161, 24, 147),rgb(183, 97, 174));
+    }
+
+    .gradient-btn-delete-admin {
+        background: linear-gradient(to right,rgb(97, 6, 6),rgb(244, 49, 221));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-delete-admin:hover {
+        background: linear-gradient(to right,rgb(244, 49, 221),rgb(97, 6, 6));
+    }
+
+
+    .gradient-btn-add-admin {
+        background: linear-gradient(to right,rgb(23, 14, 205), rgb(251, 66, 186));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-add-admin:hover {
+        background: linear-gradient(to right,rgb(251, 66, 186),rgb(110, 103, 232));
+    } 
+
+    .gradient-btn-clear-admin {
+        background: linear-gradient(to right,rgb(139, 4, 212), rgb(251, 66, 186));
+        border: none;
+        color: white;
+    }
+
+    .gradient-btn-clear-admin:hover {
+        background: linear-gradient(to right,rgb(251, 66, 186),rgb(189, 101, 237));
+    } 
+
+</style>
 <main>
     <h1 class="mb-4">Finance Record</h1>
 
@@ -70,8 +114,8 @@
     </div>
 
     <div class="d-flex justify-content-between flex-wrap mt-5">
-        <button type="button" class="btn  rounded-pill btn-flex gradient-btn mt-3" data-bs-toggle="modal"
-            data-bs-target="#addProduct">
+        <button type="button" class="btn  rounded-pill btn-flex gradient-btn-add-admin mt-3" data-bs-toggle="modal"
+            data-bs-target="#addFinanceModal">
             <i class="bi bi-plus-circle"></i> Add Finance Record
         </button>
     </div>
@@ -121,7 +165,7 @@
 			</div>
 
 			<div class="col-12 col-md-auto mt-8">
-				<button id="clearFilter" type="button" class="btn btn-info btn-sm rounded-pill mt-3">
+				<button id="clearFilter" type="button" class="btn gradient-btn-clear-admin btn-sm rounded-pill mt-3">
 					<i class="ti ti-reload"></i> Clear Filter
 				</button>
 			</div>
@@ -183,7 +227,7 @@
     </div>
 
     <!-- Modal Add Product -->
-    <div class="modal fade" tabindex="-1" id="addProduct">
+    <div class="modal fade" tabindex="-1" id="addFinanceModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -200,7 +244,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="form w-100" id="addproduct"
+                    <form class="form w-100" id="addFinanceForm"
                         data-action="<?= site_url('admin/finance_record/add_finance') ?>" enctype="multipart/form-data">
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
                             <span>Record Date</span>
@@ -256,7 +300,7 @@
                                 class="form-control bg-transparent"></textarea>
                         </div>
                         <div class="d-grid mb-10">
-                            <button type="submit" id="submit_product" class="btn btn-primary">
+                            <button type="submit" id="submit_finance" class="btn btn-primary">
                                 <span class="indicator-label">
                                     Add finance
                                 </span>
@@ -1003,13 +1047,59 @@
 			input.value = formatted;
 		}
 
-		document.getElementById("addproduct").addEventListener("submit", function() {
-			let input = document.querySelector("input[name='amount']");
-			if (input.value !== "") {
-				input.value = input.value.replace(/\./g, ""); // Hapus semua titik sebelum submit
-			}
-		});
 
+
+
+        $(document).ready(function () {
+            $("#addFinanceForm").on("submit", function (e) {
+                e.preventDefault();
+
+                let input = document.querySelector("input[name='amount']");
+                if (input.value !== "") {
+                    input.value = input.value.replace(/\./g, ""); // Hapus semua titik
+                }
+
+                var formElement = this;
+                var formData = new FormData(formElement);
+
+                $("#submit_finance").prop("disabled", true);
+                $("#submit_finance .indicator-label").hide();
+                $("#submit_finance .indicator-progress").show();
+
+                $.ajax({
+                    url: $(formElement).data("action"),
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (response) {
+                        $("#submit_finance").prop("disabled", false);
+                        $("#submit_finance .indicator-label").show();
+                        $("#submit_finance .indicator-progress").hide();
+
+                        if (response.status) {
+                            swallMssg_s(response.message, false, 1500)
+                                .then(() =>  {
+                                    location.reload();
+                                });
+                        } else {
+                            swallMssg_e(response.message, true, 0);
+                        }
+                    },
+                    error: function (xhr) {
+                        $("#submit_finance").prop("disabled", false);
+                        $("#submit_finance .indicator-label").show();
+                        $("#submit_finance .indicator-progress").hide();
+
+                        swallMssg_e('Terjadi kesalahan: ', true, 0)
+                            .then(() => {
+                                location.reload();
+                            });
+                    },
+                });
+            });
+        });
 
     </script>
 
