@@ -215,7 +215,7 @@ class Cashflow extends MY_Controller{
                     ';
             $row = array();
             $row[] = $item['kode_cash_flow']; 
-            $row[] = date('d F Y', strtotime($item['tgl_cash_flow'])); 
+            $row[] = date('d/m/Y', strtotime($item['tgl_cash_flow']));
             //$row[] = $item['name_kategori'];
 			$row[] = $item['name_code']; 
             $row[] = $item['name_product']; 

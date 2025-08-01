@@ -505,6 +505,7 @@ class Piutang extends MY_Controller{
 			'saldo' => $data['pay_amount'],
 			'status' => 2,
 		];
+
         if($piutang['type_piutang'] == 1) {
             $this->M_saldo_piutang->create_post($dataSaldo);
         }

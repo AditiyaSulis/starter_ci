@@ -72,8 +72,14 @@
 
     .gradient-btn-clear-admin:hover {
         background: linear-gradient(to right,rgb(251, 66, 186),rgb(189, 101, 237));
-    } 
+    }
 
+	.limited-width {
+		max-width: 200px; /* ubah sesuai kebutuhan */
+		white-space: normal !important;
+		word-wrap: break-word;
+		word-break: break-word;
+	}
 </style>
 
 <main>
@@ -207,10 +213,10 @@
 			<table id="kas_table" class="table table-bordered table-striped w-100">
 				<thead class="table-primary">
 					<tr>
-						<th>Kode Kas</th>
+						<th class="no-print">Kode</th>
 						<th>Tanggal</th>
 						<th>Kode</th>
-						<th>Product</th>
+						<th>Produk</th>
 						<th>Keterangan</th>
 						<th>Penghasilan</th>
 						<th>Pengeluaran</th>
@@ -603,7 +609,7 @@
                             columns: ':not(.no-print)',
                         },
                         customize: function (doc) {
-                            doc.styles.tableHeader.fontSize = 10;
+                            doc.styles.tableHeader.fontSize = 8;
                             doc.styles.tableBodyOdd.fontSize = 8;
                             doc.styles.tableBodyEven.fontSize = 8;
                             doc.content[1].margin = [10, 15, 10, 10];
@@ -617,6 +623,9 @@
 								paddingTop: function(i, node) { return 6; },
 								paddingBottom: function(i, node) { return 6; }
 							};
+							if (doc.content[1].table) {
+								doc.content[1].table.widths = ['11%', '13%', '15%', '20%', '13%', '13%', '20%']; // Contoh: kolom ke-4 (index 3) 20%
+							}
 
                             // Tambahkan periode
                             let currentDate = new Date();
@@ -780,6 +789,8 @@
                 columnDefs: [
                     { targets: "_all", orderable: false },
                     { targets: 0, className: "text-start" },
+                    { targets: 4, className: "limited-width" },
+                    { targets: 7, className: "limited-width" },
                 ],
             });
         }
