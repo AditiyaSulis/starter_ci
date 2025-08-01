@@ -246,7 +246,9 @@ class Payroll extends MY_Controller{
 							'status' => 2,
 						];
 
-						$this->M_saldo_piutang->create_post($dataSaldo);
+						if($piu['type_piutang'] == 1) {
+							$this->M_saldo_piutang->create_post($dataSaldo);
+						}
 
 						$piutang_payment = $this->M_purchase_piutang->create_post($dataPiutang);
 
@@ -354,14 +356,16 @@ class Payroll extends MY_Controller{
 				}
 			// Selesai PPH
 
-			$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $potUangMakan;
+			//			$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $potUangMakan;
+			$totalPotongan = 0  + $potPiutang   + $totalTelat + $potUangMakan;
 
 			if($this->input->post('include_bpjs', true) == 1 && $this->input->post('include_pph', true) == 2 ) {
 				$bpjs = $this->M_bpjs_config->findByEmployeeId_get($employeeId);
 				if($bpjs['no_bpjs'] == null || empty($bpjs['no_bpjs'])) {
 					$jht = 0.02 * $employee['basic_salary'];
 					$jp = 0.01 *  $employee['basic_salary'];
-					$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $jht + $jp;
+					//					$totalPotongan = $totalPotAbsen  + $potPiutang   + $totalTelat + $jht + $jp;
+					$totalPotongan = 0  + $potPiutang   + $totalTelat + $jht + $jp;
 				}
 			}
 			$totalGaji = $employee['basic_salary']  + $totalOvertime - $totalPotongan + $bonus + $uang_makan;
@@ -382,7 +386,8 @@ class Payroll extends MY_Controller{
 				'total_potongan_telat' => $totalTelat,
 				'piutang' => $potPiutang,
 				'total' => $totalGaji,
-				'potongan_absen' => $totalPotAbsen,
+				//'potongan_absen' => $totalPotAbsen,
+				'potongan_absen' => 0,
 				'absen_hari' => $absenPerhari,
 				'total_potongan' => $totalPotongan,
 				'jht' => $jht,
