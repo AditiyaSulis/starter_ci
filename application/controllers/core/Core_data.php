@@ -1607,4 +1607,109 @@ class Core_data extends MY_Controller{
 
 	}
 
+	public function data_koperasi()
+	{
+		$this->load->model('M_koperasi');
+		$tenor = $this->input->post('tgl_lunas');
+		$type = $this->input->post('type_koperasi');
+		$status_piutang = $this->input->post('status');
+
+		$list = $this->M_koperasi->get_datatables();
+
+		$data = [];
+		$no = $this->input->post('start');
+
+		foreach($list as $item) {
+
+			$type_ten = '';
+			if($item['type_tenor'] == 1) {
+				$type_ten = 'Hari';
+			} else if($item['type_tenor'] == 2) {
+				$type_ten = 'Minggu';
+			}else if($item['type_tenor'] == 3) {
+				$type_ten = 'Bulan';
+			}else if($item['type_tenor'] == 4) {
+				$type_ten = 'Tahun';
+			}
+			$action = $status_piutang == 1 ?
+				'   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#logKoperasiModal"
+                            data-id_koperasi="'.htmlspecialchars($item['id_koperasi']).'"
+                            data-name_log="'.htmlspecialchars($item['name_product']).'"
+                            data-totals_log="'.htmlspecialchars($item['amount_koperasi']).'"
+                            data-paydate_log="'.htmlspecialchars($item['koperasi_date']).'"
+                            data-tgl_lunas_log="'.htmlspecialchars($item['tgl_lunas']).'">
+                             LOG
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-koperasi onclick="handleDeleteKoperasiButton('.htmlspecialchars($item['id_koperasi']).')" style="width : 70px">
+                            DELETE
+                        </button>
+						'
+				:
+				'   
+                        <button 
+                            class="btn btn-warning btn-sm mb-2 rounded-pill btn-pay-piutang" style="width : 70px"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#payKoperasiModal"
+                            data-id_koperasi="'.htmlspecialchars($item['id_koperasi']).'"
+                            data-remaining="'.htmlspecialchars($item['remaining']).'"
+                            data-tgl_lunas="'.htmlspecialchars($item['tgl_lunas']).'"
+                            data-tenor_koperasi="'.htmlspecialchars($item['tenor_koperasi']).'"
+                            data-angsuran="'.htmlspecialchars($item['angsuran']).'"
+                            data-type_tenor="'.htmlspecialchars($item['type_tenor']).'">
+                             PAY
+                        </button>
+                        <button class="btn gradient-btn-delete btn-sm mb-2 rounded-pill btn-delete-koperasi" onclick="handleDeleteKoperasiButton('.htmlspecialchars($item['id_koperasi']).')" style="width : 70px">
+                            DELETE
+                        </button>
+						';
+
+			$status = $item['status'] == 2 ?
+				'
+						  <td>
+							  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
+								  Unpaid
+							  </span>
+						  </td>
+					    '
+				:
+				'
+						  <td>
+							  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
+								  Paid
+							  </span>
+						  </td>
+					   ';
+
+			$row = [];
+			$row[] = ++$no;
+			$row[] = date('d M Y', strtotime($item['koperasi_date']));
+			$row[] = $item['name_product'];
+			$row[] = $item['type_koperasi'] == 2 ? 'Kasbon' : 'Pinjaman';
+			$row[] = $item['tenor_koperasi'] . ' ' . $type_ten;
+			$row[] = 'Tanggal '.$item['tgl_jatuh_tempo'];
+			$row[] = date('d M Y', strtotime($item['tgl_lunas']));
+			$row[] = 'Rp.'. number_format($item['amount_koperasi'], 0 , ',', '.');
+			$row[] = 'Rp.'. number_format($item['remaining'], 0 , ',', '.');
+			$row[] = $status;
+			$row[] = 'Rp.'. number_format($item['angsuran'], 0 , ',', '.');
+			$row[] = $item['description'];
+			$row[] = $action;
+			$data[] = $row;
+		}
+
+		$output = [
+			"draw" =>@$_POST['draw'],
+			"recordsTotal" => $this->M_koperasi->count_all(),
+			"recordsFiltered" => $this->M_koperasi->count_filtered(),
+			"tenor" => $tenor,
+			"type" => $type,
+			"data" => $data,
+		];
+
+		echo json_encode($output);
+	}
 }

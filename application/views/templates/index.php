@@ -318,7 +318,7 @@
 												<i class="bi bi-calendar-check"></i>
 											</span>
 										</span>
-										<span class="menu-title">Attendance</span>
+										<span class="menu-title">Kehadiran</span>
 									</a>
 								</div>
 							</div>
@@ -331,7 +331,7 @@
 											<i class="bi bi-calendar-week"></i>
 										</span>
 									</span>
-										<span class="menu-title">Schedule</span>
+										<span class="menu-title">Jadwal Kerja</span>
 									</a>
 								</div>
 							</div>
@@ -344,7 +344,7 @@
 												<i class="bi bi-calendar-x"></i>
 											</span>
 										</span>
-										<span class="menu-title">Day Off</span>
+										<span class="menu-title">Libur Karyawan</span>
 									</a>
 								</div>
 							</div>
@@ -357,7 +357,7 @@
 												<i class="bi bi-calendar-range"></i>
 											</span>
 										</span>
-										<span class="menu-title">Leave</span>
+										<span class="menu-title">Cuti</span>
 									</a>
 								</div>
 							</div>
@@ -631,6 +631,21 @@
 									</a>
 								</div>
 							</div>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Koperasi' ? "active": ""?>" href="<?=base_url('admin/Koperasi/koperasi_page?status=2')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-currency-exchange"></i>
+											</span>
+										</span>
+										<span class="menu-title">Koperasi</span>
+									</a>
+								</div>
+							</div>
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -703,7 +718,7 @@
 												<i class="bi bi-currency-exchange"></i>
 											</span>
 										</span>
-										<span class="menu-title">Payroll</span>
+										<span class="menu-title">Penggajian</span>
 									</a>
 								</div>
 							</div>
@@ -730,7 +745,7 @@
 													<i class="bi bi-clock"></i>
 												</span>
 											</span>
-										<span class="menu-title">Overtime</span>
+										<span class="menu-title">Lembur</span>
 									</a>
 								</div>
 							</div>
