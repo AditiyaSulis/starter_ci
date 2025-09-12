@@ -238,7 +238,6 @@ class Supplier extends MY_Controller
         return;
       }
 
-
     
        $setstatus = $this->input->post('status_supplier', true);
 

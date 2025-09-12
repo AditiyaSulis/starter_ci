@@ -62,17 +62,19 @@ class M_saldo_koperasi extends CI_Model
 	}
 
 
-	public function saldo_get()
+	public function saldo_get($type)
 	{
 		// Jumlah saldo_koperasi untuk status 1 dan 2
 		$this->db->select_sum('nominal');
 		$this->db->where_in('status', [1, 2]);
+		$this->db->where('type_saldo', $type);
 		$query1 = $this->db->get('saldo_koperasi');
 		$total_12 = $query1->row()->nominal ?? 0;
 
 		// Jumlah saldo_koperasi untuk status 3
 		$this->db->select_sum('nominal');
 		$this->db->where_in('status', [3,4]);
+		$this->db->where('type_saldo', $type);
 		$query2 = $this->db->get('saldo_koperasi');
 		$total_3 = $query2->row()->nominal ?? 0;
 
@@ -126,13 +128,14 @@ class M_saldo_koperasi extends CI_Model
 	}
 
 
-	public function getRiwayatSaldoCore_get($option = null, $startDate = null, $endDate = null)
+	public function getRiwayatSaldoCore_get($option = null, $startDate = null, $endDate = null, $type = null)
 	{
 
 
 
 		$this->db->select('saldo_koperasi.*, koperasi.id_product, products.name_product');
 		$this->db->from('saldo_koperasi');
+		$this->db->where('saldo_koperasi.type_saldo', $type);
 		$this->db->join('koperasi', 'koperasi.id_koperasi = saldo_koperasi.id_koperasi', 'left');
 		$this->db->join('products', 'products.id_product = koperasi.id_product', 'left');
 		if(!empty($option) ){
@@ -166,9 +169,9 @@ class M_saldo_koperasi extends CI_Model
 	}
 
 
-	public function get_datatables($option = null, $startDate = null, $endDate = null)
+	public function get_datatables($option = null, $startDate = null, $endDate = null,  $type = null)
 	{
-		$this->getRiwayatSaldoCore_get($option, $startDate , $endDate);
+		$this->getRiwayatSaldoCore_get($option, $startDate , $endDate, $type);
 		if (@$_POST['length'] != -1) {
 			$this->db->limit(@$_POST['length'], @$_POST['start']);
 		}
@@ -177,18 +180,19 @@ class M_saldo_koperasi extends CI_Model
 	}
 
 
-	public function count_filtered($option = null, $startDate = null, $endDate = null)
+	public function count_filtered($option = null, $startDate = null, $endDate = null, $type = null)
 	{
-		$this->getRiwayatSaldoCore_get($option, $startDate, $endDate);
+		$this->getRiwayatSaldoCore_get($option, $startDate, $endDate, $type);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
 
-	public function count_all($option, $startDate, $endDate)
+	public function count_all($option, $startDate, $endDate, $type)
 	{
 		$this->db->select('saldo_koperasi.*, koperasi.id_product,products.name_product');
 		$this->db->from('saldo_koperasi');
+		$this->db->where('saldo_koperasi.type_saldo', $type);
 		$this->db->join('koperasi', 'koperasi.id_koperasi = saldo_koperasi.id_koperasi', 'left');
 		$this->db->join('products', 'products.id_product = koperasi.id_product', 'left');
 		if(!empty($option) ){

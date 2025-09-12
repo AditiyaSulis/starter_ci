@@ -23,4 +23,6 @@ class M_categories extends CI_Model {
         return $query;
     }
 
+
+
 }

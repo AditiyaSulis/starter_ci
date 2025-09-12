@@ -79,15 +79,13 @@
 		</div>
 	</div>
 </div>
-
 <script>
 	let table;
 	let option = '';
 	let startDate = '';
 	let endDate = '';
+	let type_saldo = <?=$type?>;
 	const base_urls = $('meta[name="base_url"]').attr('content');
-
-
 
 	function callDT() {
 		table = $('#riwayat_saldo_table').DataTable({
@@ -106,6 +104,7 @@
 					d.option = $('#filterSelect').val();
 					d.startDate = $('#startDate').val();
 					d.endDate = $('#endDate').val();
+					d.type_saldo = type_saldo;
 				}
 			},
 			dom: "<'row'<'col-sm-12 col-md-6 d-flex align-items-center'l><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'f>>" +

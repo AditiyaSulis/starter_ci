@@ -20,7 +20,8 @@ class Koperasi extends MY_Controller{
 		$data['breadcrumb'] = 'Koperasi';
 		$data['menu'] = '';
 
-		$data['saldo'] = $this->M_saldo_koperasi->saldo_get();
+		$data['saldo_pinjaman'] = $this->M_saldo_koperasi->saldo_get(1);
+		$data['saldo_kasbon'] = $this->M_saldo_koperasi->saldo_get(2);
 		$data['products'] = $this->M_products->findAllShow_get();
 		$data['koperasi'] = $this->M_koperasi->findAllJoin_get();
 
@@ -46,8 +47,8 @@ class Koperasi extends MY_Controller{
 		$data['breadcrumb'] = 'Koperasi';
 		$data['menu'] = '';
 
-		$data['saldo'] = $this->M_saldo_koperasi->saldo_get();
-		$data['products'] = $this->M_products->findAllShow_get();
+		$data['saldo_pinjaman'] = $this->M_saldo_koperasi->saldo_get(1);
+		$data['saldo_kasbon'] = $this->M_saldo_koperasi->saldo_get(2);
 		$data['koperasi'] = $this->M_koperasi->findAllJoin_get();
 
 		$data['view_data'] = 'core/koperasi/data_koperasi';
@@ -114,28 +115,36 @@ class Koperasi extends MY_Controller{
 
 		$tgl_lunas = $this->input->post('tgl_lunas',true);
 
-		//		if($type_koperasi == 1) {
+		if($type_koperasi == 1) {
 			//Jika pengeluaran lebih besar dari saldo maka input gagal
-		$saldo = $this->M_saldo_koperasi->saldo_get();
-		if($amount_koperasi > $saldo) {
-			$response = [
-				'status' => false,
-				'message' => 'Amount tidak boleh melebihi saldo',
-			];
+			$saldo = $this->M_saldo_koperasi->saldo_get(1);
+			if($amount_koperasi > $saldo) {
+				$response = [
+					'status' => false,
+					'message' => 'Pinjaman tidak boleh melebihi saldo',
+				];
 
-			echo json_encode($response);
-			return;
-		}
+				echo json_encode($response);
+				return;
+			}
 			//End
-		//}
+		} else if($type_koperasi == 2) {
+			$saldo = $this->M_saldo_koperasi->saldo_get(2);
+			if($amount_koperasi > $saldo) {
+				$response = [
+					'status' => false,
+					'message' => 'Kasbon tidak boleh melebihi saldo',
+				];
 
-
-		//validasi jika type piutang kasbon
-		if($type_koperasi == 2) {
+				echo json_encode($response);
+				return;
+			}
 			$satuan = 1;
 			$type_tenor = 3;
 			$angsuran = $amount_koperasi;
 		}
+
+
 
 		//validasi berdasarkan type tenor
 		if($type_tenor == 1){
@@ -197,12 +206,13 @@ class Koperasi extends MY_Controller{
 		$dataSaldo = [
 			'id_koperasi' => $idPiutang,
 			'nominal' => $data['amount_koperasi'],
+			'type_saldo' => $type_koperasi,
 			'status' => 3,
 		];
 
-		//if($type_koperasi == 1) {
-			$kurang_Saldo = $this->M_saldo_koperasi->create_post($dataSaldo);
-		//}
+
+		$kurang_Saldo = $this->M_saldo_koperasi->create_post($dataSaldo);
+
 
 		$this->db->trans_complete();
 
@@ -315,11 +325,12 @@ class Koperasi extends MY_Controller{
 			'id_koperasi' => $id_koperasi,
 			'nominal' => $data['pay_amount'],
 			'status' => 2,
+			'type_saldo' => $piutang['type_koperasi'],
 		];
 
-		//		if($piutang['type_koperasi'] == 1) {
-			$this->M_saldo_koperasi->create_post($dataSaldo);
-		//		}
+
+		$this->M_saldo_koperasi->create_post($dataSaldo);
+
 
 		$this->db->trans_complete();
 
@@ -335,50 +346,6 @@ class Koperasi extends MY_Controller{
 				'message' => 'Piutang berhasil dibayar',
 			]);
 		}
-	}
-
-	public function add_saldo()
-	{
-		$this->_isAjax();
-		$this->_ONLY_SU();
-
-
-		$this->form_validation->set_rules('nominal', 'nominal', 'required', [
-			'required' => 'Nominal saldo harus diisi',
-		]);
-
-		if ($this->form_validation->run() == FALSE) {
-			$response = [
-				'status' => false,
-				'message' => validation_errors('<p>', '</p>'),
-				'confirmationbutton' => true,
-				'timer' => 0,
-				'icon' => 'error',
-			];
-			echo json_encode($response);
-			return;
-		}
-
-		$dataSaldo = [
-			'nominal' => $this->input->post('nominal', true),
-			'status' => 1,
-		];
-
-		$saldo = $this->M_saldo_koperasi->create_post($dataSaldo);
-
-		if ($saldo) {
-			$response = [
-				'status' => true,
-				'message' => 'Saldo berhasil ditambahkan',
-			];
-		} else {
-			$response = [
-				'status' => false,
-				'message' => 'Saldo gagal ditambahkan',
-			];
-		}
-
-		echo json_encode($response);
 	}
 
 	public function delete()
@@ -407,9 +374,53 @@ class Koperasi extends MY_Controller{
 
 	}
 
-	public function riwayat_saldo(){
+	public function add_saldo()
+	{
+		$this->_isAjax();
+		$this->_ONLY_SU();
+
+		$this->form_validation->set_rules('nominal', 'nominal', 'required', [
+			'required' => 'Nominal saldo harus diisi',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$dataSaldo = [
+			'nominal' => $this->input->post('nominal', true),
+			'type_saldo' => $this->input->post('type_saldo', true),
+			'status' => 1,
+		];
+
+		$saldo = $this->M_saldo_koperasi->create_post($dataSaldo);
+
+		if ($saldo) {
+			$response = [
+				'status' => true,
+				'message' => 'Saldo berhasil ditambahkan',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Saldo gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+	}
+	public function riwayat_saldo($type){
 		$this->_ONLYSELECTED([1,2,3,4]);
 		$data = $this->_basicData();
+		$data['type'] = $type;
 
 		$data['title'] = 'Riwayat Saldo';
 		$data['view_name'] = 'admin/riwayat_saldo_koperasi';
@@ -429,8 +440,9 @@ class Koperasi extends MY_Controller{
 		$option = $this->input->post('option');
 		$startDate = $this->input->post('startDate');
 		$endDate = $this->input->post('endDate');
+		$type = $this->input->post('type_saldo');
 
-		$list = $this->M_saldo_koperasi->get_datatables($option, $startDate, $endDate);
+		$list = $this->M_saldo_koperasi->get_datatables($option, $startDate, $endDate, $type);
 		$data = array();
 		$no = @$_POST['start'];
 
@@ -458,8 +470,8 @@ class Koperasi extends MY_Controller{
 
 		$output = array(
 			"draw" => @$_POST['draw'],
-			"recordsTotal" => $this->M_saldo_koperasi->count_all($option, $startDate, $endDate),
-			"recordsFiltered" => $this->M_saldo_koperasi->count_filtered($option, $startDate, $endDate),
+			"recordsTotal" => $this->M_saldo_koperasi->count_all($option, $startDate, $endDate, $type),
+			"recordsFiltered" => $this->M_saldo_koperasi->count_filtered($option, $startDate, $endDate, $type),
 			"data" => $data,
 		);
 

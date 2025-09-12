@@ -1974,7 +1974,6 @@
 
 			console.log("ID:", id);
 
-
 			$('#edit_id_employee_bpjs').val(id);
 			$('#no_bpjs_edit').val(no_bpjs);
 
