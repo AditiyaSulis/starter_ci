@@ -19,10 +19,7 @@ class Absence extends MY_Controller{
 	{
 		$this->_ONLYSELECTED([3]);
 		$data = $this->_basicData();
-		$this->load->helper('ip');
 
-		$data['ip'] = get_user_ip();
-		$data['check_match'] = match_ip($data['ip']);
 
 		$data['title'] = 'Absence';
 		$data['view_name'] = 'absence/index';
@@ -127,34 +124,43 @@ class Absence extends MY_Controller{
 			return;
 		}
 
-
-		$latitudeDecimal = floatval($product['latitude']);
-		$longitudeDecimal = floatval($product['longitude']);
-
+		//Mengecek status telat atau tepat
 		$timeManagement = true;
 
 		$schedule = $this->M_schedule->findById_get($idSchedule);
-
-
 		if(strtotime($jam_masuk) > strtotime($clockIn) || strtotime($tanggal) > strtotime($schedule['waktu'])) {
 			$timeManagement = false;
 		}
+		//end mengecek
 
-		$this->load->helper('distance');
-		$distance =  haversine_distance_in_meter($latitudeDecimal, $longitudeDecimal, $latitude, $longitude);
 
-		if ($distance > 250) {
-			echo json_encode(['status' => false, 'message' => "Anda berjarak $distance meter dari lokasi tempat anda bekerja"]);
-			return;
+		//Helper IPv4
+		$this->load->helper('ip');
+		$ipUser  = get_user_ip();;
+		$matchIp =  match_ip($ipUser);
+		//end Helper
+
+		if(!$matchIp) {
+			$latitudeDecimal = floatval($product['latitude']);
+			$longitudeDecimal = floatval($product['longitude']);
+
+			$this->load->helper('distance');
+			$distance =  haversine_distance_in_meter($latitudeDecimal, $longitudeDecimal, $latitude, $longitude);
+
+			if ($distance > 250) {
+				echo json_encode(['status' => false, 'message' => "Anda berjarak $distance meter dari lokasi tempat anda bekerja"]);
+				return;
+			}
 		}
+
 
 		$dataAtt = [
 			'id_employee' =>$idEmployee,
 			'id_schedule' =>$idSchedule,
 			'jam_masuk' => $this->input->post('jam_masuk', true),
 			'tanggal_masuk' => $this->input->post('tanggal_masuk', true),
-			'location_latitude' => $latitude,
-			'location_longitude' => $longitude,
+			'location_latitude' => isset($latitude) ? $latitude : '-',
+			'location_longitude' => isset($longitude) ? $longitude : '-',
 			'time_management' => $timeManagement,
 			'status' => 2,
 		];

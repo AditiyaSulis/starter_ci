@@ -56,18 +56,6 @@ if($schedule) {
 
 	<h1>Absence</h1>
 
-	<pre>
-		<?= $ip?>
-	</pre>
-
-	<br>
-	<pre>
-		<?php if($check_match) {
-			echo 'Benar';
-		} else {
-			echo 'Salah';
-		}?>
-	</pre>
 	<div class="row mt-12">
 		<ul class="nav nav-tabs mb-8 order-md-1 order-2 mt-sm-8">
 			<li class="nav-item">
