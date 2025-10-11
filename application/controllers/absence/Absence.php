@@ -19,6 +19,10 @@ class Absence extends MY_Controller{
 	{
 		$this->_ONLYSELECTED([3]);
 		$data = $this->_basicData();
+		$this->load->helper('ip');
+
+		$data['ip'] = get_user_ip();
+		$data['check_match'] = match_ip($data['ip']);
 
 		$data['title'] = 'Absence';
 		$data['view_name'] = 'absence/index';
