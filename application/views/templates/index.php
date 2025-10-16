@@ -232,7 +232,7 @@
                         data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
                         data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
                         data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
-						<?php if($user['role'] == 1 || $user['role'] == 2 || $user['role']==4): ?>
+						<?php if($user['role'] == 1 || $user['role']==4): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -248,7 +248,7 @@
 							</div>
 						<?php endif;?>
 
-						<?php if($user['role'] == 1 || $user['role'] == 2): ?>
+						<?php if($user['role'] == 1): ?>
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
 									<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">EMPLOYMENT</span>
@@ -302,11 +302,13 @@
 
 
 
-						<div  class="menu-item pt-5" >
-							<div  class="menu-content" >
-								<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">ABSENCE</span>
+						<?php if($user['role'] != 2):?>
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">ABSENCE</span>
+								</div>
 							</div>
-						</div>
+						<?php endif;?>
 
 						<?php if($user['role'] == 3): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
@@ -378,7 +380,7 @@
 
 						<?php endif;?>
 
-						<?php if($user['role'] == 1 || $user['role'] == 2 || $user['role'] == 4): ?>
+						<?php if($user['role'] == 1 || $user['role'] == 4): ?>
 							<!--HRD-->
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
@@ -770,7 +772,7 @@
 							<!--							</div>-->
 						<?php endif;?>
 
-						<?php if($user['role'] == 1 || $user['role'] == 2 || $user['role'] == 4) : ?>
+						<?php if($user['role'] == 1 || $user['role'] == 4) : ?>
 
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
