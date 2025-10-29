@@ -32,13 +32,22 @@ if (!function_exists('get_user_ip')) {
 if (!function_exists('match_ip')) {
 	function match_ip($ip)
 	{
-		// Prefix IP yang ingin kamu cocokkan (misalnya jaringan tertentu)
-		$allowed_prefix = '182.253.128';
+		// Daftar prefix IP yang diizinkan
+		$allowed_prefixes = [
+			'182.253.128',  // jaringan kantor
+			'180.252.122',
+		];
 
-		// Ambil prefix dari IP client sepanjang prefix yang ingin dicocokkan
-		$ip_prefix = substr($ip, 0, strlen($allowed_prefix));
+		foreach ($allowed_prefixes as $prefix) {
+			$ip_prefix = substr($ip, 0, strlen($prefix));
+			similar_text($ip_prefix, $prefix, $percent);
 
-		// Bandingkan
-		return $ip_prefix === $allowed_prefix;
+			// Jika kemiripan lebih dari 90%, anggap cocok
+			if ($percent >= 90) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

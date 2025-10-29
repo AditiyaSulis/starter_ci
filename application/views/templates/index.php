@@ -619,7 +619,23 @@
 								</div>
 							</div>
 
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Koperasi' ? "active": ""?>" href="<?=base_url('admin/Koperasi/koperasi_page?status=2')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-currency-exchange"></i>
+											</span>
+										</span>
+										<span class="menu-title">Koperasi</span>
+									</a>
+								</div>
+							</div>
 
+
+						<?php endif;?>
+						<?php if($user['role'] == 1): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -634,19 +650,6 @@
 								</div>
 							</div>
 
-							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
-								 id="#kt_aside_menu" data-kt-menu="true">
-								<div class="menu-item">
-									<a class="menu-link <?= $title == 'Koperasi' ? "active": ""?>" href="<?=base_url('admin/Koperasi/koperasi_page?status=2')?>">
-										<span class="menu-icon">
-											<span class="svg-icon svg-icon-2">
-												<i class="bi bi-currency-exchange"></i>
-											</span>
-										</span>
-										<span class="menu-title">Koperasi</span>
-									</a>
-								</div>
-							</div>
 
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								 id="#kt_aside_menu" data-kt-menu="true">
@@ -674,6 +677,7 @@
 									</a>
 								</div>
 							</div>
+
 						<?php endif;?>
 
 							<!--							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"-->
@@ -689,7 +693,7 @@
 							<!--									</a>-->
 							<!--								</div>-->
 							<!--							</div>-->
-						<?php if($user['role'] == 1||$user['role'] == 2 || $user['role'] == 4): ?>
+						<?php if($user['role'] == 1|| $user['role'] == 4): ?>
 
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
