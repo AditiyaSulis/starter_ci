@@ -36,6 +36,7 @@ if (!function_exists('match_ip')) {
 		$allowed_prefixes = [
 			'182.253.128',  // jaringan kantor
 			'180.252.122',
+			'180.252.114',
 		];
 
 		foreach ($allowed_prefixes as $prefix) {
