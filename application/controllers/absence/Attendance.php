@@ -11,6 +11,7 @@ class Attendance extends MY_Controller{
 		$this->load->model('M_employees');
 		$this->load->model('M_schedule');
 		$this->load->model('M_attendance');
+		$this->load->model('M_white_list');
 
 	}
 
@@ -214,4 +215,170 @@ class Attendance extends MY_Controller{
 		echo json_encode($response);
 
 	}
+
+
+	//IP White List
+
+	public function ip_white_list_page(){
+		$this->_ONLY_SU();
+		$data = $this->_basicData();
+
+		$data['title'] = 'IP White List';
+		$data['view_name'] = 'admin/ip_white_list_page';
+		$data['breadcrumb'] = 'IP White List';
+		$data['menu'] = '';
+
+		$data['white_list'] = $this->M_white_list->findAll_get();
+
+		if($data['user']) {
+			$this->load->view('templates/index', $data);
+		} else {
+			$this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
+			redirect('panel');
+		}
+
+	}
+
+	public function add_white_list()
+	{
+		$this->_isAjax();
+		$this->_ONLY_SU();
+
+		$this->form_validation->set_rules('white_list', 'white_list', 'required|is_unique[ip_white_list.white_list]|valid_ip', [
+			'required' => 'White List harus diisi',
+			'is_unique' => 'IP White List sudah ada',
+			'valid_ip' => 'IP yang dimasukan tidak valid',
+		]);
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$data = [
+			'white_list' => $this->input->post('white_list', true),
+		];
+
+		$insert = $this->M_white_list->create_post($data);
+
+		if ($insert) {
+			$response = [
+				'status' => true,
+				'message' => 'IP White List berhasil ditambahkan',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'IP White List gagal ditambahkan',
+			];
+		}
+
+		echo json_encode($response);
+	}
+
+	public function update()
+	{
+
+		$this->_isAjax();
+		$this->_ONLY_SU();
+		$id = $this->input->post('id_ip_white_list', true);
+		if (!$id) {
+			$response = [
+				'status' => false,
+				'message' => 'ID tidak valid',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$ip_old = $this->M_white_list->findById_get($id);
+		$oldIp = $ip_old['white_list'];
+
+		$this->form_validation->set_rules('white_list', 'white_list', 'required|is_unique[ip_white_list.white_list]|valid_ip', [
+			'required' => 'White List harus diisi',
+			'is_unique' => 'IP White List sudah ada',
+			'valid_ip' => 'IP yang dimasukan tidak valid',
+		]);
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$response = [
+				'status' => false,
+				'message' => validation_errors('<p>', '</p>'),
+				'confirmationbutton' => true,
+				'timer' => 0,
+				'icon' => 'error',
+			];
+			echo json_encode($response);
+			return;
+		}
+
+		$newIp = $this->input->post('white_list',true);
+
+		if($oldIp != $newIp){
+			$codeExist = $this->M_white_list->findByWhiteList_get($newIp);
+			if($codeExist){
+				$response = [
+					'status' => false,
+					'message' => 'Ip sudah Ada'
+				];
+
+				echo json_encode($response);
+
+				return;
+			}
+		}
+
+		$data = [
+			'white_list' => $this->input->post('white_list', true),
+		];
+
+		$ipUpdate = $this->M_white_list->update_post($id, $data);
+
+		if ($ipUpdate) {
+			$response = [
+				'status' => true,
+				'message' => 'White List berhasil diupdate',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'White List gagal diupdate',
+			];
+		}
+
+		echo json_encode($response);
+
+	}
+
+	public function delete()
+	{
+		$this->_isAjax();
+		$this->_ONLY_SU();
+
+		$id = $this->input->post('id_ip_white_list', true);
+
+
+		if ($this->M_white_list->delete($id)) {
+			$response = [
+				'status' => true,
+				'message' => 'Ip White List berhasil dihapus',
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Ip White List gagal dihapus',
+			];
+		}
+
+		echo json_encode($response);
+	}
+
 }

@@ -32,16 +32,14 @@ if (!function_exists('get_user_ip')) {
 if (!function_exists('match_ip')) {
 	function match_ip($ip)
 	{
+		$CI =& get_instance();
+		$CI->load->model('M_white_list');
 		// Daftar prefix IP yang diizinkan
-		$allowed_prefixes = [
-			'182.253.128',  // jaringan kantor
-			'180.252.122',
-			'180.252.114',
-		];
+		$allowed_prefixes = $CI->M_white_list->findAll_get();
 
 		foreach ($allowed_prefixes as $prefix) {
-			$ip_prefix = substr($ip, 0, strlen($prefix));
-			similar_text($ip_prefix, $prefix, $percent);
+			$ip_prefix = substr($ip, 0, strlen($prefix['white_list']));
+			similar_text($ip_prefix, $prefix['white_list'], $percent);
 
 			// Jika kemiripan lebih dari 90%, anggap cocok
 			if ($percent >= 90) {

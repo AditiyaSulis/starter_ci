@@ -28,10 +28,9 @@ class Division extends MY_Controller{
             $this->load->view('templates/index', $data);
        } else {
             $this->session->set_flashdata('forbidden', 'Silahkan login terlebih dahulu');
-            redirect('fetch/login');
+            redirect('panel');
        }
-        
-       
+
     }
 
 
@@ -87,7 +86,6 @@ class Division extends MY_Controller{
 
     public function update() 
     {
-
         $this->_isAjax();
         $this->_ONLY_SU();
         $id = $this->input->post('id_division', true);
@@ -193,7 +191,6 @@ class Division extends MY_Controller{
     
         echo json_encode($response);
     }
-
 
 
 }

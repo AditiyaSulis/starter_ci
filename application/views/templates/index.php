@@ -840,6 +840,21 @@
 								</div>
 							</div>
 
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								 id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'IP White List' ? "active": ""?>" href="<?=base_url('absence/Attendance/ip_white_list_page')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-buildings"></i>
+											</span>
+										</span>
+										<span class="menu-title">IP White List</span>
+									</a>
+								</div>
+							</div>
+
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
