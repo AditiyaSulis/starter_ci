@@ -49,7 +49,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Add Division</h3>
+					<h3 class="modal-title">Add IP White List</h3>
 
 					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                         <span class="menu-icon">

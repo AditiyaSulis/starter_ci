@@ -244,6 +244,8 @@ class Attendance extends MY_Controller{
 		$this->_isAjax();
 		$this->_ONLY_SU();
 
+		$_POST['white_list'] = trim($this->input->post('white_list', true));
+
 		$this->form_validation->set_rules('white_list', 'white_list', 'required|is_unique[ip_white_list.white_list]|valid_ip', [
 			'required' => 'White List harus diisi',
 			'is_unique' => 'IP White List sudah ada',
@@ -300,6 +302,8 @@ class Attendance extends MY_Controller{
 
 		$ip_old = $this->M_white_list->findById_get($id);
 		$oldIp = $ip_old['white_list'];
+
+		$_POST['white_list'] = trim($this->input->post('white_list', true));
 
 		$this->form_validation->set_rules('white_list', 'white_list', 'required|is_unique[ip_white_list.white_list]|valid_ip', [
 			'required' => 'White List harus diisi',
