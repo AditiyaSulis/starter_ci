@@ -209,7 +209,11 @@ class Payroll extends MY_Controller{
 				$totalIzin = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 5);
 				$totalCuti = $this->M_schedule->totalScheduleByStatusV2_get($employeeId, $this->input->post('tanggal_gajian', true), $this->input->post('periode_gajian', true), 4);
 				$potUangMakanPerDay = $employee['uang_makan'] / 24;
-				$potUangMakan = $potUangMakanPerDay * ($totalAbsent + $totalIzin + $totalCuti);
+				$potUangMakan = 0;
+
+				//uncomment untuk mengaktifkan potongan uang makan
+				//$potUangMakan = $potUangMakanPerDay * ($totalAbsent + $totalIzin + $totalCuti);
+
 				$uang_makan = $employee['uang_makan'];
 				$uang_makan_bersih = $employee['uang_makan'] - $potUangMakan;
 			}

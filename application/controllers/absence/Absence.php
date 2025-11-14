@@ -154,42 +154,66 @@ class Absence extends MY_Controller{
 		}
 
 
-		$dataAtt = [
-			'id_employee' =>$idEmployee,
-			'id_schedule' =>$idSchedule,
-			'jam_masuk' => $this->input->post('jam_masuk', true),
-			'tanggal_masuk' => $this->input->post('tanggal_masuk', true),
-			'location_latitude' => isset($latitude) ? $latitude : '-',
-			'location_longitude' => isset($longitude) ? $longitude : '-',
-			'time_management' => $timeManagement,
-			'status' => 2,
-		];
+		$this->db->trans_start();
 
-		//Validasi agar tidak melakukan double absen
-		if($this->M_attendance->isAlreadyAbsence_get($idEmployee, $idSchedule)) {
-			$response = [
-				'status' => false,
-				'message' => 'Anda Sudah melakukan absen, silahkan refresh halaman.',
+		try {
+			$dataAtt = [
+				'id_employee' => $idEmployee,
+				'id_schedule' => $idSchedule,
+				'jam_masuk' => $this->input->post('jam_masuk', true),
+				'tanggal_masuk' => $this->input->post('tanggal_masuk', true),
+				'location_latitude' => isset($latitude) ? $latitude : '-',
+				'location_longitude' => isset($longitude) ? $longitude : '-',
+				'time_management' => $timeManagement,
+				'status' => 2,
 			];
-			echo json_encode($response);
-			return;
-		}
-		//END
 
-		$attendance = $this->M_attendance->create_post($dataAtt);
+			// Validasi double absen
+			if($this->M_attendance->isAlreadyAbsence_get($idEmployee, $idSchedule)) {
+				$response = [
+					'status' => false,
+					'message' => 'Anda Sudah melakukan absen, silahkan refresh halaman.',
+				];
+				echo json_encode($response);
+				return;
+			}
 
-		if ($attendance) {
-			$this->M_schedule->setStatusById_post($idSchedule, '6');
+			// Create attendance
+			$attendance = $this->M_attendance->create_post($dataAtt);
+
+			if (!$attendance) {
+				throw new Exception('Gagal membuat attendance record');
+			}
+
+			// Update schedule status
+			$scheduleUpdated = $this->M_schedule->setStatusById_post($idSchedule, '6');
+
+			if (!$scheduleUpdated) {
+				throw new Exception('Gagal update status schedule');
+			}
+
+			// Commit transaction
+			$this->db->trans_complete();
+
+			if ($this->db->trans_status() === FALSE) {
+				throw new Exception('Transaction failed');
+			}
+
 			$response = [
 				'status' => true,
 				'sc' => $idSchedule,
 				'message' => 'Absen berhasil',
 			];
-		} else {
+
+		} catch (Exception $e) {
+			// Rollback transaction
+			$this->db->trans_rollback();
+
+			log_message('error', 'Attendance error: ' . $e->getMessage());
+
 			$response = [
 				'status' => false,
-				'sc' => $idSchedule,
-				'message' => 'Absen Gagal',
+				'message' => 'Absen Gagal, silahkan coba lagi. Pesan khusus : ' . $e->getMessage(),
 			];
 		}
 
