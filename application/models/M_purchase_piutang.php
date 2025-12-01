@@ -28,6 +28,16 @@ class M_purchase_piutang extends CI_Model {
         return $this->db->get()->result_array();
     }
 
+	public function findByIdNCode_get($code, $id)
+	{
+		$this->db->select('purchase_piutang.*, piutang.id_employee');
+		$this->db->from('purchase_piutang');
+		$this->db->where('purchase_piutang.code_payroll', $code);
+		$this->db->join('piutang' , 'piutang.id_piutang = purchase_piutang.id_piutang');
+		$this->db->where('piutang.id_employee', $id);
+
+		return $this->db->get()->result_array();
+	}
 
     public function create_post($data)
     {

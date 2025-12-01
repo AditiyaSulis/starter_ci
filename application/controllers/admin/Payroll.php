@@ -621,60 +621,92 @@ class Payroll extends MY_Controller{
 		$id = $this->input->post('id');
 		$code = $this->input->post('code');
 		$amount = $this->input->post('amount');
+		$id_employee = $this->input->post('id_employee');
 
-		if($this->M_payroll_component->delete($id)){
+		// --- START TRANSACTION ---
+		$this->db->trans_begin();
+
+		try {
+
+			// 1. Hapus payroll component
+			if(!$this->M_payroll_component->delete($id)){
+				throw new Exception("Gagal menghapus payroll component");
+			}
+
+			// 2. Cek payroll berdasarkan code
 			$payroll = $this->M_payroll->findByCode_get($code);
 			if($payroll) {
+
+				// 3. Cek apakah payroll masih punya component lain
 				$payroll_component = $this->M_payroll_component->findByPayrollId_get($payroll[0]['id_payroll']);
+
 				if(!$payroll_component) {
+					// Jika sudah tidak ada component → hapus payroll
 					$this->M_payroll->delete_by_code($code);
-					$fr = $this->M_finance_records->DeleteByCodePayroll($code);
+					$this->M_finance_records->DeleteByCodePayroll($code);
 				} else {
-					$fr = $this->M_finance_records->findByCodePayroll_get($code); 
+					// Update Finance Records amount
+					$fr = $this->M_finance_records->findByCodePayroll_get($code);
 					if($fr) {
-						$updateAmount =  $fr['amount'] - $amount;
+						$updateAmount = $fr['amount'] - $amount;
 						$this->M_finance_records->updatePayroll_post($code, $updateAmount);
 					}
-				} 
+				}
 
-				$purchase_piutang = $this->M_purchase_piutang->findByCodePayroll_get($code, $this->input->post('id_employee'));
+				// 4. Proses purchase_piutang & restore saldo/piutang
+				$purchase_piutang = $this->M_purchase_piutang->findByIdNCode_get($code, $id_employee);
+
 				if($purchase_piutang) {
+
 					foreach($purchase_piutang as $bayar) {
+
 						$this->M_purchase_piutang->delete_purchase($bayar['id_purchase_piutang']);
+
 						$piutang = $this->M_piutang->findById_get($bayar['id_piutang']);
 						if($piutang){
+
 							$dataPiutang = [
 								'remaining_piutang' => $piutang['remaining_piutang'] + $bayar['pay_amount'],
 								'status_piutang' => 2
 							];
-							$this->M_piutang->update_post($piutang['id_piutang'], $dataPiutang); 
+							$this->M_piutang->update_post($piutang['id_piutang'], $dataPiutang);
 
 							$dataSaldo = [
 								'id_piutang' => $piutang['id_piutang'],
 								'saldo' =>  $bayar['pay_amount'],
 								'status' => 4,
 							];
-
 							$this->M_saldo_piutang->create_post($dataSaldo);
 						}
 					}
-					
 				}
 			}
-			$response = [
+
+			// --- VALIDASI TRANSAKSI ---
+			if ($this->db->trans_status() === FALSE) {
+				throw new Exception("Terjadi kesalahan");
+			}
+
+			// --- COMMIT jika aman ---
+			$this->db->trans_commit();
+
+			echo json_encode([
 				'status' => true,
 				'message' => 'Slip Gaji berhasil dihapus',
-			];
-		} else {
-			$response = [
+			]);
+
+		} catch (Exception $e) {
+
+			// Rollback jika ada error
+			$this->db->trans_rollback();
+
+			echo json_encode([
 				'status' => false,
-				'message' => 'Slip Gaji gagal dihapus',
-			];
+				'message' => $e->getMessage()
+			]);
 		}
-
-		echo json_encode($response);
-
 	}
+
 
 
 	public function delete_by_payroll()
