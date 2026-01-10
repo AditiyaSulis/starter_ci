@@ -146,6 +146,15 @@
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
+							<span>Koperasi</span>
+						</div>
+						<div class="fv-row mb-8">
+							<select class="form-select" aria-label="Default select example" name="koperasi" id="koperasi">
+								<option value="1">Yes</option>
+								<option value="2" selected>No</option>
+							</select>
+						</div>
+						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
 							<span>Potongan Telat</span>
 						</div>
 						<div class="fv-row mb-8">

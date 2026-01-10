@@ -8,6 +8,7 @@ class Koperasi extends MY_Controller{
 		$this->load->model('M_koperasi');
 		$this->load->model('M_purchase_koperasi');
 		$this->load->model('M_saldo_koperasi');
+		$this->load->model('M_employees');
 	}
 
 	public function koperasi_page()
@@ -24,6 +25,7 @@ class Koperasi extends MY_Controller{
 		$data['saldo_kasbon'] = $this->M_saldo_koperasi->saldo_get(2);
 		$data['products'] = $this->M_products->findAllShow_get();
 		$data['koperasi'] = $this->M_koperasi->findAllJoin_get();
+		$data['data_karyawan'] = $this->M_employees->findForOption_get();
 
 		$data['view_data'] = 'core/koperasi/data_koperasi';
 		$data['view_components'] = 'core/koperasi/data_koperasi_components';
@@ -68,17 +70,14 @@ class Koperasi extends MY_Controller{
 		$this->_ONLYSELECTED([1,2]);
 		$this->_isAjax();
 
-		$this->form_validation->set_rules('id_product', 'id_product', 'required', [
-			'required' => 'Product harus diisi',
-		]);
-		$this->form_validation->set_rules('type_koperasi', 'type_koperasi', 'required', [
-			'required' => 'Type harus diisi',
+		$this->form_validation->set_rules('id_employee', 'Karyawan', 'required', [
+			'required' => 'Karyawan harus diisi',
 		]);
 		$this->form_validation->set_rules('amount_koperasi', 'amount_koperasi', 'required', [
 			'required' => 'Amount harus diisi',
 		]);
-		$this->form_validation->set_rules('type_tenor', 'type_tenor', 'required', [
-			'required' => 'Type harus diisi',
+		$this->form_validation->set_rules('type_tenor', 'Type Tenor', 'required', [
+			'required' => 'Type Tenor',
 		]);
 		$this->form_validation->set_rules('angsuran', 'angsuran', 'required', [
 			'required' => 'Type harus diisi',
@@ -92,7 +91,6 @@ class Koperasi extends MY_Controller{
 			'max_length' => 'Deskripsi maksimal 100 karakter',
 		]);
 
-
 		if ($this->form_validation->run() == FALSE) {
 			$response = [
 				'status' => false,
@@ -105,11 +103,9 @@ class Koperasi extends MY_Controller{
 			return;
 		}
 
-		$idProduct = $this->input->post('id_product', true);
-		$product = $this->M_products->findById_get($idProduct);
 		$amount_koperasi = $this->input->post('amount_koperasi',true);
-		$type_tenor = $this->input->post('type_tenor',true);
-		$type_koperasi = $this->input->post('type_koperasi',true);
+		$type_tenor = $this->input->post('type_tenor');
+		$type_koperasi = 1;
 		$satuan = $this->input->post('tenor_koperasi',true);
 		$angsuran = $this->input->post('angsuran',true);
 
@@ -128,22 +124,7 @@ class Koperasi extends MY_Controller{
 				return;
 			}
 			//End
-		} else if($type_koperasi == 2) {
-			$saldo = $this->M_saldo_koperasi->saldo_get(2);
-			if($amount_koperasi > $saldo) {
-				$response = [
-					'status' => false,
-					'message' => 'Kasbon tidak boleh melebihi saldo',
-				];
-
-				echo json_encode($response);
-				return;
-			}
-			$satuan = 1;
-			$type_tenor = 3;
-			$angsuran = $amount_koperasi;
 		}
-
 
 
 		//validasi berdasarkan type tenor
@@ -185,8 +166,9 @@ class Koperasi extends MY_Controller{
 		}
 
 		$data = [
-			'id_product' => $this->input->post('id_product', true),
-			'type_koperasi' => $this->input->post('type_koperasi', true),
+			'id_product' => null,
+			'id_employee' => $this->input->post('id_employee', true),
+			'type_koperasi' => 1,
 			'tenor_koperasi' => $satuan,
 			'amount_koperasi' => $this->input->post('amount_koperasi', true),
 			'remaining' => $this->input->post('amount_koperasi', true),
@@ -450,13 +432,13 @@ class Koperasi extends MY_Controller{
 
 			$keterangan = '';
 			if($item->status == 2) {
-				$keterangan = "$item->name_product melakukan pengembalian sebesar <span style='color : forestgreen'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
+				$keterangan = "$item->name melakukan pengembalian sebesar <span style='color : forestgreen'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
 			} else if($item->status == 1) {
 				$keterangan = "Admin melakukan penambahan nominal sebesar <span style='color : orange'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
 			} else if ($item->status == 3) {
-				$keterangan = "$item->name_product melakukan pinjaman sebesar <span style='color : red'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
+				$keterangan = "$item->name melakukan pinjaman sebesar <span style='color : red'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
 			} else if ($item->status == 4) {
-				$keterangan = "$item->name_product pembatalan pembayaran <span style='color : red'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
+				$keterangan = "$item->name pembatalan pembayaran <span style='color : red'>Rp.". number_format($item->nominal, 0 , ',', '.').".</span>";
 			} else {
 				$keterangan = 'not found';
 			}

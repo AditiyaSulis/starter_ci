@@ -7,8 +7,8 @@ class M_saldo_piutang extends CI_Model
 {
 
 	private $column_search = array('employee.name', 'saldo_piutang.tanggal_saldo', 'products.name_product');
-	private $column_order = array('employee.name', 'saldo_piutang.tanggal_saldo', 'products.name_product');
-	private $order = array('saldo_piutang.tanggal_saldo' => 'asc');
+	private $column_order = array('saldo_piutang.tanggal_saldo','employee.name', 'saldo_piutang.tanggal_saldo', 'products.name_product');
+	private $order = array('saldo_piutang.tanggal_saldo' => 'desc');
 
 	public function findAll_get()
 	{

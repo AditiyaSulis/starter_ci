@@ -81,10 +81,11 @@ class M_koperasi extends CI_Model {
 		$with_alerts = $this->input->post("with_alerts", true);
 
 		if(!empty($status)) {
-			$this->db->select('koperasi.id_koperasi, koperasi.id_product, koperasi.type_koperasi, koperasi.tenor_koperasi, koperasi.amount_koperasi, koperasi.tgl_lunas, koperasi.remaining, koperasi.status, koperasi.description, koperasi.koperasi_date, koperasi.type_tenor, koperasi.angsuran, koperasi.tgl_jatuh_tempo, products.name_product');
+			$this->db->select('koperasi.id_koperasi, koperasi.id_product, koperasi.type_koperasi, koperasi.tenor_koperasi, koperasi.amount_koperasi, koperasi.tgl_lunas, koperasi.remaining, koperasi.status, koperasi.description, koperasi.koperasi_date, koperasi.type_tenor, koperasi.angsuran, koperasi.tgl_jatuh_tempo, koperasi.id_employee, products.name_product, employee.name');
 			$this->db->from('koperasi');
 			$this->db->where('koperasi.status', $status);
 			$this->db->join('products', 'products.id_product = koperasi.id_product', 'left');
+			$this->db->join('employee', 'employee.id_employee = koperasi.id_employee', 'left');
 
 			if (!empty($type_koperasi) && $type_koperasi !== 'All') {
 				$this->db->where('koperasi.type_koperasi', $type_koperasi);
@@ -312,15 +313,41 @@ class M_koperasi extends CI_Model {
 		return $data;
 	}
 
-
 	public function findKoperasiThisMonthByEmployeeId_get($id, $month, $year) {
 		$this->db->select('koperasi.*, products.name_product');
 		$this->db->from('koperasi');
-		$this->db->join('purchase_koperasi', 'purchase_koperasi.id_koperasi = koperasi.id_koperasi', 'left');
 		$this->db->join('products', 'products.id_product = koperasi.id_product', 'left');
+		$this->db->join('purchase_koperasi', 'purchase_koperasi.id_koperasi = koperasi.id_koperasi', 'left');
 
 		// Filter berdasarkan id_employee dan status koperasi
 		$this->db->where('koperasi.id_product', $id);
+		$this->db->where('koperasi.status', 2); // Hanya koperasi yang masih aktif
+
+		// Cek apakah pay_date di bulan yang dikirim NULL atau bukan bulan yang dikirim
+		$this->db->group_start();
+		$this->db->where('purchase_koperasi.pay_date IS NULL', null, false);
+		$this->db->or_where('MONTH(purchase_koperasi.pay_date) !=', $month);
+		$this->db->or_where('YEAR(purchase_koperasi.pay_date) !=', $year);
+		$this->db->group_end();
+
+		return $this->db->get()->result_array(); // Mengembalikan array data
+	}
+
+	public function getKoperasiThisMonthByEmployeeId_get($id, $month, $year, $isEmp) {
+		if($isEmp == TRUE) {
+			$this->db->select('koperasi.*, employee.name');
+			$this->db->from('koperasi');
+			$this->db->join('employee', 'employee.id_employee = koperasi.id_employee');
+			$this->db->where('koperasi.id_employee', $id);
+		} else {
+			$this->db->select('koperasi.*, products.name_product');
+			$this->db->from('koperasi');
+			$this->db->join('products', 'products.id_product = koperasi.id_product', 'left');
+			$this->db->where('koperasi.id_product', $id);
+		}
+		$this->db->join('purchase_koperasi', 'purchase_koperasi.id_koperasi = koperasi.id_koperasi', 'left');
+
+		// Filter berdasarkan id_employee dan status koperasi
 		$this->db->where('koperasi.status', 2); // Hanya koperasi yang masih aktif
 
 		// Cek apakah pay_date di bulan yang dikirim NULL atau bukan bulan yang dikirim

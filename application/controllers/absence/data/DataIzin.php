@@ -133,7 +133,7 @@ class DataIzin extends MY_Controller{
 			$resize_height = 500;
 			$resize_quality = 60;
 
-			$upload_result = upload_and_resize('bukti_surat_sakit', $upload_path, $resize_width, $resize_height, $resize_quality);
+			$upload_result = upload_and_resize('bukti_surat_sakit', $upload_path, $resize_width, $resize_height, $resize_quality, 4000);
 
 			if (!$upload_result['status']) {
 				$response = [

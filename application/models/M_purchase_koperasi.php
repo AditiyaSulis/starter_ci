@@ -13,8 +13,6 @@ class M_purchase_koperasi extends CI_Model {
 		return $this->db->get_where('purchase_koperasi', ['id_koperasi' => $id])->result_array();
 	}
 
-
-
 	public function create_post($data)
 	{
 		if ($this->db->insert('purchase_koperasi', $data)) {
@@ -23,7 +21,6 @@ class M_purchase_koperasi extends CI_Model {
 			return false;
 		}
 	}
-
 
 	public function delete($id)
 	{
@@ -34,7 +31,6 @@ class M_purchase_koperasi extends CI_Model {
 	{
 		return $this->db->delete('purchase_koperasi', ['id_purchase_koperasi' => $id]);
 	}
-
 
 	public function getTotalPaymentAmount_get()
 	{
@@ -49,7 +45,6 @@ class M_purchase_koperasi extends CI_Model {
 		return $this->db->delete('purchase_koperasi', ['id_koperasi' => $id]);
 	}
 
-	//========================V2
 	public function findByPiutangIdV2_get($id)
 	{
 
@@ -67,6 +62,17 @@ class M_purchase_koperasi extends CI_Model {
 		return $this->db->update('purchase_koperasi', $data);
 	}
 
+	public function findByCodePayroll_get($code, $id =null)
+	{
+		$this->db->select('purchase_koperasi.*, koperasi.id_employee');
+		$this->db->from('purchase_koperasi');
+		$this->db->where('purchase_koperasi.code_payroll', $code);
+		$this->db->join('koperasi' , 'koperasi.id_koperasi = purchase_koperasi.id_purchase_koperasi');
+		if($id !== null) {
+			$this->db->where('koperasi.id_employee', $id);
+		}
 
+		return $this->db->get()->result_array();
+	}
 
 }

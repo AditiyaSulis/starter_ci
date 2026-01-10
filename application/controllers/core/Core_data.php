@@ -896,7 +896,6 @@ class Core_data extends MY_Controller{
                      ';
 			}
 
-
 			$piutang = $item['include_piutang'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$finance_record = $item['include_finance_record'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
 			$telat = $item['include_potongan_telat'] == 1 ? '<span><i class="bi bi-check-circle-fill" style="color : green"></i></span>' : '<span><i class="bi bi-x-circle-fill" style="color : darkred"></i></span>';
@@ -1638,7 +1637,7 @@ class Core_data extends MY_Controller{
                             data-bs-toggle="modal" 
                             data-bs-target="#logKoperasiModal"
                             data-id_koperasi="'.htmlspecialchars($item['id_koperasi']).'"
-                            data-name_log="'.htmlspecialchars($item['name_product']).'"
+                            data-name_log="'.htmlspecialchars($item['name']).'"
                             data-totals_log="'.htmlspecialchars($item['amount_koperasi']).'"
                             data-paydate_log="'.htmlspecialchars($item['koperasi_date']).'"
                             data-tgl_lunas_log="'.htmlspecialchars($item['tgl_lunas']).'">
@@ -1669,25 +1668,25 @@ class Core_data extends MY_Controller{
 
 			$status = $item['status'] == 2 ?
 				'
-						  <td>
-							  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
-								  Unpaid
-							  </span>
-						  </td>
-					    '
+				  <td>
+					  <span class="badge gradient-btn-unpaid btn-sm " style="width : 50px">
+						  Unpaid
+					  </span>
+				  </td>
+				'
 				:
 				'
-						  <td>
-							  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
-								  Paid
-							  </span>
-						  </td>
-					   ';
+				  <td>
+					  <span class="badge gradient-btn-paid btn-sm " style="width : 50px">
+						  Paid
+					  </span>
+				  </td>
+			   ';
 
 			$row = [];
 			$row[] = ++$no;
 			$row[] = date('d M Y', strtotime($item['koperasi_date']));
-			$row[] = $item['name_product'];
+			$row[] = $item['name'];
 			$row[] = $item['type_koperasi'] == 2 ? 'Kasbon' : 'Pinjaman';
 			$row[] = $item['tenor_koperasi'] . ' ' . $type_ten;
 			$row[] = 'Tanggal '.$item['tgl_jatuh_tempo'];

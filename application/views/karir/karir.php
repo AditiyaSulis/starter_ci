@@ -437,10 +437,6 @@
 			});
 		}
 
-
-
-
-
 		//-----------------------DATATABLE
 		//--------TEST FILTER
 
@@ -513,9 +509,6 @@
 			product = $(this).val();
 			table.ajax.reload();
 		});
-
-
-
 
 
 	</script>

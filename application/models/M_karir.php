@@ -124,8 +124,6 @@ class M_karir extends CI_Model
 	public function getKarirDataCore_get($option = null, $startDate = null, $endDate = null, $product = null)
 	{
 
-
-
 		$this->db->select('karir.id_karir, karir.id_product, karir.posisi, karir.lokasi_penempatan, karir.mulai_posting, karir.akhir_posting,  karir.whatsapp, karir.email, karir.kualifikasi, karir.benefit, karir.gaji, karir.jam_kerja, products.name_product, products.logo');
 		if($product != '' || !empty($product)) {
 			$this->db->where('karir.id_product', $product);

@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-function upload_and_resize($field_name, $path, $width, $height, $quality = 60) {
+function upload_and_resize($field_name, $path, $width, $height, $quality = 60, $max_size = 1000) {
 	$CI =& get_instance();
 
 	// Upload konfigurasi
 	$config['upload_path'] = FCPATH.'uploads/' . $path; // path image, bisa di sesuaikan
 	$config['allowed_types'] = 'jpg|jpeg|png|webp';
 	$config['encrypt_name'] = true;
-	$config['max_size'] = 1000;
+	$config['max_size'] = $max_size;
 	$CI->load->library('upload', $config);
 	$CI->upload->initialize($config);
 

@@ -64,6 +64,16 @@ class M_employees extends CI_Model {
     }
 
 
+	public function findForOption_get()
+	{
+		$this->db->select('employee.id_employee, employee.name, division.id_division,  division.name_division, products.id_product, products.name_product');
+		$this->db->from('employee');
+		$this->db->join('products', 'products.id_product = employee.id_product', 'left');
+		$this->db->join('division', 'division.id_division = employee.id_division', 'left');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function findByEmail_get($email){
 		return $this->db->get_where('employee', ['email' => $email])->row_array();
 	}

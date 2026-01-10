@@ -131,13 +131,12 @@ class M_saldo_koperasi extends CI_Model
 	public function getRiwayatSaldoCore_get($option = null, $startDate = null, $endDate = null, $type = null)
 	{
 
-
-
-		$this->db->select('saldo_koperasi.*, koperasi.id_product, products.name_product');
+		$this->db->select('saldo_koperasi.*, koperasi.id_product, products.name_product, employee.name');
 		$this->db->from('saldo_koperasi');
 		$this->db->where('saldo_koperasi.type_saldo', $type);
 		$this->db->join('koperasi', 'koperasi.id_koperasi = saldo_koperasi.id_koperasi', 'left');
 		$this->db->join('products', 'products.id_product = koperasi.id_product', 'left');
+		$this->db->join('employee', 'employee.id_employee = koperasi.id_employee', 'left');
 		if(!empty($option) ){
 			$this->_filterSaldoDATE($option);
 		}
