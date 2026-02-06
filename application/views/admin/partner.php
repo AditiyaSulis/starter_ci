@@ -282,7 +282,7 @@
 						$.ajax({
 							url: base_url + "admin/Partner/delete",
 							type: "POST",
-							data: { id_product_homepage: id_product },
+							data: { id_partner: id_product },
 							dataType: "json",
 							success: function (response) {
 								if (response.status) {
