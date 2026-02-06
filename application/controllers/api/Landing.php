@@ -13,6 +13,7 @@ class Landing extends RestController{
 		$this->load->model('M_setting');
 		$this->load->model('M_karir');
 		$this->load->model('M_product_homepage');
+		$this->load->model('M_partner');
 		validate_header();
 
 	}
@@ -74,7 +75,24 @@ class Landing extends RestController{
 				'message' => 'Data tidak ditemukan'
 			], 404);
 		}
-	} 
+	}  
+
+	public function partner_get()
+	{
+		$partner = $this->M_partner->findAllShow_get();
+
+		if ($partner) {
+			$this->response([
+				'status' => true,
+				'data' => $partner
+			], 200);
+		} else {
+			$this->response([
+				'status' => false,
+				'message' => 'Data tidak ditemukan'
+			], 404);
+		}
+	}
 
 
 
