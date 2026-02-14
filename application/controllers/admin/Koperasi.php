@@ -111,6 +111,7 @@ class Koperasi extends MY_Controller{
 
 		$tgl_lunas = $this->input->post('tgl_lunas',true);
 
+		$this->db->trans_start();
 		if($type_koperasi == 1) {
 			//Jika pengeluaran lebih besar dari saldo maka input gagal
 			$saldo = $this->M_saldo_koperasi->saldo_get(1);
@@ -156,7 +157,7 @@ class Koperasi extends MY_Controller{
 		}
 
 
-		if($this->input->post('jatuh_tempo',true) > 31) {
+		if($this->input->post('tgl_jatuh_tempo',true) > 31) {
 			$response = [
 				'status' => false,
 				'message' => 'Jatuh tempo tidak lebih dari tanggal 31',
@@ -183,7 +184,7 @@ class Koperasi extends MY_Controller{
 
 
 
-		$this->db->trans_start();
+		
 		$idPiutang = $this->M_koperasi->create_post($data);
 		$dataSaldo = [
 			'id_koperasi' => $idPiutang,
@@ -271,12 +272,20 @@ class Koperasi extends MY_Controller{
 			return;
 		}
 
-		$id_koperasi = $this->input->post('id_koperasi', true);
-		$amount = $this->input->post('pay_amount', true);
+		$id_koperasi = (int) $this->input->post('id_koperasi', true);
+		$amount = (int) $this->input->post('pay_amount', true);
 
 		$piutang = $this->M_koperasi->findById_get($id_koperasi);
+		if(!$piutang) {
+			$response = [
+				'status' => false,
+				'message' => 'Data piutang tidak ditemukan',
+			];
+			echo json_encode($response);
+			return;
+		}
 
-		if($amount > $piutang['remaining']) {
+		if($amount > (int) $piutang['remaining']) {
 			$response = [
 				'status' => false,
 				'message' => 'Amount tidak boleh melebihi sisa',
