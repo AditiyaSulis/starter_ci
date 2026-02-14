@@ -477,7 +477,10 @@ class Piutang extends MY_Controller{
             ];
             echo json_encode($response);
             return;
-        }
+        } 
+
+        
+		$this->db->trans_start();
 
         $change_status = $piutang['remaining_piutang'] - $amount;
 
@@ -498,7 +501,6 @@ class Piutang extends MY_Controller{
 
 
 
-		$this->db->trans_start();
 		$piutang_payment = $this->M_purchase_piutang->create_post($data);
 		$dataSaldo = [
 			'id_piutang' => $id_piutang,
