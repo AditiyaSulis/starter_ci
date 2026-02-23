@@ -248,12 +248,13 @@
 							</div>
 						<?php endif;?>
 
-						<?php if($user['role'] == 1): ?>
+						
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
 									<span class="menu-heading fw-bold text-uppercase text-gray-500 fs-7 ">EMPLOYMENT</span>
 								</div>
 							</div>
+							<?php if($user['role'] == 1): ?>
 							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
 								id="#kt_aside_menu" data-kt-menu="true">
 								<div class="menu-item">
@@ -298,6 +299,37 @@
 								</div>
 							</div>
 
+						<?php endif;?>
+
+						<?php if($user['role'] == 4 ): ?>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Pengaduan Karyawan' || $title == 'Pengaduan Karyawan' ? "active": ""?>" href="<?=base_url('admin/Pengaduan_karyawan')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-buildings"></i>
+											</span>
+										</span>
+										<span class="menu-title">Pengaduan Karyawan</span>
+									</a>
+								</div>
+							</div>
+						<?php endif;?> 
+						<?php if($user['role'] == 3 ): ?>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'Pengaduan Karyawan' || $title == 'Pengaduan Karyawan' ? "active": ""?>" href="<?=base_url('Pengaduan')?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="bi bi-buildings"></i>
+											</span>
+										</span>
+										<span class="menu-title">Pengaduan Karyawan</span>
+									</a>
+								</div>
+							</div>
 						<?php endif;?>
 
 
