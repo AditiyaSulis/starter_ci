@@ -910,6 +910,24 @@
 							</div>
 
 
+						<?php endif;?> 
+
+						<?php if($user['role'] == 5 ): ?>
+
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item">
+									<a class="menu-link <?= $title == 'RBM Progress Tracker' ? "active": ""?>" href="<?=base_url('support/Rbm_tracker')?>">
+											<span class="menu-icon">
+												<span class="svg-icon svg-icon-2">
+													<i class="bi bi-clock"></i>
+												</span>
+											</span>
+										<span class="menu-title">RBM Progress Tracker</span>
+									</a>
+								</div>
+							</div>
+
 						<?php endif;?>
 
                     </div>

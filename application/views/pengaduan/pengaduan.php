@@ -1,15 +1,17 @@
 <main>
     <h1 class="mb-4">Buat Pengaduan</h1>
 
-    <!-- Alert untuk menampilkan kode pengaduan -->
+    <!-- Alert untuk menampilkan kode pengaduan (hanya satu, yang bawah dihapus karena redundan) -->
     <div id="kodePengaduanAlert" class="alert alert-success d-none align-items-center" role="alert" style="margin-bottom: 20px;">
         <i class="bi bi-check-circle-fill me-2"></i>
         <span id="alertMessage"></span>
     </div>
-    <div class="row">
+
+    <!-- Grid responsif: kolom ditumpuk di mobile, dua kolom di desktop -->
+    <div class="row g-4">
         <!-- Kolom Kiri: Form Pengaduan -->
-        <div class="col-6">
-            <div class="card shadow-sm">
+        <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+            <div class="card shadow-sm h-100">
                 <div class="card-header border-0 pt-6">
                     <div class="card-toolbar w-100">
                         <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
@@ -23,7 +25,7 @@
 
                 <div class="card-body pt-9">
                     <!-- Title section -->
-                    <div class="d-flex flex-wrap align-items-center gap-3 mb-10">
+                    <div class="d-flex flex-wrap align-items-center gap-3 mb-6 mb-md-10">
                         <h1 class="fw-bold text-gray-900 mb-0">Buat Pengaduan</h1>
                         <span class="badge badge-light-primary">
                             <i class="bi bi-pencil-square me-1"></i>
@@ -32,16 +34,16 @@
                     </div>
 
                     <!-- Subtitle -->
-                    <p class="text-gray-600 mb-10 fs-5">
+                    <p class="text-gray-600 mb-6 mb-md-10 fs-5">
                         <i class="bi bi-info-circle-fill text-primary me-2"></i>
                         Sampaikan keluhan atau aspirasi Anda dengan jelas. Setiap laporan akan ditangani secara profesional dan terjaga kerahasiaannya.
                     </p>
 
                     <!-- Form -->
-                    <div class="bg-light bg-opacity-25 rounded p-8">
+                    <div class="bg-light bg-opacity-25 rounded p-4 p-md-6 p-lg-8">
                         <form id="formPengaduan" enctype="multipart/form-data">
                             <!-- Upload -->
-                            <div class="mb-8">
+                            <div class="mb-6 mb-md-8">
                                 <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
                                     <i class="bi bi-image-fill text-primary fs-4"></i>
                                     LAMPIRAN GAMBAR
@@ -60,7 +62,7 @@
                                 </div>
                             </div> 
                             <!-- Kategori -->
-                            <div class="mb-8">
+                            <div class="mb-6 mb-md-8">
                                 <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
                                     <i class="bi bi-grid-fill text-primary fs-4"></i>
                                     KATEGORI
@@ -75,7 +77,7 @@
                             </div>
 
                             <!-- Input manual untuk kategori jika memilih Lainnya -->
-                            <div class="mb-8" id="kategoriLainnyaContainer" style="display: none;">
+                            <div class="mb-6 mb-md-8" id="kategoriLainnyaContainer" style="display: none;">
                                 <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
                                     <i class="bi bi-pencil-fill text-primary fs-4"></i>
                                     KATEGORI LAINNYA (ISI MANUAL)
@@ -91,7 +93,7 @@
                             </div>
 
                             <!-- Judul -->
-                            <div class="mb-8">
+                            <div class="mb-6 mb-md-8">
                                 <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
                                     <i class="bi bi-tag-fill text-primary fs-4"></i>
                                     JUDUL PENGADUAN
@@ -103,7 +105,7 @@
                             </div>
 
                             <!-- Isi -->
-                            <div class="mb-8">
+                            <div class="mb-6 mb-md-8">
                                 <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
                                     <i class="bi bi-chat-left-text-fill text-primary fs-4"></i>
                                     ISI PENGADUAN
@@ -115,11 +117,11 @@
                             </div>
 
                             <!-- Divider -->
-                            <div class="separator separator-dashed my-8"></div>
+                            <div class="separator separator-dashed my-6 my-md-8"></div>
 
-                            <!-- Submit -->
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary btn-flex" id="submitBtn">
+                            <!-- Submit - full width di mobile, auto di desktop -->
+                            <div class="d-grid d-sm-flex justify-content-sm-end">
+                                <button type="submit" class="btn btn-primary btn-flex" id="submitBtn" style="min-height: 48px;">
                                     <i class="bi bi-send-fill me-2" id="submitIcon"></i>
                                     <span id="submitText">Kirim Pengaduan</span>
                                 </button>
@@ -129,12 +131,6 @@
                 </div>
             </div> 
 
-             <!-- Alert untuk menampilkan kode pengaduan -->
-            <div id="kodePengaduanDuaAlert" class="alert alert-success d-none align-items-center" role="alert" style="margin-bottom: 20px;">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <span id="alertMessage"></span>
-            </div>
-
             <!-- Footer -->
             <p class="text-center text-gray-500 mt-6">
                 <i class="bi bi-shield-lock-fill text-primary me-2"></i>
@@ -143,8 +139,8 @@
         </div>
 
         <!-- Kolom Kanan: FITUR SEARCH LAPORAN BERDASARKAN KODE -->
-        <div class="col-6">
-            <div class="card shadow-sm">
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm h-100">
                 <div class="card-header border-0 pt-6">
                     <div class="card-toolbar w-100">
                         <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
@@ -158,7 +154,7 @@
 
                 <div class="card-body pt-9">
                     <!-- Title section -->
-                    <div class="d-flex flex-wrap align-items-center gap-3 mb-10">
+                    <div class="d-flex flex-wrap align-items-center gap-3 mb-6 mb-md-10">
                         <h2 class="fw-bold text-gray-900 mb-0">Cari Pengaduan</h2>
                         <span class="badge badge-light-info">
                             <i class="bi bi-search me-1"></i>
@@ -167,14 +163,14 @@
                     </div>
 
                     <!-- Subtitle -->
-                    <p class="text-gray-600 mb-10 fs-5">
+                    <p class="text-gray-600 mb-6 mb-md-10 fs-5">
                         <i class="bi bi-info-circle-fill text-info me-2"></i>
                         Masukkan kode pengaduan untuk melihat status dan detail laporan yang sudah dibuat.
                     </p>
 
                     <!-- Search Box -->
-                    <div class="bg-light bg-opacity-25 rounded p-8">
-                        <div class="mb-8">
+                    <div class="bg-light bg-opacity-25 rounded p-4 p-md-6 p-lg-8">
+                        <div class="mb-6 mb-md-8">
                             <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
                                 <i class="bi bi-upc-scan text-info fs-4"></i>
                                 KODE PENGADUAN
@@ -208,7 +204,7 @@
                         </div>
 
                         <!-- Divider -->
-                        <div class="separator separator-dashed my-8"></div>
+                        <div class="separator separator-dashed my-6 my-md-8"></div>
 
                         <!-- Search Result Card (hidden by default) -->
                         <div id="searchResult" style="display: none;">
@@ -223,13 +219,6 @@
                                     <div id="resultContent"></div>
                                 </div>
                             </div>
-
-                            <!-- <div class="d-flex justify-content-end mt-4">
-                                <a href="#" class="btn btn-sm btn-light-primary" id="viewDetailBtn">
-                                    <i class="bi bi-eye me-2"></i>
-                                    Lihat Detail Lengkap
-                                </a>
-                            </div> -->
                         </div>
 
                         <!-- Not Found Message (hidden by default) -->
@@ -357,14 +346,56 @@
         color: var(--kt-gray-700);
     }
 
-    /* Responsive */
-    @media (max-width: 760px) {
+    /* Responsive improvements for mobile */
+    @media (max-width: 576px) {
         .upload-zone {
-            padding: 40px 20px;
+            padding: 30px 20px;
         }
         
-        .bg-light.bg-opacity-25.rounded.p-8 {
-            padding: 1.5rem !important;
+        .upload-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+        }
+
+        .upload-icon {
+            font-size: 28px;
+        }
+
+        .upload-title {
+            font-size: 14px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+        }
+
+        .upload-filename {
+            font-size: 12px;
+            padding: 10px 16px;
+        }
+
+        .form-control.form-control-solid {
+            font-size: 16px; /* Mencegah zoom di iOS */
+            padding: 0.7rem 1rem;
+        }
+
+        .btn {
+            font-size: 1rem;
+            padding: 0.6rem 1.2rem;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.4rem 1rem !important;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .fs-5 {
+            font-size: 0.95rem !important;
         }
     }
 
@@ -555,14 +586,10 @@
                                 $('#kodePengaduanAlert').removeClass('d-none').find('#alertMessage').html(
                                     `Pengaduan berhasil dikirim! Kode pengaduan Anda: <strong>${res.kode_pengaduan}</strong>. Simpan kode ini untuk melacak status.`
                                 );
-                                $('#kodePengaduanDuaAlert').removeClass('d-none').find('#alertMessage').html(
-                                    `Pengaduan berhasil dikirim! Kode pengaduan Anda: <strong>${res.kode_pengaduan}</strong>. Simpan kode ini untuk melacak status.`
-                                );
 
                                 // Auto hide setelah 10 detik
                                 setTimeout(() => {
                                     $('#kodePengaduanAlert').addClass('d-none');
-                                    $('#kodePengaduanDuaAlert').addClass('d-none');
                                 }, 10000);
                             });
                         } else {
@@ -741,7 +768,8 @@
                 $('#searchResult').show();
                 $('#notFoundMessage').hide();
                 
-                $('#viewDetailBtn').attr('href', base_url + 'admin/Pengaduan_karyawan/detail/' + data.id);
+                // Jika ada tombol detail, bisa diaktifkan
+                // $('#viewDetailBtn').attr('href', base_url + 'admin/Pengaduan_karyawan/detail/' + data.id);
             }
 
             function showNotFound() {

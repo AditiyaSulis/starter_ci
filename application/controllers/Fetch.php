@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 class Fetch extends CI_Controller {
 
     function __construct(){
@@ -19,12 +18,13 @@ class Fetch extends CI_Controller {
             $this->session->set_flashdata('authorize', 'Anda sudah login');
 			if($emp['role']==3){
 				redirect('absence/absence/absence_page');
-			} else {
+			} else if($emp['role'] == 5) {
+                redirect('support/Rbm_tracker');
+            }else {
 				redirect('admin/dashboard/dashboard_page?with_alerts=1');
 			}
 
         }
-
     }
 
 }

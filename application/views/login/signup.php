@@ -22,6 +22,7 @@
 						<option value="1">Super User</option>
 						<option value="2">Admin</option>
 						<option value="4">HRD</option>
+						<option value="5">Support RBM</option>
 					</select>
 				</div>
 				<div class="fv-row mb-8">
@@ -82,6 +83,7 @@
 							<option value="2">Admin</option>
 							<option value="3">Employee</option>
 							<option value="4">HRD</option>
+							<option value="5">Support RBM</option>
 						</select>
 					</div>
 					<div class="col-6 col-md-3">
@@ -156,6 +158,7 @@
 								<option value="2">Admin</option>
 								<option value="3">Employee</option>
 								<option value="4">HRD</option>
+								<option value="5">Support RBM</option>
 							</select>
 						</div>
 						<div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">

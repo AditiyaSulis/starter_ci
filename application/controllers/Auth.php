@@ -57,6 +57,16 @@ class Auth extends CI_Controller{
 
 			$url = $infoAccount['role'] == 1 || $infoAccount['role'] == 2 || $infoAccount['role'] == 4? 'admin/dashboard/dashboard_page?with_alerts=1' : 'absence/absence/absence_page';
 
+            if($infoAccount['role'] == 1 || $infoAccount['role'] == 2 || $infoAccount['role'] == 4) {
+                $url = 'admin/dashboard/dashboard_page?with_alerts=1';
+            } else if($infoAccount['role'] == 3) {
+                $url = 'absence/absence/absence_page';
+            } else if($infoAccount['role'] == 5) {
+                $url = 'support/Rbm_tracker';
+            } else {
+                'absence/absence/absence_page';
+            }
+
 
 
             $response = [

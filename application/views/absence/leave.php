@@ -7,58 +7,51 @@
 	<h1>Leave</h1>
 
 
-	<div class=" mt-12" style="border: 2px; padding: 20px; border-radius: 10px; background-color: #f0f0f0;">
-
-		<h4>Leave Summary</h4>
-		<div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 mt-3" id="card-container1">
-
+	<div class="mt-12">
+		<h4 class="fw-bold text-gray-800 mb-6">Leave Summary</h4>
+		<div class="row g-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5" id="card-container1">
+			<!-- Card This Month -->
 			<div class="col">
-				<div class="card bg-body ">
-					<div class="card-body py-4 ">
-						<div class="row">
-							<div class="col-md-6">
+				<div class="card shadow-sm">
+					<div class="card-body py-4">
+						<div class="row align-items-center">
+							<div class="col-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="<?=$total_cuti_this_month?>">
-												<?=$total_cuti_this_month?>
-											</span>
+									<span class="text-success" data-category-id="<?= $total_cuti_this_month ?>">
+										<?= $total_cuti_this_month ?>
+									</span>
 								</div>
-								<div class="fw-bold text-gray-800">
-									This Month</div>
-								<div class="fw-bold text-active-gray-100 text-sm">
-									Maxs 2/month</div>
+								<div class="fw-bold text-gray-600">This Month</div>
+								<div class="text-gray-500 fs-8">Max 2/month</div>
 							</div>
-
-							<div class="col-md-6  d-flex justify-content-center align-items-center">
-								<h1><i class="bi bi-calendar-week-fill" style="color:cornflowerblue; font-size: 3rem;" ></i></h1>
+							<div class="col-6 d-flex justify-content-center">
+								<i class="bi bi-calendar-week-fill text-primary fs-3x"></i>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
+			<!-- Card This Year -->
 			<div class="col">
-				<div class="card bg-body ">
-					<div class="card-body py-4 ">
-						<div class="row">
-							<div class="col-md-6">
+				<div class="card shadow-sm">
+					<div class="card-body py-4">
+						<div class="row align-items-center">
+							<div class="col-6">
 								<div class="text-gray-900 fw-bolder fs-2">
-											<span class="text-success" data-category-id="<?=$total_cuti?>">
-												<?=$total_cuti?>
-											</span>
+									<span class="text-success" data-category-id="<?= $total_cuti ?>">
+										<?= $total_cuti ?>
+									</span>
 								</div>
-								<div class="fw-bold text-gray-800">
-									This Year</div>
-								<div class="fw-bold text-gray-800">
-									Maxs 12/year</div>
+								<div class="fw-bold text-gray-600">This Year</div>
+								<div class="text-gray-500 fs-8">Max 12/year</div>
 							</div>
-							<div class="col-md-6  d-flex justify-content-center align-items-center">
-								<h1><i class="bi bi-calendar-month-fill" style="color:cornflowerblue; font-size: 3rem;" ></i></h1>
+							<div class="col-6 d-flex justify-content-center">
+								<i class="bi bi-calendar-month-fill text-primary fs-3x"></i>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 	<button type="button" class="btn gradient-btn rounded-pill mt-10" data-bs-toggle="modal" data-bs-target="#addProduct">

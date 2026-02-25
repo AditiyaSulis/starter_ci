@@ -9,7 +9,6 @@ class Pengaduan_karyawan extends MY_Controller{
 		$this->load->model('M_pengaduan');
 	}
 
-
 	public function index()
 	{
 		$this->_ONLYSELECTED([4]);

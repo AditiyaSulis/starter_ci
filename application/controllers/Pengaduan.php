@@ -75,7 +75,7 @@ class Pengaduan extends MY_Controller{
 			$upload_path = 'pengaduan/';
 			$resize_width = 500;
 			$resize_height = 500;
-			$resize_quality = 60;
+			$resize_quality = 40;
 
 			$upload_result = upload_and_resize('logo', $upload_path, $resize_width, $resize_height, $resize_quality);
 
