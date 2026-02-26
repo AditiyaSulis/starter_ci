@@ -1,5 +1,12 @@
 
-
+<?php
+$badge = [
+    'Belum'   => 'badge-light-warning',
+    'Diskusi' => 'badge-light-info',
+    'Proses'  => 'badge-light-primary',
+    'Selesai' => 'badge-light-success',
+];
+?>
 <main>
     <h1 class="mb-4">RBM Feature Tracker</h1>
 
@@ -8,7 +15,80 @@
 				data-bs-target="#addProduct">
 			<i class="bi bi-plus-circle"></i> Tambah Request
 		</button>
-	</div>
+	</div> 
+
+	<div class="row mt-5 g-5">
+
+    <!-- Status Tracker -->
+    <div class="col-auto">
+        <div class="card bg-light-primary card-xl-stretch w-350px">
+            <div class="card-body">
+                <div class="fs-4 fw-bold text-gray-900 mb-5">
+                    Status
+                </div>
+
+                <?php foreach ($list_count as $status => $total): ?>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="text-gray-800 fw-semibold">
+                            <?= $status ?>
+                        </span>
+                        <span class="fs-4 fw-bold text-primary">
+                            <?= $total ?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="col-auto">
+        <div class="card bg-light-success card-xl-stretch w-350px">
+            <div class="card-body">
+
+                <div class="fs-4 fw-bold text-gray-900 mb-5">
+                    Sumber
+                </div>
+
+                <?php foreach ($sumber_count as $judul => $nilai): ?>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="text-gray-800 fw-semibold">
+                            <?= $judul ?>
+                        </span>
+                        <span class="fs-4 fw-bold text-primary">
+                            <?= $nilai ?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
+        </div>
+    </div> 
+
+	<div class="col-auto">
+        <div class="card bg-light-danger card-xl-stretch w-350px">
+            <div class="card-body">
+
+                <div class="fs-4 fw-bold text-gray-900 mb-5">
+                    Prioritas
+                </div>
+
+                <?php foreach ($prioritas_count as $judul => $nilai): ?>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="text-gray-800 fw-semibold">
+                            <?= $judul ?>
+                        </span>
+                        <span class="fs-4 fw-bold text-primary">
+                            <?= $nilai ?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
+        </div>
+    </div>
+
+
 
 	<div class=" mt-12  shadow-lg" style="border: 2px; padding: 20px; border-radius: 10px; background-color: rgba(229,244,250,0.06);">
 		<div class="row g-3 align-items-center mt-4">
@@ -35,6 +115,7 @@
 					<option value="Low">Low</option>
 					<option value="Medium">Medium</option>
 					<option value="High">High</option>
+					<option value="Done">Done</option>
 				</select>
 			</div>
 
@@ -96,6 +177,7 @@
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
                                 <option value="High">High</option>
+                                <option value="Done">Done</option>
 							</select>
 						</div> 
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">
@@ -192,6 +274,7 @@
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
                                 <option value="High">High</option>
+                                <option value="Done">Done</option>
 							</select>
 						</div> 
                         <div class="fv-row ml-4 pl-5 mb-2 text-gray-900 fw-bolder">

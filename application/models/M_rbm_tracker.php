@@ -49,6 +49,27 @@ class M_rbm_tracker extends CI_Model
 		return $this->db->delete('rbm_tracker', ['id_rbm_tracker' => $id]);
 	}
 
+	public function status_count($status)
+	{
+		$this->db->where('status', $status);
+		$this->db->from('rbm_tracker');
+		return $this->db->count_all_results();
+	} 
+
+	public function prioritas_count($prioritas)
+	{
+		$this->db->where('prioritas', $prioritas);
+		$this->db->from('rbm_tracker');
+		return $this->db->count_all_results();
+	} 
+
+	public function sumber_count($sumber)
+	{
+		$this->db->where('sumber', $sumber);
+		$this->db->from('rbm_tracker');
+		return $this->db->count_all_results();
+	}
+
 
 
 	private function _filterDATE($type)

@@ -17,6 +17,29 @@ class Rbm_tracker extends MY_Controller{
 		$data['title'] = 'RBM Progress Tracker';
 		$data['view_name'] = 'support/rbm_tracker';
 		$data['breadcrumb'] = 'RBM Progress Tracker';
+
+		$data['list_count'] = [
+			'Belum' => $this->M_rbm_tracker->status_count('Belum'),
+			'Diskusi' => $this->M_rbm_tracker->status_count('Diskusi'),
+			'Proses' => $this->M_rbm_tracker->status_count('Proses'),
+			'Selesai' => $this->M_rbm_tracker->status_count('Selesai'),
+		]; 
+
+		$data['sumber_count'] = [
+			'User' => $this->M_rbm_tracker->sumber_count('User'),
+			'CS' => $this->M_rbm_tracker->sumber_count('CS'),
+			'Reseller' => $this->M_rbm_tracker->sumber_count('Reseller'),
+			'Internal' => $this->M_rbm_tracker->sumber_count('Internal'),
+		]; 
+
+		$data['prioritas_count'] = [
+			'Low' => $this->M_rbm_tracker->prioritas_count('Low'),
+			'Medium' => $this->M_rbm_tracker->prioritas_count('Medium'),
+			'High' => $this->M_rbm_tracker->prioritas_count('High'),
+			'Done' => $this->M_rbm_tracker->prioritas_count('Done'),
+		];
+
+
 		$data['menu'] = '';
 		if($data['user']){
 			$this->load->view('templates/index', $data);
