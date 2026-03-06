@@ -47,6 +47,16 @@ class M_products extends CI_Model {
         $query = $this->db->get('products')->result_array(); 
 
         return $query;
+    } 
+
+    public function list_product_get(){
+        $this->db->select('id_product, name_product');
+        $this->db->where('visibility', 1); 
+        $this->db->order_by('name_product', 'ASC');
+        $query = $this->db->get('products')->result(); 
+
+        return $query;
+
     }
 
 

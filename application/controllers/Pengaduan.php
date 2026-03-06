@@ -4,6 +4,7 @@ class Pengaduan extends MY_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->model('M_pengaduan');
+		$this->load->model('M_products');
 
 	}
 
@@ -16,6 +17,7 @@ class Pengaduan extends MY_Controller{
 		$data['view_name'] = 'pengaduan/pengaduan';
 		$data['breadcrumb'] = 'Pengaduan';
 		$data['menu'] = '';
+		$data['list_product'] = $this->M_products->list_product_get();
 
 		if($data['user']){
 			$this->load->view('templates/index', $data);
@@ -41,6 +43,10 @@ class Pengaduan extends MY_Controller{
 
 		$this->form_validation->set_rules('kategori', 'Kategori', 'trim|required', [
 			'required' => 'Kategori harus diisi',
+		]); 
+
+		$this->form_validation->set_rules('id_product', 'Product', 'trim|required', [
+			'required' => 'Product harus diisi',
 		]);
 
 		$kategori = $this->input->post('kategori');
@@ -75,7 +81,7 @@ class Pengaduan extends MY_Controller{
 			$upload_path = 'pengaduan/';
 			$resize_width = 500;
 			$resize_height = 500;
-			$resize_quality = 40;
+			$resize_quality = 60;
 
 			$upload_result = upload_and_resize('logo', $upload_path, $resize_width, $resize_height, $resize_quality);
 
@@ -98,6 +104,7 @@ class Pengaduan extends MY_Controller{
 			'kode_pengaduan' => $this->randomText(),
 			'image_pengaduan' => $imagePengaduan,
 			'kategori' => $kategori,
+			'id_product' => $this->input->post('id_product', true),
 		];
 
 		$pengaduanInsert = $this->M_pengaduan->create_post($dataInsert);

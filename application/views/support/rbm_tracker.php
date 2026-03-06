@@ -246,7 +246,7 @@ $badge = [
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Edit Request/h3>
+					<h3 class="modal-title">Edit Request</h3>
 
 					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
 						 aria-label="Close" tabindex="-1" aria-labelledby="editFinanceModalLabel" aria-hidden="true">

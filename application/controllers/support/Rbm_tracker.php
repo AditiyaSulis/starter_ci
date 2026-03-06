@@ -212,11 +212,11 @@ class Rbm_tracker extends MY_Controller{
 		$this->_ONLYSELECTED([5]);
 		$data = $this->_basicData();
 
-        $data['pengaduan'] = $this->M_pengaduan->findById_get($id);
+        $data['rbm'] = $this->M_rbm_tracker->findById_get($id);
 
-		$data['title'] = 'Detail Pengaduan';
-		$data['view_name'] = 'pengaduan/detail';
-		$data['breadcrumb'] = 'Detail Pengaduan';
+		$data['title'] = 'Detail Request';
+		$data['view_name'] = 'support/detail';
+		$data['breadcrumb'] = 'Detail Request';
 		$data['menu'] = '';
 		if($data['user']){
 			$this->load->view('templates/index', $data);
@@ -298,6 +298,12 @@ class Rbm_tracker extends MY_Controller{
                                 data-prioritas="' . htmlspecialchars($item->prioritas) . '"
                                 data-catatan="' . htmlspecialchars($item->catatan) . '">
                                 EDIT
+                            </a>
+							
+							<a 
+                                class="btn btn-success btn-sm mb-2 rounded-pill" style="width : 70px"
+                                href="'.base_url('support/Rbm_tracker/detail/'.$item->id_rbm_tracker).'">
+                                DETAIL
                             </a>
 
                             <button 

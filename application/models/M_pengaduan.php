@@ -5,9 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class M_pengaduan extends CI_Model
 {
 
-	private $column_search = array('title_pengaduan');
-	private $column_order = array('id_pengaduan','title_pengaduan');
-	private $order = array('created_at' => 'asc');
+	private $column_search = array('pengaduan.title_pengaduan');
+	private $column_order = array('pengaduan.id_pengaduan','pengaduan.title_pengaduan');
+	private $order = array('pengaduan.created_at' => 'asc');
 
 	public function findAll_get()
 	{
@@ -17,10 +17,10 @@ class M_pengaduan extends CI_Model
 
 	public function findById_get($id)
 	{
-		$this->db->select('title_pengaduan,text_pengaduan, image_pengaduan, created_at, id_pengaduan, status_pengaduan, kode_pengaduan, kategori');
+		$this->db->select('pengaduan.id_pengaduan, pengaduan.created_at, pengaduan.title_pengaduan, pengaduan.text_pengaduan, pengaduan.image_pengaduan, pengaduan.kode_pengaduan, pengaduan.status_pengaduan, pengaduan.kategori, products.id_product, products.name_product');
 		$this->db->from('pengaduan');
-		$this->db->where('id_pengaduan', $id);
-
+		$this->db->where('pengaduan.id_pengaduan', $id);
+		$this->db->join('products', 'products.id_product = pengaduan.id_product', 'left');
 		return $this->db->get()->row();
 	}
 
@@ -40,44 +40,48 @@ class M_pengaduan extends CI_Model
 
 	public function get_by_kode($kode)
 	{
-		return $this->db->get_where('pengaduan', ['kode_pengaduan' => $kode])->row();
+		$this->db->select('pengaduan.id_pengaduan, pengaduan.created_at, pengaduan.title_pengaduan, pengaduan.text_pengaduan, pengaduan.image_pengaduan, pengaduan.kode_pengaduan, pengaduan.status_pengaduan, pengaduan.kategori, products.id_product, products.name_product');
+		$this->db->from('pengaduan');
+		$this->db->where('pengaduan.kode_pengaduan', $kode);
+		$this->db->join('products', 'products.id_product = pengaduan.id_product', 'left');
+		return $this->db->get()->row();
 	}
 
 	private function _filterDATE($type)
 	{
 		switch ($type) {
 			case 'today':
-				$this->db->where('DATE(created_at) = CURDATE()');
+				$this->db->where('DATE(pengaduan.pengaduan.created_at) = CURDATE()');
 				break;
 			case 'yesterday':
-				$this->db->where('DATE(created_at) = CURDATE() - INTERVAL 1 DAY');
+				$this->db->where('DATE(pengaduan.created_at) = CURDATE() - INTERVAL 1 DAY');
 				break;
 			case 'this_week':
-				$this->db->where('created_at >=', date('Y-m-d', strtotime('monday this week')));
-				$this->db->where('created_at <=', date('Y-m-d', strtotime('sunday this week')));
+				$this->db->where('pengaduan.created_at >=', date('Y-m-d', strtotime('monday this week')));
+				$this->db->where('pengaduan.created_at <=', date('Y-m-d', strtotime('sunday this week')));
 				break;
 			case 'last_week':
-				$this->db->where('created_at >=', date('Y-m-d', strtotime('monday last week')));
-				$this->db->where('created_at <=', date('Y-m-d', strtotime('sunday last week')));
+				$this->db->where('pengaduan.created_at >=', date('Y-m-d', strtotime('monday last week')));
+				$this->db->where('pengaduan.created_at <=', date('Y-m-d', strtotime('sunday last week')));
 				break;
 			case 'this_month':
-				$this->db->where('created_at BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
+				$this->db->where('pengaduan.created_at BETWEEN DATE_FORMAT(CURDATE(), "%Y-%m-01") AND LAST_DAY(CURDATE())');
 				break;
 			case 'last_month':
-				$this->db->where('created_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
+				$this->db->where('pengaduan.created_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, "%Y-%m-01") AND LAST_DAY(CURDATE() - INTERVAL 1 MONTH)');
 				break;
 			case 'this_year':
-				$this->db->where('created_at BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
+				$this->db->where('pengaduan.created_at BETWEEN DATE_FORMAT(CURDATE(), "%Y-01-01") AND CURDATE()');
 				break;
 			case 'last_year':
-				$this->db->where('created_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-01-01") AND DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-12-31")');
+				$this->db->where('pengaduan.created_at BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-01-01") AND DATE_FORMAT(CURDATE() - INTERVAL 1 YEAR, "%Y-12-31")');
 				break;
 			case 'custom':
 				$startDate = $this->input->post('startDate');
 				$endDate = $this->input->post('endDate');
 				if ($startDate && $endDate) {
-					$this->db->where('created_at >=', $startDate);
-					$this->db->where('created_at <=', $endDate);
+					$this->db->where('pengaduan.created_at >=', $startDate);
+					$this->db->where('pengaduan.created_at <=', $endDate);
 				}
 				break;
 			default:
@@ -88,11 +92,12 @@ class M_pengaduan extends CI_Model
 
 	public function getPengaduanDataCore_get($option = null, $startDate = null, $endDate = null)
 	{
-		$this->db->select('id_pengaduan, created_at, title_pengaduan, text_pengaduan, image_pengaduan, kode_pengaduan, status_pengaduan, kategori');
+		$this->db->select('pengaduan.id_pengaduan, pengaduan.created_at, pengaduan.title_pengaduan, pengaduan.text_pengaduan, pengaduan.image_pengaduan, pengaduan.kode_pengaduan, pengaduan.status_pengaduan, pengaduan.kategori, products.id_product, products.name_product');
 		$this->db->from('pengaduan');
 		if(!empty($option) ){
 			$this->_filterDATE($option);
-		}
+		} 
+		$this->db->join('products', 'products.id_product = pengaduan.id_product', 'left');
 
 		$i = 0;
 		foreach ($this->column_search as $item) {

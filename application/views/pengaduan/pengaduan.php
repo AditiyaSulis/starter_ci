@@ -37,11 +37,26 @@
                     <p class="text-gray-600 mb-6 mb-md-10 fs-5">
                         <i class="bi bi-info-circle-fill text-primary me-2"></i>
                         Sampaikan keluhan atau aspirasi Anda dengan jelas. Setiap laporan akan ditangani secara profesional dan terjaga kerahasiaannya.
-                    </p>
+                    </p> 
+
+                   
 
                     <!-- Form -->
                     <div class="bg-light bg-opacity-25 rounded p-4 p-md-6 p-lg-8">
-                        <form id="formPengaduan" enctype="multipart/form-data">
+                        <form id="formPengaduan" enctype="multipart/form-data"> 
+
+                            <div class="mb-6 mb-md-8">
+                                <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
+                                    <i class="bi bi-grid-fill text-primary fs-4"></i>
+                                    TEMPAT
+                                </label>
+                                <select class="form-select form-select-solid" id="tempat" name="id_product">
+                                    <option value="">-- Pilih tempat --</option>
+                                    <?php foreach($list_product as $product) :?>
+                                        <option value="<?=$product->id_product?>"><?= $product->name_product ?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
                             <!-- Upload -->
                             <div class="mb-6 mb-md-8">
                                 <label class="d-flex align-items-center gap-2 mb-3 fs-6 fw-bold text-uppercase text-gray-600">
@@ -54,7 +69,7 @@
                                         <i class="bi bi-cloud-arrow-up upload-icon"></i>
                                     </div>
                                     <p class="upload-title"><span>Klik untuk memilih file</span> atau seret ke sini</p>
-                                    <p class="upload-hint">Format: PNG, JPG, WEBP &mdash; Ukuran maksimal 5 MB</p>
+                                    <p class="upload-hint">Format: PNG, JPG, WEBP &mdash; Ukuran maksimal 4 MB</p>
                                     <div class="upload-filename" id="uploadFilename">
                                         <i class="bi bi-check-circle-fill"></i>
                                         <span id="filenameText"></span>

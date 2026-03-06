@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-function upload_and_resize($field_name, $path, $width, $height, $quality = 60, $max_size = 2000) {
+function upload_and_resize($field_name, $path, $width, $height, $quality = 60, $max_size = 4028) {
 	$CI =& get_instance();
 
 	// Upload konfigurasi

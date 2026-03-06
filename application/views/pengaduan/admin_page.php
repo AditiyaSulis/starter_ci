@@ -28,6 +28,7 @@
 				<thead class="table-primary">
 				<tr>
 					<th>Kategori</th>
+					<th>Tempat</th>
 					<th>Judul</th>
 					<th>Pesan Pengaduan</th>
 					<th>Tanggal</th>

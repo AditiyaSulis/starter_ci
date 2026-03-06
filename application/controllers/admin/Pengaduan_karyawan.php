@@ -153,6 +153,7 @@ class Pengaduan_karyawan extends MY_Controller{
             }
 			$row = array();
 			$row[] = $item->kategori != null ? $item->kategori : '-';
+			$row[] = isset($item->id_product) ? $item->name_product : '-';
 			$row[] = $item->title_pengaduan;
 			$row[] = $pesan;
 			$row[] = date('d-m-Y', strtotime($item->created_at));
