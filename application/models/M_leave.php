@@ -254,8 +254,23 @@ class M_leave extends CI_Model
 			->count_all_results('cuti');
 
 		return $count + $count2;
-	}
+	} 
 
+	public function totalLeaveThisMonthByEmployeeIdV2_get($id, $tahun, $bulan)
+	{
+		return $this->db
+			->where('id_employee', $id)
+			->where('status', 2)
+			->group_start()
+				->where('MONTH(start_day)', $bulan)
+				->where('YEAR(start_day)', $tahun)
+			->group_end()
+			->or_group_start()
+				->where('MONTH(end_day)', $bulan)
+				->where('YEAR(end_day)', $tahun)
+			->group_end()
+			->count_all_results('cuti');
+	}
 
 	public function totalLeaveLastMonthToNowByEmployeeId_get($id, $tanggal, $tanggal2)
 	{

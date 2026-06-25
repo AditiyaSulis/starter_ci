@@ -153,8 +153,16 @@ class Leave extends MY_Controller{
 			return;
 		}
 
-		$totalLeavesThisMonth = $this->M_leave->totalLeaveThisMonthByEmployeeId_get($emp['id_employee']);
-		if($totalLeavesThisMonth > 2 ) {
+
+		$start_day = $this->input->post('start_day');
+
+		// Buat objek DateTime
+		$date = new DateTime($start_day);
+
+		$tahun  = $date->format('Y'); // Hasil: 2026
+		$bulan  = $date->format('m'); // Hasil: 06
+		$totalLeavesThisMonth = $this->M_leave->totalLeaveThisMonthByEmployeeIdV2_get($emp['id_employee'], $tahun, $bulan);
+		if($totalLeavesThisMonth >= 2 ) {
 			$response = [
 				'status' => false,
 				'message' => 'Karyawan sudah melakukan cuti selama 2x bulan ini.',
@@ -180,9 +188,9 @@ class Leave extends MY_Controller{
 		];
 
 
-		$overtime = $this->M_leave->create_post($data);
+		$cutiInsert = $this->M_leave->create_post($data);
 
-		if ($overtime) {
+		if ($cutiInsert) {
 			$response = [
 				'status' => true,
 				'message' => 'Data cuti berhasil dibuat',
