@@ -803,9 +803,67 @@
 							<!--									</a>-->
 							<!--								</div>-->
 							<!--							</div>-->
-						<?php endif;?>
-
+						<?php endif;?> 
 						<?php if($user['role'] == 1 || $user['role'] == 4) : ?>
+							<div  class="menu-item pt-5" >
+								<div  class="menu-content" >
+									<span class="menu-heading fw-bold text-uppercase  text-gray-500 fs-7 ">INTERNAL</span>
+								</div>
+							</div>
+							<div class="menu menu-column menu-rounded menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+								id="#kt_aside_menu" data-kt-menu="true">
+								<div class="menu-item menu-accordion menu-title-gray-800" data-kt-menu-trigger="click">
+									<!-- Menu Link -->
+									<span class="menu-link <?= $menu == 'ASSET' ? "active": ""?>">
+										<span class="menu-icon">
+											<span class="svg-icon svg-icon-2">
+												<i class="ti ti-receipt"></i>
+											</span>
+										</span>
+
+										<span class="menu-title">Asset</span>
+										<span class="menu-arrow"></span>
+									</span>
+
+									<!-- Dropdown Submenu -->
+									<div class="menu-sub menu-sub-accordion">
+										<div class="menu-item">
+											<a href="<?=base_url('admin/Asset/asset_page')?>" class="menu-link <?= $title == 'Data Asset' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Data Asset</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a href="<?=base_url('admin/Asset_category')?>" class="menu-link <?= $title == 'Kategori Asset' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Kategori Asset</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a href="<?=base_url('admin/Asset_location')?>" class="menu-link <?= $title == 'Lokasi Asset' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Lokasi Asset</span>
+											</a>
+										</div>  
+										<div class="menu-item">
+											<a href="<?=base_url('admin/Asset_report')?>" class="menu-link <?= $title == 'Rincian Asset' ? "active": ""?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Rincian Asset</span>
+											</a>
+										</div> 
+									</div>
+								</div>
+							</div>
+
+						
 
 							<div  class="menu-item pt-5" >
 								<div  class="menu-content" >
